@@ -1,0 +1,97 @@
+--------------------------------------------------------------------------------
+Copyright (c) 2016,      R. Taylor Raborn
+	      		 Krishnakumar Sridharan
+			 Volker Brendel
+			 Indiana University
+--------------------------------------------------------------------------------
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+--------------------------------------------------------------------------------
+I. Introduction
+--------------------------------------------------------------------------------
+
+TSRchitect is an open source bioinformatics tool that identifies and annotates the
+major region of transcription initiation--the Transcription Start Region--for a gene
+from large-scale transcription start site (TSS) data. The TSR for a gene is presumed 
+to be its promoter, and can be evaluated further. TSRchitect is capable of handling
+and analyzing data of various sources, including CAGE, EST and full-length cDNA. 
+The software package is implemented in R, and uses C and perl scripts that serve
+as utilities to prepare the datasets for subsequent analysis by TSRchitect. This
+document also provides instructions for setting up a pipeline to trim and align
+CAGE tags to the genome.  
+
+--------------------------------------------------------------------------------
+II. Description
+--------------------------------------------------------------------------------
+
+TSRchitect's core software module utilizes the X-means algorithm (Pelleg and Moore, 1999)
+to cluster the TSSs for each gene according to their positions on the genome, then identifies
+the TSR from this information (for further detail please see the Supplement of Raborn et al., 2014
+In addition to annotating the TSR, the program also provides quantitative measures of the
+annotated TSRs, including i) the genomic coordinates of the TSR ii) the breadth: the genomic
+distance occupied by the TSSs within the TSR, and iii) the shape, which is defined here 
+according to the kurtile, or fourth moment, of the TSS distribution within the TSR.
+
+This package was written in response to the repeated observation, within metazoans and 
+other eukaryotes, that the mRNAs of most protein-coding genes lack a single unique TSS,
+instead displaying a distribution of TSS at the promoter. This, coupled with the apparent 
+pervasive background transcription apparent in large-scale datasets, makes identifying 
+putative promoters (which we call TSRs) challenging. By identifying the putative promoters
+of expressed genes across a large-scale expression dataset, TSRchitect is intended to provide
+condition-specific annotation of hypothesized cis-regulatory regions and potentially generate
+observations of biological insight. 
+
+TSRchitect can be used to analyze data from any eukaryotic 
+organism, provided it has an annotated complement of protein-coding genes provided in
+GFF3 or BED format.
+
+To provide guidance for using TSRchitect, we have included two 
+detailed use cases that provide step-by-step instructions for running this software
+package.
+ 
+--------------------------------------------------------------------------------
+III. Prerequisites
+--------------------------------------------------------------------------------
+  * R 3.2.0 or higher
+  * Bioconductor 3.1 or higher
+
+--------------------------------------------------------------------------------
+IV. Installation
+--------------------------------------------------------------------------------
+
+From the linux command line:
+>$ R CMD INSTALL TSRchitect
+
+From an R console:
+> install.packages("devtools") #if devtools is not already installed
+> library(devtools)
+> devtools::install_github("brendelgroup/TSRchitect")
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+VI. Examples
+--------------------------------------------------------------------------------
+
+To highlight the functionality of TSRchitect, we provide a vignette, which includes
+examples of single-end (e.g. CAGE) and paired-end (e.g. RAMPAGE) TSS profiling data.
+
+--------------------------------------------------------------------------------
+VII. Citing TSRchitect
+--------------------------------------------------------------------------------
+
+R. Taylor Raborn, Krishnakumar Sridharan and Volker Brendel.TSRchitect: A Tool to
+Identify Promoters from Large-Scale Transcription Start Site (TSS) Data.
+(In Preparation).
