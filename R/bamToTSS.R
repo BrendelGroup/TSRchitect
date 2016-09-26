@@ -1,8 +1,7 @@
 #' bamToTSS
 #' Extracts TSS information from each bam file in a tssExp object
 #' @param expName an object of tssExp format containing bam files
-#'
-#' @return creates a list of TSSs in class GRanges for each bam file contained within expName.
+#' @return creates a list of TSSs in class GRanges for each bam file contained within expName, and places them in the tssExp object
 #' @importFrom GenomicRanges granges GRanges GRangesList
 #' @importFrom BiocGenerics start end
 #' @importFrom GenomeInfoDb sortSeqlevels

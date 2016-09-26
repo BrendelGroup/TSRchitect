@@ -1,18 +1,19 @@
 #' Converts TSS data into bed format
-#' @param TSS data from a tssExp object
+#' @param expName an object of class tssExp with tss data loaded
+#' @param fileName the name of the BED file to be written
 #' @export
 
 setGeneric(
            name="tssToBed",
-           def=function(expName, fileName="myTSS", allData=TRUE) {
+           def=function(expName, fileName="myTSS") {
                standardGeneric("tssToBed")
     }
     )
 
 setMethod("tssToBed",
-          signature(expName="tssExp", fileName="character", allData="logical"),
+          signature(expName="tssExp", fileName="character"),
 
-          function(expName, fileName="myTSS", allData=TRUE) {
+          function(expName, fileName="myTSS") {
 
 #              if (expName # create error message for when tssData is empty
               
@@ -24,7 +25,7 @@ setMethod("tssToBed",
 
                   expName@tssData -> my.TSS
 
-                 cat("Converting", length(my.TSS), "GRanges objects to bed format...\n\n")
+                 cat("Converting", length(my.TSS), "GRanges objects to BED format...\n\n")
 
                   for (i in 1:length(my.TSS)) {
 
@@ -52,7 +53,7 @@ setMethod("tssToBed",
 
                   cat("\n")
 
-                  cat(length(my.TSS), "bed files were written to your working directory.")
+                  cat(length(my.TSS), "BED files were written to your working directory.")
                   
               }
           }

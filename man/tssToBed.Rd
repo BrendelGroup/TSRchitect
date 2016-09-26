@@ -4,10 +4,12 @@
 \alias{tssToBed}
 \title{Converts TSS data into bed format}
 \usage{
-tssToBed(expName, fileName = "myTSS", allData = TRUE)
+tssToBed(expName, fileName = "myTSS")
 }
 \arguments{
-\item{TSS}{data from a tssExp object}
+\item{expName}{an object of class tssExp with tss data loaded}
+
+\item{fileName}{the name of the BED file to be written}
 }
 \description{
 Converts TSS data into bed format

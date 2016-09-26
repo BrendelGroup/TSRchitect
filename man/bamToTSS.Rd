@@ -11,7 +11,7 @@ bamToTSS(expName)
 \item{expName}{an object of tssExp format containing bam files}
 }
 \value{
-creates a list of TSSs in class GRanges for each bam file contained within expName.
+creates a list of TSSs in class GRanges for each bam file contained within expName, and places them in the tssExp object
 }
 \description{
 bamToTSS
