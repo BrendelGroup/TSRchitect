@@ -38,12 +38,14 @@ setMethod("clusterChr",
                   stop("The chromosome you selected doesn't exist.")
 
               }
-
+              
                   this.chr <- uni.chr[uni.chr==chrName]
 
-                  message("Extracting tss data from ", this.chr, ".\n")
+                  message("\n Extracting tss data from ", this.chr, ".\n")
 
                   tss.total <- this.tss[seqnames(this.tss)==this.chr,]
+
+                  # starting with the TSSs on the plus strand
                   
                   tss.plus <- tss.total[strand(tss.total)=="+",]
 
@@ -53,6 +55,10 @@ setMethod("clusterChr",
 
                   chr.list$plus <- tss.plus.clustered
 
+                  chr.list$plus$tss <- tss.plus.vec
+
+                  # now for the TSSs on the minus strand
+
                   tss.minus <- tss.total[strand(tss.total)=="-",]
 
                   tss.minus.vec <- start(tss.minus)
@@ -60,6 +66,8 @@ setMethod("clusterChr",
                   tss.minus.clustered <- xmeans(tss.minus.vec, ik=100, iter.max=10)
 
                   chr.list$minus <- tss.minus.clustered
+
+                  chr.list$minus$tss <- tss.minus.vec
 
                   tss.total <- NULL
 

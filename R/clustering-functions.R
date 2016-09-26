@@ -609,3 +609,181 @@ lnL <- function(x, centers, ignore.covar=T){
 txInvVxX <- function(x, invVx){
 	t(x) %*% invVx %*% x
 }
+
+###############################################################################################
+
+clustFind  <- function(x, clustNum, strand=c("plus","minus")) {
+
+    clust.obj <- vector(mode="list")
+    
+    if (strand=="plus") {
+        cl.plus <- x$plus
+        tss.ind <- which(cl.plus$cluster==clustNum)
+        clust.obj$tss <- cl.plus$tss[tss.ind]
+        clust.obj$center <- round(cl.plus$centers[clustNum], 0) #must be a whole number
+        clust.obj$size <- cl.plus$size[clustNum]
+    }
+
+    if (strand=="minus") {
+        cl.minus <- x$minus
+        tss.ind <- which(cl.minus$cluster==clustNum)
+        clust.obj$tss <- cl.minus$tss[tss.ind]
+        clust.obj$center <- round(cl.minus$centers[clustNum], 0) #must be a whole number
+        clust.obj$size <- cl.minus$size[clustNum]
+    }
+
+    return(clust.obj) # a list object containing the tss coordinates, the coordinate of the cluster center and the number of TSSs 
+}
+
+###############################################################################################    
+
+histGet <- function(x, binwidth=10) {
+
+    ## this function returns a histogram object from a given cluster
+    
+    c_size <- x$size  #provides an array with the list of the number of tags in each cluster
+    c_tss <- x$tss
+    tss.max  <- max(c_tss)
+    tss.min  <- min(c_tss)
+    h_range  <- abs(tss.max-tss.min)
+    break_n  <- h_range/binwidth
+
+    if ((break_n > binwidth) == TRUE) { # the regular condition, whereby the number of breaks is larger than the binwidth
+       this.hist <- hist(c_tss, breaks = break_n, plot = FALSE)
+       }
+
+    if ((break_n <= binwidth) == TRUE) {
+        break_n <- binwidth
+        this.hist <- hist(c_tss, breaks = break_n, plot = FALSE)
+        }
+    
+    tss.list <- list(tss.vec = c_tss, hist = this.hist)
+
+    return(tss.list)
+}
+
+###############################################################################################
+
+histFind <- function(x,threshold=10) {
+
+        ## this function returns a 
+
+	hist_obj <- x$hist # the 'hist' object that we will be retrieving data from
+	hist_table <- x$tss.vec
+	hist_counts <- hist_obj$counts # the 'counts' vector that our algorithm is focused on analyzing
+	hist_mids <- hist_obj$mids # the 'mids' vector that our algorithm is focused on analyzing
+	hist_cont <- which(hist_counts>=threshold) # an index of the positions within 'hist_counts' for which there are 'count' or more TSS tags
+	ext_counts <- hist_counts[hist_cont]
+	mid_extr <- hist_mids[hist_cont] 
+	cont_len <- length(hist_cont) #the length of the vector 'hist_cont', which we'll use in the subsequent 'for' loop
+	cont_array <- array(NA,c((cont_len),3))
+	cont_array[,1] <- 1:(cont_len)
+	if (length(hist_mids)>1) {
+		if (cont_len==length(hist_counts)) #if all of the values have at least 'count' in them
+		{
+			cont_len -> cont_array[,2]
+		}
+		else {
+			if (hist_cont[2]-hist_cont[1]>1) #starting the loop for i=1
+			{ 
+				1 -> end_pos 
+				end_pos -> cont_array[1,2]
+			}
+			for (i in 2:cont_len) { #continuing the loop 
+				i -> start_pos
+				#if (i<cont_len){
+				i -> end_pos 
+				#}
+				if ((hist_cont[i]-hist_cont[i-1])>1) { #if i and i-1 are not adjacent
+					start_pos -> end_pos
+					end_pos -> cont_array[i,2]
+					next
+				}
+				if ((hist_cont[i]-hist_cont[i-1])==1) { #if i and i-1 ARE adjacent (the contiguous strings we are looking for)
+					i -> this_start
+					cont_len-this_start -> remain_len #defines how much longer the loop will continue for
+					#	print(remain_len) #for debugging
+					for (j in 1:remain_len) { #loop within
+						if ((i+j)>cont_len) { break }
+						if ( hist_cont[i+j]-hist_cont[i+(j-1)]==1 ){ #check for flow control issues
+							i+j -> end_pos #added for testing
+							end_pos -> cont_array[this_start:i,2] #added for testing
+							next
+						}
+						if ((hist_cont[i+j]-hist_cont[i+j-1])>1) { 
+							i+j -> end_pos
+							end_pos -> cont_array[this_start:i,2] 
+							break
+						}
+					}
+					(i + j) -> i
+				}
+				NULL -> this_start
+				NULL -> start_pos
+				NULL -> end_pos
+			}
+			cont_array[1,2] <- cont_array[1,1]	
+			cont_array[cont_len,2] <- cont_array[cont_len,1]
+		}
+		if (cont_len==1){
+			max(ext_counts) -> max_ext
+			which(ext_counts==max_ext) -> max_pos
+			ext_counts[max_pos] -> cont_values
+			mid_extr[max_pos] -> mids_values
+		}
+		if (cont_len>1){ 
+			if (hist_cont[cont_len]-hist_cont[cont_len-1]>1) { #a loop to remove the last row of cont_array if the two values are not contiguous
+				cont_array[-cont_len,] -> cont_array	
+			}
+			if (is.array(cont_array)){
+				for (k in 1:length(cont_array[,1])){
+					cont_array[k,2]-cont_array[k,1] -> cont_array[k,3]
+				}
+			}
+			else {
+				cont_array[1]-cont_array[2] -> cont_array[3]
+			}
+			if (is.array(cont_array)) {
+				max_value <- max(cont_array[,3])
+				max_pos <- which(cont_array[,3]==max_value)
+				if (length(max_pos)==1&&cont_array[max_pos,3]>2){ 
+					max_coord <- cont_array[max_pos,1:2]
+					cont_values <- ext_counts[max_coord[1]:max_coord[2]] #
+					#mids_values <- hist_mids[max_coord[1]:max_coord[2]]
+					mids_values <- mid_extr[max_coord[1]:max_coord[2]]
+					if (length(hist_cont)>1){
+						if (hist_cont[cont_len]-hist_cont[cont_len-1]>1) { #
+							max_coord[2] <- (cont_array[max_pos,2])-1
+							cont_values <- ext_counts[max_coord[1]:max_coord[2]] #
+							mids_values <- mid_extr[max_coord[1]:max_coord[2]]
+						}
+					}
+				}
+				else {
+					max(ext_counts) -> max_ext
+					which(ext_counts==max_ext) -> max_pos
+					ext_counts[max_pos] -> cont_values
+					mid_extr[max_pos] -> mids_values
+					#print("Row 118")
+					#print(max_pos)
+				}
+			}
+			else {
+				max(ext_counts) -> max_ext
+				which(ext_counts==max_ext) -> max_pos
+				ext_counts[max_pos] -> cont_values
+				mid_extr[max_pos] -> mids_values
+				}
+		}
+	}
+
+        if (length(hist_mids)==1){
+		cont_values <- length(hist_table) 
+		mids_values <- mean(hist_table)
+	}
+        hist.df <- cbind(cont_values, mids_values)
+	colnames(hist.df) <- c("bin_counts","bin_midpoints")
+	hist_return <- list(hist.df=hist.df, vector=hist_table)
+	return(hist_return)
+
+    }
