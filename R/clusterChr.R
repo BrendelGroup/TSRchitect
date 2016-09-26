@@ -20,7 +20,9 @@ setMethod("clusterChr",
           function(expName, tssNum, chrName) {
 
               if (tssNum>length(expName@tssData)) {
+
                   stop("The value selected exceeds the number of slots in tssData.")
+
               }
 
               this.tss <- expName@tssData[[tssNum]]
@@ -32,7 +34,9 @@ setMethod("clusterChr",
               match_string <- match(chrName, uni.chr)
               
               if (is.na(match_string)) {
+
                   stop("The chromosome you selected doesn't exist.")
+
               }
 
                   this.chr <- uni.chr[uni.chr==chrName]

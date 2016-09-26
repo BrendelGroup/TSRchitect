@@ -12,7 +12,7 @@ setMethod("show",
               if (length(object@fileNames) > 0) {
                   message("The following bam files are loaded:\n")
                   for (i in 1:length(object@fileNames)) {
-                      cat(paste(testName2@fileNames[i]))
+                      cat(paste(object@fileNames[i]))
                   }
               }
               else {
