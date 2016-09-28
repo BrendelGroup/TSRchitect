@@ -1,789 +1,185 @@
-#' Code for xmeans clustering algorithm
-#' Internal function for tsrchitect
+
+#' Partitions, then clusters tss data by chromosome.
+#' @param expName an object of class tssExp containing the tss data
+#' @param tssNum the slot number of the tss data to be clustered
+#' @param chrName the name of the chromosome to select
+#' @return a list object containing xmeans-clustered TSS data for a single chromosome (plus and minus strands)
+#' @importFrom BiocGenerics strand start
+#' @importFrom GenomeInfoDb seqnames
 #' @export
 
-# Written by tunenori (T. Ishioka)
-# Code available at https://github.com/tatsumi3/Cluster_Analysis/blob/master/xmeans_statistical_clistering_method/xmeans.R
-# $Id: xmeans.prog,v 1.23 2012/04/12 11:21:12 tunenori Exp tunenori $
-#
-# X-MEANS Clustering
-#
-# Description:
-#
-#      Perform x-means non-hierarchal clustering on a data matrix.
-# 
-# Usage:
-# 
-#      xmeans(x, ik = 2, iter.max = 10, pr.proc = F, 
-#		ignore.covar = T, merge.cls = F)
-# 
-# Arguments:
-#	x: A numeric matrix of data, or an object that can be coerced to
-#          such a matrix (such as a numeric vector or a data frame with
-#          all numeric columns).
-#
-#	ik: The initial  number of clusters applied to kmeans().
-#	   As xmeans calls kmeans recursively, 'ik' should be sufficient
-#	   small.
-#
-# 	iter.max: The maximum of iterations allowed.
-#
-#	pr.proc: logical: If 'TRUE' the system outputs the processing status.
-#
-# 	ignore.covar: logical: If 'TRUE', covariances of cluster data are
-#	   ignored. For saving of the time, 'TRUE' is set as the defalut.
-#
-#	merge.cls: logical: If 'TRUE', some clusters may be merged into another
-#	   clusters after iterative division. 
-#
-# Value:
-#
-#     An object of class 'xmeans' which is a list with components:
-#
-#	cluster: A vector of integers indicating the cluster to which each
-#          point is allocated.
-#
-#	centers: A matrix of cluster centres.
-#
-#	size: The number of points in each cluster. When 'merge.cls' is TRUE,
-#	   some elements may be zero.
-#
-# References:
-#
-#	Ishioka, T. (2005): "An Expansion of X-means for Automatically
-#	Determining the Optimal Number of Clusters," The Fourth IASTED
-#	International Conference on Computational Intelligence (CI 2005),
-#	Calgary Canada, July 4-6, pp.91-96. 
-#	http://www.rd.dnc.ac.jp/%7Etunenori/doc/487-053.pdf
-#
-#	Ishioka, T. (2000): ``Extended K-means with an Efficient Estimation
-#	of the number of Clusters,'' Intelligent Data Engineering and
-#	Automated Learning --- IDEAL 2000, Second International Conference,
-#	Shatin, N.T., Hong Kong, China, December 2000, proceedings 17--22.
-#	(Lecture Notes in Computer Science 1983, Kwong Sak Leung, Lai-Wan
-#	Chan, Helen Meng (Eds.), Springer, 17--22, 2000) 
-#	http://www.rd.dnc.ac.jp/%7Etunenori/doc/xmeans_ideal2000.pdf
-#
-# Examples:
-#
-#	xmeans(iris[,-5],  merge.cls=T)
-#	plot(cmdscale(dist(iris[,-5])), cex=2, pch=as.numeric(iris[,5]))
-#
+setGeneric(
+           name="tssChr",
+           def=function(expName, tssNum, chrName) {
+               standardGeneric("tssChr")
+    }
+    )
 
-xmeans <- function(x, ik = 2, iter.max = 10, pr.proc = F, ignore.covar = T, merge.cls = F){
-	if (ik < 2) 
-		ik <- 2
-	x <- as.matrix(x)
-	p <- ncol(x) # p-dimensional multivariate
-	if (ignore.covar){
-		q <- 2 * p # number of parameters; mean and var for each "p"
-	}else{
-		q <- p * (p+3) / 2	# integer
-	}
-	cl<- kmeans(x,ik,iter.max)
-	cl.sub <- list()
-	
-	for (i in 1:ik){ # for each cluster
-		y.ok <- (cl$cluster == i) 	# i-th cluster or not
-		yi <- matrix(x[y.ok], ncol=p) 	# extract i-th cluster
-		zi <- yi 	# save the data for graphics
-		yi.centers <- cl$centers[i,]
-		zi.centers <- yi.centers
-		yi.cluster <- cl$cluster[(cl$cluster == i)]
-		yi.cluster <- rep(1, length(yi.cluster)) 
-			# sub-cluster number should begin from 1
+setMethod("tssChr",
+          signature(expName="tssExp", tssNum="numeric", chrName="character"),
 
-		k1 <- 1		# cluster number
-		k2 <- k1 + 1
-		bic.prior <- NULL
-		stack <- list()	# divided and unproceeded data are stacked
-		lnL0 <- lnL(yi, yi.centers, ignore.covar)
-		yi.lnL <- lnL0$lnL
-		yi.detVx <- lnL0$detVx
+          function(expName, tssNum, chrName) {
 
-		repeat{
+              if (tssNum>length(expName@tssData)) {
 
-		# go through at least 1 time; 
-		# y$subcluster exist...
-		if (pr.proc)	cat (paste("k1 =", k1, ", k2 =", k2,"\n"))
-		if (nrow(yi) == 1){ # sample size is 1
-			break
-		}
-		y <- split2cls(yi, yi.centers, q, bic.prior, lnL.prior, detVx.prior, iter.max, ignore.covar)
-		if (y$continue){ # splitting continue 
-		  yi.cluster <-
-		   updtCrusterNum(y$continue, yi.cluster, k1, k2, y$subcluster)
-		  zi.centers <-
-		   updtCenters(y$continue, zi.centers, k1, k2, y$centers)
-		  yi.lnL <-
-		   updtlnL(y$continue, yi.lnL, k1, k2, y$lnL.post)
-		  yi.detVx <-
-		   updtdetVx(y$continue, yi.detVx, k1, k2, y$detVx.post)
-		}
-		
-		if (pr.proc) print(y$subcluster)
-		if (pr.proc){ print(y$bic.prior)
-				print(y$bic.post)
-				# print(y$lnL.prior)	# for debug
-				# print(y$lnL.post)	# for debug
-				print(y$continue) }
-		# cat("zi.centers=\n")	# for debug
-		# print(zi.centers)	# for debug
-		if (!y$continue){	# no-node
-			if ((nstack <- length(stack))){ # there are stacked data
-				# extract the stacked data
-				if (pr.proc)
-				  cat(paste("extract the stacked data (", nstack, ")...\n"))
-				yi <- stack[[nstack]]$data
-				yi.centers <- stack[[nstack]]$centers
-				bic.prior <- stack[[nstack]]$bic
-				lnL.prior <- stack[[nstack]]$lnL
-				detVx.prior <- stack[[nstack]]$detVx
-				k1 <- stack[[nstack]]$cls
-				k2 <- k2 # unchanged
-				# delete the data set
-				if (nstack > 1){
-					stack <- stack[1:(nstack-1)]
-				}else{
-					stack <- list() # no stacked data
-				}
-				next;
-			}
-			# no node and no stack
-			if (pr.proc)	cat ("no node and no stack...\n")
-			break;
-		}
-		# splitting continues...
-		y1 <- y$clj1	# data
-		y2 <- y$clj2
-		yi.ctr1 <- y$centers[1,]	# centers
-		yi.ctr2 <- y$centers[2,]
-		bic.prior1 <- y$bic.post[1]	# bic
-		bic.prior2 <- y$bic.post[2]
-		lnL.prior1 <- y$lnL.post[1]	# lnL
-		lnL.prior2 <- y$lnL.post[2]
-		detVx.prior1 <- y$detVx.post[1]	# detVx
-		detVx.prior2 <- y$detVx.post[2]
+                  stop("The value selected exceeds the number of slots in tssData.")
 
-		# one-hand repeats recursively...
-		yi <- y1
-		yi.centers <- yi.ctr1
-		bic.prior <- bic.prior1
-		lnL.prior <- lnL.prior1
-		detVx.prior <- detVx.prior1
-		# other-hand is stacked... 
-		if (pr.proc)	cat ("stacking ...\n")
-		stack <- c(stack,
-		  list(list(data=y2, centers=yi.ctr2,
-		   bic=bic.prior2, lnL=lnL.prior2, detVx=detVx.prior2, cls=k2)))
-		# inclement the cluster number 
-		k2 <- k2 + 1
+              }
 
-		} # end of repeat
+              this.tss <- expName@tssData[[tssNum]]
 
-		# splitting done ...
-		if (pr.proc){
-			cat ("splitting done...\n")
-			cat (paste("main cluster =",i,"*******\n"))
-		}
-		cl.sub <- c(cl.sub, list(list(cluster = yi.cluster,
-			 centers = zi.centers, lnL = yi.lnL, detVx = yi.detVx,
-			 size = tabulate(yi.cluster))))
-		if (pr.proc){
-			print(cl.sub[[i]])
-			plot(zi, col=yi.cluster)
-			if (is.vector(zi.centers))
-			  points(zi.centers[1], zi.centers[2], pch=8)
-			else # array
-			  points(zi.centers,col=1:(length(zi.centers)/p),pch=8)
-		}
-	}
-	if (pr.proc)	print(cl.sub)
-	xcl <- mergeResult(cl, cl.sub, ik)
+              uni.chr <- as.character(unique(seqnames(this.tss)))
 
-	if (merge.cls == F) {
-		return(list(cluster = xcl$cluster, centers = xcl$centers, size = xcl$size))
-	}
+              chr.list <- list(plus="plus", minus="minus")
 
-	# merge after progressive dividing
-	#
-	if (pr.proc) cat("merging after progressive dividing ...\n")
+              match_string <- match(chrName, uni.chr)
+              
+              if (is.na(match_string)) {
 
-	k <- length(xcl$size)	# final cluster number
-	if (k <= 2){	# minimum cluster number should be 2
-		if (pr.proc) cat("merging skipped ...\n")
-		return(list(cluster = xcl$cluster, centers = xcl$centers, size = xcl$size))
-	}
-	if (pr.proc){
-		cat("xcl$detVx=")
-		print(xcl$detVx)
-		cat("xcl$size=")
-		print(xcl$size)
-	}
-	
-	klist <- sort.list(xcl$size) # "small" to "large" order of xcl$detVx list
-	if (pr.proc) print(klist)
-	for (i in 1:(k-1)){ 
-	    for (j in (i+1):k){ 
-		k1 = klist[i]
-		k2 = klist[j]
-		if (pr.proc) cat(paste("inspecting the clusters", k1,"and", k2,"\n"))
+                  stop("The chromosome you selected doesn't exist.")
 
-		z <- mergedBIC(x, xcl, k1, k2, q, ignore.covar, pr.proc)
-		if (z$ret == F){
-			# k1 or k2 has been merged.
-			# skip this roop
-			if (pr.proc) cat("skipping... k1=", k1, "k2=", k2,"\n")
-			next
-		}
-		if (z$bicdiv > z$bicmgd){
-			# we prefer merged model.
-			# replace larger cls. number to smaller cls. number
-			if (pr.proc) cat("replace cls.", k2, "to", k1,"\n")
-			xcl$cluster <- replace(xcl$cluster, (xcl$cluster == k2), k1)
-			xcl$size[k1] <- xcl$size[k1] + xcl$size[k2]
-			xcl$size[k2] <- 0
-			xcl$lnL[k1] <- z$lnLmgd
-			xcl$lnL[k2] <- 0
-			xcl$detVx[k1] <- z$detVxmgd
-			xcl$detVx[k2] <- 0
-			xcl$centers[k1,] <- z$ctrmgd
-			xcl$centers[k2,] <- 0
+              }
+              
+                  this.chr <- uni.chr[uni.chr==chrName]
 
-		}
-	    }
-	}
-	list(cluster = xcl$cluster, centers = xcl$centers, size = xcl$size)
-}
+                  message("\n Extracting tss data from ", this.chr, ".\n")
 
+                  tss.total <- this.tss[seqnames(this.tss)==this.chr,]
 
+                  # starting with the TSSs on the plus strand
+                  
+                  tss.plus <- tss.total[strand(tss.total)=="+",]
 
+                  tss.plus.vec <- start(tss.plus)
 
-# marge the result of sub-clustering;
-# cluster numbers by first kmeans should be renumbered;
-# the other centers and sizes are simply added.
-# cl: the result of first kmeans
-# cl.sub: the result of subclustering
-# ik: cluster number adopted to kmeans.
-mergeResult <- function(cl, cl.sub, ik){
-	cluster <- cl$cluster	# main cluster
-	centers <- NULL
-	size <- NULL
-	lnL <- NULL
-	detVx <- NULL
+                  chr.list$plus$tss <- tss.plus.vec
 
-	k <- 0	# uniq cluster numbers; k should be decremental. 
-	for (i in 1:ik)
-		k <- k + length(cl.sub[[i]]$size)
-	kk <- k
+                  # now for the TSSs on the minus strand
 
-	for (i in ik:1){	# loop for main clusters obtained by kmeans
-		xsub <- cl.sub[[i]]$cluster
-		iki <- ik -i +1 
-		centers <- rbind(centers, cl.sub[[iki]]$centers)
-		size <- c(size, cl.sub[[iki]]$size)
-		lnL <- c(lnL, cl.sub[[iki]]$lnL)
-		detVx <- c(detVx, cl.sub[[iki]]$detVx)
-		
-		for (j in length(cl.sub[[i]]$size):1){ # loop for subclusters
-			xsub <- replace(xsub, (xsub == j), k)
-			k <- k -1
-		}
-		cluster <- replace(cluster, (cluster == i), xsub)
-	}
-	if (k != 0) stop("mergeResult: assertion failed (k = 0)...")
-	dimnames(centers) <- list(1:kk, NULL)
-	list(cluster = cluster, centers = centers, lnL = lnL, detVx = detVx, size = size)
-}
+                  tss.minus <- tss.total[strand(tss.total)=="-",]
 
+                  tss.minus.vec <- start(tss.minus)
 
-# update the cluster number by using the result of "split2cls()"
-# continue: no splitting
-# v: cluster numbers vector for initial cluster.
-# k1: cluster numbers should be updated; "k1" becomes "k1" and "k2"
-# xsub: sub-cluster numbers vector of "v" whose value is "k1";
-#	given "xsub" have 1 or 2.
-updtCrusterNum <- function(continue, v, k1, k2, xsub){
-	if (!is.vector(v)) 
-		return(xsub)
-	if (!continue)
-		return(v)
-	if (k1 == k2)
-		stop("updtCrusterNum() : k1 and k2 should differ.")
+                  chr.list$minus$tss <- tss.minus.vec
 
-	# below is same algorithm; explicit array operation is slow in R.
-	# j <- 1
-	# for (i in 1:length(v)){
- 	#	if (v[i] == k1){
-	#		if (xsub[j] == 2)
-	#			v[i] <- k2
-	#		j <- j + 1
-	#	}
-	# }
-	# end of algorithm
-	xsub <- replace(xsub, (xsub == 2), k2) # changed
-	xsub <- replace(xsub, (xsub == 1), k1) # unchanged
-	v <- replace(v, (v == k1), xsub)
-}
+                  tss.total <- NULL
 
-
-# update the cluster centers by using the result of "split2cls()"
-# continue: no update
-# org.centers: original centers matrix
-# divided.centers: divided centers matrix; it has 2 rows.
-updtCenters <- function(continue, org.centers, k1, k2, divided.centers){
-	if (!is.matrix(org.centers)) 
-		return(divided.centers)
-	if (!continue)
-		return(org.centers)
-	if (k1 == k2)
-		stop("updtCenters() : k1 and k2 should differ.")
-	
-	z <- NULL
-	for (i in 1:max(k2, nrow(org.centers))){
-		if (i == k1)
-			z <- rbind(z, divided.centers[1,])
-		else if (i == k2)
-			z <- rbind(z, divided.centers[2,])
-		else
-			z <- rbind(z, org.centers[i,])
-	}
-	z
-}
-
-# update the lnL by using the result of "split2cls()"
-# continue: no update
-# org.lnL: original lnL vector
-# divided.lnL: divided lnL vector having 2 elements.
-updtlnL <- function(continue, org.lnL, k1, k2, divided.lnL){
-        if (!is.vector(org.lnL))
-                return(divided.lnL)
-        if (!continue)
-                return(org.lnL)
-        if (k1 == k2)
-                stop("updtlnL() : k1 and k2 should differ.")
-
-        z <- NULL
-        for (i in 1:max(k2, length(org.lnL))){
-                if (i == k1)
-                        z <- c(z, divided.lnL[1])
-                else if (i == k2)
-                        z <- c(z, divided.lnL[2])
-                else
-                        z <- c(z, org.lnL[i])
-        }
-        z
-}
-
-# update the detVx by using the result of "split2cls()"
-# continue: no update
-# org.detVx: original detVx vector
-# divided.detVx: divided detVx vector having 2 elements.
-updtdetVx <- function(continue, org.detVx, k1, k2, divided.detVx){
-        if (!is.vector(org.detVx))
-                return(divided.detVx)
-        if (!continue)
-                return(org.detVx)
-        if (k1 == k2)
-                stop("updtdetVx() : k1 and k2 should differ.")
-
-        z <- NULL
-        for (i in 1:max(k2, length(org.detVx))){
-                if (i == k1)
-                        z <- c(z, divided.detVx[1])
-                else if (i == k2)
-                        z <- c(z, divided.detVx[2])
-                else
-                        z <- c(z, org.detVx[i])
-        }
-        z
-}
-
-# split 2 clusters if we would prefer it based on BIC
-# q: a number of parameters
-# bic.prior: BIC which x is given; if bic.prior=NULL then we calculate
-# lnL.prior: lnL which x is given; if bic.prior=NULL then we calculate
-# detVx.prior: detVx which x is given; if bic.prior=NULL then we calculate
-split2cls <- function(x, centers, q, bic.prior, lnL.prior, detVx.prior, iter.max, ignore.covar){
-	if (is.null(bic.prior)){
-		pb <- priorBIC(x, centers, q, ignore.covar)
-		bic.prior <- pb$bic
-		lnL.prior <- pb$lnL
-		detVx.prior <- pb$detVx
-	}
-	bic.post <- postBICs(x, centers, q, iter.max, ignore.covar)
-
-	subcluster <- bic.post$clsub$cluster
-	#
-	# compare whether if we should split
-	if (is.na(bic.post$bic[3])){
-		# BIC may has NA because of few data 
-		continue <- FALSE
-	}else if (bic.post$bic[3] < bic.prior){
-		# splitting ...
-		# replace the cluster number to cl$cluster
-		continue <- TRUE
-	}else{
-		# not splitting...
-		# return "subcluster" stored k1 
-		continue <- FALSE
-	}
-	# note that "subcluster" gives 1 or 2 
-	list(continue = continue, subcluster = subcluster, 
-		bic.prior = bic.prior, bic.post = bic.post$bic,
-		lnL.prior = lnL.prior, lnL.post = bic.post$lnL,
-		detVx.prior = detVx.prior, detVx.post = bic.post$detVx,
-		centers = bic.post$clsub$centers,
-		clj1 = bic.post$clj1, clj2 = bic.post$clj2)
-}
-
-
-
-
-# return BIC (prior BIC)
-priorBIC <- function(x, centers, q, ignore.covar){
-	lnL0 <- lnL(x, centers, ignore.covar)
-	bic <- -2 * lnL0$lnL + q * log(nrow(x)) # BIC
-	# bic <- -2 * lnL0$lnL + q  # AIC
-	list(lnL = lnL0$lnL, detVx = lnL0$detVx, bic = bic)
-}
-
-
-# return BICs (two posterior BICs)
-postBICs <- function(x, centers, q, iter.max, ignore.covar){
-	#
-	# split to 2 clusters
-	clsub <- kmeans(x, 2, iter.max)
-	y.ok1 <- lapply(clsub$cluster, "==", 1) # 1st sub-cluster or not
-	y.ok2 <- lapply(clsub$cluster, "==", 2) # 2nd sub-cluster or not
-	# extract sub data
-	p <- ncol(x)
-	clj1 <- matrix(x[as.logical(y.ok1)], ncol=p)
-	clj2 <- matrix(x[as.logical(y.ok2)], ncol=p)
-	# ratio for pdf.
-	r1 <- clsub$size[1] / sum(clsub$size)	# [0,1]
-	r2 <- 1 - r1 	# [0,1]
-	# two later BICs
-	# print(clsub$centers[1,])	# for debug
-	# print(apply(clj1,2,mean))	# for debug
-	# print(sqrt(apply(clj1,2,var)))	# for debug
-	# print(r1)	# for debug
-	lnL1 <-  lnL(clj1, clsub$centers[1,], ignore.covar)
-	# print(clsub$centers[2,])	# for debug
-	# print(apply(clj2,2,mean))	# for debug
-	# print(sqrt(apply(clj2,2,var)))	# for debug
-	# print(r2)	# for debug
-	lnL2 <-  lnL(clj2, clsub$centers[2,], ignore.covar)
-	n1 <- nrow(clj1)
-	n2 <- nrow(clj2)
-	# normalizing factor; dist() is in library(mva)
-	if (is.na(lnL1$detVx) || is.na(lnL2$detVx))
-		beta <- 0
-	else
-		beta <- dist(clsub$center) / (sqrt(lnL1$detVx + lnL2$detVx))
-	alpha <- 0.5 / pnorm(beta)
-	BIC1 <- -2 * lnL1$lnL +q * log(n1)
-	BIC2 <- -2 * lnL2$lnL +q * log(n2) 
-	# BIC1 <- -2 * lnL1$lnL +q # AIC
-        # BIC2 <- -2 * lnL2$lnL +q # AIC
-
-	# cat (paste("alpha =",alpha,"\n"))	# for debug
-	# cat (paste("beta =",beta,"\n"))	# for debug
-	
-	# BIC is not (BIC1 + BIC2)
-	BIC <- -2 * lnL1$lnL  -2 * lnL2$lnL + 2 * q * log(n1 + n2) - 2 * (n1 + n2) * log(alpha)
-	# BIC <- -2 * lnL1$lnL  -2 * lnL2$lnL + 2 * q  - 2 * (n1 + n2) * log(alpha) # AIC
-	list(bic = c(BIC1, BIC2, BIC), 
-		lnL = c(lnL1$lnL, lnL2$lnL),
-		detVx = c(lnL1$detVx, lnL2$detVx),
-		clsub = clsub, clj1 = clj1, clj2 = clj2)
-}
-
-
-
-# return BICs for Two-merged clusters model and devided clusters model
-# k1/k2: marged cluster ID
-mergedBIC <- function(x, xcl, k1, k2, q, ignore.covar, pr.proc){
-	# sample size
-	# check for input data
-	n1 <- xcl$size[k1]
-	n2 <- xcl$size[k2]
-	if (n1 == 0 || n2 == 0){
-		# already had been merged
-		cat(paste("already had been merged\n"))
-		ret <- F
-        	return( list (ret = ret))
-	}
-	if (is.null(xcl$lnL[k1]) || is.null(xcl$lnL[k2])){
-		# lnL may be null because of few data
-		cat(paste("lnL may be null because of few data\n"))
-		ret <- F
-        	return( list (ret = ret))
-	}
-
-	# divided clusters model
-	lnL1 = xcl$lnL[k1]
-	lnL2 = xcl$lnL[k2]
-	ctrextrt <- rbind(xcl$centers[k1,], xcl$centers[k2,])
-	beta <- dist(ctrextrt) / (sqrt(xcl$detVx[k1] + xcl$detVx[k2]))
-	if (pr.proc) cat(paste("beta=", round (beta, digit=2), "\n"))
-
-	# if (beta > 10){
-	# 	# 2 clusters far apart
-	# 	ret <- F
-        # 	return( list (ret = ret))
-	# }
-
-	alpha <- 0.5 / as.numeric(pnorm(beta))
-	bicdiv <- -2 * lnL1  -2 * lnL2 + 2 * q * log(n1 + n2) - 2 * (n1 + n2) * log(alpha)
-        # bicdiv <- -2 * lnL1 -2 * lnL2 + 2 * q - 2 * (n1 + n2) * log(alpha) # AIC
-
-	# extract 2 clusters data
-	y.ok1 <- lapply(xcl$cluster, "==", k1) # 1st sub-cluster or not
-	y.ok2 <- lapply(xcl$cluster, "==", k2) # 2nd sub-cluster or not
-
-	# extract sub data
-	p = ncol(x)
-	clj1 <- matrix(x[as.logical(y.ok1)], ncol=p)
-	clj2 <- matrix(x[as.logical(y.ok2)], ncol=p)
-	xmgd <- rbind(clj1, clj2)
-
-	# merged cluster center
-	ctrmgd <- (n1 * xcl$centers[k1,] + n2 * xcl$centers[k2,]) / (n1 + n2)
-	lnLmgd <- lnL(xmgd, ctrmgd, ignore.covar)
-	bicmgd <- -2 * lnLmgd$lnL + q * log(nrow(xmgd)) # BIC
-	# bicmgd <- -2 * lnLmgd$lnL + q  # AIC
-
-	ret <- T
-	list (ret = ret, ctrmgd = ctrmgd, lnLmgd = lnLmgd$lnL, detVxmgd = lnLmgd$detVx, bicmgd = bicmgd, bicdiv = bicdiv)
-}
-
-
-# log-likelihood under the assumption of 
-# p-dimensional multivariate normal distribution.
-# ignore.covar: ignore the covariance 
-lnL <- function(x, centers, ignore.covar=T){
-	x <- as.matrix(x)
-	p <- ncol(x)	# p-dimensional multivariate
-	n <- nrow(x)	# sample size
-	if (missing(centers)) 
-		stop("centers must be a number or a matrix")
-	if (n <= 2)	# few data
-		return(list(lnL=NA, detVx=NA))
-	vx <- var(x)	# var-co.var matrix
-	# print(x)	# for debug
-	if (p == 1){ # x is vector 
-		invVx <- 1 / as.vector(vx)
-		detVx <- as.vector(vx)
-	}else{ 
-	  if (ignore.covar){
-		invVx <- diag(1/diag(vx)) # inv. matrix when assuming diag.  
-		detVx <- prod(diag(vx)) # det. when assuming diag. 
-	  }else{
-		invVx <- solve(vx) # inverse matrix of "vx"
-		y <- chol(vx) # Cholesky decomposition
-		detVx <- prod(diag(y)) # vx = t(y) %*% y, where y is triangular,
-					  # then, det(vx) = det(t(y)) * det(y)
-	  }
-	}
-	t1 <- -p/2 * 1.837877066 # 1.837... = log(2 * 3.1415...)
-	t2 <- -log(detVx) / 2
-	xmu <- t(apply(x, 1, "-", centers))
-	# print(centers)	# for debug
-	# print(xmu)	# for debug
-	# s <- 0
-	# for (i in 1:n)
-	#	s <- s + t(xmu[i,]) %*% invVx %*% xmu[i,]
-	if (p == 1){
-		s <- sum(xmu^2 * invVx)
-	}else{
-		s <- sum(apply(xmu, 1, txInvVxX, invVx=invVx))
-	}
-	t3 <- -s / 2
-	ll <- (t1 + t2) * n + as.numeric(t3)	# log likelihood
-	list(lnL=ll, detVx=detVx)
-}
-
-# function for calculation of 
-# t(xmu[i,]) %*% invVx %*% xmu[i,]
-txInvVxX <- function(x, invVx){
-	t(x) %*% invVx %*% x
-}
+                  return(chr.list)
+          }
+           )   
 
 ###############################################################################################
 
-clustFind  <- function(x, clustNum, strand=c("plus","minus")) {
+expressionCTSS <- function(x) {
+        ## returns a matrix [a, h] where a = the number of unique TSSs and h = the # of tags observed at that position
 
-    clust.obj <- vector(mode="list")
-    
-    if (strand=="plus") {
-        cl.plus <- x$plus
-        tss.ind <- which(cl.plus$cluster==clustNum)
-        clust.obj$tss <- cl.plus$tss[tss.ind]
-        clust.obj$center <- round(cl.plus$centers[clustNum], 0) #must be a whole number
-        clust.obj$size <- cl.plus$size[clustNum]
-    }
+        #starting with the plus strand
 
-    if (strand=="minus") {
-        cl.minus <- x$minus
-        tss.ind <- which(cl.minus$cluster==clustNum)
-        clust.obj$tss <- cl.minus$tss[tss.ind]
-        clust.obj$center <- round(cl.minus$centers[clustNum], 0) #must be a whole number
-        clust.obj$size <- cl.minus$size[clustNum]
-    }
+#            ptm <- proc.time() #for timing
 
-    return(clust.obj) # a list object containing the tss coordinates, the coordinate of the cluster center and the number of TSSs 
-}
+            tss.vec <- x$plus$tss
+            my.CTSSs <- unique(tss.vec)
+            my.matrix.p <- matrix(NA, nrow=(length(my.CTSSs)), ncol=3)
+            for (i in 1:length(my.CTSSs)) {
+                my.CTSSs[i] -> this.TSS
+                which(tss.vec==this.TSS) -> my.ind
+                length(my.ind) -> n.TSSs
+                c(this.TSS, n.TSSs,"+") -> my.matrix.p[i,]
+            }
 
-###############################################################################################    
+#            print(proc.time() - ptm)
+            
+            #now for the minus strand
 
-histGet <- function(x, binwidth=10) {
+            ptm <- proc.time() #for timing
 
-    ## this function returns a histogram object from a given cluster
-    
-    c_size <- x$size  #provides an array with the list of the number of tags in each cluster
-    c_tss <- x$tss
-    tss.max  <- max(c_tss)
-    tss.min  <- min(c_tss)
-    h_range  <- abs(tss.max-tss.min)
-    break_n  <- h_range/binwidth
+            tss.vec <- x$minus$tss
+            my.CTSSs <- unique(tss.vec)
+            my.CTSSs <- sort(my.CTSSs)
+            my.matrix.m <- matrix(NA, nrow=(length(my.CTSSs)), ncol=3)
+            
+            for (i in 1:length(my.CTSSs)) {
+                my.CTSSs[i] -> this.TSS
+                which(tss.vec==this.TSS) -> my.ind
+                length(my.ind) -> n.TSSs
+                c(this.TSS, n.TSSs, "-") -> my.matrix.m[i,]
+            }
 
-    if ((break_n > binwidth) == TRUE) { # the regular condition, whereby the number of breaks is larger than the binwidth
-       this.hist <- hist(c_tss, breaks = break_n, plot = FALSE)
-       }
+#            print(proc.time() - ptm) #for timing
+            
+            my.matrix <- rbind(my.matrix.p, my.matrix.m) #combining the two matrices
+            colnames(my.matrix) <- c("CTSS","nTSSs","strand")
+            my.df <- as.data.frame(my.matrix)
 
-    if ((break_n <= binwidth) == TRUE) {
-        break_n <- binwidth
-        this.hist <- hist(c_tss, breaks = break_n, plot = FALSE)
+            return(my.df)
         }
-    
-    tss.list <- list(tss.vec = c_tss, hist = this.hist)
-
-    return(tss.list)
-}
-
+            
 ###############################################################################################
 
-histFind <- function(x,threshold=10) {
+tsrCluster <- function(x, expThresh=5, minDist=20) {
+    ## returns a list of TSRs from a given chromosome or scaffold
 
-        ## this function returns a 
+     ctss.df <- x
+     ctss.df[,1] <- as.numeric(as.character(ctss.df[,1]))
+     ctss.df[,2] <- as.numeric(as.character(ctss.df[,2]))
+     ctss.df[,3] <- as.character(ctss.df[,3])
+     sCTSS <- subset(ctss.df, nTSSs>= expThresh)
+     sCTSS.p <- subset(sCTSS, strand>= "+")
+     sCTSS.p <- as.matrix(sCTSS.p) #a kludge we'll use for now
+     sCTSS.p <- sCTSS.p[complete.cases(sCTSS.p),] 
+     my.len <- nrow(sCTSS.p)
+     ctss.list.p <- vector(mode="list")
+     as.numeric(sCTSS.p[1,1]) -> my.ctss
+     j <- 0
+     for (i in 1:(my.len-1)) {
+            as.numeric(sCTSS.p[i,1]) -> ctss.1 
+            as.numeric(sCTSS.p[(i+1),1]) -> ctss.2
+            abs(ctss.2-ctss.1) -> tss.dist
+                 if (tss.dist < minDist) {
+                     c(my.ctss,ctss.2) -> my.ctss
+                     next
+                 }
+                 else {
+                     j + 1 -> j 
+                     my.ctss -> ctss.list.p[[j]]
+                     ctss.2 -> my.ctss
+                }
+        }
+     names.len <- length(ctss.list.p)
+     names.vec <- vector(mode="character",length=names.len)
+     for (k in 1:names.len) {
+         paste("tsr", k, sep="") -> names.vec[k]
+     }
+     names(ctss.list.p) <- names.vec
 
-	hist_obj <- x$hist # the 'hist' object that we will be retrieving data from
-	hist_table <- x$tss.vec
-	hist_counts <- hist_obj$counts # the 'counts' vector that our algorithm is focused on analyzing
-	hist_mids <- hist_obj$mids # the 'mids' vector that our algorithm is focused on analyzing
-	hist_cont <- which(hist_counts>=threshold) # an index of the positions within 'hist_counts' for which there are 'count' or more TSS tags
-	ext_counts <- hist_counts[hist_cont]
-	mid_extr <- hist_mids[hist_cont] 
-	cont_len <- length(hist_cont) #the length of the vector 'hist_cont', which we'll use in the subsequent 'for' loop
-	cont_array <- array(NA,c((cont_len),3))
-	cont_array[,1] <- 1:(cont_len)
-	if (length(hist_mids)>1) {
-		if (cont_len==length(hist_counts)) #if all of the values have at least 'count' in them
-		{
-			cont_len -> cont_array[,2]
-		}
-		else {
-			if (hist_cont[2]-hist_cont[1]>1) #starting the loop for i=1
-			{ 
-				1 -> end_pos 
-				end_pos -> cont_array[1,2]
-			}
-			for (i in 2:cont_len) { #continuing the loop 
-				i -> start_pos
-				#if (i<cont_len){
-				i -> end_pos 
-				#}
-				if ((hist_cont[i]-hist_cont[i-1])>1) { #if i and i-1 are not adjacent
-					start_pos -> end_pos
-					end_pos -> cont_array[i,2]
-					next
-				}
-				if ((hist_cont[i]-hist_cont[i-1])==1) { #if i and i-1 ARE adjacent (the contiguous strings we are looking for)
-					i -> this_start
-					cont_len-this_start -> remain_len #defines how much longer the loop will continue for
-					#	print(remain_len) #for debugging
-					for (j in 1:remain_len) { #loop within
-						if ((i+j)>cont_len) { break }
-						if ( hist_cont[i+j]-hist_cont[i+(j-1)]==1 ){ #check for flow control issues
-							i+j -> end_pos #added for testing
-							end_pos -> cont_array[this_start:i,2] #added for testing
-							next
-						}
-						if ((hist_cont[i+j]-hist_cont[i+j-1])>1) { 
-							i+j -> end_pos
-							end_pos -> cont_array[this_start:i,2] 
-							break
-						}
-					}
-					(i + j) -> i
-				}
-				NULL -> this_start
-				NULL -> start_pos
-				NULL -> end_pos
-			}
-			cont_array[1,2] <- cont_array[1,1]	
-			cont_array[cont_len,2] <- cont_array[cont_len,1]
-		}
-		if (cont_len==1){
-			max(ext_counts) -> max_ext
-			which(ext_counts==max_ext) -> max_pos
-			ext_counts[max_pos] -> cont_values
-			mid_extr[max_pos] -> mids_values
-		}
-		if (cont_len>1){ 
-			if (hist_cont[cont_len]-hist_cont[cont_len-1]>1) { #a loop to remove the last row of cont_array if the two values are not contiguous
-				cont_array[-cont_len,] -> cont_array	
-			}
-			if (is.array(cont_array)){
-				for (k in 1:length(cont_array[,1])){
-					cont_array[k,2]-cont_array[k,1] -> cont_array[k,3]
-				}
-			}
-			else {
-				cont_array[1]-cont_array[2] -> cont_array[3]
-			}
-			if (is.array(cont_array)) {
-				max_value <- max(cont_array[,3])
-				max_pos <- which(cont_array[,3]==max_value)
-				if (length(max_pos)==1&&cont_array[max_pos,3]>2){ 
-					max_coord <- cont_array[max_pos,1:2]
-					cont_values <- ext_counts[max_coord[1]:max_coord[2]] #
-					#mids_values <- hist_mids[max_coord[1]:max_coord[2]]
-					mids_values <- mid_extr[max_coord[1]:max_coord[2]]
-					if (length(hist_cont)>1){
-						if (hist_cont[cont_len]-hist_cont[cont_len-1]>1) { #
-							max_coord[2] <- (cont_array[max_pos,2])-1
-							cont_values <- ext_counts[max_coord[1]:max_coord[2]] #
-							mids_values <- mid_extr[max_coord[1]:max_coord[2]]
-						}
-					}
-				}
-				else {
-					max(ext_counts) -> max_ext
-					which(ext_counts==max_ext) -> max_pos
-					ext_counts[max_pos] -> cont_values
-					mid_extr[max_pos] -> mids_values
-					#print("Row 118")
-					#print(max_pos)
-				}
-			}
-			else {
-				max(ext_counts) -> max_ext
-				which(ext_counts==max_ext) -> max_pos
-				ext_counts[max_pos] -> cont_values
-				mid_extr[max_pos] -> mids_values
-				}
-		}
-	}
+     sCTSS.m <- subset(sCTSS, strand>= "+")
+     sCTSS.m <- as.matrix(sCTSS.m) #a kludge we'll use for now
+     sCTSS.m <- sCTSS.m[complete.cases(sCTSS.m),] 
+     my.len <- nrow(sCTSS.m)
+     ctss.list.m <- vector(mode="list")
+     as.numeric(sCTSS.m[1,1]) -> my.ctss
+     j <- 0
+     for (i in 1:(my.len-1)) {
+            as.numeric(sCTSS.m[i,1]) -> ctss.1 
+            as.numeric(sCTSS.m[(i+1),1]) -> ctss.2
+            abs(ctss.2-ctss.1) -> tss.dist
+                 if (tss.dist < minDist) {
+                     c(my.ctss,ctss.2) -> my.ctss
+                     next
+                 }
+                 else {
+                     j + 1 -> j 
+                     my.ctss -> ctss.list.m[[j]]
+                     ctss.2 -> my.ctss
+                }
+        }
+     names.len <- length(ctss.list.m)
+     names.vec <- vector(mode="character",length=names.len)
+     for (k in 1:names.len) {
+         paste("tsr", k, sep="") -> names.vec[k]
+     }
+     names(ctss.list.m) <- names.vec
+     ctss.list <- list(plus=ctss.list.p, minus=ctss.list.m)
+     return(ctss.list)
+ }
 
-        if (length(hist_mids)==1){
-		cont_values <- length(hist_table) 
-		mids_values <- mean(hist_table)
-	}
-        hist.df <- cbind(cont_values, mids_values)
-	colnames(hist.df) <- c("bin_counts","bin_midpoints")
-	hist_return <- list(hist.df=hist.df, vector=hist_table)
-	return(hist_return)
-
-    }
