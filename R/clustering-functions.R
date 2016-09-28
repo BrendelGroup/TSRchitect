@@ -3,7 +3,7 @@
 #' @param expName an object of class tssExp containing the tss data
 #' @param tssNum the slot number of the tss data to be clustered
 #' @param chrName the name of the chromosome to select
-#' @return a list object containing xmeans-clustered TSS data for a single chromosome (plus and minus strands)
+#' @return a list object containing TSS data for a single chromosome (plus and minus strands)
 #' @importFrom BiocGenerics strand start
 #' @importFrom GenomeInfoDb seqnames
 #' @export
