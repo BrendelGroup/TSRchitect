@@ -4,14 +4,16 @@ setClass(Class="tssExp",
              fileNames = "character",
              dataType = "character",
              bamData = "list",
-             tssData = "GRangesList"
+             tssData = "GRangesList",
+             tsrData = "list"
              ),
          prototype(
              title =NA_character_,
              fileNames = NA_character_,
              dataType = NA_character_,
              bamData = list(),
-             tssData = GRangesList()
+             tssData = GRangesList(),
+             tsrData = list()
              ),
          )
             

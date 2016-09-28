@@ -69,12 +69,13 @@ setMethod("tssChr",
            )   
 
 ###############################################################################################
+#' expressionCTSS
+#' #' Returns a matrix [a, h] where a = the number of unique TSSs and h = the # of tags observed at that position
+#' @export
 
 expressionCTSS <- function(x) {
-        ## returns a matrix [a, h] where a = the number of unique TSSs and h = the # of tags observed at that position
 
         #starting with the plus strand
-
 #            ptm <- proc.time() #for timing
 
             tss.vec <- x$plus$tss
@@ -114,9 +115,13 @@ expressionCTSS <- function(x) {
             return(my.df)
         }
             
-###############################################################################################
+##############################################################################################
+#' .tsrCluster
+#' Partitions, then clusters tss data by chromosome.
+#' Internal function
+#' @export
 
-tsrCluster <- function(x, expThresh=5, minDist=20) {
+.tsrCluster <- function(x, expThresh=5, minDist=20) {
     ## returns a list of TSRs from a given chromosome or scaffold
 
      ctss.df <- x

@@ -3,10 +3,6 @@
 #' @param expName an object of tssExp format containing information in slot tssData
 #' @param tssNum the number of the dataset to be analyzed
 #' @return creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssExp object
-#' @importFrom GenomicRanges granges GRanges GRangesList
-#' @importFrom BiocGenerics start end
-#' @importFrom GenomeInfoDb sortSeqlevels
-#' @importFrom IRanges IRanges
 #' @export 
 
 setGeneric(
@@ -19,7 +15,11 @@ setGeneric(
 setMethod("tsrFind",
           signature(expName="tssExp", "numeric", "character", "numeric", "numeric"),
 
-          function(expName, tssNum, c) {
+          function(expName, tssNum, chrName, nTSSs, clustDist) {
+
+              object.name <- deparse(substitute(expName))
+              
+              message("\nInitiated TSR finding.")
 
               if (tssNum>length(expName@tssData)) {
 
@@ -27,15 +27,15 @@ setMethod("tsrFind",
 
               }
 
-              tss <- clusterChr(tssExp, tssNum, chrName, nTSSs, clustDist)
+              tss <- tssChr(expName, tssNum, chrName)
 
-              message("Creating expression matrix for dataset", tssNum, "...\n\n")
+              message("Creating expression matrix for dataset ", tssNum, "...\n")
               
               tss.mat <- expressionCTSS(tss)
 
-              message("Clustering TSS expression matrix into TSR regions.\n\n")
+              message("Clustering TSS expression matrix into TSR regions.\n")
 
-              tsr.list <- tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
+              tsr.list <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
 
               message("Clustering complete.")
 
@@ -43,7 +43,7 @@ setMethod("tsrFind",
 
               expName@tsrData <- tsr.GR
                                           
-              cat("\nTSRs from", bam.len, "were successfully added to your tssExp object.\n\n")
+              cat("\nTSRs from were successfully added to your tssExp object.\n")
 
               assign(object.name, expName, envir = parent.frame())              
               
