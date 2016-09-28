@@ -30,7 +30,7 @@ setMethod("importBam",
                                      
               else {
                   scanBamFlag(isPaired=FALSE, isProperPair=FALSE, isUnmappedQuery=FALSE) -> bamFlags
-                  cat("\nSingle-end TSS data specified.")
+                  cat("\nSingle-end TSS data specified.\n")
                   c("rname","strand","pos", "qwidth", "mapq") -> myFields
               }
 
@@ -42,15 +42,15 @@ setMethod("importBam",
               bv_files <- dimnames(bv_obj)[[2]]
               n.bams <- length(bv_files)
               
-              cat("Began import of", n.bams, "bam files.\n")
+              cat("\nBegan import of", n.bams, "bam files.\n")
               
               bams.GA <- bplapply(bam.paths, readGAlignments, BPPARAM = MulticoreParam(),param=my.param)
 
               expName@bamData <- bams.GA
               
-              cat("Import complete!\n")
+              cat("\nImport complete!\n")
               
-              cat("Alignment data from", n.bams, "bams has been attached to your tssExp object.\n")
+              cat("\nAlignment data from", n.bams, "bams has been attached to your tssExp object.\n")
 
               assign(expName.chr, expName, parent.frame()) 
               
