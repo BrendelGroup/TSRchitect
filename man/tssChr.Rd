@@ -2,7 +2,8 @@
 % Please edit documentation in R/clustering-functions.R
 \name{tssChr}
 \alias{tssChr}
-\title{Partitions, then clusters tss data by chromosome.}
+\title{tssChr (internal function)
+Retreives tss data from a given experiment by chromosome.}
 \usage{
 tssChr(expName, tssNum, chrName)
 }
@@ -17,6 +18,7 @@ tssChr(expName, tssNum, chrName)
 a list object containing TSS data for a single chromosome (plus and minus strands)
 }
 \description{
-Partitions, then clusters tss data by chromosome.
+tssChr (internal function)
+Retreives tss data from a given experiment by chromosome.
 }
 

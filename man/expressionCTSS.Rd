@@ -3,12 +3,12 @@
 \name{expressionCTSS}
 \alias{expressionCTSS}
 \title{expressionCTSS
-#' Returns a matrix [a, h] where a = the number of unique TSSs and h = the # of tags observed at that position}
+Returns a matrix [a, h] where a = the number of unique TSSs and h = the # of tags observed at that position}
 \usage{
 expressionCTSS(x)
 }
 \description{
 expressionCTSS
-#' Returns a matrix [a, h] where a = the number of unique TSSs and h = the # of tags observed at that position
+Returns a matrix [a, h] where a = the number of unique TSSs and h = the # of tags observed at that position
 }
 

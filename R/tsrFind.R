@@ -7,15 +7,15 @@
 
 setGeneric(
            name="tsrFind",
-           def=function(expName, tssNum, chrName, nTSSs, clustDist) {
+           def=function(expName, tssNum, nTSSs, clustDist) {
                standardGeneric("tsrFind")
     }
     )
 
 setMethod("tsrFind",
-          signature(expName="tssExp", "numeric", "character", "numeric", "numeric"),
+          signature(expName="tssExp", "numeric", "numeric", "numeric"),
 
-          function(expName, tssNum, chrName, nTSSs, clustDist) {
+          function(expName, tssNum, nTSSs, clustDist) {
 
               object.name <- deparse(substitute(expName))
               
@@ -27,7 +27,7 @@ setMethod("tsrFind",
 
               }
 
-              tss <- tssChr(expName, tssNum, chrName)
+              tss <- acquireTSS(expName, tssNum)
 
               message("Creating expression matrix for dataset ", tssNum, "...\n")
               
@@ -39,7 +39,7 @@ setMethod("tsrFind",
 
               message("Clustering complete.")
 
-              tsr.GR <- tsrToGR(tsr.list, seqname=chrName)
+              tsr.GR <- tsrToGR(tsr.list)
 
               expName@tsrData <- tsr.GR
                                           
