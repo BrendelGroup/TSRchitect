@@ -10,7 +10,6 @@ tsrToGR <- function(x) {
         vector(mode="list", length=2) -> my.list.p
         vector(mode="list", length=2) -> my.list.m
         as.character(chr.vec[j]) -> this.chr
-        print(this.chr)
         x[[j]] -> this.chr.list
         this.chr.list$plus -> this.p
         my.strand <- c("+")
