@@ -29,8 +29,9 @@ setMethod("initializeExp",
                    }
 
               if (is.na(expDir)) {
-                 stop("Argument 'expDir' is empty. Please supply the full paths location of the alignment files (bams) for this experiment.")
-                  }
+                stop("Argument 'expDir' is empty. Please supply the full paths location of the alignment files (BAMs) for this experiment.")
+             }
+              
                       
               if (isPairedEnd==TRUE) {
                   tssObj@dataType <- c("pairedEnd")
@@ -42,8 +43,10 @@ setMethod("initializeExp",
 
               tss_files <- list.files(expDir, pattern="\\.bam$", all.files=FALSE,full.names=TRUE)
 
-              print(expTitle)
-              
+              if (length(tss_files < 1)==TRUE) {
+                  stop("There are no .bam files in the directory you supplied.")
+              }
+
               tssObj@title <- expTitle
 
               tssObj@fileNames <- tss_files

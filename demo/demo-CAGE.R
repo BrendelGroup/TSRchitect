@@ -3,7 +3,7 @@
 ####################################################################################################
 library(TSRchitect)
 # initializing the tssExp object                                                                   
-\initializeExp("Example human CAGE experiment", "CAGEhuman", c("/extdata/CAGE"), isPairedEnd=FALSE) #
+initializeExp("Example human CAGE experiment", "CAGEhuman", c("/extdata/CAGE"), isPairedEnd=FALSE) #
 ####################################################################################################
 # loading the BAM files from the TSS profiling experiment (in this case, CAGE)                     
 importBam(CAGEhuman)                                                                               #
