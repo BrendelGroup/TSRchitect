@@ -18,7 +18,7 @@ setMethod("initializeExp",
           signature(expTitle="character", objName="character", expDir="character", isPairedEnd="logical"),
           function(expTitle, objName, expDir, isPairedEnd) {
 
-              tssObj <-new("tssExp")
+              tssObj <- new("tssExp")
               
               if (is.na(expTitle)) {
                   stop("Argument 'expTitle' is empty. Please supply a title for your experiment.")
@@ -43,8 +43,8 @@ setMethod("initializeExp",
 
               tss_files <- list.files(expDir, pattern="\\.bam$", all.files=FALSE,full.names=TRUE)
 
-              if (length(tss_files < 1)==TRUE) {
-                  stop("There are no .bam files in the directory you supplied.")
+              if (length(tss_files) < 1) {
+                  stop("There are no .bam files in the directory you supplied, or the directory itself does not exist.\n Please correct your input for 'expDir'.")
               }
 
               tssObj@title <- expTitle
@@ -59,7 +59,4 @@ setMethod("initializeExp",
           )
 
               
-              
-
-   
-    
+  

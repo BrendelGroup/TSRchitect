@@ -131,8 +131,8 @@ expressionCTSS <- function(x) {
 
             uni.chr[i] -> this.chr
             
-            ptm <- proc.time() #for timing            
-            print(i)
+#            ptm <- proc.time() #for timing
+            cat("Transforming the data from", i, ".\n")
 
             tss.vec <- x[[i]]$plus
             my.CTSSs <- unique(tss.vec)
@@ -157,7 +157,7 @@ expressionCTSS <- function(x) {
                 length(my.ind) -> n.TSSs
                 c(this.chr, this.TSS, n.TSSs, "-") -> my.matrix.m[j,]
             }
-            print(proc.time() - ptm) #for timing
+#            print(proc.time() - ptm) #for timing
 
             this.matrix <- rbind(my.matrix.p, my.matrix.m) #combining the two matrices
             my.matrix <- rbind(my.matrix, this.matrix)
@@ -189,13 +189,11 @@ expressionCTSS <- function(x) {
 
      for (l in 1:n.chr) { #by chromosome
          as.character(uni.chr[l]) -> my.chr
-         print(my.chr)
          subset(ctss.df, chr== my.chr) -> this.ctss #starting with plus
          subset(ctss.df, nTSSs>= expThresh) -> sCTSS
          subset(sCTSS, strand>= "+") -> sCTSS.p
          as.matrix(sCTSS.p) -> sCTSS.p #a kludge we'll use for now
          sCTSS.p[complete.cases(sCTSS.p),] -> sCTSS.p
-         print(head(sCTSS.p))
          nrow(sCTSS.p) -> my.len
          vector(mode="list") -> ctss.list.p
          as.numeric(sCTSS.p[1,2]) -> my.ctss
