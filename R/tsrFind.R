@@ -29,7 +29,7 @@ setMethod("tsrFind",
 
               tss <- acquireTSS(expName, tssNum)
 
-              message("Creating expression matrix for dataset ", tssNum, "...\n")
+              message("\nCreating expression matrix for dataset ", tssNum, "...\n")
               
               tss.mat <- expressionCTSS(tss)
 
