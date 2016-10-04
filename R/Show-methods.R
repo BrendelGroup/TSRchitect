@@ -11,8 +11,8 @@ setMethod("show",
               cat("TSS data is:", object@dataType, "\n")
               if (length(object@fileNames) > 0) {
                   message("\nThe following bam files are loaded:\n")
-                  for (i in 1:length(object@bamData)) {
-                      cat(paste(object@filebamData[i]))
+                  for (i in 1:length(object@fileNames)) {
+                      cat(paste(object@fileNames[i]),sep="\n")
                   }
               }
               else {
