@@ -12,5 +12,5 @@ importBam(CAGEhuman)                                                            
 bamToTSS(CAGEhuman)                                                                                #
 ####################################################################################################
 # finding TSRs for a given chromosome
-tsrFind(expName=CAGEhuman, tssNum=1, chrName"chr1", clustDist=20, nTSSs=5)
+tsrFind(expName=CAGEhuman, tssNum=1, clustDist=20, nTSSs=5)
 ####################################################################################################
