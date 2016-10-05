@@ -132,7 +132,7 @@ expressionCTSS <- function(x) {
             uni.chr[i] -> this.chr
             
 #            ptm <- proc.time() #for timing
-            cat("Transforming the data from", i, ".\n")
+            cat("Transforming the data from TSS dataset", this.chr, ".\n")
 
             tss.vec <- x[[i]]$plus
             my.CTSSs <- unique(tss.vec)
