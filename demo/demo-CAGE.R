@@ -11,6 +11,6 @@ importBam(CAGEhuman)                                                            
 # converting BAM data into TSS information and attaching it to your tssExp object                  
 bamToTSS(CAGEhuman)                                                                                #
 ####################################################################################################
-# finding TSRs for a given chromosome
+# finding TSRs for a given dataset
 tsrFind(expName=CAGEhuman, tssNum=1, clustDist=20, nTSSs=5)
 ####################################################################################################
