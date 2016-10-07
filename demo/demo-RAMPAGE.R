@@ -16,5 +16,5 @@ importBam(riceRAMAPGE)                                                          
 bamToTSS(riceRAMPAGE)                                                                              #
 ####################################################################################################
 # finding TSRs for a given dataset (in this case, the first one)
-tsrFind(expName=RiceRAMPAGE, tssNum=1, clustDist=20, nTSSs=3)				           #
+tsrFind(expName=riceRAMPAGE, tssNum=1, clustDist=20, nTSSs=3)				           #
 ####################################################################################################
