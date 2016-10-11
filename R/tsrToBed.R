@@ -1,19 +1,19 @@
 #' Writes the contents of a slot in TSRdata to a BED file
 #' @param expName an object of class tssExp with TSR data loaded
-#' @param fileName the name of the BED file to be written in your working directory
+#' @param Name the name of the BED file to be written in your working directory
 #' @export
 
 setGeneric(
            name="tsrToBed",
-           def=function(expName, fileName) {
+           def=function(expName, Name, writeBed) {
                standardGeneric("tsrToBed")
     }
     )
 
 setMethod("tsrToBed",
-          signature(expName="tssExp", fileName="character"),
+          signature(expName="tssExp", Name="character", writeBed="logical"),
 
-          function(expName, fileName="tsrName") {
+          function(expName, Name="tsrName", writeBed=TRUE) {
               if (length(expName@tsrData) == 0) {
                   stop("Slot @tsrData is empty.\n\n Please process TSR data before running this command.")
               }
@@ -49,7 +49,10 @@ setMethod("tsrToBed",
               
               df.out <- as.data.frame(new.df)
 
-#              df.sorted <- order(df.out, c(chr, start))
+              if (writeBed==TRUE) {
+                  fileName <- paste(Name, "bed", sep=".")
+                  write.table(df.out, file=fileName, sep="\t", row.names=FALSE, quote=FALSE)
+              }
 
               return(df.out)
               
