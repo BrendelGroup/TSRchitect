@@ -119,7 +119,7 @@ setMethod("acquireTSS",
 #' Returns a matrix [a, h] where a = the number of unique TSSs and h = the # of tags observed at that position
 #' @export
 
-expressionCTSS <- function(x) {
+expressionCTSS <- function(x, writeDF=TRUE, dfName="CTSS.txt") {
 
         #starting with the plus strand
 
@@ -166,6 +166,10 @@ expressionCTSS <- function(x) {
         colnames(my.matrix) <- c("chr","CTSS","nTSSs","strand")
         my.matrix <- my.matrix[-1,] #removing the first row, which contains only NAs
         my.df <- as.data.frame(my.matrix)
+
+        if (writeDF==TRUE) {
+            write.table(my.df, dfName, quote=FALSE, row.names=FALSE, sep="\t")
+        }
         return(my.df)
         }
             

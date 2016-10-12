@@ -30,8 +30,12 @@ setMethod("tsrFind",
               tss <- acquireTSS(expName, tssNum)
 
               message("\nCreating expression matrix for dataset ", tssNum, "...\n")
+
+              df.name <- paste("CTSS", tssNum, sep="")
+
+              df.name <- paste(df.name, "txt", sep=".")
               
-              tss.mat <- expressionCTSS(tss)
+              tss.mat <- expressionCTSS(tss, writeDF=TRUE, dfName=df.name)
 
               message("Clustering TSS expression matrix into TSR regions.\n")
 
