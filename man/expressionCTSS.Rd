@@ -5,7 +5,7 @@
 \title{expressionCTSS
 Returns a matrix [a, h] where a = the number of unique TSSs and h = the # of tags observed at that position}
 \usage{
-expressionCTSS(x)
+expressionCTSS(x, writeDF = TRUE, dfName = "CTSS.txt")
 }
 \description{
 expressionCTSS
