@@ -76,6 +76,7 @@ setMethod("tssChr",
 #' @param expName an object of class tssExp containing the tss data
 #' @param tssNum the slot number of the tss data to be clustered
 #' @return a list object containing TSS data from the entire dataset
+#' @importFrom gtools mixedsort
 #' @export
 
 setGeneric(
@@ -93,6 +94,8 @@ setMethod("acquireTSS",
               this.tss <- expName@tssData[[tssNum]]
 
               uni.chr <- as.character(unique(seqnames(this.tss)))
+
+              uni.chr <- mixedsort(uni.chr)
 
               n.chr <- length(uni.chr)
 
