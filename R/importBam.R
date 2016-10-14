@@ -1,9 +1,9 @@
 #' Computes TSS positions from all from a tssExp object
 #' @param expName an S4 object of class tssExp that contains information about the experiment.
-
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
+#' @return bam data from the tss profiling experiments assigned to your tssExp object (expName)
 #' @export 
 
 setGeneric(

@@ -43,7 +43,7 @@ setMethod("tssChr",
               
                   this.chr <- uni.chr[uni.chr==chrName]
 
-                  message("\n Extracting tss data from ", this.chr, ".")
+#                  message("\n Extracting tss data from ", this.chr, ".")
 
                   tss.total <- this.tss[seqnames(this.tss)==this.chr,]
 

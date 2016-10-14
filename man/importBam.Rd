@@ -9,6 +9,9 @@ importBam(expName)
 \arguments{
 \item{expName}{an S4 object of class tssExp that contains information about the experiment.}
 }
+\value{
+bam data from the tss profiling experiments assigned to your tssExp object (expName)
+}
 \description{
 Computes TSS positions from all from a tssExp object
 }
