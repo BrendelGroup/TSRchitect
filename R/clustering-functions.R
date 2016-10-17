@@ -120,6 +120,7 @@ setMethod("acquireTSS",
 ###############################################################################################
 #' expressionCTSS
 #' Returns a matrix [a, h] where a = the number of unique TSSs and h = the # of tags observed at that position
+#' @importFrom gtools mixedsort
 #' @export
 
 expressionCTSS <- function(x, writeDF=TRUE, dfName="CTSS.txt") {
@@ -129,13 +130,14 @@ expressionCTSS <- function(x, writeDF=TRUE, dfName="CTSS.txt") {
         my.matrix <- matrix(NA, nrow=1, ncol=4)
         n.chr <- length(names(x)) # how many chromosomes are there in the TSS list?
         uni.chr <- unique(names(x))
+        uni.chr <- mixedsort(uni.chr)
         
         for (i in 1:n.chr) {
 
             uni.chr[i] -> this.chr
             
 #            ptm <- proc.time() #for timing
-            cat("Transforming the data from TSS dataset", this.chr, ".\n")
+            cat("Transforming the data from TSS dataset", this.chr,"\n")
 
             tss.vec <- x[[i]]$plus
             my.CTSSs <- unique(tss.vec)
