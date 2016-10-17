@@ -29,15 +29,13 @@ setMethod("tssToExp",
 
               for (i in 1:n.slots) {
 
-                  i -> this.slot
-                  
-                  paste("CTSS", this.slot, sep="_") -> this.name
+                  paste("CTSS", i, sep="_") -> this.name
 
-                  acquireTSS(expName, this.slot) -> tss.set
+                  acquireTSS(expName, i) -> tss.set
 
                   expressionCTSS(tss.set, writeDF=FALSE) -> tss.mat
 
-                  tss.mat -> tss.list$this.name
+                  tss.mat -> tss.list[[this.name]]
 
               }
 
@@ -45,7 +43,7 @@ setMethod("tssToExp",
 
               return(tss.list)
 
-#              assign(object.name, expName, envir = parent.frame())              
+#             assign(object.name, expName, envir = parent.frame())              
 
           }
           )
