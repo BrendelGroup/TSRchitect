@@ -37,7 +37,9 @@ setMethod("tssToExp",
 
                   expressionCTSS(tss.set, writeDF=FALSE) -> tss.mat
 
-                  tss.mat -> tss.list$this.name
+                  tss.mat -> tss.list[[i]]
+
+                  this.name -> names(tss.list[[i]])
 
               }
 
