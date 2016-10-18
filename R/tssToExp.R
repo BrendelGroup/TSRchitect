@@ -29,7 +29,7 @@ setMethod("tssToExp",
 
               for (i in 1:n.slots) {
 
-                  paste("CTSS", i, sep="_") -> this.name
+                  paste("TSSset", i, sep="_") -> this.name
 
                   acquireTSS(expName, i) -> tss.set
 

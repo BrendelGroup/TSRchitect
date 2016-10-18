@@ -11,6 +11,10 @@ tsrFind(expName, tssNum, nTSSs, clustDist)
 \item{expName}{an object of tssExp format containing information in slot tssData}
 
 \item{tssNum}{the number of the dataset to be analyzed}
+
+\item{nTSSs}{the number of TSSs required at a given position}
+
+\item{clustDist}{the maximum distance of TSSs between two TSRs (in base pairs)}
 }
 \value{
 creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssExp object
