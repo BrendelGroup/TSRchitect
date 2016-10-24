@@ -10,7 +10,7 @@ library(TSRchitect)
 initializeExp("Example RAMPAGE experiment (Rice)", "riceRAMPAGE", "bam_filtered", isPairedEnd=TRUE)#
 ####################################################################################################
 # loading the BAM files from the TSS profiling experiment (in this case, RAMPAGE)                     
-importBam(riceRAMAPGE)                                                                             #
+importBam(riceRAMPAGE)                                                                             #
 ####################################################################################################
 # converting BAM data into TSS information and attaching it to your tssExp object                  
 bamToTSS(riceRAMPAGE)                                                                              #
