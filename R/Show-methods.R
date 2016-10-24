@@ -19,7 +19,7 @@ setMethod("show",
                   message("\nNo bam files loaded.\n")
               }
               if (length(object@tssData) > 0) {
-                message("\nThere are ")
+                message("\nThere are:")
                 cat(length(object@tssData))
                 message(" tss datasets loaded in this object\n\n")
             }
