@@ -36,6 +36,7 @@ tsrToDF <- function(x) {
         rbind(plus.matrix, minus.matrix) -> chr.matrix
     }
     final.matrix <- rbind(final.matrix, chr.matrix)
+    final.matrix <- final.matrix[-1,] #removes the empty first row used to initilize the matrix
     colnames(final.matrix) <- c("chr", "start", "end", "strand")
     final.df <- as.data.frame(final.matrix)
     return(final.df)
