@@ -38,10 +38,10 @@ setMethod("tsrFind",
 
               tsr.list <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
 
-              message("Clustering complete.")
+              message("Clustering complete.\n")
 
-              tsr.GR <- tsrToGR(tsr.list)
-              expName@tsrData <- tsr.GR
+              tsr.DF <- tsrToDF(tsr.list)
+              expName@tsrData <- tsr.DF
               
               message("\nTSRs from were successfully added to your tssExp object.\n")
               
