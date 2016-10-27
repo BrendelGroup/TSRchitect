@@ -69,6 +69,6 @@ setMethod("tssToExp",
                   cat("\nTSS abundance data was successfully added to your tssExp object.\n")
                   return(tss.list)
  #            assign(object.name, expName, envir = parent.frame())              
-
+              }
           }
           )
