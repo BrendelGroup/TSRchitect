@@ -6,7 +6,7 @@ setClass(Class="tssExp",
              bamData = "list",
              tssData = "GRangesList",
              expData = "data.frame",
-             tsrData = "list"
+             tsrData = "data.frame"
              ),
          prototype(
              title =NA_character_,
@@ -15,7 +15,7 @@ setClass(Class="tssExp",
              bamData = list(),
              tssData = GRangesList(),
              expData = data.frame(),
-             tsrData = list()
+             tsrData = data.frame()
              ),
          )
             
