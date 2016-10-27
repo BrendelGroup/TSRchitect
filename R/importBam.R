@@ -50,7 +50,7 @@ setMethod("importBam",
               
               cat("\nImport complete!\n")
               
-              cat("\nAlignment data from", n.bams, "bams has been attached to your tssExp object.\n")
+              cat("\nAlignment data from", n.bams, "bams have been attached to your tssExp object.\n")
 
               assign(expName.chr, expName, parent.frame()) 
               
