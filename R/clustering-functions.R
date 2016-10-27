@@ -72,7 +72,6 @@ setMethod("acquireTSS",
               tss.list <- new("list")
               for (i in 1:n.chr) {
                   uni.chr[i] -> chrName
-                  print(chrName)
                   tssChr(expName, tssNum, chrName) -> tss.out
                   tss.out -> tss.list[[chrName]]
                   }
