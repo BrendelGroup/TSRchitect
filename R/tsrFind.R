@@ -18,25 +18,20 @@ setMethod("tsrFind",
           signature(expName="tssExp", "numeric", "numeric", "numeric"),
 
           function(expName, tssNum, nTSSs, clustDist) {
-
               object.name <- deparse(substitute(expName))
-              
+
               message("\nInitiated TSR finding.")
 
               if (tssNum>length(expName@tssData)) {
-
                   stop("The value selected exceeds the number of slots in tssData.")
-
               }
-
+              
               tss <- acquireTSS(expName, tssNum)
 
               message("\nCreating expression matrix for dataset ", tssNum, "...\n")
 
               df.name <- paste("CTSS", tssNum, sep="")
-
               df.name <- paste(df.name, "txt", sep=".")
-              
               tss.mat <- expressionCTSS(tss, writeDF=TRUE, dfName=df.name)
 
               message("Clustering TSS expression matrix into TSR regions.\n")
@@ -46,13 +41,11 @@ setMethod("tsrFind",
               message("Clustering complete.")
 
               tsr.GR <- tsrToGR(tsr.list)
-
               expName@tsrData <- tsr.GR
-                                          
-              cat("\nTSRs from were successfully added to your tssExp object.\n")
-
-              assign(object.name, expName, envir = parent.frame())              
               
+              message("\nTSRs from were successfully added to your tssExp object.\n")
+              
+              assign(object.name, expName, envir = parent.frame())              
           }
           )
               
