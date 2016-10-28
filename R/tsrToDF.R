@@ -3,6 +3,7 @@
 
 tsrToDF <- function(x) {
     len.list <- length(x)
+    chr.vec <- names(x)
     final.matrix <- matrix(NA, nrow=1, ncol=4)
     for (j in 1:len.list) {
         vector(mode="list", length=2) -> my.list.p
