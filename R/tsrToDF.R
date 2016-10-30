@@ -3,12 +3,16 @@
 
 tsrToDF <- function(x) {
     len.list <- length(x)
+    print(len.list)
     chr.vec <- names(x)
+    #print(chr.vec)
     final.matrix <- matrix(NA, nrow=1, ncol=4)
+
     for (j in 1:len.list) {
         vector(mode="list", length=2) -> my.list.p
         vector(mode="list", length=2) -> my.list.m
         as.character(chr.vec[j]) -> this.chr
+        print(this.chr)
         x[[j]] -> this.chr.list
         this.chr.list$plus -> this.p
         c("+") -> my.strand
@@ -34,9 +38,9 @@ tsrToDF <- function(x) {
             c(this.chr, my.start, my.end, my.strand) -> my.string
             my.string -> minus.matrix[i,]
         }
-        rbind(plus.matrix, minus.matrix) -> chr.matrix
+    rbind(plus.matrix, minus.matrix) -> chr.matrix
+    rbind(final.matrix, chr.matrix) -> final.matrix
     }
-    final.matrix <- rbind(final.matrix, chr.matrix)
     final.matrix <- final.matrix[-1,] #removes the empty first row used to initilize the matrix
     colnames(final.matrix) <- c("chr", "start", "end", "strand")
     final.df <- as.data.frame(final.matrix)
