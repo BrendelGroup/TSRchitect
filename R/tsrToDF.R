@@ -3,16 +3,13 @@
 
 tsrToDF <- function(x) {
     len.list <- length(x)
-    print(len.list)
     chr.vec <- names(x)
-    #print(chr.vec)
     final.matrix <- matrix(NA, nrow=1, ncol=4)
 
     for (j in 1:len.list) {
         vector(mode="list", length=2) -> my.list.p
         vector(mode="list", length=2) -> my.list.m
         as.character(chr.vec[j]) -> this.chr
-        print(this.chr)
         x[[j]] -> this.chr.list
         this.chr.list$plus -> this.p
         c("+") -> my.strand
