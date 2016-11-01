@@ -13,8 +13,6 @@ tssExpr(expName, tssNum, writeTable)
 \item{tssNum}{the number of the dataset to be analyzed}
 
 \item{writeTable}{if TRUE, writes a data frame containing the TSSs positions and their abundance to your workspace}
-
-\item{nTSSs}{the number of TSSs required at a given position}
 }
 \value{
 creates a data frame containing tss expression for each CTSS in slot 'tssExpr' on your tssExp object

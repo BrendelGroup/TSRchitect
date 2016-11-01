@@ -2,7 +2,6 @@
 #' Creates an expression matrix for all TSSs within a given TSS experiment (in tssData)
 #' @param expName an object of tssExp format containing information in slot tssData
 #' @param tssNum the number of the dataset to be analyzed
-#' @param nTSSs the number of TSSs required at a given position
 #' @param writeTable if TRUE, writes a data frame containing the TSSs positions and their abundance to your workspace
 #' @return creates a data frame containing tss expression for each CTSS in slot 'tssExpr' on your tssExp object
 #' @export 

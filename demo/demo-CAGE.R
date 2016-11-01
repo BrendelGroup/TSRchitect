@@ -15,6 +15,9 @@ importBam(CAGEhuman)                                                            
 # converting BAM data into TSS information and attaching it to your tssExp object                  
 bamToTSS(CAGEhuman)                                                                                #
 ####################################################################################################
+# constructing a tss abundance matrix for a given dataset
+tsrExpr(expName=CAGEhuman, tssNum=1, writeTable=FALSE)                                             #
+####################################################################################################
 # finding TSRs for a given dataset
-tsrFind(expName=CAGEhuman, tssNum=1, clustDist=20, nTSSs=5)
+tsrFind(expName=CAGEhuman, tssNum=1, nTSSs=5, clustDist=20)                                        #
 ####################################################################################################

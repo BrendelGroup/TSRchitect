@@ -15,6 +15,9 @@ importBam(riceRAMPAGE)                                                          
 # converting BAM data into TSS information and attaching it to your tssExp object                  
 bamToTSS(riceRAMPAGE)                                                                              #
 ####################################################################################################
+# constructing a tss abundance matrix for a given dataset
+tsrExpr(expName=riceRAMPAGE, tssNum=1, writeTable=FALSE)                                           #
+####################################################################################################
 # finding TSRs for a given dataset (in this case, the first one)
-tsrFind(expName=riceRAMPAGE, tssNum=1, clustDist=20, nTSSs=3)				           #
+tsrFind(expName=riceRAMPAGE, tssNum=1, nTSSs=3, clustDist=20)				           #
 ####################################################################################################

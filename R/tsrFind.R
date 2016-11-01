@@ -2,8 +2,8 @@
 #' Finds TSRs from a given chromosome
 #' @param expName an object of tssExp format containing information in slot tssData
 #' @param tssNum the number of the dataset to be analyzed
-#' @param clustDist the maximum distance of TSSs between two TSRs (in base pairs)
 #' @param nTSSs the number of TSSs required at a given position
+#' @param clustDist the maximum distance of TSSs between two TSRs (in base pairs)
 #' @return creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssExp object
 #' @export 
 
