@@ -1,5 +1,7 @@
-# An internal function for TSS clustering
-# Creates a data frame for a given output of .tsrCluster
+#' An internal function for TSS clustering
+#' Creates a data frame for a given output of .tsrCluster
+#' @export
+
 
 tsrToDF <- function(x) {
     len.list <- length(x)

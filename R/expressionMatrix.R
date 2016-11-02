@@ -4,13 +4,13 @@
 #' @export 
 
 setGeneric(
-    name="tssToExp",
+    name="expressionMatrix",
     def=function(expName) {
-        standardGeneric("tssToExp")
+        standardGeneric("expressionMatrix")
     }
     )
 
-setMethod("tssToExp",
+setMethod("expressionMatrix",
           signature(expName="tssExp"),
           function(expName) {
 
@@ -45,10 +45,10 @@ setMethod("tssToExp",
               }
               ctss.names <- unique(my.names)
               my.len <- length(ctss.names)
-              last.matrix <- matrix(NA, nrow=my.len, ncol=5)
+              last.matrix <- matrix(NA, nrow=my.len, ncol=4)
               rownames(last.matrix) <- ctss.names
 
-              for (k in 1:length(tss.list[[k]])) {
+              for (k in 1:length(tss.list[[i]])) {
                   tss.list[[k]] -> this.exp
                   paste(as.character(this.exp$chr), this.exp$CTSS, my.exp$strand) -> exp.names
 #                  data.frame(names=ctss.names,nTSSs=
@@ -64,11 +64,24 @@ setMethod("tssToExp",
                       c(my.chr, my.pos, nTSS, my.strand) -> last.matrix[l, ]
                       
               }
+### now to create a single matrix containing unique TSS positions and their counts in each sample
+                  
+                  df.1 <- tss.list[[1]]
+                  
+                  for (n in 1:nrow(df.1))
+                      
 
-                  expName@expData <- tss.list
+                  if (length(tss.list)>1) {
+
+                  for (m in 2:length(tss.list)) {
+           #           tss.list[[m]] -> 
+
+#                  expName@expData <- tss.list
                   cat("\nTSS abundance data was successfully added to your tssExp object.\n")
                   return(tss.list)
  #            assign(object.name, expName, envir = parent.frame())              
+              }
+              }
               }
           }
           )
