@@ -9,15 +9,15 @@
 
 setGeneric(
            name="tsrFind",
-           def=function(expName, tssNum, nTSSs, clustDist) {
+           def=function(expName, tssNum, nTSSs, clustDist, writeTable) {
                standardGeneric("tsrFind")
     }
     )
 
 setMethod("tsrFind",
-          signature(expName="tssExp", "numeric", "numeric", "numeric"),
+          signature(expName="tssExp", "numeric", "numeric", "numeric", "logical"),
 
-          function(expName, tssNum, nTSSs, clustDist) {
+          function(expName, tssNum, nTSSs, clustDist, writeTable) {
               object.name <- deparse(substitute(expName))
               message("\nInitiated TSR finding.")
 
@@ -30,8 +30,16 @@ setMethod("tsrFind",
               tsr.list <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
               message("Clustering complete.\n")
               tsr.DF <- tsrToDF(tsr.list)
+
+              if (writeTable=="TRUE") {
+              df.name <- paste("CTSS", tssNum, sep="")
+              df.name <- paste(df.name, "txt", sep=".")
+              write.table(tsr.DF, file=df.name, col.names=FALSE, row.names=FALSE, sep="\t", quote=FALSE)
+              message("\nA data frame containing TSRs was written to your current working directory.")
+              }
+
               expName@tsrData <- tsr.DF
-              message("\nTSRs from were successfully added to your tssExp object.\n")
+              message("\nTSRs were successfully added to your tssExp object.\n")
               assign(object.name, expName, envir = parent.frame())              
           }
           )
