@@ -25,10 +25,11 @@ setMethod("tssExpr",
               
               tss <- acquireTSS(expName, tssNum)
               message("\nCreating expression matrix for dataset ", tssNum, "...\n")
-              
-              if (writeTable=="TRUE") {
+
               df.name <- paste("CTSS", tssNum, sep="")
-              df.name <- paste(df.name, "txt", sep=".")
+              df.name <- paste(df.name, "txt", sep=".")              
+
+              if (writeTable=="TRUE") {
               tss.mat <- expressionCTSS(tss, dfName=df.name, writeDF=TRUE)
               }
 
