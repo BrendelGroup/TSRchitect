@@ -17,9 +17,7 @@ setGeneric(
 
 setMethod("bamToTSS",
           signature(expName="tssExp"),
-
           function(expName) {
-
               object.name <- deparse(substitute(expName))
 
               if (length(expName@bamData) == 0) {
@@ -27,27 +25,18 @@ setMethod("bamToTSS",
               }
 
               if (length(expName@bamData) > 0) {
-
                   cat("Beginning TSS conversion progress.\n\n")
-
               }
 
               bam.len <- length(expName@bamData)
-
               bam.vec <- vector(mode="list", length=bam.len)
                             
               for (i in 1:bam.len) {
-
                  cat("Retrieving bam #", i, "...\n\n")
-                  
                  expName@bamData[[i]] -> bam.data
-
                   as(bam.data,"data.frame") -> bam.df
-                 
                   bam.df[bam.df$strand=="+",] -> df.plus
-
                   bam.df[bam.df$strand=="-",] -> df.minus
-                 
                         gr1 <- GRanges(seqnames=df.plus$seqnames,
                                       ranges = IRanges(
                                           start=df.plus$start,
@@ -55,7 +44,6 @@ setMethod("bamToTSS",
                                           ),
                                       strand=df.plus$strand
                                       )
-                        
                         gr2 <- GRanges(seqnames=df.minus$seqnames,
                                        ranges = IRanges(
                                            start=df.minus$end-1,
@@ -63,24 +51,16 @@ setMethod("bamToTSS",
                                            ),
                                        strand=df.minus$strand
                                        )
-                        
                         c(gr1,gr2) -> gr.combined
-
                         sortSeqlevels(gr.combined) -> gr.combined
-
                         sort(gr.combined) -> gr.combined
-                        
                         gr.combined -> bam.vec[[i]] 
-
              }
 
               GR.list <- GRangesList(bam.vec)
-
               expName@tssData <- GR.list
-                                          
-              cat("\nTSS data from", bam.len, "separate bam files were successfully added to your tssExp object.\n\n")
-
+              expName@expData <- vector(mode="list", length=bam.len)
+              message("\nTSS data from ", bam.len, " separate bam files were successfully added to your tssExp object.\n\n")
               assign(object.name, expName, envir = parent.frame())
            }
-          )
-          
+          )         
