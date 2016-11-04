@@ -46,7 +46,7 @@ setMethod("initializeExp",
 
               tssObj@title <- expTitle
               tssObj@fileNames <- tss_files
-              message("The tssExp object:", objName, "is now in your workspace. \n")
+              message("The tssExp object: ", objName, " is now in your workspace. \n")
               assign(objName, tssObj, parent.frame()) 
           }
           )

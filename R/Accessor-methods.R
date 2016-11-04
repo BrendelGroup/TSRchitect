@@ -1,7 +1,7 @@
 setGeneric(
 name="getTitle",
 def=function(expName){
-	standardGeneric("tssExp")
+	standardGeneric("getTitle")
 }
 )
 

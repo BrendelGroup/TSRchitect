@@ -36,11 +36,11 @@ setMethod("importBam",
               bv_obj <- BamViews(bam.paths)
               bv_files <- dimnames(bv_obj)[[2]]
               n.bams <- length(bv_files)
-              message("\nBegan import of", n.bams, "bam files.\n")
+              message("\nBegan import of ", n.bams, " bam files.\n")
               bams.GA <- bplapply(bam.paths, readGAlignments, BPPARAM = MulticoreParam(),param=my.param)
               expName@bamData <- bams.GA
               message("\nImport complete!\n")
-              message("\nAlignment data from", n.bams, "bams have been attached to your tssExp object.\n")
+              message("\nAlignment data from ", n.bams, " bams have been attached to your tssExp object.\n")
               assign(expName.chr, expName, parent.frame()) 
           }
           )

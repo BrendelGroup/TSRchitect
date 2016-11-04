@@ -6,6 +6,7 @@ setClass(Class="tssExp",
              bamData = "list",
              tssData = "GRangesList",
              expData = "list",
+             countsData = "data.frame",
              tsrData = "data.frame"
              ),
          prototype(
@@ -15,6 +16,7 @@ setClass(Class="tssExp",
              bamData = list(),
              tssData = GRangesList(),
              expData = list(),
+             countsData = data.frame(),
              tsrData = data.frame()
              ),
          )
