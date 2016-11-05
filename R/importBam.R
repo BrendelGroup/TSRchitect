@@ -15,11 +15,8 @@ setGeneric(
 
 setMethod("importBam",
           signature(expName="tssExp"),
-
           function(expName) {
-
               expName.chr <- deparse(substitute(expName))
-
               exp.type <- expName@dataType
 
              if(exp.type=="pairedEnd") {
@@ -35,24 +32,15 @@ setMethod("importBam",
               }
 
               my.param <- ScanBamParam(flag=bamFlags, what=myFields)
-
               bam.paths <- expName@fileNames
-              
               bv_obj <- BamViews(bam.paths)
               bv_files <- dimnames(bv_obj)[[2]]
               n.bams <- length(bv_files)
-              
-              cat("\nBegan import of", n.bams, "bam files.\n")
-              
+              message("\nBegan import of ", n.bams, " bam files.\n")
               bams.GA <- bplapply(bam.paths, readGAlignments, BPPARAM = MulticoreParam(),param=my.param)
-
               expName@bamData <- bams.GA
-              
-              cat("\nImport complete!\n")
-              
-              cat("\nAlignment data from", n.bams, "bams have been attached to your tssExp object.\n")
-
+              message("\nImport complete!\n")
+              message("\nAlignment data from ", n.bams, " bams have been attached to your tssExp object.\n")
               assign(expName.chr, expName, parent.frame()) 
-              
           }
           )
