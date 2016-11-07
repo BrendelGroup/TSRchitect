@@ -3,21 +3,33 @@ setClass(Class="tssExp",
              title = "character",
              fileNames = "character",
              dataType = "character",
+             sampleNames = "character",
+             sampleIDs = "numeric",
              bamData = "list",
              tssData = "GRangesList",
+             tssDataMerged = "GRangesList",
              expData = "list",
+             expDataMerged = "list",
              countsData = "data.frame",
-             tsrData = "data.frame"
+             countsDataMerged = "data.frame",
+             tsrData = "data.frame",
+             tsrDataMerged = "data.frame"
              ),
          prototype(
              title =NA_character_,
              fileNames = NA_character_,
              dataType = NA_character_,
+             sampleNames = "NA_character",
+             sampleIDs = "NA_numeric",
              bamData = list(),
              tssData = GRangesList(),
+             tssDataMerged = GRangesList(),
              expData = list(),
+             expDataMerged = list(),
              countsData = data.frame(),
-             tsrData = data.frame()
+             countsDataMerged = data.frame(),
+             tsrData = data.frame(),
+             tsrDataMerged = data.frame()
              ),
          )
             
