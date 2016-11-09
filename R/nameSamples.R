@@ -36,3 +36,5 @@ setMethod("setSampleID",
 
               assign(expName.chr, expName, parent.frame()) 
             
+          }
+          )
