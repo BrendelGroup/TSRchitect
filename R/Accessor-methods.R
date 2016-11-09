@@ -1,3 +1,5 @@
+#' exportClasses(TSRchitect)
+
 setGeneric(
 name="getTitle",
 def=function(expName){
@@ -72,7 +74,7 @@ setGeneric(
 name="getTSRs",
 def=function(expName){
 	standardGeneric("getTSRs")
-}
+    }
 )
 
 setMethod("getTSRs",
