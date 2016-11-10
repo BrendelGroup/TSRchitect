@@ -1,4 +1,3 @@
-#' exportClasses(TSRchitect)
 
 setGeneric(
 name="getTitle",
