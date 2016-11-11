@@ -34,6 +34,8 @@ setMethod("setSampleID",
               expName@sampleNames <- sample.names
               expName@replicateIDs <- replicate.IDs
 
+              message("\nNames and replicate IDs were successfully assigned to your tssExp object.\n")
+              
               assign(expName.chr, expName, parent.frame()) 
             
           }
