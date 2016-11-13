@@ -1,7 +1,7 @@
 #' tssExpr
 #' Creates an expression matrix for all TSSs within a given TSS experiment (in tssData)
-#' @param expName an object of tssExp format containing information in slot tssData
-#' @param tssNum the number of the dataset to be analyzed
+#' @param expName - a S4 object of class tssExp containing information in slot tssData
+#' @param tssNum - number of the dataset to be analyzed
 #' @param writeTable if TRUE, writes a data frame containing the TSSs positions and their abundance to your workspace
 #' @return creates a data frame containing tss expression for each CTSS in slot 'tssExpr' on your tssExp object
 #' @export 
@@ -19,26 +19,27 @@ setMethod("tssExpr",
           function(expName, tssNum, writeTable) {
               object.name <- deparse(substitute(expName))
 
+              message("... tssExpr ...")
               if (tssNum>length(expName@tssData)) {
                   stop("The value selected exceeds the number of slots in tssData.")
               }
               
               tss <- acquireTSS(expName, tssNum)
-              message("\nCreating expression matrix for dataset ", tssNum, "...\n")
 
-              df.name <- paste("CTSS", tssNum, sep="")
+              df.name <- paste("CTSSset-", tssNum, sep="")
               df.name <- paste(df.name, "txt", sep=".")              
 
               if (writeTable=="TRUE") {
-              tss.mat <- expressionCTSS(tss, dfName=df.name, writeDF=TRUE)
+                  tss.mat <- expressionCTSS(tss, dfName=df.name, writeDF=TRUE)
               }
-
               else {
-              tss.mat <- expressionCTSS(tss, dfName="my.df", writeDF=FALSE)
+                  tss.mat <- expressionCTSS(tss, dfName="my.df", writeDF=FALSE)
               }
 
               expName@expData[[tssNum]] <- tss.mat
-              message("\nA TSS expression matrix was successfully added to your tssExp object.\n")
+              cat("\n... the TSS expression matrix for dataset ", tssNum, " has been successfully added to\ntssExp object \"", object.name, "\"\n")
+              cat("--------------------------------------------------------------------------------\n")
               assign(object.name, expName, envir = parent.frame())              
+              message(" Done.\n")
           }
           )
