@@ -2,7 +2,7 @@
 % Please edit documentation in R/mergeTSS.R
 \name{mergeTSSs}
 \alias{mergeTSSs}
-\title{Combines samples from two different}
+\title{Combines samples from different tss experiments into a single GRanges object}
 \usage{
 mergeTSSs(expName)
 }
@@ -13,6 +13,6 @@ mergeTSSs(expName)
 merged tss profiling experiments according to their assigned sampleIDs to your tssExp object
 }
 \description{
-Combines samples from two different
+Combines samples from different tss experiments into a single GRanges object
 }
 

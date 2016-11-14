@@ -1,22 +1,24 @@
-#' Combines samples from different tss experiments into a single GRanges object
+#' Combines samples from two different tss experiments into a single GRanges object
 #' @param expName an S4 object of class tssExp that contains information about the experiment.
-#' @importFrom GenomicRanges granges GRanges GRangesList
-#' @importFrom GenomeInfoDb sortSeqlevels
-#' @importFrom IRanges IRanges
-#' @return merged tss profiling experiments according to their assigned sampleIDs to your tssExp object
+#' @return expData datasets will be merged (according to the sampleIDs) and assigned to your tssExp object
+#' @importFrom GenomicRanges as.data.frame
 #' @export 
 
 setGeneric(
-    name="mergeTSSs",
+    name="mergeExpr",
     def=function(expName) {
-        standardGeneric("mergeTSSs")
+        standardGeneric("mergeExpr")
     }
     )
 
-setMethod("mergeTSSs",
+setMethod("mergeExpr",
           signature(expName="tssExp"),
           function(expName) {
               expName.chr <- deparse(substitute(expName))
+
+              if (length(expName@expData)==0) {
+                  stop("\nThe slot @expData is empty. Please run tssExpr before proceeding with this command.\n")
+              }
 
               if (length(expName@sampleNames) < 1) {
                   stop("\nThe slot @sampleNames on your tssExp object is empty. Please add sampleNames to the object.\n")
@@ -26,29 +28,26 @@ setMethod("mergeTSSs",
                   stop("\nThe slot @replicateIDs on your tssExp object is empty. Please add replicateIDs to the object.\n")
               }
 
-              if (length(expName@tssData) < 2) {
-                  stop("\nThere are less than two tssData slots loaded on your tssExp object, so merging is not possible.")
-              }
-
               rep.ids <- expName@replicateIDs
               uni.ids <- unique(rep.ids)
               tss.data <- expName@tssData
-              gr.list <- GRangesList()
+              exp.list <- vector(mode="list")
               
               for (i in seq_along(uni.ids)) {
                   i -> sample.num
                   which(rep.ids==sample.num) -> my.ind
                   tss.data[my.ind] -> replicate.set
                   for (j in 1:length(replicate.set)) {
-                      GRanges(seqnames=Rle(), ranges=NULL, strand=NULL, seqLengths=NULL, seqinfo=NULL) -> gr.set
-                      replicate.set[[j]] -> this.gr
-                      c(gr.set, this.gr) -> gr.set
+                      data.frame() -> my.df
+                      replicate.set[[j]] -> this.df
+                      merge(my.df, this.df) -> my.df
+                      my.df <- my.df[with(my.df, order(chr, CTSS)),]
                   }
-                  gr.set -> gr.list[[i]]
+                  my.df -> exp.list[[i]]
               }
-
-              expName@tssDataMerged <- gr.list 
-              message("\nTSS data has been merged and assigned to your tssExp object.\n")
+              
+              expName@expDataMerged <- exp.list
+              message("\nTSS abundance data has been merged accordinate to replicate and assigned to your tssExp object.\n")
               assign(expName.chr, expName, envir = parent.frame())
           }
           )

@@ -24,7 +24,7 @@ setMethod("tsrFind",
               if (tssNum>length(expName@expData)) {
                   stop("The value selected exceeds the number of slots in tssData.")
               }
-              
+
               tss.mat <- expName@expData[[tssNum]]
               message("Clustering TSS expression matrix into TSR regions.\n")
               tsr.list <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
@@ -39,6 +39,7 @@ setMethod("tsrFind",
               }
 
               expName@tsrData <- tsr.DF
+              
               message("\nTSRs were successfully added to your tssExp object.\n")
               assign(object.name, expName, envir = parent.frame())              
           }
