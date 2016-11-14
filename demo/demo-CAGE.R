@@ -16,7 +16,7 @@ importBam(CAGEhuman)                                                            
 bamToTSS(CAGEhuman)                                                                                #
 ####################################################################################################
 # constructing a tss abundance matrix for a given dataset
-tsrExpr(expName=CAGEhuman, tssNum=1, writeTable=FALSE)                                             #
+tssExpr(expName=CAGEhuman, tssNum=1, writeTable=FALSE)                                             #
 ####################################################################################################
 # finding TSRs for a given dataset
 tsrFind(expName=CAGEhuman, tssNum=1, nTSSs=5, clustDist=20)                                        #

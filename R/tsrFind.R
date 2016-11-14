@@ -24,7 +24,7 @@ setMethod("tsrFind",
               if (tssNum>length(expName@expData)) {
                   stop("The value selected for tssNum exceeds the number of slots in tssData.")
               }
-              
+
               tss.mat <- expName@expData[[tssNum]]
               tsr.list <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
               tsr.DF <- tsrToDF(tsr.list)
@@ -39,6 +39,7 @@ setMethod("tsrFind",
               expName@tsrData <- tsr.DF
               cat("\n... the TSR dataframe tsrData for dataset ", tssNum, " has been successfully added to\ntssExp object \"", object.name, "\"\n")
               cat("--------------------------------------------------------------------------------\n")
+>>>>>>> e18c96713a3f4a8c528dd2aa041b67c433e40db9
               assign(object.name, expName, envir = parent.frame())              
               message(" Done.\n")
           }

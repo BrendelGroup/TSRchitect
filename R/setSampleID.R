@@ -19,21 +19,23 @@ setMethod("setSampleID",
               exp.len <- length(expName@fileNames)
               
               if (exp.len!=length(sample.names) || exp.len!=length(replicate.IDs)) {
-                  stop("The number of sample names and replicate IDs must be equal to the number of file names in your tssExp object.")
+                  stop("\nThe number of sample names and replicate IDs must be equal to the number of file names in your tssExp object.")
               }
 
               if (length(sample.names)!=(length(replicate.IDs))) {
-                  stop("sample.names and replicate.IDs must have equal lengths.")
+                  stop("\nsample.names and replicate.IDs must have equal lengths.")
               }
               unique(sample.names) -> s.uni
 
-              if (s.uni<length(sample.names)) {
-                  stop("Each sample name must have a unique name.")
+              if (length(s.uni)<length(sample.names)) {
+                  stop("\nEach sample name must have a unique name.")
               }
 
-              tssExp@sampleNames <- sample.names
-              tssExp@replicateIDs <- replicate.IDs
+              expName@sampleNames <- sample.names
+              expName@replicateIDs <- replicate.IDs
 
+              message("\nNames and replicate IDs were successfully assigned to your tssExp object.\n")
+              
               assign(expName.chr, expName, parent.frame()) 
             
           }
