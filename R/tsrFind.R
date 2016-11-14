@@ -9,38 +9,65 @@
 
 setGeneric(
            name="tsrFind",
-           def=function(expName, tssNum, nTSSs, clustDist, writeTable) {
+           def=function(expName, tssNum, nTSSs, clustDist, setToCluster, writeTable) {
                standardGeneric("tsrFind")
     }
     )
 
 setMethod("tsrFind",
-          signature(expName="tssExp", "numeric", "numeric", "numeric", "logical"),
+          signature(expName="tssExp", "numeric", "numeric", "numeric", "character", "logical"),
 
-          function(expName, tssNum, nTSSs, clustDist, writeTable) {
-              object.name <- deparse(substitute(expName))
+          function(expName, tssNum, nTSSs, clustDist, setToCluster, writeTable) {
+             object.name <- deparse(substitute(expName))
 
-              message("... tsrFind ...")
-              if (tssNum>length(expName@expData)) {
-                  stop("The value selected for tssNum exceeds the number of slots in tssData.")
+              if (setToCluster=="replicates") {
+                  message("... tsrFind ...")
+                  if (tssNum>length(expName@expData)) {
+                      stop("The value selected for tssNum exceeds the number of slots in tssData.")
               }
 
-              tss.mat <- expName@expData[[tssNum]]
-              tsr.list <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
-              tsr.DF <- tsrToDF(tsr.list)
+             tss.mat <- expName@expData[[tssNum]]
+             tsr.list <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
+             tsr.DF <- tsrToDF(tsr.list)
 
-              if (writeTable=="TRUE") {
-                  df.name <- paste("TSRset-", tssNum, sep="")
-                  df.name <- paste(df.name, "txt", sep=".")
-                  write.table(tsr.DF, file=df.name, col.names=FALSE, row.names=FALSE, sep="\t", quote=FALSE)
-                  message("\nThe TSR set for TSS dataset ", tssNum, " has been written to file ", df.name, "\nin your working directory.")
+                  if (writeTable=="TRUE") {
+                      df.name <- paste("TSRset-", tssNum, sep="")
+                      df.name <- paste(df.name, "txt", sep=".")
+                      write.table(tsr.DF, file=df.name, col.names=FALSE, row.names=FALSE, sep="\t", quote=FALSE)
+                      message("\nThe TSR set for TSS dataset ", tssNum, " has been written to file ", df.name, "\nin your working directory.")
+                  }
+
+                  expName@tsrData <- tsr.DF
+                  cat("\n... the TSR data frame for dataset ", tssNum, " has been successfully added to\ntssExp object \"", object.name, "\"\n")
+                  cat("--------------------------------------------------------------------------------\n")
+                  assign(object.name, expName, envir = parent.frame())              
               }
 
-              expName@tsrData <- tsr.DF
-              cat("\n... the TSR dataframe tsrData for dataset ", tssNum, " has been successfully added to\ntssExp object \"", object.name, "\"\n")
-              cat("--------------------------------------------------------------------------------\n")
->>>>>>> e18c96713a3f4a8c528dd2aa041b67c433e40db9
-              assign(object.name, expName, envir = parent.frame())              
-              message(" Done.\n")
-          }
+              if (setToCluster=="merged") {
+                if (length(expName@expDataMerged)<1) {
+                      stop("The @expDataMerged slot is currently empty. Please complete the merger before continuing.")
+                  }
+
+                  tsr.list <- vector(mode="list") 
+                  for (i in 1:length(expName@expDataMerged)) {
+                      tss.mat <- expName@expDataMerged[[i]]
+                      my.tsr <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
+                      tsr.DF <- tsrToDF(tsr.list)
+                      tsr.list[[i]] <- tsr.DF
+
+                       if (writeTable=="TRUE") {
+                          df.name <- paste("TSRsetMerged-", i, sep="")
+                          df.name <- paste(df.name, "txt", sep=".")
+                          write.table(tsr.DF, file=df.name, col.names=FALSE, row.names=FALSE, sep="\t", quote=FALSE)
+                          message("\nThe merged TSR set for TSS dataset ", i, " has been written to file ", df.name, "\nin your working directory.")
+                      }
+                  }
+
+                  expName@tsrDataMerged <- tsr.list
+                  cat("\n... merged TSR data frames have been successfully added to\ntssExp object \"", object.name, "\"\n")
+                  cat("--------------------------------------------------------------------------------\n")
+                  assign(object.name, expName, envir = parent.frame())
+            }
+                  message(" Done.\n")
+              }
           )
