@@ -37,15 +37,15 @@ setMethod("mergeExpr",
                   i -> sample.num
                   which(rep.ids==sample.num) -> my.ind
                   exp.data[my.ind] -> replicate.set
+                  data.frame() -> my.df
                   for (j in 1:length(replicate.set)) {
-                      data.frame() -> my.df
                       replicate.set[[j]] -> this.df
-                      merge(my.df, this.df) -> my.df
+                      rbind(my.df, this.df) -> my.df
                       my.df <- my.df[with(my.df, order(chr, CTSS)),]
                   }
                   my.df -> exp.list[[i]]
               }
-              
+
               expName@expDataMerged <- exp.list
               cat("\n... the TSS expression data has been successfully merged and added to\ntssExp object \"", object.name, "\"\n")
               cat("--------------------------------------------------------------------------------\n")

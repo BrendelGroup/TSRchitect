@@ -3,6 +3,7 @@
 #' @param expName - a S4 object of class tssExp containing information in slot tssData
 #' @param tssNum - number of the dataset to be analyzed
 #' @param writeTable if TRUE, writes a data frame containing the TSSs positions and their abundance to your workspace
+#' @importFrom gtools mixedsort
 #' @return creates a data frame containing tss expression for each CTSS in slot 'tssExpr' on your tssExp object
 #' @export 
 
