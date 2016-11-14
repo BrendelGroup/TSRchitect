@@ -86,7 +86,7 @@ setMethod("acquireTSS",
 #' @importFrom gtools mixedsort
 #' @export
 
-expressionCTSS <- function(x, writeDF=TRUE, dfName="CTSS.txt") {
+expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
         #starting with the plus strand
         my.matrix <- matrix(NA, nrow=1, ncol=4)
         n.chr <- length(names(x)) # how many chromosomes are there in the TSS list?
@@ -133,6 +133,7 @@ expressionCTSS <- function(x, writeDF=TRUE, dfName="CTSS.txt") {
 
         if (writeDF==TRUE) {
             write.table(my.df, dfName, quote=FALSE, col.names=TRUE, row.names=FALSE, sep="\t")
+            message("\nThe TSS dataset has been written to file ", dfName, "\nin your working directory.")
         }
 
         return(my.df)

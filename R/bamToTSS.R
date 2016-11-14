@@ -1,7 +1,7 @@
 #' bamToTSS
 #' Extracts TSS information from each bam file in a tssExp object
-#' @param expName an object of tssExp format containing bam files
-#' @return creates a list of TSSs in class GRanges for each bam file contained within expName, and places them in the tssExp object
+#' @param expName - a S4 object of class tssExp with bam files loaded
+#' @return creates a list of TSSs in class GRanges for each bam file contained within expName and places them in the tssExp object
 #' @importFrom GenomicRanges granges GRanges GRangesList
 #' @importFrom BiocGenerics start end
 #' @importFrom GenomeInfoDb sortSeqlevels
@@ -20,19 +20,19 @@ setMethod("bamToTSS",
           function(expName) {
               object.name <- deparse(substitute(expName))
 
+              message("... bamToTSS ...")
               if (length(expName@bamData) == 0) {
                   stop("Slot @bamData is empty.\n\n Please load alignment files to your tssExp object.")
               }
-
-              if (length(expName@bamData) > 0) {
-                  cat("Beginning TSS conversion progress.\n\n")
+              else {
+                  cat("\nBeginning .bam read alignment to TSS data conversion ...\n\n")
               }
 
               bam.len <- length(expName@bamData)
               bam.vec <- vector(mode="list", length=bam.len)
                             
               for (i in 1:bam.len) {
-                 cat("Retrieving bam #", i, "...\n\n")
+                 cat("Retrieving data from bam file #", i, "...\n\n")
                  expName@bamData[[i]] -> bam.data
                   as(bam.data,"data.frame") -> bam.df
                   bam.df[bam.df$strand=="+",] -> df.plus
@@ -55,12 +55,14 @@ setMethod("bamToTSS",
                         sortSeqlevels(gr.combined) -> gr.combined
                         sort(gr.combined) -> gr.combined
                         gr.combined -> bam.vec[[i]] 
-             }
+              }
 
               GR.list <- GRangesList(bam.vec)
               expName@tssData <- GR.list
               expName@expData <- vector(mode="list", length=bam.len)
-              message("\nTSS data from ", bam.len, " separate bam files were successfully added to your tssExp object.\n\n")
+              cat("Done. TSS data from ", bam.len, " separate bam files have been successfully added to\ntssExp object \"", object.name, "\".\n\n")
+              cat("--------------------------------------------------------------------------------\n")
               assign(object.name, expName, envir = parent.frame())
-           }
+              message(" Done.\n")
+          }
           )         

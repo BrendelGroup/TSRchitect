@@ -32,4 +32,3 @@ setClass(Class="tssExp",
              tsrDataMerged = data.frame()
              ),
          )
-            

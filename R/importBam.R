@@ -1,5 +1,5 @@
-#' Computes TSS positions from all bam files and loads them onto a tssExp object
-#' @param expName an S4 object of class tssExp that contains information about the experiment.
+#' Computes TSS positions from all bam files and loads them into a tssExp object
+#' @param expName - a S4 object of class tssExp that contains information about the experiment
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
@@ -19,15 +19,15 @@ setMethod("importBam",
               expName.chr <- deparse(substitute(expName))
               exp.type <- expName@dataType
 
-             if(exp.type=="pairedEnd") {
+              message("... importBam ...")
+              if(exp.type=="pairedEnd") {
                   scanBamFlag(isPaired=TRUE, isProperPair=TRUE, isUnmappedQuery=FALSE) -> bamFlags
-                  cat("\nPaired-end TSS data specified.")
+                  cat("\nTSS data were specified to be paired-end read alignments.")
                   c("rname","strand","pos","qwidth", "mapq", "isize") -> myFields
               }
-                                     
               else {
                   scanBamFlag(isPaired=FALSE, isProperPair=FALSE, isUnmappedQuery=FALSE) -> bamFlags
-                  cat("\nSingle-end TSS data specified.\n")
+                  cat("\nTSS data were specified to be single-end read alignments.\n")
                   c("rname","strand","pos", "qwidth", "mapq") -> myFields
               }
 
@@ -36,11 +36,12 @@ setMethod("importBam",
               bv_obj <- BamViews(bam.paths)
               bv_files <- dimnames(bv_obj)[[2]]
               n.bams <- length(bv_files)
-              message("\nBegan import of ", n.bams, " bam files.\n")
+              cat("\nBeginning import of ", n.bams, " bam files ...\n")
               bams.GA <- bplapply(bam.paths, readGAlignments, BPPARAM = MulticoreParam(),param=my.param)
               expName@bamData <- bams.GA
-              message("\nImport complete!\n")
-              message("\nAlignment data from ", n.bams, " bams have been attached to your tssExp object.\n")
+              cat("Done. Alignment data from ", n.bams, " bam files have been attached to tssExp\nobject \"", expName.chr, "\".\n")
+              cat("--------------------------------------------------------------------------------\n")
               assign(expName.chr, expName, parent.frame()) 
+              message(" Done.\n")
           }
           )
