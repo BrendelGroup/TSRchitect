@@ -1,9 +1,9 @@
 #' tsrFind
 #' Finds TSRs from a given chromosome
-#' @param expName an object of tssExp format containing information in slot tssData
-#' @param tssNum the number of the dataset to be analyzed
-#' @param nTSSs the number of TSSs required at a given position
-#' @param clustDist the maximum distance of TSSs between two TSRs (in base pairs)
+#' @param expName - a S4 object of class tssExp containing information in slot tssData
+#' @param tssNum - number of the dataset to be analyzed
+#' @param nTSSs - number of TSSs required at a given position
+#' @param clustDist - maximum distance of TSSs between two TSRs (in base pairs)
 #' @return creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssExp object
 #' @export 
 
@@ -19,32 +19,28 @@ setMethod("tsrFind",
 
           function(expName, tssNum, nTSSs, clustDist, writeTable) {
               object.name <- deparse(substitute(expName))
-              message("\nInitiated TSR finding.")
 
+              message("... tsrFind ...")
               if (tssNum>length(expName@expData)) {
-                  stop("The value selected exceeds the number of slots in tssData.")
+                  stop("The value selected for tssNum exceeds the number of slots in tssData.")
               }
 
               tss.mat <- expName@expData[[tssNum]]
-              message("Clustering TSS expression matrix into TSR regions.\n")
               tsr.list <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
-              message("Clustering complete.\n")
               tsr.DF <- tsrToDF(tsr.list)
 
               if (writeTable=="TRUE") {
-              df.name <- paste("CTSS", tssNum, sep="")
-              df.name <- paste(df.name, "txt", sep=".")
-              write.table(tsr.DF, file=df.name, col.names=FALSE, row.names=FALSE, sep="\t", quote=FALSE)
-              message("\nA data frame containing TSRs was written to your current working directory.")
+                  df.name <- paste("TSRset-", tssNum, sep="")
+                  df.name <- paste(df.name, "txt", sep=".")
+                  write.table(tsr.DF, file=df.name, col.names=FALSE, row.names=FALSE, sep="\t", quote=FALSE)
+                  message("\nThe TSR set for TSS dataset ", tssNum, " has been written to file ", df.name, "\nin your working directory.")
               }
 
               expName@tsrData <- tsr.DF
-              
-              message("\nTSRs were successfully added to your tssExp object.\n")
+              cat("\n... the TSR dataframe tsrData for dataset ", tssNum, " has been successfully added to\ntssExp object \"", object.name, "\"\n")
+              cat("--------------------------------------------------------------------------------\n")
+>>>>>>> e18c96713a3f4a8c528dd2aa041b67c433e40db9
               assign(object.name, expName, envir = parent.frame())              
+              message(" Done.\n")
           }
           )
-              
-
-
-          
