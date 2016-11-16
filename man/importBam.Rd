@@ -2,17 +2,17 @@
 % Please edit documentation in R/importBam.R
 \name{importBam}
 \alias{importBam}
-\title{Computes TSS positions from all bam files and loads them onto a tssExp object}
+\title{Computes TSS positions from all bam files and loads them into a tssExp object}
 \usage{
 importBam(expName)
 }
 \arguments{
-\item{expName}{an S4 object of class tssExp that contains information about the experiment.}
+\item{expName}{- a S4 object of class tssExp that contains information about the experiment}
 }
 \value{
 bam data from the tss profiling experiments assigned to your tssExp object
 }
 \description{
-Computes TSS positions from all bam files and loads them onto a tssExp object
+Computes TSS positions from all bam files and loads them into a tssExp object
 }
 
