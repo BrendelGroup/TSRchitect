@@ -5,7 +5,8 @@
 \title{tsrFind
 Finds TSRs from a given chromosome}
 \usage{
-tsrFind(expName, tssNum, nTSSs, clustDist, setToCluster, writeTable)
+tsrFind(expName, tssNum = 1, nTSSs, clustDist, setToCluster,
+  writeTable = FALSE)
 }
 \arguments{
 \item{expName}{- a S4 object of class tssExp containing information in slot tssData}

@@ -58,7 +58,8 @@ setMethod("countsMatrix",
               }
                   last.frame <- as.data.frame(last.matrix) 
                   expName@countsData <- last.frame
-                  cat("\nTSS abundance data was successfully added to your tssExp object.\n")
+                  cat("Done. TSS abundance data was successfully added to your tssExp \nobject \"", object.name,"\".\n")
                   assign(object.name, expName, envir = parent.frame())              
+                  message(" Done.\n")
           }
           )
