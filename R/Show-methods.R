@@ -8,9 +8,9 @@ setMethod("show",
               cat("       Object of Class 'tssExp'\n")
               cat("############################################\n\n")
               cat("Title of experiment:", object@title,"\n\n")
-              cat("The TSS data were specified to be \"", object@dataType, "\"\n")
+              cat("The TSS data were specified to be\"", object@dataType, "\"\n")
               if (length(object@fileNames) > 0) {
-                  cat("and to be contained in the following files:\n")
+                  cat("and are located in the following files:\n")
                   for (i in 1:length(object@fileNames)) {
                       cat(paste(object@fileNames[i]),sep="\n")
                   }
