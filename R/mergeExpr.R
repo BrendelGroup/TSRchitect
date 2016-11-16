@@ -1,5 +1,5 @@
 #' Combines samples from two different tss experiments into a single GRanges object
-#' @param expName an S4 object of class tssExp that contains information about the experiment.
+#' @param expName - an S4 object of class tssExp that contains information about the experiment.
 #' @return expData datasets will be merged (according to the sampleIDs) and assigned to your tssExp object
 #' @importFrom GenomicRanges as.data.frame
 #' @export 

@@ -8,10 +8,10 @@ Extracts TSS information from each bam file in a tssExp object}
 bamToTSS(expName)
 }
 \arguments{
-\item{expName}{an object of tssExp format containing bam files}
+\item{expName}{- a S4 object of class tssExp with bam files loaded}
 }
 \value{
-creates a list of TSSs in class GRanges for each bam file contained within expName, and places them in the tssExp object
+creates a list of TSSs in class GRanges for each bam file contained within expName and places them in the tssExp object
 }
 \description{
 bamToTSS

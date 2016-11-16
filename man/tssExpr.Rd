@@ -8,9 +8,9 @@ Creates an expression matrix for all TSSs within a given TSS experiment (in tssD
 tssExpr(expName, tssNum, writeTable)
 }
 \arguments{
-\item{expName}{an object of tssExp format containing information in slot tssData}
+\item{expName}{- a S4 object of class tssExp containing information in slot tssData}
 
-\item{tssNum}{the number of the dataset to be analyzed}
+\item{tssNum}{- number of the dataset to be analyzed}
 
 \item{writeTable}{if TRUE, writes a data frame containing the TSSs positions and their abundance to your workspace}
 }

@@ -5,16 +5,20 @@
 \title{tsrFind
 Finds TSRs from a given chromosome}
 \usage{
-tsrFind(expName, tssNum, nTSSs, clustDist, writeTable)
+tsrFind(expName, tssNum, nTSSs, clustDist, setToCluster, writeTable)
 }
 \arguments{
-\item{expName}{an object of tssExp format containing information in slot tssData}
+\item{expName}{- a S4 object of class tssExp containing information in slot tssData}
 
-\item{tssNum}{the number of the dataset to be analyzed}
+\item{tssNum}{- number of the dataset to be analyzed}
 
-\item{nTSSs}{the number of TSSs required at a given position}
+\item{nTSSs}{- number of TSSs required at a given position}
 
-\item{clustDist}{the maximum distance of TSSs between two TSRs (in base pairs)}
+\item{clustDist}{- maximum distance of TSSs between two TSRs (in base pairs)}
+
+\item{setToCluster}{- specifies the set to be clustered. Options are "replicates" or "merged".}
+
+\item{writeTable}{- specifies whether the output should be written to a table. (logical)}
 }
 \value{
 creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssExp object

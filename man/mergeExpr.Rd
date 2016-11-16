@@ -7,7 +7,7 @@
 mergeExpr(expName)
 }
 \arguments{
-\item{expName}{an S4 object of class tssExp that contains information about the experiment.}
+\item{expName}{- an S4 object of class tssExp that contains information about the experiment.}
 }
 \value{
 expData datasets will be merged (according to the sampleIDs) and assigned to your tssExp object

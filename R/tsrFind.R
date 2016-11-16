@@ -4,12 +4,14 @@
 #' @param tssNum - number of the dataset to be analyzed
 #' @param nTSSs - number of TSSs required at a given position
 #' @param clustDist - maximum distance of TSSs between two TSRs (in base pairs)
+#' @param setToCluster - specifies the set to be clustered. Options are "replicates" or "merged".
+#' @param writeTable - specifies whether the output should be written to a table. (logical)
 #' @return creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssExp object
 #' @export 
 
 setGeneric(
            name="tsrFind",
-           def=function(expName, tssNum, nTSSs, clustDist, setToCluster, writeTable) {
+           def=function(expName, tssNum=1, nTSSs, clustDist, setToCluster, writeTable=FALSE) {
                standardGeneric("tsrFind")
     }
     )
@@ -17,7 +19,7 @@ setGeneric(
 setMethod("tsrFind",
           signature(expName="tssExp", "numeric", "numeric", "numeric", "character", "logical"),
 
-          function(expName, tssNum, nTSSs, clustDist, setToCluster, writeTable) {
+          function(expName, tssNum, nTSSs=1, clustDist, setToCluster, writeTable=FALSE) {
              object.name <- deparse(substitute(expName))
 
               if (setToCluster=="replicates") {
@@ -48,11 +50,14 @@ setMethod("tsrFind",
                       stop("The @expDataMerged slot is currently empty. Please complete the merger before continuing.")
                   }
 
+                print("entered merged")
+
                   tsr.list <- vector(mode="list") 
                   for (i in 1:length(expName@expDataMerged)) {
+                      print(i)
                       tss.mat <- expName@expDataMerged[[i]]
                       my.tsr <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
-                      tsr.DF <- tsrToDF(tsr.list)
+                      tsr.DF <- tsrToDF(my.tsr)
                       tsr.list[[i]] <- tsr.DF
 
                        if (writeTable=="TRUE") {
