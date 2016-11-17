@@ -40,7 +40,7 @@ setMethod("tsrFind",
                      message("\nThe TSR set for TSS dataset ", tssNum, " has been written to file ", df.name, "\nin your working directory.")
                  }
 
-                 expName@tsrData <- tsr.DF
+                 expName@tsrData[[tssNum]] <- tsr.DF
                  cat("\n... the TSR data frame for dataset ", tssNum, " has been successfully added to\ntssExp object \"", object.name, "\"\n")
               }
 
