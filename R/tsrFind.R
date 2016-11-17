@@ -32,6 +32,9 @@ setMethod("tsrFind",
                  tss.mat <- expName@expData[[tssNum]]
                  tsr.list <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
                  tsr.DF <- tsrToDF(tsr.list)
+                 exp.len <- length(expName@expData)
+                 rep.list <- vector(mode="list", length=exp.len)
+                 expName@tsrData <- rep.list
 
                  if (writeTable=="TRUE") {
                      df.name <- paste("TSRset-", tssNum, sep="")
