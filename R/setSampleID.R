@@ -15,9 +15,10 @@ setGeneric(
 setMethod("setSampleID",
           signature(expName="tssExp", sample.names="character", replicate.IDs="numeric"),
           function(expName, sample.names, replicate.IDs) {
-              expName.chr <- deparse(substitute(expName))
+              object.name <- deparse(substitute(expName))
               exp.len <- length(expName@fileNames)
               
+              message("... setSampleID ...")
               if (exp.len!=length(sample.names) || exp.len!=length(replicate.IDs)) {
                   stop("\nThe number of sample names and replicate IDs must be equal to the number of file names in your tssExp object.")
               }
@@ -34,9 +35,10 @@ setMethod("setSampleID",
               expName@sampleNames <- sample.names
               expName@replicateIDs <- replicate.IDs
 
-              message("\nNames and replicate IDs were successfully assigned to your tssExp object.\n")
-              
-              assign(expName.chr, expName, parent.frame()) 
-            
+              cat("\nNames and replicate IDs were successfully assigned to tssExp\nobject \"", object.name, "\".\n\n")
+
+              cat("--------------------------------------------------------------------------------\n")
+              assign(object.name, expName, parent.frame()) 
+              message(" Done.\n")
           }
           )
