@@ -22,43 +22,41 @@ setMethod("tsrFind",
           function(expName, tssNum, nTSSs=1, clustDist, setToCluster, writeTable=FALSE) {
              object.name <- deparse(substitute(expName))
 
-              if (setToCluster=="replicates") {
-                  message("... tsrFind ...")
-                  if (tssNum>length(expName@expData)) {
-                      stop("The value selected for tssNum exceeds the number of slots in tssData.")
+             message("... tsrFind ...")
+             if (setToCluster=="replicates") {
+                 message("... tsrFind ...")
+                 if (tssNum>length(expName@expData)) {
+                     stop("The value selected for tssNum exceeds the number of slots in tssData.")
+                 }
+
+                 tss.mat <- expName@expData[[tssNum]]
+                 tsr.list <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
+                 tsr.DF <- tsrToDF(tsr.list)
+
+                 if (writeTable=="TRUE") {
+                     df.name <- paste("TSRset-", tssNum, sep="")
+                     df.name <- paste(df.name, "txt", sep=".")
+                     write.table(tsr.DF, file=df.name, col.names=FALSE, row.names=FALSE, sep="\t", quote=FALSE)
+                     message("\nThe TSR set for TSS dataset ", tssNum, " has been written to file ", df.name, "\nin your working directory.")
+                 }
+
+                 expName@tsrData <- tsr.DF
+                 cat("\n... the TSR data frame for dataset ", tssNum, " has been successfully added to\ntssExp object \"", object.name, "\"\n")
               }
 
-             tss.mat <- expName@expData[[tssNum]]
-             tsr.list <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
-             tsr.DF <- tsrToDF(tsr.list)
-
-                  if (writeTable=="TRUE") {
-                      df.name <- paste("TSRset-", tssNum, sep="")
-                      df.name <- paste(df.name, "txt", sep=".")
-                      write.table(tsr.DF, file=df.name, col.names=FALSE, row.names=FALSE, sep="\t", quote=FALSE)
-                      message("\nThe TSR set for TSS dataset ", tssNum, " has been written to file ", df.name, "\nin your working directory.")
-                  }
-
-                  expName@tsrData[[tssNum]] <- tsr.DF
-                  cat("\n... the TSR data frame for dataset ", tssNum, " has been successfully added to\ntssExp object \"", object.name, "\"\n")
-                  cat("--------------------------------------------------------------------------------\n")
-                  assign(object.name, expName, envir = parent.frame())              
-              }
-
-              if (setToCluster=="merged") {
-                if (length(expName@expDataMerged)<1) {
+              else if (setToCluster=="merged") {
+                  if (length(expName@expDataMerged)<1) {
                       stop("The @expDataMerged slot is currently empty. Please complete the merger before continuing.")
                   }
 
                   tsr.list <- vector(mode="list") 
                   for (i in 1:length(expName@expDataMerged)) {
-                      print(i)
                       tss.mat <- expName@expDataMerged[[i]]
                       my.tsr <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)
                       tsr.DF <- tsrToDF(my.tsr)
                       tsr.list[[i]] <- tsr.DF
 
-                       if (writeTable=="TRUE") {
+                      if (writeTable=="TRUE") {
                           df.name <- paste("TSRsetMerged-", i, sep="")
                           df.name <- paste(df.name, "txt", sep=".")
                           write.table(tsr.DF, file=df.name, col.names=FALSE, row.names=FALSE, sep="\t", quote=FALSE)
@@ -68,9 +66,12 @@ setMethod("tsrFind",
 
                   expName@tsrDataMerged <- tsr.list
                   cat("\n... merged TSR data frames have been successfully added to\ntssExp object \"", object.name, "\"\n")
-                  cat("--------------------------------------------------------------------------------\n")
-                  assign(object.name, expName, envir = parent.frame())
-            }
-                  message(" Done.\n")
               }
+              else {
+                  stop("Error: argument setToCluster to tsrFind() should be either \"replicates\" or \"merged\".")
+              }
+              cat("--------------------------------------------------------------------------------\n")
+              assign(object.name, expName, envir = parent.frame())
+              message(" Done.\n")
+          }
           )
