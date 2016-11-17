@@ -39,7 +39,7 @@ setMethod("tsrFind",
                       message("\nThe TSR set for TSS dataset ", tssNum, " has been written to file ", df.name, "\nin your working directory.")
                   }
 
-                  expName@tsrData <- tsr.DF
+                  expName@tsrData[[tssNum]] <- tsr.DF
                   cat("\n... the TSR data frame for dataset ", tssNum, " has been successfully added to\ntssExp object \"", object.name, "\"\n")
                   cat("--------------------------------------------------------------------------------\n")
                   assign(object.name, expName, envir = parent.frame())              
@@ -49,8 +49,6 @@ setMethod("tsrFind",
                 if (length(expName@expDataMerged)<1) {
                       stop("The @expDataMerged slot is currently empty. Please complete the merger before continuing.")
                   }
-
-                print("entered merged")
 
                   tsr.list <- vector(mode="list") 
                   for (i in 1:length(expName@expDataMerged)) {
