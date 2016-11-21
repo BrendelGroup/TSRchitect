@@ -1,6 +1,46 @@
-# Internal function for tsrchitect. Calculates the shape index of the TSR as per Hoskins et al., 2011 and Raborn et al., 2016.
+#' An internal function that extracts the values from the output returned from tsrCluster
+#' @export
 
-.shape.index <- function(x) {
+countsToVector <- function(x) {
+    coord.vec <- x[1,]
+    count.vec <- x[2,]
+    rep.vec  <- vector(mode="numeric", length=0)
+    
+    for (i in 1:length(count.vec)) {
+        count.vec[i] -> this.count
+        coord.vec[i] -> this.coord
+        rep(this.coord, this.count) -> this.vec
+        c(rep.vec, this.vec) -> rep.vec
+        }
+
+    names(rep.vec) <- NULL
+    return(rep.vec)
+}
+
+#' An internal function that caculates the total number of counts associated with a given TSR
+#' @export
+
+tsrCounts <- function(x) {
+    count.vec <- x[2,]
+    my.sum <- sum(count.vec)
+    return(my.sum)
+}
+
+#' An internal function that caculates the width of a given TSR from the output of tsrCluster
+#' @export
+
+tsrWidth <- function(x) {
+    coord.vec <- x[1,]
+    my.range <- range(coord.vec)
+    my.width <- abs(my.range[2]-my.range[1])
+    my.width <- my.width+1 #the minimum width possible is 1, not 0
+    return(my.width)
+}
+
+#' An internal function that caculates the shape index (SI) of a given TSR from the output of tsrCluster
+#' @export
+
+shapeIndex <- function(x) {
         total.size <- length(x)
         unique.tss <- unique(x)
         n.unique.tss <- length(unique.tss)
