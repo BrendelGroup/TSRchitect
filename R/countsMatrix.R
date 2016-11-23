@@ -30,7 +30,8 @@ setMethod("countsMatrix",
                   tssExpr(expName, i, FALSE)
                   expName@expData[[i]] -> my.exp
                   my.exp -> tss.list[[i]]
-                  paste(as.character(my.exp$chr), my.exp$CTSS, my.exp$strand, sep="-") -> these.names
+                  paste(as.character(my.exp$chr), my.exp$CTSS, sep="-") -> my.names
+                  paste(my.names, my.exp$strand, sep="_") -> these.names
                   c(names.vec, these.names) -> names.vec
               }
                   ctss.names <- unique(names.vec)
@@ -40,7 +41,8 @@ setMethod("countsMatrix",
                   rownames(last.matrix) <- names.sorted
               for (j in 1:n.slots) {
                   tss.list[[j]] -> this.exp
-                  paste(as.character(this.exp$chr), this.exp$CTSS, this.exp$strand, sep="-") -> exp.names
+                  paste(as.character(this.exp$chr), this.exp$CTSS, sep="-") -> exp.names.i
+                  paste(exp.names.i, this.exp$strand, sep="_") -> exp.names
                   for (l in 1:length(ctss.names)) {
                       names.sorted[l] -> one.name
                       which(exp.names==one.name) -> this.ind #getting the index in the table so I can retrieve the counts info
@@ -57,8 +59,10 @@ setMethod("countsMatrix",
                   }
               }
                   last.frame <- as.data.frame(last.matrix) 
+                  colnames(last.frame) <- expName@sampleNames
                   expName@countsData <- last.frame
-                  cat("\nTSS abundance data was successfully added to your tssExp object.\n")
+                  cat("Done. TSS abundance data was successfully added to your tssExp \nobject \"", object.name,"\".\n")
                   assign(object.name, expName, envir = parent.frame())              
+                  message(" Done.\n")
           }
           )

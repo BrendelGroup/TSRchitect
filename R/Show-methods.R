@@ -10,7 +10,7 @@ setMethod("show",
               cat("Title of experiment:", object@title,"\n\n")
               cat("The TSS data were specified to be \"", object@dataType, "\"\n")
               if (length(object@fileNames) > 0) {
-                  cat("and to be contained in the following files:\n")
+                  cat("and are located in the following files:\n")
                   for (i in 1:length(object@fileNames)) {
                       cat(paste(object@fileNames[i]),sep="\n")
                   }
@@ -19,9 +19,10 @@ setMethod("show",
                   stop("\nNo *.bam files were found.  Please check.\n")
               }
               if (length(object@tssData) > 0) {
+                  expName <- deparse(substitute(object))
                   cat("\n")
                   cat(length(object@tssData))
-                  cat(" tss datasets were loaded into the tssExp object \"", deparse(substitute(object)), "\".\n")
+                  cat(" TSS datasets were loaded into the tssExp object \"", expName, "\".\n")
               }
               else {
                   cat("\nNo tss data have been loaded.\n")

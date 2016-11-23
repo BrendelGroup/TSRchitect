@@ -41,8 +41,8 @@ setMethod("mergeTSS",
                   which(rep.ids==sample.num) -> my.ind
                   tss.data[my.ind] -> replicate.set
                   for (j in 1:length(replicate.set)) {
-#                     GRanges(seqnames=Rle(), ranges=NULL, strand=NULL, seqLengths=NULL, seqinfo=NULL) -> gr.set
-                      GRanges(seqnames=NULL, ranges=NULL, strand=NULL, seqLengths=NULL, seqinfo=NULL) -> gr.set
+                      GRanges(seqnames=Rle(), ranges=NULL, strand=NULL, seqLengths=NULL, seqinfo=NULL) -> gr.set
+#                     GRanges(seqnames=NULL, ranges=NULL, strand=NULL, seqLengths=NULL, seqinfo=NULL) -> gr.set
                       replicate.set[[j]] -> this.gr
                       c(gr.set, this.gr) -> gr.set
                   }

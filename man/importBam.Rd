@@ -10,7 +10,7 @@ importBam(expName)
 \item{expName}{- a S4 object of class tssExp that contains information about the experiment}
 }
 \value{
-bam data from the tss profiling experiments assigned to your tssExp object
+alignment data (in BAM format) from the tss profiling experiments assigned to your tssExp object
 }
 \description{
 Computes TSS positions from all bam files and loads them into a tssExp object

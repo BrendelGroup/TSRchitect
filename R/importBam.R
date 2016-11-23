@@ -3,7 +3,7 @@
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
-#' @return bam data from the tss profiling experiments assigned to your tssExp object
+#' @return alignment data (in BAM format) from the tss profiling experiments assigned to your tssExp object
 #' @export 
 
 setGeneric(

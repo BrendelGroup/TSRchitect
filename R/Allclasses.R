@@ -11,9 +11,9 @@ setClass(Class="tssExp",
              expData = "list",
              expDataMerged = "list",
              countsData = "data.frame",
-             countsDataMerged = "data.frame",
              tsrData = "list",
-             tsrDataMerged = "list"
+             tsrDataMerged = "list",
+             tsrCounts = "data.frame"
              ),
          prototype(
              title = NA_character_,
@@ -27,8 +27,8 @@ setClass(Class="tssExp",
              expData = list(),
              expDataMerged = list(),
              countsData = data.frame(),
-             countsDataMerged = data.frame(),
              tsrData = list(),
-             tsrDataMerged = list()
+             tsrDataMerged = list(),
+             tsrCounts = data.frame()
              ),
          )
