@@ -180,6 +180,13 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
                  if (tss.dist < minDist) {
                      c(my.ctss,ctss.2) -> my.ctss
                      c(my.count, ctss.2.count) -> my.count
+                     if (i == my.len-1) {	# wrapping up the last TSR
+                         j + 1 -> j 
+                         rbind(my.ctss, my.count) -> combined.ctss
+                         c("coordinate","count") -> rownames(combined.ctss)
+                         (1:ncol(combined.ctss)) -> colnames(combined.ctss)
+                         combined.ctss -> ctss.list.p[[j]]
+                     }
                      next
                  }
                  else {
@@ -206,16 +213,24 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
      nrow(sCTSS.m) -> my.len
      vector(mode="list") -> ctss.list.m
      as.numeric(sCTSS.m[1,2]) -> my.ctss
+     as.numeric(sCTSS.m[1,3]) -> my.count
      0 -> j
          for (i in 1:(my.len-1)) {
             as.numeric(as.character(sCTSS.m[i,2])) -> ctss.1 
             as.numeric(as.character(sCTSS.m[i,3])) -> ctss.1.count
             as.numeric(as.character(sCTSS.m[(i+1),2])) -> ctss.2
-            as.numeric(as.character(sCTSS.m[i,3])) -> ctss.2.count
+            as.numeric(as.character(sCTSS.m[(i+1),3])) -> ctss.2.count
             abs(ctss.2-ctss.1) -> tss.dist
                  if (tss.dist < minDist) {
                      c(my.ctss,ctss.2) -> my.ctss
                      c(my.count, ctss.2.count) -> my.count
+                     if (i == my.len-1) {	# wrapping up the last TSR
+                         j + 1 -> j 
+                         rbind(my.ctss, my.count) -> combined.ctss
+                         c("coordinate","count") -> rownames(combined.ctss)
+                         (1:ncol(combined.ctss)) -> colnames(combined.ctss)
+                         combined.ctss -> ctss.list.m[[j]]
+                     }
                      next
                  }
                  else {
@@ -241,4 +256,3 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
      names(overall.list) <- uni.chr
      return(overall.list)
  }
-
