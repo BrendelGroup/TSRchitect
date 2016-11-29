@@ -14,6 +14,7 @@ setClass(Class="tssExp",
              tsrData = "list",
              tsrDataMerged = "list",
              tsrCounts = "data.frame"
+             consensusTSRs = "data.frame"
              ),
          prototype(
              title = NA_character_,
@@ -30,5 +31,6 @@ setClass(Class="tssExp",
              tsrData = list(),
              tsrDataMerged = list(),
              tsrCounts = data.frame()
+             consensusTSRs = data.frame()
              ),
          )
