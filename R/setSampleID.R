@@ -34,6 +34,9 @@ setMethod("setSampleID",
 
               expName@sampleNames <- sample.names
               expName@replicateIDs <- replicate.IDs
+              exp.len <- length(replicate.IDs)
+              rep.list <- vector(mode="list", length=exp.len)
+              expName@tsrData <- rep.list
 
               cat("\nNames and replicate IDs were successfully assigned to tssExp\nobject \"", object.name, "\".\n\n")
 

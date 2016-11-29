@@ -198,7 +198,6 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
          }
          names.vec -> names(ctss.list.p)
          
-
          #... clustering TSS on the minus strand:
 
          subset(sCTSS, strand=="-") -> sCTSS.m
@@ -246,7 +245,7 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
          list(plus=ctss.list.p, minus=ctss.list.m) -> ctss.list
          ctss.list -> overall.list[[l]]
          
-     }	#by chromosome for-loop end
+     }	#end of by chromosome for-loop
 
      names(overall.list) <- uni.chr
      return(overall.list)
