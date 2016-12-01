@@ -13,7 +13,7 @@ setClass(Class="tssExp",
              countsData = "data.frame",
              tsrData = "list",
              tsrDataMerged = "list",
-             tsrCounts = "data.frame"
+             tsrCounts = "data.frame",
              consensusTSRs = "data.frame"
              ),
          prototype(
@@ -30,7 +30,7 @@ setClass(Class="tssExp",
              countsData = data.frame(),
              tsrData = list(),
              tsrDataMerged = list(),
-             tsrCounts = data.frame()
+             tsrCounts = data.frame(),
              consensusTSRs = data.frame()
              ),
          )
