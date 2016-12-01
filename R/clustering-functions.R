@@ -87,38 +87,59 @@ setMethod("acquireTSS",
 #' @export
 
 expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
-        #starting with the plus strand
         n.chr <- length(names(x)) # how many chromosomes are there in the TSS list?
         uni.chr <- unique(names(x))
         uni.chr <- mixedsort(uni.chr)
 
         for (i in 1:n.chr) {
             uni.chr[i] -> this.chr
+
+            #starting with the plus strand:
             tss.vec <- x[[i]]$plus
             my.CTSSs <- unique(tss.vec)
             my.matrix.p <- matrix(NA, nrow=(length(my.CTSSs)), ncol=4)
 
-            for (j in 1:length(my.CTSSs)) {
-                my.CTSSs[j] -> this.TSS
-                which(tss.vec==this.TSS) -> my.ind
-                length(my.ind) -> n.TSSs
-                c(this.chr, this.TSS, n.TSSs,"+") -> my.matrix.p[j,]
+            tss.vec[1] -> this.TSS
+            1 -> n.TSSs
+            0 -> k
+            for (j in 2:length(tss.vec)) {
+                if (tss.vec[j] == this.TSS) {
+                    n.TSSs + 1 -> n.TSSs
+                }
+                else {
+                    k + 1 -> k
+                    c(this.chr, this.TSS, n.TSSs,"+") -> my.matrix.p[k,]
+                    tss.vec[j] -> this.TSS
+                    1 -> n.TSSs
+                }
             }
+            k + 1 -> k
+            c(this.chr, this.TSS, n.TSSs,"+") -> my.matrix.p[k,]
 
-            #now for the minus strand
+            #now for the minus strand:
             tss.vec <- x[[i]]$minus
             my.CTSSs <- unique(tss.vec)
-            my.CTSSs <- sort(my.CTSSs)
             my.matrix.m <- matrix(NA, nrow=(length(my.CTSSs)), ncol=4)
 
-            for (j in 1:length(my.CTSSs)) {
-                my.CTSSs[j] -> this.TSS
-                which(tss.vec==this.TSS) -> my.ind
-                length(my.ind) -> n.TSSs
-                c(this.chr, this.TSS, n.TSSs, "-") -> my.matrix.m[j,]
+            tss.vec[1] -> this.TSS
+            1 -> n.TSSs
+            0 -> k
+            for (j in 2:length(tss.vec)) {
+                if (tss.vec[j] == this.TSS) {
+                    n.TSSs + 1 -> n.TSSs
+                }
+                else {
+                    k + 1 -> k
+                    c(this.chr, this.TSS, n.TSSs,"-") -> my.matrix.m[k,]
+                    tss.vec[j] -> this.TSS
+                    1 -> n.TSSs
+                }
             }
+            k + 1 -> k
+            c(this.chr, this.TSS, n.TSSs,"-") -> my.matrix.m[k,]
 
-            my.matrix <- rbind(my.matrix.p, my.matrix.m) #combining the two matrices
+            #combining the two matrices for plus and minus strand:
+            my.matrix <- rbind(my.matrix.p, my.matrix.m)
         }
         colnames(my.matrix) <- c("chr","CTSS","nTSSs","strand")
         my.df <- as.data.frame(my.matrix)
