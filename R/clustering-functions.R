@@ -1,8 +1,7 @@
 
 #' tssChr (internal function)
 #' Retreives tss data from a given experiment by chromosome.
-#' @param expName an object of class tssExp containing the tss data
-#' @param tssNum the slot number of the tss data to be clustered
+#' @param tssObj an object of class GRanges containing data from a slot of tssData
 #' @param chrName the name of the chromosome to select
 #' @return a list object containing TSS data for a single chromosome (plus and minus strands)
 #' @importFrom BiocGenerics strand start
@@ -11,37 +10,33 @@
 
 setGeneric(
            name="tssChr",
-           def=function(expName, tssNum, chrName) {
+           def=function(tssObj, chrName) {
                standardGeneric("tssChr")
     }
     )
 
 setMethod("tssChr",
-          signature(expName="tssExp", tssNum="numeric", chrName="character"),
-          function(expName, tssNum, chrName) {
-              if (tssNum>length(expName@tssData)) {
-                  stop("The value selected exceeds the number of slots in tssData.")
-              }
-              this.tss <- expName@tssData[[tssNum]]
-              uni.chr <- as.character(unique(seqnames(this.tss)))
+          signature(tssObj="GRanges", chrName="character"),
+          function(tssObj, chrName) {
+              uni.chr <- as.character(unique(seqnames(tssObj)))
               chr.list <- new("list", plus=numeric(0), minus=numeric(0))
               match_string <- match(chrName, uni.chr)
               if (is.na(match_string)) {
                   stop("The chromosome you selected doesn't exist.")
               }
-                  this.chr <- uni.chr[uni.chr==chrName]
-                  #message("\n Extracting tss data from ", this.chr, ".")
-                  tss.total <- this.tss[seqnames(this.tss)==this.chr,]
-                  # starting with the TSSs on the plus strand
-                  tss.plus <- tss.total[strand(tss.total)=="+",]
-                  tss.plus.vec <- start(tss.plus)
-                  chr.list$plus <- tss.plus.vec
-                  # now for the TSSs on the minus strand
-                  tss.minus <- tss.total[strand(tss.total)=="-",]
-                  tss.minus.vec <- start(tss.minus)
-                  chr.list$minus <- tss.minus.vec
-                  tss.total <- NULL
-                  return(chr.list)
+              this.chr <- uni.chr[uni.chr==chrName]
+              #message("\n Extracting tss data from ", this.chr, ".")
+              tss.total <- tssObj[seqnames(tssObj)==this.chr,]
+              # starting with the TSSs on the plus strand
+              tss.plus <- tss.total[as.character(strand(tss.total))=="+",]
+              tss.plus.vec <- start(tss.plus)
+              chr.list$plus <- tss.plus.vec
+              # now for the TSSs on the minus strand
+              tss.minus <- tss.total[as.character(strand(tss.total))=="-",]
+              tss.minus.vec <- start(tss.minus)
+              chr.list$minus <- tss.minus.vec
+              tss.total <- NULL
+              return(chr.list)
           }
           )
 
@@ -65,14 +60,15 @@ setGeneric(
 setMethod("acquireTSS",
           signature(expName="tssExp", tssNum="numeric"),
           function(expName, tssNum) {
-              this.tss <- expName@tssData[[tssNum]]
-              uni.chr <- as.character(unique(seqnames(this.tss)))
+              tss.obj <- expName@tssData[[tssNum]]
+              print(tss.obj)
+              uni.chr <- as.character(unique(seqnames(tss.obj)))
               uni.chr <- mixedsort(uni.chr)
               n.chr <- length(uni.chr)
               tss.list <- new("list")
               for (i in 1:n.chr) {
-                  uni.chr[i] -> chrName
-                  tssChr(expName, tssNum, chrName) -> tss.out
+                  as.character(uni.chr[i]) -> chrName
+                  tssChr(tssObj=tss.obj, chrName) -> tss.out ##
                   tss.out -> tss.list[[chrName]]
                   }
             names(tss.list) <- uni.chr
