@@ -27,5 +27,7 @@ setMethod("show",
               else {
                   cat("\nNo tss data have been loaded.\n")
               }
+### enter more show components here
+              #######
           }
           )
