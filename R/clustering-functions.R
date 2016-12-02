@@ -100,7 +100,6 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
             0 -> k
             for (j in 2:length(tss.vec)) {
                 if (tss.vec[j] == this.TSS) {
-                    print(n.TSSs)
                     n.TSSs + 1 -> n.TSSs
                 }
                 else {
@@ -114,6 +113,7 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
             c(this.chr, this.TSS, n.TSSs,"+") -> my.matrix.p[k,]
         }
             else {
+                print(i)
                 next
             }
 
@@ -128,7 +128,6 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
             0 -> k
             for (j in 2:length(tss.vec)) {
                 if (tss.vec[j] == this.TSS) {
-                    print(n.TSSs)
                     n.TSSs + 1 -> n.TSSs
                 }
                 else {
@@ -142,6 +141,7 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
             c(this.chr, this.TSS, n.TSSs,"-") -> my.matrix.m[k,]
         }
             else {
+                print(i)
                 next
             }
 
