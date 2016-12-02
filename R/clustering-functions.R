@@ -61,7 +61,6 @@ setMethod("acquireTSS",
           signature(expName="tssExp", tssNum="numeric"),
           function(expName, tssNum) {
               tss.obj <- expName@tssData[[tssNum]]
-              print(tss.obj)
               uni.chr <- as.character(unique(seqnames(tss.obj)))
               uni.chr <- mixedsort(uni.chr)
               n.chr <- length(uni.chr)
@@ -92,6 +91,7 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
 
             #starting with the plus strand:
             tss.vec <- x[[i]]$plus
+            if (length(tss.vec)>=3) {
             my.CTSSs <- unique(tss.vec)
             my.matrix.p <- matrix(NA, nrow=(length(my.CTSSs)), ncol=4)
 
@@ -100,6 +100,7 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
             0 -> k
             for (j in 2:length(tss.vec)) {
                 if (tss.vec[j] == this.TSS) {
+                    print(n.TSSs)
                     n.TSSs + 1 -> n.TSSs
                 }
                 else {
@@ -111,9 +112,14 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
             }
             k + 1 -> k
             c(this.chr, this.TSS, n.TSSs,"+") -> my.matrix.p[k,]
+        }
+            else {
+                next
+            }
 
             #now for the minus strand:
             tss.vec <- x[[i]]$minus
+            if (length(tss.vec)>=3) {
             my.CTSSs <- unique(tss.vec)
             my.matrix.m <- matrix(NA, nrow=(length(my.CTSSs)), ncol=4)
 
@@ -122,6 +128,7 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
             0 -> k
             for (j in 2:length(tss.vec)) {
                 if (tss.vec[j] == this.TSS) {
+                    print(n.TSSs)
                     n.TSSs + 1 -> n.TSSs
                 }
                 else {
@@ -133,6 +140,10 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
             }
             k + 1 -> k
             c(this.chr, this.TSS, n.TSSs,"-") -> my.matrix.m[k,]
+        }
+            else {
+                next
+            }
 
             #combining the two matrices for plus and minus strand:
             my.matrix <- rbind(my.matrix.p, my.matrix.m)
