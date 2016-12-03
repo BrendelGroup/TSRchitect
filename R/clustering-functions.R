@@ -1,4 +1,4 @@
-
+   
 #' tssChr (internal function)
 #' Retreives tss data from a given experiment by chromosome.
 #' @param tssObj an object of class GRanges containing data from a slot of tssData
@@ -61,7 +61,6 @@ setMethod("acquireTSS",
           signature(expName="tssExp", tssNum="numeric"),
           function(expName, tssNum) {
               tss.obj <- expName@tssData[[tssNum]]
-              print(tss.obj)
               uni.chr <- as.character(unique(seqnames(tss.obj)))
               uni.chr <- mixedsort(uni.chr)
               n.chr <- length(uni.chr)
@@ -86,12 +85,14 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
         n.chr <- length(names(x)) # how many chromosomes are there in the TSS list?
         uni.chr <- unique(names(x))
         uni.chr <- mixedsort(uni.chr)
-
+        my.matrix <- matrix(NA, nrow=1, ncol=4)
+        
         for (i in 1:n.chr) {
             uni.chr[i] -> this.chr
 
             #starting with the plus strand:
             tss.vec <- x[[i]]$plus
+            if (length(tss.vec)>=3) {
             my.CTSSs <- unique(tss.vec)
             my.matrix.p <- matrix(NA, nrow=(length(my.CTSSs)), ncol=4)
 
@@ -111,9 +112,14 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
             }
             k + 1 -> k
             c(this.chr, this.TSS, n.TSSs,"+") -> my.matrix.p[k,]
+        }
+            else {
+                next
+            }
 
             #now for the minus strand:
             tss.vec <- x[[i]]$minus
+            if (length(tss.vec)>=3) {
             my.CTSSs <- unique(tss.vec)
             my.matrix.m <- matrix(NA, nrow=(length(my.CTSSs)), ncol=4)
 
@@ -133,10 +139,17 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
             }
             k + 1 -> k
             c(this.chr, this.TSS, n.TSSs,"-") -> my.matrix.m[k,]
+        }
+            else {
+                print(i)
+                next
+            }
 
             #combining the two matrices for plus and minus strand:
-            my.matrix <- rbind(my.matrix.p, my.matrix.m)
+            this.matrix <- rbind(my.matrix.p, my.matrix.m)
+            my.matrix <- rbind(my.matrix, this.matrix)
         }
+        my.matrix <- my.matrix[-1,] #removing the first row, which contains only NAs (used to seed my.matrix)
         colnames(my.matrix) <- c("chr","CTSS","nTSSs","strand")
         my.df <- as.data.frame(my.matrix)
         my.df$CTSS <- as.numeric(as.character(my.df$CTSS))
@@ -149,7 +162,6 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
 
         return(my.df)
         }
-
             
 ##############################################################################################
 #' tsrCluster
