@@ -3,7 +3,7 @@
 #' @param sample.names unique labels (of class character) for each TSS sample within the experiment
 #' @param replicate.IDs identifiers indicating which samples are biological replicates
 #' @return names and replicate information for experimental samples assigned to your tssExp object
-#' @export 
+#' @export
 
 setGeneric(
     name="setSampleID",
@@ -17,7 +17,7 @@ setMethod("setSampleID",
           function(expName, sample.names, replicate.IDs) {
               object.name <- deparse(substitute(expName))
               exp.len <- length(expName@fileNames)
-              
+
               message("... setSampleID ...")
               if (exp.len!=length(sample.names) || exp.len!=length(replicate.IDs)) {
                   stop("\nThe number of sample names and replicate IDs must be equal to the number of file names in your tssExp object.")
@@ -41,7 +41,7 @@ setMethod("setSampleID",
               cat("\nNames and replicate IDs were successfully assigned to tssExp\nobject \"", object.name, "\".\n\n")
 
               cat("--------------------------------------------------------------------------------\n")
-              assign(object.name, expName, parent.frame()) 
+              assign(object.name, expName, parent.frame())
               message(" Done.\n")
           }
           )

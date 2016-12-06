@@ -1,7 +1,7 @@
 #' Generates a set of consensus TSRs from all conditions within the experiments loaded
 #' @param expName - a S4 object of class tssExp that contains information about the experiment
 #' @return a data frame of TSRs from all conditions
-#' @export 
+#' @export
 
 setGeneric(
     name="consensusTSRs",

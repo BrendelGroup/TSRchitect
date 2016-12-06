@@ -5,7 +5,7 @@
 #' @importFrom S4Vectors Rle
 #' @importFrom IRanges IRanges
 #' @return merged tss profiling experiments according to their assigned sampleIDs to your tssExp object
-#' @export 
+#' @export
 
 setGeneric(
     name="mergeTSS",
@@ -35,7 +35,7 @@ setMethod("mergeTSS",
               uni.ids <- unique(rep.ids)
               tss.data <- expName@tssData
               gr.list <- GRangesList()
-              
+
               for (i in seq_along(uni.ids)) {
                   i -> sample.num
                   which(rep.ids==sample.num) -> my.ind
@@ -49,7 +49,7 @@ setMethod("mergeTSS",
                   gr.set -> gr.list[[i]]
               }
 
-              expName@tssDataMerged <- gr.list 
+              expName@tssDataMerged <- gr.list
               message("\nTSS data has been merged and assigned to your tssExp object.\n")
               assign(expName.chr, expName, envir = parent.frame())
           }

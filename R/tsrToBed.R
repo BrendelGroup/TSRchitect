@@ -46,7 +46,7 @@ setMethod("tsrToBed",
               new.df <- cbind(tsr.mat[,1], tsr.coord, c("."), c("."), tsr.mat[,3])
 
               colnames(new.df) <- c("chr", "start", "end", "ID", "score", "strand")
-              
+
               df.out <- as.data.frame(new.df)
 
               if (writeBed==TRUE) {
@@ -55,6 +55,6 @@ setMethod("tsrToBed",
               }
 
               return(df.out)
-              
+
           }
           )

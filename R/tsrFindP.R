@@ -10,13 +10,13 @@
 #' @export
 
 setGeneric(
-           name="tsrFind",
+           name="tsrFindP",
            def=function(expName, tssNum=1, nTSSs, clustDist, setToCluster, writeTable=FALSE) {
-               standardGeneric("tsrFind")
+               standardGeneric("tsrFindP")
     }
     )
 
-setMethod("tsrFind",
+setMethod("tsrFindP",
           signature(expName="tssExp", "numeric", "numeric", "numeric", "character", "logical"),
 
           function(expName, tssNum, nTSSs=1, clustDist, setToCluster, writeTable=FALSE) {
@@ -39,8 +39,9 @@ setMethod("tsrFind",
                      message("\nThe TSR set for TSS dataset ", tssNum, " has been written to file ", df.name, "\nin your working directory.")
                  }
 
-                 expName@tsrData[[tssNum]] <- tsr.DF
+#                expName@tsrData[[tssNum]] <- tsr.DF
                  cat("\n... the TSR data frame for dataset ", tssNum, " has been successfully added to\ntssExp object \"", object.name, "\"\n")
+		 return(tsr.DF)
               }
 
               else if (setToCluster=="merged") {

@@ -6,6 +6,11 @@
 #devtools::install_github("brendelgroup/TSRchitect")
 # Loading the TSRchitect library
 library(TSRchitect)
+library(doParallel)
+
+# setting up a cluster of 6 nodes:
+mycl <- makeCluster(6,type="FORK",outfile="")
+registerDoParallel(mycl)
 
 # initializing the tssExp object:
 initializeExp("Example RAMPAGE experiment (Rice)", "riceRAMPAGE", "bam_filtered", isPairedEnd=TRUE)
@@ -19,27 +24,23 @@ importBam(riceRAMPAGE)
 # converting BAM data into TSS information and attaching it to your tssExp object:
 bamToTSS(riceRAMPAGE)
 
-# constructing a tss abundance matrix for the given dataset:
-tssExpr(expName=riceRAMPAGE, tssNum=1, writeTable=FALSE)
-tssExpr(expName=riceRAMPAGE, tssNum=2, writeTable=FALSE)
-tssExpr(expName=riceRAMPAGE, tssNum=3, writeTable=FALSE)
-tssExpr(expName=riceRAMPAGE, tssNum=4, writeTable=FALSE)
-tssExpr(expName=riceRAMPAGE, tssNum=5, writeTable=FALSE)
+# constructing a tss abundance matrix for all datasets in parallel:
+system.time(  riceRAMPAGE@expData <- foreach(i=1:5,.packages="TSRchitect") %dopar% tssExprP(expName = riceRAMPAGE, tssNum = i, writeTable = FALSE)  )
+
+
+system.time(  mytestM@tsrData <- foreach(i=1:5,.packages="TSRchitect") %dopar% tsrFindP(expName = mytestM, tssNum = i, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable = TRUE)  )
+
 
 # finding TSRs for the given dataset:
-tsrFind(expName=riceRAMPAGE, tssNum=1, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable=FALSE)
-tsrFind(expName=riceRAMPAGE, tssNum=2, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable=FALSE)
-tsrFind(expName=riceRAMPAGE, tssNum=3, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable=FALSE)
-tsrFind(expName=riceRAMPAGE, tssNum=4, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable=FALSE)
-tsrFind(expName=riceRAMPAGE, tssNum=5, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable=FALSE)
+system.time(  riceRAMPAGE@tsrData <- foreach(i=1:5,.packages="TSRchitect") %dopar% tsrFindP(expName = riceRAMPAGE, tssNum = i, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable = FALSE)  )
 
-# merging tssData objects according to the replicate info
+# merging tssData objects according to the replicate info:
 mergeTSS(expName=riceRAMPAGE)
 
-# merging exprData objects according to the replicate info
+# merging exprData objects according to the replicate info:
 mergeExpr(expName=riceRAMPAGE)
 
-# finding TSRs from the merged datasets
+# finding TSRs from the merged datasets:
 tsrFind(expName=riceRAMPAGE, tssNum=1, nTSSs=3, clustDist=20, setToCluster="merged", writeTable=FALSE)
 
 ####################################################################################################

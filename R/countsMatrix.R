@@ -2,7 +2,7 @@
 #' @param expName an S4 object of class tssExp that contains information about the experiment (including tssData)
 #' @return Assigns a data frame to the expData slot of your tssExp object
 #' @importFrom gtools mixedsort
-#' @export 
+#' @export
 
 setGeneric(
     name="countsMatrix",
@@ -58,11 +58,11 @@ setMethod("countsMatrix",
                       this.string -> last.matrix[l,j]
                   }
               }
-                  last.frame <- as.data.frame(last.matrix) 
+                  last.frame <- as.data.frame(last.matrix)
                   colnames(last.frame) <- expName@sampleNames
                   expName@countsData <- last.frame
                   cat("Done. TSS abundance data was successfully added to your tssExp \nobject \"", object.name,"\".\n")
-                  assign(object.name, expName, envir = parent.frame())              
+                  assign(object.name, expName, envir = parent.frame())
                   message(" Done.\n")
           }
           )

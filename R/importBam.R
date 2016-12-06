@@ -4,7 +4,7 @@
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
 #' @return alignment data (in BAM format) from the tss profiling experiments assigned to your tssExp object
-#' @export 
+#' @export
 
 setGeneric(
     name="importBam",
@@ -41,7 +41,7 @@ setMethod("importBam",
               expName@bamData <- bams.GA
               cat("Done. Alignment data from ", n.bams, " bam files have been attached to tssExp\nobject \"", expName.chr, "\".\n")
               cat("--------------------------------------------------------------------------------\n")
-              assign(expName.chr, expName, parent.frame()) 
+              assign(expName.chr, expName, parent.frame())
               message(" Done.\n")
           }
           )

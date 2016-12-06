@@ -8,13 +8,13 @@
 #' @export
 
 setGeneric(
-           name="tssExpr",
+           name="tssExprP",
            def=function(expName, tssNum, writeTable) {
-               standardGeneric("tssExpr")
+               standardGeneric("tssExprP")
     }
     )
 
-setMethod("tssExpr",
+setMethod("tssExprP",
           signature(expName="tssExp", "numeric", "logical"),
 
           function(expName, tssNum, writeTable) {
@@ -37,10 +37,9 @@ setMethod("tssExpr",
                   tss.mat <- expressionCTSS(tss, dfName="my.df", writeDF=FALSE)
               }
 
-              expName@expData[[tssNum]] <- tss.mat
               cat("\n... the TSS expression matrix for dataset ", tssNum, " has been successfully added to\ntssExp object \"", object.name, "\"\n")
               cat("--------------------------------------------------------------------------------\n")
-              assign(object.name, expName, envir = parent.frame())
               message(" Done.\n")
+              return(tss.mat)
           }
           )

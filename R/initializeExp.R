@@ -4,7 +4,7 @@
 #' @param expDir      - path to the directory with the alignment files in bam format (character)
 #' @param isPairedEnd - TRUE/FALSE according to whether the TSS profiling experiment was paired-end or not (logical)
 #' @return Creates a tssExp object in the user's current workspace.
-#' @export 
+#' @export
 
 setGeneric(
     name="initializeExp",
@@ -30,7 +30,7 @@ setMethod("initializeExp",
               if (expDir == "") {
                   stop("Argument 'expDir' of initializeExp() is empty.\n  Please supply the name of the directory containing the read alignment files (in .bam format) for this experiment.")
               }
-              
+
               if (isPairedEnd==TRUE) {
                   tssObj@dataType <- c("pairedEnd")
               }
@@ -48,7 +48,7 @@ setMethod("initializeExp",
               tssObj@fileNames <- tss_files
               cat("\nThe tssExp object \"", expName, "\" has been initialized in your workspace.\n")
               cat("--------------------------------------------------------------------------------\n")
-              assign(expName, tssObj, parent.frame()) 
+              assign(expName, tssObj, parent.frame())
               message(" Done.\n")
           }
           )

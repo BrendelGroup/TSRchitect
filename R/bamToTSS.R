@@ -6,7 +6,7 @@
 #' @importFrom BiocGenerics start end
 #' @importFrom GenomeInfoDb sortSeqlevels
 #' @importFrom IRanges IRanges
-#' @export 
+#' @export
 
 setGeneric(
            name="bamToTSS",
@@ -30,7 +30,7 @@ setMethod("bamToTSS",
 
               bam.len <- length(expName@bamData)
               bam.vec <- vector(mode="list", length=bam.len)
-                            
+
               for (i in 1:bam.len) {
                  cat("Retrieving data from bam file #", i, "...\n\n")
                  expName@bamData[[i]] -> bam.data
@@ -54,7 +54,7 @@ setMethod("bamToTSS",
                         c(gr1,gr2) -> gr.combined
                         sortSeqlevels(gr.combined) -> gr.combined
                         sort(gr.combined) -> gr.combined
-                        gr.combined -> bam.vec[[i]] 
+                        gr.combined -> bam.vec[[i]]
               }
 
               GR.list <- GRangesList(bam.vec)
@@ -65,4 +65,4 @@ setMethod("bamToTSS",
               assign(object.name, expName, envir = parent.frame())
               message(" Done.\n")
           }
-          )         
+          )
