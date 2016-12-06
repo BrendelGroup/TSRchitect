@@ -1,4 +1,4 @@
-#' tsrFind
+#' tsrFindP
 #' Finds TSRs from a given chromosome
 #' @param expName - a S4 object of class tssExp containing information in slot tssData
 #' @param tssNum - number of the dataset to be analyzed

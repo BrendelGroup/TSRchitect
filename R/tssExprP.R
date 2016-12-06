@@ -1,4 +1,4 @@
-#' tssExpr
+#' tssExprP
 #' Creates an expression matrix for all TSSs within a given TSS experiment (in tssData)
 #' @param expName - a S4 object of class tssExp containing information in slot tssData
 #' @param tssNum - number of the dataset to be analyzed

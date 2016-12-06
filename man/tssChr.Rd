@@ -5,12 +5,10 @@
 \title{tssChr (internal function)
 Retreives tss data from a given experiment by chromosome.}
 \usage{
-tssChr(expName, tssNum, chrName)
+tssChr(tssObj, chrName)
 }
 \arguments{
-\item{expName}{an object of class tssExp containing the tss data}
-
-\item{tssNum}{the slot number of the tss data to be clustered}
+\item{tssObj}{an object of class GRanges containing data from a slot of tssData}
 
 \item{chrName}{the name of the chromosome to select}
 }
