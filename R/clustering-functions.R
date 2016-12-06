@@ -1,4 +1,3 @@
-   
 #' tssChr (internal function)
 #' Retreives tss data from a given experiment by chromosome.
 #' @param tssObj an object of class GRanges containing data from a slot of tssData
@@ -60,20 +59,26 @@ setGeneric(
 setMethod("acquireTSS",
           signature(expName="tssExp", tssNum="numeric"),
           function(expName, tssNum) {
+              cat("\nAcquiring TSS data from sample tssNum = ", tssNum, " ...\n")
               tss.obj <- expName@tssData[[tssNum]]
               uni.chr <- as.character(unique(seqnames(tss.obj)))
               uni.chr <- mixedsort(uni.chr)
               n.chr <- length(uni.chr)
               tss.list <- new("list")
+              oldtime <- Sys.time()
+
               for (i in 1:n.chr) {
                   as.character(uni.chr[i]) -> chrName
-                  tssChr(tssObj=tss.obj, chrName) -> tss.out ##
+                  tssChr(tssObj=tss.obj, chrName) -> tss.out
                   tss.out -> tss.list[[chrName]]
-                  }
-            names(tss.list) <- uni.chr
-            return(tss.list)
-            }
-         )   
+              }
+              names(tss.list) <- uni.chr
+              newtime <- Sys.time()
+              elapsedtime <- newtime - oldtime
+              cat("Done with sample tssNum = ", tssNum, " after time: ",print(elapsedtime),".\n\n")
+              return(tss.list)
+         }
+         )
 
 ###############################################################################################
 #' expressionCTSS
@@ -85,70 +90,64 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
         n.chr <- length(names(x)) # how many chromosomes are there in the TSS list?
         uni.chr <- unique(names(x))
         uni.chr <- mixedsort(uni.chr)
-        my.matrix <- matrix(NA, nrow=1, ncol=4)
-        
+
+        my.matrix <- NULL
         for (i in 1:n.chr) {
+#VB Note: Print a progress note on every 10th sequence; 10 should be a parameter
+            if (i%%10 == 0) {
+                cat("\n... expressionCTSS running with sequence ", i, " of ", n.chr, "\n")
+            }
             uni.chr[i] -> this.chr
 
             #starting with the plus strand:
             tss.vec <- x[[i]]$plus
-            if (length(tss.vec)>=3) {
-            my.CTSSs <- unique(tss.vec)
-            my.matrix.p <- matrix(NA, nrow=(length(my.CTSSs)), ncol=4)
+            if (length(tss.vec) > 3) {	# ... no point continuing when there are almost no TSS tags
+                my.CTSSs <- unique(tss.vec)
+                my.matrix.p <- matrix(NA, nrow=(length(my.CTSSs)), ncol=4)
 
-            tss.vec[1] -> this.TSS
-            1 -> n.TSSs
-            0 -> k
-            for (j in 2:length(tss.vec)) {
-                if (tss.vec[j] == this.TSS) {
-                    n.TSSs + 1 -> n.TSSs
+                tss.vec[1] -> this.TSS
+                1 -> n.TSSs
+                0 -> k
+                for (j in 2:length(tss.vec)) {
+                    if (tss.vec[j] == this.TSS) {
+                        n.TSSs + 1 -> n.TSSs
+                    }
+                    else {
+                        k + 1 -> k
+                        c(this.chr, this.TSS, n.TSSs,"+") -> my.matrix.p[k,]
+                        tss.vec[j] -> this.TSS
+                        1 -> n.TSSs
+                    }
                 }
-                else {
-                    k + 1 -> k
-                    c(this.chr, this.TSS, n.TSSs,"+") -> my.matrix.p[k,]
-                    tss.vec[j] -> this.TSS
-                    1 -> n.TSSs
-                }
-            }
-            k + 1 -> k
-            c(this.chr, this.TSS, n.TSSs,"+") -> my.matrix.p[k,]
-        }
-            else {
-                next
-            }
-
+                k + 1 -> k
+                c(this.chr, this.TSS, n.TSSs,"+") -> my.matrix.p[k,]
+                my.matrix <- rbind(my.matrix,my.matrix.p)	#adding the plus strand matrix of this.chr to the overall matrix
+	    }
             #now for the minus strand:
-            tss.vec <- x[[i]]$minus
-            if (length(tss.vec)>=3) {
-            my.CTSSs <- unique(tss.vec)
-            my.matrix.m <- matrix(NA, nrow=(length(my.CTSSs)), ncol=4)
+            if (length(tss.vec) > 3) {	# ... no point continuing when there are almost no TSS tags
+                tss.vec <- x[[i]]$minus
+                my.CTSSs <- unique(tss.vec)
+                my.matrix.m <- matrix(NA, nrow=(length(my.CTSSs)), ncol=4)
 
-            tss.vec[1] -> this.TSS
-            1 -> n.TSSs
-            0 -> k
-            for (j in 2:length(tss.vec)) {
-                if (tss.vec[j] == this.TSS) {
-                    n.TSSs + 1 -> n.TSSs
+                tss.vec[1] -> this.TSS
+                1 -> n.TSSs
+                0 -> k
+                for (j in 2:length(tss.vec)) {
+                    if (tss.vec[j] == this.TSS) {
+                        n.TSSs + 1 -> n.TSSs
+                    }
+                    else {
+                        k + 1 -> k
+                        c(this.chr, this.TSS, n.TSSs,"-") -> my.matrix.m[k,]
+                        tss.vec[j] -> this.TSS
+                        1 -> n.TSSs
+                    }
                 }
-                else {
-                    k + 1 -> k
-                    c(this.chr, this.TSS, n.TSSs,"-") -> my.matrix.m[k,]
-                    tss.vec[j] -> this.TSS
-                    1 -> n.TSSs
-                }
+                k + 1 -> k
+                c(this.chr, this.TSS, n.TSSs,"-") -> my.matrix.m[k,]
+                my.matrix <- rbind(my.matrix,my.matrix.m)	#adding the minus strand matrix of this.chr to the overall matrix
             }
-            k + 1 -> k
-            c(this.chr, this.TSS, n.TSSs,"-") -> my.matrix.m[k,]
         }
-            else {
-                next
-            }
-
-            #combining the two matrices for plus and minus strand:
-            this.matrix <- rbind(my.matrix.p, my.matrix.m)
-            my.matrix <- rbind(my.matrix, this.matrix)
-        }
-        my.matrix <- my.matrix[-1,] #removing the first row, which contains only NAs (used to seed my.matrix)
         colnames(my.matrix) <- c("chr","CTSS","nTSSs","strand")
         my.df <- as.data.frame(my.matrix)
         my.df$CTSS <- as.numeric(as.character(my.df$CTSS))
@@ -161,14 +160,15 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
 
         return(my.df)
         }
-            
+
+
 ##############################################################################################
 #' tsrCluster
 #' Partitions, then clusters tss data by chromosome. (Internal function)
 #' returns a list of TSRs from the data.frame generated by expressionCTSS()
 #' @export
 
-.tsrCluster <- function(x, expThresh=3, minDist=20) {
+.tsrCluster <- function(x, expThresh=5, minDist=20) {
      ctss.df <- x
      ctss.df[,1] <- as.character(ctss.df[,1])
      ctss.df[,4] <- as.character(ctss.df[,4])
@@ -184,112 +184,119 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
 
          subset(sCTSS, strand=="+") -> sCTSS.p
          as.matrix(sCTSS.p) -> sCTSS.p
-         sCTSS.p[complete.cases(sCTSS.p),] -> sCTSS.p
+#VB Note: The following fails if there is a single sCTSS; unclear what the statement
+#         is meant to provide - should we ever have NAs in the rows?
+#        sCTSS.p[complete.cases(sCTSS.p),] -> sCTSS.p
          nrow(sCTSS.p) -> my.len
-         vector(mode="list") -> ctss.list.p
-         vector(mode="list") -> counts.list.p
-         if (is.null(my.len) || my.len==0) {
-             next
+	 if (my.len == 0) {
          }
-         if (my.len > 1) {
-         as.numeric(sCTSS.p[1,2]) -> my.ctss
-         as.numeric(sCTSS.p[1,3]) -> my.count
-         0 -> j
-         for (i in 1:(my.len-1)) {
-             as.numeric(sCTSS.p[i,2]) -> ctss.1 
-             as.numeric(sCTSS.p[i,3]) -> ctss.1.count
-             as.numeric(sCTSS.p[i+1,2]) -> ctss.2
-             as.numeric(sCTSS.p[i+1,3]) -> ctss.2.count
-             abs(ctss.2-ctss.1) -> tss.dist
-             if (tss.dist < minDist) {
-                 c(my.ctss,ctss.2) -> my.ctss
-                 c(my.count, ctss.2.count) -> my.count
-                 if (i == my.len-1) {	# wrapping up the last TSR
-                     j + 1 -> j 
+	 else if (my.len == 1) {
+             vector(mode="list") -> ctss.list.p
+             vector(mode="list") -> counts.list.p
+             as.numeric(sCTSS.p[1,2]) -> my.ctss
+             as.numeric(sCTSS.p[1,3]) -> my.count
+             rbind(my.ctss, my.count) -> combined.ctss
+             c("coordinate","count") -> rownames(combined.ctss)
+             (1:ncol(combined.ctss)) -> colnames(combined.ctss)
+             combined.ctss -> ctss.list.p[[1]]
+         }
+	 else {
+             vector(mode="list") -> ctss.list.p
+             vector(mode="list") -> counts.list.p
+             as.numeric(sCTSS.p[1,2]) -> my.ctss
+             as.numeric(sCTSS.p[1,3]) -> my.count
+             0 -> j
+             for (i in 1:(my.len-1)) {
+                 as.numeric(sCTSS.p[i,2]) -> ctss.1
+                 as.numeric(sCTSS.p[i,3]) -> ctss.1.count
+                 as.numeric(sCTSS.p[i+1,2]) -> ctss.2
+                 as.numeric(sCTSS.p[i+1,3]) -> ctss.2.count
+                 abs(ctss.2-ctss.1) -> tss.dist
+                 if (tss.dist < minDist) {
+                     c(my.ctss,ctss.2) -> my.ctss
+                     c(my.count, ctss.2.count) -> my.count
+                     if (i == my.len-1) {	# wrapping up the last TSR
+                         j + 1 -> j
+                         rbind(my.ctss, my.count) -> combined.ctss
+                         c("coordinate","count") -> rownames(combined.ctss)
+                         (1:ncol(combined.ctss)) -> colnames(combined.ctss)
+                         combined.ctss -> ctss.list.p[[j]]
+                     }
+                     next
+                 }
+                 else {
+                     j + 1 -> j
                      rbind(my.ctss, my.count) -> combined.ctss
                      c("coordinate","count") -> rownames(combined.ctss)
                      (1:ncol(combined.ctss)) -> colnames(combined.ctss)
                      combined.ctss -> ctss.list.p[[j]]
+                     ctss.2 -> my.ctss
+                     ctss.2.count -> my.count
                  }
-                 next
              }
-             else {
-                 j + 1 -> j 
-                 rbind(my.ctss, my.count) -> combined.ctss
-                 c("coordinate","count") -> rownames(combined.ctss)
-                 (1:ncol(combined.ctss)) -> colnames(combined.ctss)
-                 combined.ctss -> ctss.list.p[[j]]
-                 ctss.2 -> my.ctss
-                 ctss.2.count -> my.count
-             }
-         }
-     }
-         else { #iff there is only a single TSR on the scaffold/chromosome
-             as.numeric(sCTSS.p[1,2]) -> my.ctss
-             as.numeric(sCTSS.p[1,3]) -> my.count
-             rbind(my.ctss, my.count) -> combined.ctss
-             c("coordinate", "count") -> rownames(combined.ctss)
-             (1:ncol(combined.ctss)) -> colnames(combined.ctss)
-             combined.ctss -> ctss.list.p[[1]]
-         }
+	 }
          names.len <- length(ctss.list.p)
          names.vec <- vector(mode="character",length=names.len)
          for (k in 1:names.len) {
              paste("tsr", k, sep="") -> names.vec[k]
          }
          names.vec -> names(ctss.list.p)
-         
+
          #... clustering TSS on the minus strand:
 
          subset(sCTSS, strand=="-") -> sCTSS.m
          as.matrix(sCTSS.m) -> sCTSS.m
-         sCTSS.m[complete.cases(sCTSS.m),] -> sCTSS.m
+#VB Note: The following fails if there is a single sCTSS; unclear what the statement
+#         is meant to provide - should we ever have NAs in the rows?
+#        sCTSS.m[complete.cases(sCTSS.m),] -> sCTSS.m
          nrow(sCTSS.m) -> my.len
-         vector(mode="list") -> ctss.list.m
-         if (is.null(my.len) || my.len==0) {
-             next
+	 if (my.len == 0) {
          }
-         if (my.len > 1) {
-         as.numeric(sCTSS.m[1,2]) -> my.ctss
-         as.numeric(sCTSS.m[1,3]) -> my.count
-         0 -> j
-         for (i in 1:(my.len-1)) {
-             as.numeric(sCTSS.m[i,2]) -> ctss.1 
-             as.numeric(sCTSS.m[i,3]) -> ctss.1.count
-             as.numeric(sCTSS.m[i+1,2]) -> ctss.2
-             as.numeric(sCTSS.m[i+1,3]) -> ctss.2.count
-             abs(ctss.2-ctss.1) -> tss.dist
-             if (tss.dist < minDist) {
-                 c(my.ctss,ctss.2) -> my.ctss
-                 c(my.count, ctss.2.count) -> my.count
-                 if (i == my.len-1) {	# wrapping up the last TSR
-                     j + 1 -> j 
+	 else if (my.len == 1) {
+             vector(mode="list") -> ctss.list.m
+             vector(mode="list") -> counts.list.m
+             as.numeric(sCTSS.m[1,2]) -> my.ctss
+             as.numeric(sCTSS.m[1,3]) -> my.count
+             rbind(my.ctss, my.count) -> combined.ctss
+             c("coordinate","count") -> rownames(combined.ctss)
+             (1:ncol(combined.ctss)) -> colnames(combined.ctss)
+             combined.ctss -> ctss.list.m[[1]]
+	 }
+	 else {
+             vector(mode="list") -> ctss.list.m
+             vector(mode="list") -> counts.list.m
+             as.numeric(sCTSS.m[1,2]) -> my.ctss
+             as.numeric(sCTSS.m[1,3]) -> my.count
+             0 -> j
+             for (i in 1:(my.len-1)) {
+                 as.numeric(sCTSS.m[i,2]) -> ctss.1
+                 as.numeric(sCTSS.m[i,3]) -> ctss.1.count
+                 as.numeric(sCTSS.m[i+1,2]) -> ctss.2
+                 as.numeric(sCTSS.m[i+1,3]) -> ctss.2.count
+                 abs(ctss.2-ctss.1) -> tss.dist
+                 if (tss.dist < minDist) {
+                     c(my.ctss,ctss.2) -> my.ctss
+                     c(my.count, ctss.2.count) -> my.count
+                     if (i == my.len-1) {	# wrapping up the last TSR
+                         j + 1 -> j
+                         rbind(my.ctss, my.count) -> combined.ctss
+                         c("coordinate","count") -> rownames(combined.ctss)
+                         (1:ncol(combined.ctss)) -> colnames(combined.ctss)
+                         combined.ctss -> ctss.list.m[[j]]
+                     }
+                     next
+                 }
+                 else {
+                     j + 1 -> j
                      rbind(my.ctss, my.count) -> combined.ctss
                      c("coordinate","count") -> rownames(combined.ctss)
                      (1:ncol(combined.ctss)) -> colnames(combined.ctss)
                      combined.ctss -> ctss.list.m[[j]]
+                     ctss.2 -> my.ctss
+                     ctss.2.count -> my.count
                  }
-                 next
              }
-             else {
-                 j + 1 -> j 
-                 rbind(my.ctss, my.count) -> combined.ctss
-                 c("coordinate","count") -> rownames(combined.ctss)
-                 (1:ncol(combined.ctss)) -> colnames(combined.ctss)
-                 combined.ctss -> ctss.list.m[[j]]
-                 ctss.2 -> my.ctss
-                 ctss.2.count -> my.count
-             }
-         }
-     }
-         else { #iff there is only a single TSR on the scaffold/chromosome
-             as.numeric(sCTSS.m[1,2]) -> my.ctss
-             as.numeric(sCTSS.m[1,3]) -> my.count
-             rbind(my.ctss, my.count) -> combined.ctss
-             c("coordinate", "count") -> rownames(combined.ctss)
-             (1:ncol(combined.ctss)) -> colnames(combined.ctss)
-             combined.ctss -> ctss.list.m[[1]]
-         }
+	 }
          length(ctss.list.m) -> names.len
          vector(mode="character",length=names.len) -> names.vec
          for (k in 1:names.len) {
@@ -298,9 +305,9 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
          names.vec -> names(ctss.list.m)
          list(plus=ctss.list.p, minus=ctss.list.m) -> ctss.list
          ctss.list -> overall.list[[l]]
-         
+
      }	#end of by chromosome for-loop
 
      names(overall.list) <- uni.chr
      return(overall.list)
-}
+     }
