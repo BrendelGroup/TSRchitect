@@ -21,7 +21,7 @@ setMethod("importBam",
 
               message("... importBam ...")
               if(exp.type=="pairedEnd") {
-                  scanBamFlag(isPaired=TRUE, isProperPair=TRUE, isUnmappedQuery=FALSE) -> bamFlags
+                  scanBamFlag(isPaired=TRUE, isProperPair=TRUE, isFirstMateRead=TRUE, hasUnmappedMate=FALSE, isUnmappedQuery=FALSE) -> bamFlags
                   cat("\nTSS data were specified to be paired-end read alignments.")
                   c("rname","strand","pos","qwidth", "mapq", "isize") -> myFields
               }
