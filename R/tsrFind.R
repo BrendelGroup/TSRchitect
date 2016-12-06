@@ -24,7 +24,6 @@ setMethod("tsrFind",
 
              message("... tsrFind ...")
              if (setToCluster=="replicates") {
-                 message("... tsrFind ...")
                  if (tssNum>length(expName@expData)) {
                      stop("The value selected for tssNum exceeds the number of slots in tssData.")
                  }
