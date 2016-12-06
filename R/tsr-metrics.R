@@ -5,7 +5,7 @@ countsToVector <- function(x) {
     coord.vec <- x[1,]
     count.vec <- x[2,]
     rep.vec  <- vector(mode="numeric", length=0)
-    
+
     for (i in 1:length(count.vec)) {
         count.vec[i] -> this.count
         coord.vec[i] -> this.coord

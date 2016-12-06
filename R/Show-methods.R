@@ -1,5 +1,5 @@
 # Show methods for TSRchitect
-      
+
 setMethod("show",
           signature(object="tssExp"),
           function(object) {

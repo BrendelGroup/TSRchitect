@@ -7,7 +7,7 @@
 #' @param setToCluster - specifies the set to be clustered. Options are "replicates" or "merged".
 #' @param writeTable - specifies whether the output should be written to a table. (logical)
 #' @return creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssExp object
-#' @export 
+#' @export
 
 setGeneric(
            name="tsrFind",
@@ -48,7 +48,7 @@ setMethod("tsrFind",
                       stop("The @expDataMerged slot is currently empty. Please complete the merger before continuing.")
                   }
 
-                  tsr.list <- vector(mode="list") 
+                  tsr.list <- vector(mode="list")
                   for (i in 1:length(expName@expDataMerged)) {
                       tss.mat <- expName@expDataMerged[[i]]
                       my.tsr <- .tsrCluster(tss.mat, expThresh=nTSSs, minDist=clustDist)

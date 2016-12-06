@@ -40,9 +40,9 @@ tsrToGR <- function(x) {
         my.list.m -> my.list$minus
         my.list -> all.list[[j]]
     }
-    
+
     names(all.list) <- chr.vec
     return(my.list)
 }
-    
-    
+
+

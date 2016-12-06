@@ -2,7 +2,7 @@
 #' @param expName - an S4 object of class tssExp that contains information about the experiment.
 #' @return expData datasets will be merged (according to the sampleIDs) and assigned to your tssExp object
 #' @importFrom GenomicRanges as.data.frame
-#' @export 
+#' @export
 
 setGeneric(
     name="mergeExpr",
@@ -32,7 +32,7 @@ setMethod("mergeExpr",
               uni.ids <- unique(rep.ids)
               exp.data <- expName@expData
               exp.list <- vector(mode="list")
-              
+
               for (i in seq_along(uni.ids)) {
                   i -> sample.num
                   which(rep.ids==sample.num) -> my.ind
