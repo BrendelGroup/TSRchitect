@@ -192,7 +192,6 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
          }
 	 else if (my.len == 1) {
              vector(mode="list") -> ctss.list.p
-             vector(mode="list") -> counts.list.p
              as.numeric(sCTSS.p[1,2]) -> my.ctss
              as.numeric(sCTSS.p[1,3]) -> my.count
              rbind(my.ctss, my.count) -> combined.ctss
@@ -202,7 +201,6 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
          }
 	 else {
              vector(mode="list") -> ctss.list.p
-             vector(mode="list") -> counts.list.p
              as.numeric(sCTSS.p[1,2]) -> my.ctss
              as.numeric(sCTSS.p[1,3]) -> my.count
              0 -> j
@@ -254,7 +252,6 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
          }
 	 else if (my.len == 1) {
              vector(mode="list") -> ctss.list.m
-             vector(mode="list") -> counts.list.m
              as.numeric(sCTSS.m[1,2]) -> my.ctss
              as.numeric(sCTSS.m[1,3]) -> my.count
              rbind(my.ctss, my.count) -> combined.ctss
@@ -264,7 +261,6 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
 	 }
 	 else {
              vector(mode="list") -> ctss.list.m
-             vector(mode="list") -> counts.list.m
              as.numeric(sCTSS.m[1,2]) -> my.ctss
              as.numeric(sCTSS.m[1,3]) -> my.count
              0 -> j
