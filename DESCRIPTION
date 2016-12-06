@@ -1,6 +1,6 @@
 Package: TSRchitect
 Version: 1.0.1
-Date: 2016-09-23
+Date: 2016-12-06
 Title: Promoter identification, visualization and manipulation using large-scale
     5' end (TSS) sequence data
 Description: In recent years, large-scale transcriptional sequence data has
@@ -30,6 +30,7 @@ Imports:
     GenomicAlignments,
     GenomicRanges,
     ggbio,
+    gtools,
     methods,
     Rsamtools (>= 1.14.3),    
     Rsubread,
