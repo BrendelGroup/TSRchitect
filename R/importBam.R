@@ -21,14 +21,16 @@ setMethod("importBam",
 
               message("... importBam ...")
               if(exp.type=="pairedEnd") {
-                  scanBamFlag(isPaired=TRUE, isProperPair=TRUE, isFirstMateRead=TRUE, hasUnmappedMate=FALSE, isUnmappedQuery=FALSE) -> bamFlags
+                  message("\nImporting paired-end reads.\n")
+                  scanBamFlag(isPaired=TRUE, isProperPair=TRUE, isFirstMateRead=TRUE, isNotPrimaryRead=FALSE, hasUnmappedMate=FALSE, isUnmappedQuery=FALSE) -> bamFlags
                   cat("\nTSS data were specified to be paired-end read alignments.")
-                  c("rname","strand","pos","qwidth", "mapq", "isize") -> myFields
+                  c("rname","strand","pos","cigar","flag","qwidth", "mapq", "isize") -> myFields
               }
               else {
-                  scanBamFlag(isPaired=FALSE, isProperPair=FALSE, isUnmappedQuery=FALSE) -> bamFlags
+                  message("\nImporting single-end reads.\n")
+                  scanBamFlag(isPaired=FALSE, isProperPair=FALSE, isNotPrimaryRead=FALSE, hasUnmappedQuery=FALSE) -> bamFlags
                   cat("\nTSS data were specified to be single-end read alignments.\n")
-                  c("rname","strand","pos", "qwidth", "mapq") -> myFields
+                  c("rname","strand","pos","cigar","flag","qwidth", "mapq") -> myFields
               }
 
               my.param <- ScanBamParam(flag=bamFlags, what=myFields)
@@ -37,7 +39,7 @@ setMethod("importBam",
               bv_files <- dimnames(bv_obj)[[2]]
               n.bams <- length(bv_files)
               cat("\nBeginning import of ", n.bams, " bam files ...\n")
-              bams.GA <- bplapply(bam.paths, readGAlignments, BPPARAM = MulticoreParam(),param=my.param)
+              bams.GA <- bplapply(bam.paths, readGAlignments, BPPARAM = MulticoreParam(), param=my.param)
               expName@bamData <- bams.GA
               cat("Done. Alignment data from ", n.bams, " bam files have been attached to tssExp\nobject \"", expName.chr, "\".\n")
               cat("--------------------------------------------------------------------------------\n")
