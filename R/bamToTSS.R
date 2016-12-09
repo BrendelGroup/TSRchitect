@@ -40,14 +40,14 @@ setMethod("bamToTSS",
                         gr1 <- GRanges(seqnames=df.plus$seqnames,
                                       ranges = IRanges(
                                           start=df.plus$start,
-                                          end=(df.plus$start+1)
+                                          end=df.plus$start
                                           ),
                                       strand=df.plus$strand
                                       )
                         gr2 <- GRanges(seqnames=df.minus$seqnames,
                                        ranges = IRanges(
-                                           start=df.minus$end-1,
-                                           end=(df.minus$end)
+                                           start=df.minus$end,
+                                           end=df.minus$end
                                            ),
                                        strand=df.minus$strand
                                        )
