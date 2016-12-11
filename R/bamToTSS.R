@@ -32,8 +32,8 @@ setMethod("bamToTSS",
               bam.vec <- vector(mode="list", length=bam.len)
 
               for (i in 1:bam.len) {
-                 cat("Retrieving data from bam file #", i, "...\n\n")
-                 expName@bamData[[i]] -> bam.data
+                  cat("Retrieving data from bam file #", i, "...\n\n")
+                  expName@bamData[[i]] -> bam.data
                   as(bam.data,"data.frame") -> bam.df
                   bam.df[bam.df$strand=="+",] -> df.plus
                   bam.df[bam.df$strand=="-",] -> df.minus
