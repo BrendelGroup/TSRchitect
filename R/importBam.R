@@ -24,13 +24,13 @@ setMethod("importBam",
                   message("\nImporting paired-end reads ...\n")
                   scanBamFlag(isPaired=TRUE, isProperPair=TRUE, isFirstMateRead=TRUE, hasUnmappedMate=FALSE, isUnmappedQuery=FALSE, isSecondaryAlignment=FALSE) -> bamFlags
                   cat("\nTSS data were specified to be paired-end read alignments.")
-                  c("rname","flag","strand","pos","qwidth","mapq","isize") -> myFields
+                  c("rname","flag","strand","pos","qwidth","mapq","cigar","isize") -> myFields
               }
               else {
                   message("\nImporting single-end reads ...\n")
                   scanBamFlag(isPaired=FALSE, isUnmappedQuery=FALSE, isSecondaryAlignment=FALSE) -> bamFlags
                   cat("\nTSS data were specified to be single-end read alignments.\n")
-                  c("rname","flag","strand","pos","qwidth","mapq") -> myFields
+                  c("rname","flag","strand","pos","qwidth","mapq","cigar") -> myFields
               }
 
               my.param <- ScanBamParam(flag=bamFlags, what=myFields)
