@@ -123,7 +123,7 @@ expressionCTSS <- function(x, dfName="CTSS.txt", writeDF=TRUE) {
                 c(this.chr, this.TSS, n.TSSs,"+") -> my.matrix.p[k,]
                 my.matrix <- rbind(my.matrix,my.matrix.p)	#adding the plus strand matrix of this.chr to the overall matrix
 	    }
-            
+
             #now for the minus strand:
             tss.vec <- x[[i]]$minus
             if (length(tss.vec) > 3) {	# ... no point continuing when there are almost no TSS tags
