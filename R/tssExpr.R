@@ -4,7 +4,7 @@
 #' @param tssNum - number of the dataset to be analyzed
 #' @param writeTable if TRUE, writes a data frame containing the TSSs positions and their abundance to your workspace
 #' @importFrom gtools mixedsort
-#' @return creates a data frame containing tss expression for each CTSS in slot 'tssExpr' on your tssExp object
+#' @return creates a data frame containing tss expression for each TSS position in slot 'tssExpr' on your tssExp object
 #' @export
 
 setGeneric(
@@ -27,7 +27,7 @@ setMethod("tssExpr",
 
               tss <- acquireTSS(expName, tssNum)
 
-              df.name <- paste("CTSSset-", tssNum, sep="")
+              df.name <- paste("TSSset-", tssNum, sep="")
               df.name <- paste(df.name, "txt", sep=".")
 
               if (writeTable=="TRUE") {
