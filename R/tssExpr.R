@@ -31,10 +31,10 @@ setMethod("tssExpr",
               df.name <- paste(df.name, "txt", sep=".")
 
               if (writeTable=="TRUE") {
-                  tss.mat <- expressionCTSS(tss, dfName=df.name, writeDF=TRUE)
+                  tss.mat <- expressionTSS(tss, dfName=df.name, writeDF=TRUE)
               }
               else {
-                  tss.mat <- expressionCTSS(tss, dfName="my.df", writeDF=FALSE)
+                  tss.mat <- expressionTSS(tss, dfName="my.df", writeDF=FALSE)
               }
 
               expName@expData[[tssNum]] <- tss.mat
