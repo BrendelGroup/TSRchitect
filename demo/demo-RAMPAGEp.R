@@ -29,7 +29,7 @@ bamToTSS(riceRAMPAGE)
 system.time(  riceRAMPAGE@expData <- foreach(i=1:5,.packages="TSRchitect") %dopar% processTSSp(experimentName = riceRAMPAGE, tssSet = i, writeTable = FALSE)  )
 
 
-system.time(  mytestM@tsrData <- foreach(i=1:5,.packages="TSRchitect") %dopar% tsrFindP(experimentName = mytestM, tssSet = i, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable = TRUE)  )
+system.time(  riceRAMPAGE@tsrData <- foreach(i=1:5,.packages="TSRchitect") %dopar% tsrFindP(experimentName = riceRAMPAGE, tssSet = i, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable = TRUE)  )
 
 
 # finding TSRs for the given dataset:
