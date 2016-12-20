@@ -26,23 +26,23 @@ importBam(riceRAMPAGE)
 bamToTSS(riceRAMPAGE)
 
 # constructing a tss abundance matrix for all datasets in parallel:
-system.time(  riceRAMPAGE@expData <- foreach(i=1:5,.packages="TSRchitect") %dopar% processTSSp(expName = riceRAMPAGE, tssSet = i, writeTable = FALSE)  )
+system.time(  riceRAMPAGE@expData <- foreach(i=1:5,.packages="TSRchitect") %dopar% processTSSp(experimentName = riceRAMPAGE, tssSet = i, writeTable = FALSE)  )
 
 
-system.time(  mytestM@tsrData <- foreach(i=1:5,.packages="TSRchitect") %dopar% tsrFindP(expName = mytestM, tssSet = i, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable = TRUE)  )
+system.time(  mytestM@tsrData <- foreach(i=1:5,.packages="TSRchitect") %dopar% tsrFindP(experimentName = mytestM, tssSet = i, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable = TRUE)  )
 
 
 # finding TSRs for the given dataset:
-system.time(  riceRAMPAGE@tsrData <- foreach(i=1:5,.packages="TSRchitect") %dopar% tsrFindP(expName = riceRAMPAGE, tssSet = i, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable = FALSE)  )
+system.time(  riceRAMPAGE@tsrData <- foreach(i=1:5,.packages="TSRchitect") %dopar% tsrFindP(experimentName = riceRAMPAGE, tssSet = i, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable = FALSE)  )
 
 # merging tssData objects according to the replicate info:
-mergeTSS(expName=riceRAMPAGE)
+mergeTSS(experimentName=riceRAMPAGE)
 
 # merging exprData objects according to the replicate info:
-mergeExpr(expName=riceRAMPAGE)
+mergeExpr(experimentName=riceRAMPAGE)
 
 # finding TSRs from the merged datasets:
-tsrFind(expName=riceRAMPAGE, tssSet=1, nTSSs=3, clustDist=20, setToCluster="merged", writeTable=FALSE)
+tsrFind(experimentName=riceRAMPAGE, tssSet=1, nTSSs=3, clustDist=20, setToCluster="merged", writeTable=FALSE)
 
 ####################################################################################################
 #save(riceRAMPAGE, file="demo-RAMPAGE-test.RData") #uncomment if you'd like to save a binary of the tssExp object to your working directory

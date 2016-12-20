@@ -20,10 +20,10 @@ importBam(CAGEhuman)
 bamToTSS(CAGEhuman)
 
 # constructing a tss abundance matrix for the given dataset:
-processTSS(expName=CAGEhuman, tssSet=1, writeTable=FALSE)
+processTSS(experimentName=CAGEhuman, tssSet=1, writeTable=FALSE)
 
 # finding TSRs for the given dataset:
-tsrFind(expName=CAGEhuman, tssSet=1, nTSSs=5, clustDist=20, setToCluster="replicates", writeTable=FALSE)
+tsrFind(experimentName=CAGEhuman, tssSet=1, nTSSs=5, clustDist=20, setToCluster="replicates", writeTable=FALSE)
 
 ####################################################################################################
 #save(riceRAMPAGE, file="demo-CAGE-test.RData") #uncomment if you'd like to save a binary of the tssExp object to your working directory
