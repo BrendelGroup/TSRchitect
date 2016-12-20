@@ -1,84 +1,84 @@
 
 setGeneric(
 name="getTitle",
-def=function(expName){
+def=function(experimentName){
 	standardGeneric("getTitle")
 }
 )
 
 setMethod("getTitle",
-signature(expName = "tssExp"),
-function (expName){
-	expName@title
+signature(experimentName = "tssObject"),
+function (experimentName){
+	experimentName@title
 }
 )
 
 setGeneric(
 name="getFileNames",
-def=function(expName){
+def=function(experimentName){
 	standardGeneric("getFileNames")
 }
 )
 
 setMethod("getFileNames",
-signature(expName = "tssExp"),
-function (expName){
-    expName@fileNames
+signature(experimentName = "tssObject"),
+function (experimentName){
+    experimentName@fileNames
 }
 )
 
 setGeneric(
 name="getBamData",
-def=function(expName){
+def=function(experimentName){
 	standardGeneric("getBamData")
 }
 )
 
 setMethod("getBamData",
-signature(expName = "tssExp"),
-function (expName){
-	expName@bamData
+signature(experimentName = "tssObject"),
+function (experimentName){
+	experimentName@bamData
 }
 )
 
 setGeneric(
 name="getTSSs",
-def=function(expName){
+def=function(experimentName){
 	standardGeneric("getTSSs")
 }
 )
 
 setMethod("getTSSs",
-signature(expName = "tssExp"),
-function (expName){
-	expName@tssData
+signature(experimentName = "tssObject"),
+function (experimentName){
+	experimentName@tssData
 }
 )
 
 setGeneric(
 name="getExpr",
-def=function(expName){
+def=function(experimentName){
 	standardGeneric("getExpr")
 }
 )
 
 setMethod("getExpr",
-signature(expName = "tssExp"),
-function (expName){
-	expName@expData
+signature(experimentName = "tssObject"),
+function (experimentName){
+	experimentName@expData
 }
 )
 
 setGeneric(
 name="getTSRs",
-def=function(expName){
+def=function(experimentName){
 	standardGeneric("getTSRs")
     }
 )
 
 setMethod("getTSRs",
-signature(expName = "tssExp"),
-function (expName){
-	expName@tsrData
+signature(experimentName = "tssObject"),
+function (experimentName){
+	experimentName@tsrData
 }
 )

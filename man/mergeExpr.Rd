@@ -4,13 +4,13 @@
 \alias{mergeExpr}
 \title{Combines samples from two different tss experiments into a single GRanges object}
 \usage{
-mergeExpr(expName)
+mergeExpr(experimentName)
 }
 \arguments{
-\item{expName}{- an S4 object of class tssExp that contains information about the experiment.}
+\item{experimentName}{- an S4 object of class tssObject that contains information about the experiment.}
 }
 \value{
-expData datasets will be merged (according to the sampleIDs) and assigned to your tssExp object
+expData datasets will be merged (according to the sampleIDs) and assigned to your tssObject object
 }
 \description{
 Combines samples from two different tss experiments into a single GRanges object

@@ -1,30 +1,30 @@
 #' Initializes the TSS profiling experiment
 #' @param expTitle    - title for the experiment (character)
-#' @param expName     - name for the tssExp object to be created in your working environment (character)
+#' @param experimentName     - name for the tssObject object to be created in your working environment (character)
 #' @param expDir      - path to the directory with the alignment files in bam format (character)
 #' @param isPairedEnd - TRUE/FALSE according to whether the TSS profiling experiment was paired-end or not (logical)
-#' @return Creates a tssExp object in the user's current workspace.
+#' @return Creates a tssObject object in the user's current workspace.
 #' @export
 
 setGeneric(
     name="initializeExp",
-    def=function(expTitle, expName, expDir, isPairedEnd) {
+    def=function(expTitle, experimentName, expDir, isPairedEnd) {
         standardGeneric("initializeExp")
     }
     )
 
 setMethod("initializeExp",
-          signature(expTitle="character", expName="character", expDir="character", isPairedEnd="logical"),
-          function(expTitle, expName, expDir, isPairedEnd) {
-              tssObj <- new("tssExp")
+          signature(expTitle="character", experimentName="character", expDir="character", isPairedEnd="logical"),
+          function(expTitle, experimentName, expDir, isPairedEnd) {
+              tssObj <- new("tssObject")
 
               message("... initializeExp ...")
               if (expTitle == "") {
                   stop("Argument 'expTitle' of initializeExp() is empty.\n  Please provide a title for your experiment.")
               }
 
-              if (expName == "") {
-                  stop("Argument 'expName' of initializeExp() is empty.\n  Please specify a name for the tssExp object.")
+              if (experimentName == "") {
+                  stop("Argument 'experimentName' of initializeExp() is empty.\n  Please specify a name for the tssObject object.")
               }
 
               if (expDir == "") {
@@ -46,9 +46,9 @@ setMethod("initializeExp",
 
               tssObj@title <- expTitle
               tssObj@fileNames <- tss_files
-              cat("\nThe tssExp object \"", expName, "\" has been initialized in your workspace.\n")
+              cat("\nThe tssObject object \"", experimentName, "\" has been initialized in your workspace.\n")
               cat("--------------------------------------------------------------------------------\n")
-              assign(expName, tssObj, parent.frame())
+              assign(experimentName, tssObj, parent.frame())
               message(" Done.\n")
           }
           )
