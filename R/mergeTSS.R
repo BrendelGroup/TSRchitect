@@ -1,5 +1,5 @@
 #' Combines samples from different tss experiments into a single GRanges object
-#' @param expName - an S4 object of class tssExp that contains information about the experiment.
+#' @param experimentName - an S4 object of class tssExp that contains information about the experiment.
 #' @importFrom GenomicRanges granges GRanges GRangesList
 #' @importFrom GenomeInfoDb sortSeqlevels
 #' @importFrom S4Vectors Rle

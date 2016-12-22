@@ -7,7 +7,7 @@
 mergeTSS(expName)
 }
 \arguments{
-\item{expName}{- an S4 object of class tssExp that contains information about the experiment.}
+\item{experimentName}{- an S4 object of class tssExp that contains information about the experiment.}
 }
 \value{
 merged tss profiling experiments according to their assigned sampleIDs to your tssExp object
