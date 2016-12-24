@@ -31,9 +31,8 @@ system.time(  riceRAMPAGE@expData <- foreach(i=1:5,.packages="TSRchitect") %dopa
 
 system.time(  riceRAMPAGE@tsrData <- foreach(i=1:5,.packages="TSRchitect") %dopar% tsrFindP(experimentName = riceRAMPAGE, tssSet = i, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable = TRUE)  )
 
-
 # finding TSRs for the given dataset:
-system.time(  riceRAMPAGE@tsrData <- foreach(i=1:5,.packages="TSRchitect") %dopar% tsrFindP(experimentName = riceRAMPAGE, tssSet = i, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable = FALSE)  )
+system.time(  riceRAMPAGE@tsrData <- foreach(i=1:5,.packages="TSRchitect") %dopar% tsrFindP(experimentName = riceRAMPAGE, tssSet = i, nTSSs=3, clustDist=20, setToCluster="replicates", writeTable = TRUE)  )
 
 # merging tssData objects according to the replicate info:
 mergeTSS(experimentName=riceRAMPAGE)
@@ -42,7 +41,7 @@ mergeTSS(experimentName=riceRAMPAGE)
 mergeExpr(experimentName=riceRAMPAGE)
 
 # finding TSRs from the merged datasets:
-tsrFind(experimentName=riceRAMPAGE, tssSet=1, nTSSs=3, clustDist=20, setToCluster="merged", writeTable=FALSE)
+tsrFind(experimentName=riceRAMPAGE, tssSet=1, nTSSs=5, clustDist=20, setToCluster="merged", writeTable=TRUE)
 
 ####################################################################################################
 #save(riceRAMPAGE, file="demo-RAMPAGE-test.RData") #uncomment if you'd like to save a binary of the tssExp object to your working directory

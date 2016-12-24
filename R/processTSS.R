@@ -4,7 +4,7 @@
 #' @param tssSet - number of the dataset to be analyzed
 #' @param writeTable if TRUE, writes a data frame containing the TSSs positions and their abundance to your workspace
 #' @importFrom gtools mixedsort
-#' @return creates a data frame containing tss expression for each TSS position in slot 'tssExpression' on your tssObject object
+#' @return creates a data frame containing tss expression for each TSS position in slot 'expData' on your tssObject object
 #' @export
 
 setGeneric(

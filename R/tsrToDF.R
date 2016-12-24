@@ -26,7 +26,7 @@ tsrToDF <- function(x) {
             tsrWidth(my.tsr) -> my.width
             range(my.vec) -> my.range
             my.range[1] -> my.start
-            my.range[2]+1 -> my.end
+            my.range[2] -> my.end
             c(this.chr, my.start, my.end, my.strand, my.counts, my.width, my.SI) -> my.string
             my.string -> plus.matrix[i,]
         }
@@ -42,7 +42,7 @@ tsrToDF <- function(x) {
             tsrCounts(my.tsr) -> my.counts
             tsrWidth(my.tsr) -> my.width
             range(my.vec) -> my.range
-            my.range[1]-1 -> my.start
+            my.range[1] -> my.start
             my.range[2] -> my.end
             c(this.chr, my.start, my.end, my.strand, my.counts, my.width, my.SI) -> my.string
             my.string -> minus.matrix[i,]

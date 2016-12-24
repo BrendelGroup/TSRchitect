@@ -15,7 +15,7 @@ processTSSp(experimentName, tssSet, writeTable)
 \item{writeTable}{if TRUE, writes a data frame containing the TSSs positions and their abundance to your workspace}
 }
 \value{
-creates a data frame containing tss expression for each TSS in slot 'tssExpression' on your tssObject object
+creates a data frame containing tss expression for each TSS in slot 'expData' on your tssObject object
 }
 \description{
 processTSSp
