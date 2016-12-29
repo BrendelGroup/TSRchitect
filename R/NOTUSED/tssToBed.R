@@ -14,12 +14,12 @@ setMethod("tssToBed",
           signature(experimentName="tssObject", fileName="character"),
 
           function(experimentName, fileName="myTSS") {
-              if (length(experimentName@tssData) == 0) {
-                  stop("Slot @tssData is empty.\n\n Please load alignment files to your tssObject object.\n\n")
+              if (length(experimentName@tssTagData) == 0) {
+                  stop("Slot @tssTagData is empty.\n\n Please load alignment files to your tssObject object.\n\n")
               }
 
               else {
-                 experimentName@tssData -> my.TSS
+                 experimentName@tssTagData -> my.TSS
                  cat("Converting", length(my.TSS), "GRanges objects to BED format...\n\n")
 
                   for (i in 1:length(my.TSS)) {

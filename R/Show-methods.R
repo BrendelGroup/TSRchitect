@@ -18,10 +18,10 @@ setMethod("show",
               else {
                   stop("\nNo *.bam files were found.  Please check.\n")
               }
-              if (length(object@tssData) > 0) {
+              if (length(object@tssTagData) > 0) {
                   experimentName <- deparse(substitute(object))
                   cat("\n")
-                  cat(length(object@tssData))
+                  cat(length(object@tssTagData))
                   cat(" TSS datasets were loaded into the tssObject object \"", experimentName, "\".\n")
               }
               else {
