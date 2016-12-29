@@ -2,21 +2,21 @@
 % Please edit documentation in R/setSampleID.R
 \name{setSampleID}
 \alias{setSampleID}
-\title{Sets names and replicate information for experimental samples in a tssExp object}
+\title{Sets names and replicate information for experimental samples in a tssObject object}
 \usage{
-setSampleID(expName, sample.names, replicate.IDs)
+setSampleID(experimentName, sample.names, replicate.IDs)
 }
 \arguments{
-\item{expName}{an S4 object of class tssExp that contains information about the experiment}
+\item{experimentName}{an S4 object of class tssObject that contains information about the experiment}
 
 \item{sample.names}{unique labels (of class character) for each TSS sample within the experiment}
 
 \item{replicate.IDs}{identifiers indicating which samples are biological replicates}
 }
 \value{
-names and replicate information for experimental samples assigned to your tssExp object
+names and replicate information for experimental samples assigned to your tssObject object
 }
 \description{
-Sets names and replicate information for experimental samples in a tssExp object
+Sets names and replicate information for experimental samples in a tssObject object
 }
 

@@ -4,13 +4,13 @@
 \alias{countsMatrix}
 \title{Creates a data frame with a list of TSS positions and the corresponding counts from each}
 \usage{
-countsMatrix(expName)
+countsMatrix(experimentName)
 }
 \arguments{
-\item{expName}{an S4 object of class tssExp that contains information about the experiment (including tssData)}
+\item{experimentName}{an S4 object of class tssObject that contains information about the experiment (including tssData)}
 }
 \value{
-Assigns a data frame to the expData slot of your tssExp object
+Assigns a data frame to the expData slot of your tssObject
 }
 \description{
 Creates a data frame with a list of TSS positions and the corresponding counts from each

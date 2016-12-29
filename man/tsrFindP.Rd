@@ -5,13 +5,13 @@
 \title{tsrFindP
 Finds TSRs from a given chromosome}
 \usage{
-tsrFindP(expName, tssNum = 1, nTSSs, clustDist, setToCluster,
+tsrFindP(experimentName, tssSet = 1, nTSSs, clustDist, setToCluster,
   writeTable = FALSE)
 }
 \arguments{
-\item{expName}{- a S4 object of class tssExp containing information in slot tssData}
+\item{experimentName}{- a S4 object of class tssObject containing information in slot tssData}
 
-\item{tssNum}{- number of the dataset to be analyzed}
+\item{tssSet}{- number of the dataset to be analyzed}
 
 \item{nTSSs}{- number of TSSs required at a given position}
 
@@ -22,7 +22,7 @@ tsrFindP(expName, tssNum = 1, nTSSs, clustDist, setToCluster,
 \item{writeTable}{- specifies whether the output should be written to a table. (logical)}
 }
 \value{
-creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssExp object
+creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssObject object
 }
 \description{
 tsrFindP

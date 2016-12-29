@@ -4,13 +4,13 @@
 \alias{mergeTSS}
 \title{Combines samples from different tss experiments into a single GRanges object}
 \usage{
-mergeTSS(expName)
+mergeTSS(experimentName)
 }
 \arguments{
-\item{expName}{- an S4 object of class tssExp that contains information about the experiment.}
+\item{experimentName}{- an S4 object of class tssObject that contains information about the experiment.}
 }
 \value{
-merged tss profiling experiments according to their assigned sampleIDs to your tssExp object
+merged tss profiling experiments according to their assigned sampleIDs to the tssObject
 }
 \description{
 Combines samples from different tss experiments into a single GRanges object

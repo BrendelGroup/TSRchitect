@@ -1,25 +1,25 @@
 #' Converts TSS data into bed format
-#' @param expName an object of class tssExp with tss data loaded
+#' @param experimentName an object of class tssObject with tss data loaded
 #' @param fileName the name of the BED file to be written
 #' @export
 
 setGeneric(
            name="tssToBed",
-           def=function(expName, fileName="myTSS") {
+           def=function(experimentName, fileName="myTSS") {
                standardGeneric("tssToBed")
            }
     )
 
 setMethod("tssToBed",
-          signature(expName="tssExp", fileName="character"),
+          signature(experimentName="tssObject", fileName="character"),
 
-          function(expName, fileName="myTSS") {
-              if (length(expName@tssData) == 0) {
-                  stop("Slot @tssData is empty.\n\n Please load alignment files to your tssExp object.\n\n")
+          function(experimentName, fileName="myTSS") {
+              if (length(experimentName@tssData) == 0) {
+                  stop("Slot @tssData is empty.\n\n Please load alignment files to your tssObject object.\n\n")
               }
 
               else {
-                 expName@tssData -> my.TSS
+                 experimentName@tssData -> my.TSS
                  cat("Converting", length(my.TSS), "GRanges objects to BED format...\n\n")
 
                   for (i in 1:length(my.TSS)) {

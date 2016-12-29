@@ -1,36 +1,36 @@
 #' Combines samples from two different tss experiments into a single GRanges object
-#' @param expName - an S4 object of class tssExp that contains information about the experiment.
-#' @return expData datasets will be merged (according to the sampleIDs) and assigned to your tssExp object
+#' @param experimentName - an S4 object of class tssObject that contains information about the experiment.
+#' @return expData datasets will be merged (according to the sampleIDs) and assigned to your tssObject object
 #' @importFrom GenomicRanges as.data.frame
 #' @export
 
 setGeneric(
     name="mergeExpr",
-    def=function(expName) {
+    def=function(experimentName) {
         standardGeneric("mergeExpr")
     }
     )
 
 setMethod("mergeExpr",
-          signature(expName="tssExp"),
-          function(expName) {
-              object.name <- deparse(substitute(expName))
+          signature(experimentName="tssObject"),
+          function(experimentName) {
+              object.name <- deparse(substitute(experimentName))
 
-              if (length(expName@expData)==0) {
-                  stop("\nThe slot @expData is empty. Please run tssExpr before proceeding with this command.\n")
+              if (length(experimentName@expData)==0) {
+                  stop("\nThe slot @expData is empty. Please run processTSS before proceeding with this command.\n")
               }
 
-              if (length(expName@sampleNames) < 1) {
-                  stop("\nThe slot @sampleNames on your tssExp object is empty. Please add sampleNames to the object.\n")
+              if (length(experimentName@sampleNames) < 1) {
+                  stop("\nThe slot @sampleNames on your tssObject object is empty. Please add sampleNames to the object.\n")
               }
 
-              if (length(expName@replicateIDs) < 1) {
-                  stop("\nThe slot @replicateIDs on your tssExp object is empty. Please add replicateIDs to the object.\n")
+              if (length(experimentName@replicateIDs) < 1) {
+                  stop("\nThe slot @replicateIDs on your tssObject object is empty. Please add replicateIDs to the object.\n")
               }
 
-              rep.ids <- expName@replicateIDs
+              rep.ids <- experimentName@replicateIDs
               uni.ids <- unique(rep.ids)
-              exp.data <- expName@expData
+              exp.data <- experimentName@expData
               exp.list <- vector(mode="list")
 
               for (i in seq_along(uni.ids)) {
@@ -46,10 +46,10 @@ setMethod("mergeExpr",
                   my.df -> exp.list[[i]]
               }
 
-              expName@expDataMerged <- exp.list
-              cat("\n... the TSS expression data has been successfully merged and added to\ntssExp object \"", object.name, "\"\n")
+              experimentName@expDataMerged <- exp.list
+              cat("\n... the TSS expression data has been successfully merged and added to\ntssObject object \"", object.name, "\"\n")
               cat("--------------------------------------------------------------------------------\n")
-              assign(object.name, expName, envir = parent.frame())
+              assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
           }
           )

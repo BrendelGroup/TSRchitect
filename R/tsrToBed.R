@@ -1,24 +1,24 @@
 #' Writes the contents of a slot in TSRdata to a BED file
-#' @param expName an object of class tssExp with TSR data loaded
+#' @param experimentName an object of class tssObject with TSR data loaded
 #' @param Name the name of the BED file to be written in your working directory
 #' @export
 
 setGeneric(
            name="tsrToBed",
-           def=function(expName, Name, writeBed) {
+           def=function(experimentName, Name, writeBed) {
                standardGeneric("tsrToBed")
     }
     )
 
 setMethod("tsrToBed",
-          signature(expName="tssExp", Name="character", writeBed="logical"),
+          signature(experimentName="tssObject", Name="character", writeBed="logical"),
 
-          function(expName, Name="tsrName", writeBed=TRUE) {
-              if (length(expName@tsrData) == 0) {
+          function(experimentName, Name="tsrName", writeBed=TRUE) {
+              if (length(experimentName@tsrData) == 0) {
                   stop("Slot @tsrData is empty.\n\n Please process TSR data before running this command.")
               }
 
-              expName@tsrData -> my.TSR
+              experimentName@tsrData -> my.TSR
 
               message("\nConverting TSRs to BED format...\n")
 

@@ -5,12 +5,12 @@
 \title{acquireTSS
 Retrieves all tss data from a given TSS experiment.}
 \usage{
-acquireTSS(expName, tssNum)
+acquireTSS(experimentName, tssSet)
 }
 \arguments{
-\item{expName}{an object of class tssExp containing the tss data}
+\item{experimentName}{an object of class tssObject containing the tss data}
 
-\item{tssNum}{the slot number of the tss data to be clustered}
+\item{tssSet}{the slot number of the tss data to be clustered}
 }
 \value{
 a list object containing TSS data from the entire dataset

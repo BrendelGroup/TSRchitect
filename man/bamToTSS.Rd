@@ -3,18 +3,18 @@
 \name{bamToTSS}
 \alias{bamToTSS}
 \title{bamToTSS
-Extracts TSS information from each bam file in a tssExp object}
+Extracts TSS information from each bam file in a tssObject object}
 \usage{
-bamToTSS(expName)
+bamToTSS(experimentName)
 }
 \arguments{
-\item{expName}{- a S4 object of class tssExp with bam files loaded}
+\item{experimentName}{- a S4 object of class tssObject with bam files loaded}
 }
 \value{
-creates a list of TSSs in class GRanges for each bam file contained within expName and places them in the tssExp object
+creates a list of TSSs in class GRanges for each bam file contained within experimentName and places them in the tssObject object
 }
 \description{
 bamToTSS
-Extracts TSS information from each bam file in a tssExp object
+Extracts TSS information from each bam file in a tssObject object
 }
 

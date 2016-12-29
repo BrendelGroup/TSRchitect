@@ -1,4 +1,4 @@
-setClass(Class="tssExp",
+setClass(Class="tssObject",
          representation(
              title = "character",
              fileNames = "character",

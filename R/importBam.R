@@ -1,23 +1,23 @@
-#' Computes TSS positions from all bam files and loads them into a tssExp object
-#' @param expName - a S4 object of class tssExp that contains information about the experiment
+#' Computes TSS positions from all bam files and loads them into a tssObject object
+#' @param experimentName - a S4 object of class tssObject that contains information about the experiment
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
-#' @return alignment data (in BAM format) from the tss profiling experiments assigned to your tssExp object
+#' @return alignment data (in BAM format) from the tss profiling experiments assigned to your tssObject object
 #' @export
 
 setGeneric(
     name="importBam",
-    def=function(expName) {
+    def=function(experimentName) {
         standardGeneric("importBam")
     }
     )
 
 setMethod("importBam",
-          signature(expName="tssExp"),
-          function(expName) {
-              expName.chr <- deparse(substitute(expName))
-              exp.type <- expName@dataType
+          signature(experimentName="tssObject"),
+          function(experimentName) {
+              experimentName.chr <- deparse(substitute(experimentName))
+              exp.type <- experimentName@dataType
 
               message("... importBam ...")
               if(exp.type=="pairedEnd") {
@@ -34,16 +34,16 @@ setMethod("importBam",
               }
 
               my.param <- ScanBamParam(flag=bamFlags, what=myFields)
-              bam.paths <- expName@fileNames
+              bam.paths <- experimentName@fileNames
               bv_obj <- BamViews(bam.paths)
               bv_files <- dimnames(bv_obj)[[2]]
               n.bams <- length(bv_files)
               cat("\nBeginning import of ", n.bams, " bam files ...\n")
               bams.GA <- bplapply(bam.paths, readGAlignments, BPPARAM = MulticoreParam(), param=my.param)
-              expName@bamData <- bams.GA
-              cat("Done. Alignment data from ", n.bams, " bam files have been attached to tssExp\nobject \"", expName.chr, "\".\n")
+              experimentName@bamData <- bams.GA
+              cat("Done. Alignment data from ", n.bams, " bam files have been attached to tssObject\nobject \"", experimentName.chr, "\".\n")
               cat("--------------------------------------------------------------------------------\n")
-              assign(expName.chr, expName, parent.frame())
+              assign(experimentName.chr, experimentName, parent.frame())
               message(" Done.\n")
           }
           )

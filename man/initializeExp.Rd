@@ -4,19 +4,19 @@
 \alias{initializeExp}
 \title{Initializes the TSS profiling experiment}
 \usage{
-initializeExp(expTitle, expName, expDir, isPairedEnd)
+initializeExp(expTitle, experimentName, expDir, isPairedEnd)
 }
 \arguments{
 \item{expTitle}{- title for the experiment (character)}
 
-\item{expName}{- name for the tssExp object to be created in your working environment (character)}
+\item{experimentName}{- name for the tssObject object to be created in your working environment (character)}
 
 \item{expDir}{- path to the directory with the alignment files in bam format (character)}
 
 \item{isPairedEnd}{- TRUE/FALSE according to whether the TSS profiling experiment was paired-end or not (logical)}
 }
 \value{
-Creates a tssExp object in the user's current workspace.
+Creates a tssObject object in the user's current workspace.
 }
 \description{
 Initializes the TSS profiling experiment
