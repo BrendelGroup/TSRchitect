@@ -1,5 +1,19 @@
-#' An internal function for TSS clustering
-#' Creates a data frame for a given output of .tsrCluster
+#' @title \emph{tsrToDF()}
+#'
+#' @description \emph{tsrToDF} is a utility function in \bold{TSRchitect} that converts
+#' a \emph{tsrCluster()}-generated list of TSR data to a dataframe.
+#'
+#' @param x A list (of lists) with TSR data as returned by tsrCluster()
+#' @return A dataframe of TSRs with variables\cr
+#' \enumerate{
+#'         \item chr = sequence identifier (chr)
+#'         \item start = start of TSR (num)
+#'         \item end = end of TSR (num)
+#'         \item strand = + or - (factor)
+#'         \item nTSSs = count of TSSs (num)
+#'         \item tsrWidth = width of TSR (num)
+#'         \item shapeIndex = shape index value of TSR (num)
+#' }
 #' @export
 
 

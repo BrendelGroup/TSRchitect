@@ -29,7 +29,7 @@ setMethod("tsrFind",
                  }
 
                  tss.mat <- experimentName@tssCountData[[tssSet]]
-                 tsr.list <- .tsrCluster(tss.mat, minNbrTSSs=tagCountThreshold, minDist=clustDist)
+                 tsr.list <- tsrCluster(tss.mat, minNbrTSSs=tagCountThreshold, minDist=clustDist)
                  tsr.DF <- tsrToDF(tsr.list)
 
                  if (writeTable=="TRUE") {
@@ -51,7 +51,7 @@ setMethod("tsrFind",
                   tsr.list <- vector(mode="list")
                   for (i in 1:length(experimentName@tssCountDataMerged)) {
                       tss.mat <- experimentName@tssCountDataMerged[[i]]
-                      my.tsr <- .tsrCluster(tss.mat, minNbrTSSs=tagCountThreshold, minDist=clustDist)
+                      my.tsr <- tsrCluster(tss.mat, minNbrTSSs=tagCountThreshold, minDist=clustDist)
                       tsr.DF <- tsrToDF(my.tsr)
                       tsr.list[[i]] <- tsr.DF
 
