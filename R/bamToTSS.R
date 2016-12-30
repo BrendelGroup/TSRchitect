@@ -58,8 +58,8 @@ setMethod("bamToTSS",
               }
 
               GR.list <- GRangesList(bam.vec)
-              experimentName@tssData <- GR.list
-              experimentName@expData <- vector(mode="list", length=bam.len)
+              experimentName@tssTagData <- GR.list
+              experimentName@tssCountData <- vector(mode="list", length=bam.len)
               cat("Done. TSS data from ", bam.len, " separate bam files have been successfully added to\ntssObject object \"", object.name, "\".\n\n")
               cat("--------------------------------------------------------------------------------\n")
               assign(object.name, experimentName, envir = parent.frame())

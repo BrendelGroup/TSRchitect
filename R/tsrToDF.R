@@ -13,47 +13,57 @@ tsrToDF <- function(x) {
         vector(mode="list", length=2) -> my.list.m
         as.character(chr.vec[j]) -> this.chr
         x[[j]] -> this.chr.list
+
         this.chr.list$plus -> this.p
         c("+") -> my.strand
         matrix(NA, nrow=length(this.p), ncol=7) -> plus.matrix
-
-        for (i in 1:length(this.p)) {
-            this.p[[i]] -> my.tsr
-            countsToVector(my.tsr) -> my.vec
-            shapeIndex(my.vec) -> my.SI
-            round(my.SI, digits=2) -> my.SI
-            tsrCounts(my.tsr) -> my.counts
-            tsrWidth(my.tsr) -> my.width
-            range(my.vec) -> my.range
-            my.range[1] -> my.start
-            my.range[2] -> my.end
-            c(this.chr, my.start, my.end, my.strand, my.counts, my.width, my.SI) -> my.string
-            my.string -> plus.matrix[i,]
+        if (length(this.p) > 0 ) { # ... making sure that there are plus strand TSRs to process
+           for (i in 1:max(1,length(this.p))) {
+               this.p[[i]] -> my.tsr
+               countsToVector(my.tsr) -> my.vec
+               shapeIndex(my.vec) -> my.SI
+               round(my.SI, digits=2) -> my.SI
+               tsrCounts(my.tsr) -> my.counts
+               tsrWidth(my.tsr) -> my.width
+               range(my.vec) -> my.range
+               my.range[1] -> my.start
+               my.range[2] -> my.end
+               c(this.chr, my.start, my.end, my.strand, my.counts, my.width, my.SI) -> my.string
+               my.string -> plus.matrix[i,]
+           }
         }
-            this.chr.list$minus -> this.m
-            c("-") -> my.strand
-            matrix(NA, nrow=length(this.m), ncol=7) -> minus.matrix
 
-        for (i in 1:length(this.m)){
-            this.m[[i]] -> my.tsr
-            countsToVector(my.tsr) -> my.vec
-            shapeIndex(my.vec) -> my.SI
-            round(my.SI, digits=2) -> my.SI
-            tsrCounts(my.tsr) -> my.counts
-            tsrWidth(my.tsr) -> my.width
-            range(my.vec) -> my.range
-            my.range[1] -> my.start
-            my.range[2] -> my.end
-            c(this.chr, my.start, my.end, my.strand, my.counts, my.width, my.SI) -> my.string
-            my.string -> minus.matrix[i,]
+        this.chr.list$minus -> this.m
+        c("-") -> my.strand
+        matrix(NA, nrow=length(this.m), ncol=7) -> minus.matrix
+        if (length(this.m) > 0 ) { # ... making sure that there are minus strand TSRs to process
+           for (i in 1:max(1,length(this.m))){
+               this.m[[i]] -> my.tsr
+               countsToVector(my.tsr) -> my.vec
+               shapeIndex(my.vec) -> my.SI
+               round(my.SI, digits=2) -> my.SI
+               tsrCounts(my.tsr) -> my.counts
+               tsrWidth(my.tsr) -> my.width
+               range(my.vec) -> my.range
+               my.range[1] -> my.start
+               my.range[2] -> my.end
+               c(this.chr, my.start, my.end, my.strand, my.counts, my.width, my.SI) -> my.string
+               my.string -> minus.matrix[i,]
+           }
         }
-    rbind(plus.matrix, minus.matrix) -> chr.matrix
-    rbind(final.matrix, chr.matrix) -> final.matrix
+ 
+        rbind(plus.matrix, minus.matrix) -> chr.matrix
+        rbind(final.matrix, chr.matrix) -> final.matrix
     }
-    final.matrix <- final.matrix[-1,] #removes the empty first row used to initilize the matrix
+    final.matrix <- final.matrix[-1,] #removes the empty first row used to initialize the matrix
     colnames(final.matrix) <- c("chr", "start", "end", "strand", "nTSSs", "tsrWidth", "shapeIndex")
     final.df <- as.data.frame(final.matrix)
+#Convert dataframe column classes to appropriate types:    
+    final.df$chr   <- as.character(final.df$chr)
+    final.df$start <- as.numeric(as.character(final.df$start))
+    final.df$end   <- as.numeric(as.character(final.df$end))
+    final.df$nTSSs <- as.numeric(as.character(final.df$nTSSs))
+    final.df$tsrWidth   <- as.numeric(as.character(final.df$tsrWidth))
+    final.df$shapeIndex   <- as.numeric(as.character(final.df$shapeIndex))
     return(final.df)
 }
-
-

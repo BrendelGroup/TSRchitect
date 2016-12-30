@@ -51,7 +51,7 @@ def=function(experimentName){
 setMethod("getTSSs",
 signature(experimentName = "tssObject"),
 function (experimentName){
-	experimentName@tssData
+	experimentName@tssTagData
 }
 )
 
@@ -65,7 +65,7 @@ def=function(experimentName){
 setMethod("getExpr",
 signature(experimentName = "tssObject"),
 function (experimentName){
-	experimentName@expData
+	experimentName@tssCountData
 }
 )
 

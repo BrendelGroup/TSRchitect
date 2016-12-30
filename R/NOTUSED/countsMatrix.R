@@ -1,6 +1,6 @@
 #' Creates a data frame with a list of TSS positions and the corresponding counts from each
-#' @param experimentName an S4 object of class tssObject that contains information about the experiment (including tssData)
-#' @return Assigns a data frame to the expData slot of your tssObject
+#' @param experimentName an S4 object of class tssObject that contains information about the experiment (including tssTagData)
+#' @return Assigns a data frame to the tssCountData slot of your tssObject
 #' @importFrom gtools mixedsort
 #' @export
 
@@ -18,17 +18,17 @@ setMethod("countsMatrix",
 
               message("\nTSS conversion is underway.")
 
-              if (length(experimentName@tssData) == 0) {
-                  stop("\nAll tssData slots are empty.\nYou must load your TSS data before proceeding with this function.")
+              if (length(experimentName@tssTagData) == 0) {
+                  stop("\nAll tssTagData slots are empty.\nYou must load your TSS data before proceeding with this function.")
               }
-              n.slots <- length(experimentName@tssData)
+              n.slots <- length(experimentName@tssTagData)
               tss.list <- vector(mode="list", length=n.slots)
               names.vec <- vector(mode="character")
 
               for (i in 1:n.slots) {
                   paste("TSSset", i, sep="_") -> this.name
                   processTSS(experimentName, i, FALSE)
-                  experimentName@expData[[i]] -> my.exp
+                  experimentName@tssCountData[[i]] -> my.exp
                   my.exp -> tss.list[[i]]
                   paste(as.character(my.exp$chr), my.exp$CTSS, sep="-") -> my.names
                   paste(my.names, my.exp$strand, sep="_") -> these.names

@@ -1,10 +1,10 @@
 #' processTSSp
-#' Creates an expression matrix for all TSSs within a given TSS experiment (in tssData)
-#' @param experimentName - a S4 object of class tssObject containing information in slot tssData
+#' Creates an expression matrix for all TSSs within a given TSS experiment (in tssTagData)
+#' @param experimentName - a S4 object of class tssObject containing information in slot tssTagData
 #' @param tssSet - number of the dataset to be analyzed
 #' @param writeTable if TRUE, writes a data frame containing the TSSs positions and their abundance to your workspace
 #' @importFrom gtools mixedsort
-#' @return creates a data frame containing tss expression for each TSS in slot 'expData' on your tssObject object
+#' @return creates a data frame containing tss expression for each TSS to be stored in slot 'tssExpression' on your tssObject object
 #' @export
 
 setGeneric(
@@ -21,8 +21,8 @@ setMethod("processTSSp",
               object.name <- deparse(substitute(experimentName))
 
               message("... processTSSp ...")
-              if (tssSet>length(experimentName@tssData)) {
-                  stop("The value selected exceeds the number of slots in tssData.")
+              if (tssSet>length(experimentName@tssTagData)) {
+                  stop("The value selected exceeds the number of slots in tssTagData.")
               }
 
               tss <- acquireTSS(experimentName, tssSet)
@@ -34,7 +34,7 @@ setMethod("processTSSp",
                   tss.mat <- tagCountTSS(tss, dfName=df.name, writeDF=TRUE)
               }
               else {
-                  tss.mat <- tagCountTSS(tss, dfName="my.df", writeDF=FALSE)
+                  tss.mat <- tagCountTSS(tss, dfName=df.name, writeDF=FALSE)
               }
 
               cat("\n... the TSS expression matrix for dataset ", tssSet, " has been successfully added to\ntssObject object \"", object.name, "\"\n")
