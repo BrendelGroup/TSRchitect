@@ -8,7 +8,7 @@ Retreives tss data from a given experiment by chromosome.}
 tssChr(tssObj, chrName)
 }
 \arguments{
-\item{tssObj}{an object of class GRanges containing data from a slot of tssData}
+\item{tssObj}{an object of class GRanges containing data from a slot of tssTagData}
 
 \item{chrName}{the name of the chromosome to select}
 }
