@@ -3,22 +3,22 @@
 \name{processTSSp}
 \alias{processTSSp}
 \title{processTSSp
-Creates an expression matrix for all TSSs within a given TSS experiment (in tssData)}
+Creates an expression matrix for all TSSs within a given TSS experiment (in tssTagData)}
 \usage{
 processTSSp(experimentName, tssSet, writeTable)
 }
 \arguments{
-\item{experimentName}{- a S4 object of class tssObject containing information in slot tssData}
+\item{experimentName}{- a S4 object of class tssObject containing information in slot tssTagData}
 
 \item{tssSet}{- number of the dataset to be analyzed}
 
 \item{writeTable}{if TRUE, writes a data frame containing the TSSs positions and their abundance to your workspace}
 }
 \value{
-creates a data frame containing tss expression for each TSS in slot 'expData' on your tssObject object
+creates a data frame containing tss expression for each TSS to be stored in slot 'tssExpression' on your tssObject object
 }
 \description{
 processTSSp
-Creates an expression matrix for all TSSs within a given TSS experiment (in tssData)
+Creates an expression matrix for all TSSs within a given TSS experiment (in tssTagData)
 }
 

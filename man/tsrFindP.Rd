@@ -5,15 +5,15 @@
 \title{tsrFindP
 Finds TSRs from a given chromosome}
 \usage{
-tsrFindP(experimentName, tssSet = 1, nTSSs, clustDist, setToCluster,
-  writeTable = FALSE)
+tsrFindP(experimentName, tssSet = 1, tagCountThreshold, clustDist,
+  setToCluster, writeTable = FALSE)
 }
 \arguments{
-\item{experimentName}{- a S4 object of class tssObject containing information in slot tssData}
+\item{experimentName}{- a S4 object of class tssObject containing information in slot tssTagData}
 
 \item{tssSet}{- number of the dataset to be analyzed}
 
-\item{nTSSs}{- number of TSSs required at a given position}
+\item{tagCountThreshold}{- number of TSSs required at a given position}
 
 \item{clustDist}{- maximum distance of TSSs between two TSRs (in base pairs)}
 
