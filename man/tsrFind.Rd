@@ -3,7 +3,7 @@
 \name{tsrFind}
 \alias{tsrFind}
 \title{tsrFind
-Finds TSRs from a given chromosome}
+Finds TSRs from a given sequence}
 \usage{
 tsrFind(experimentName, tssSet = 1, tagCountThreshold, clustDist,
   setToCluster, writeTable = FALSE)
@@ -26,6 +26,6 @@ creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on yo
 }
 \description{
 tsrFind
-Finds TSRs from a given chromosome
+Finds TSRs from a given sequence
 }
 

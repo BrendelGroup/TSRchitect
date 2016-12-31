@@ -2,8 +2,7 @@
 % Please edit documentation in R/processTSS.R
 \name{processTSS}
 \alias{processTSS}
-\title{processTSS
-Creates an expression matrix for all TSSs within a given TSS experiment (in tssTagData)}
+\title{\emph{processTSS()}}
 \usage{
 processTSS(experimentName, tssSet, writeTable)
 }
@@ -12,13 +11,15 @@ processTSS(experimentName, tssSet, writeTable)
 
 \item{tssSet}{- number of the dataset to be analyzed}
 
-\item{writeTable}{if TRUE, writes a data frame containing the TSSs positions and their abundance to your workspace}
+\item{writeTable}{- if set to TRUE, writes a data frame containing the TSSs positions and their abundance to your workspace}
 }
 \value{
-creates a data frame containing tss expression for each TSS position in slot 'tssCountData' on your tssObject object
+\emph{processTSS} fills the slot experimentName@tssCountData[[tssSet]] in
+        the tssObject \emph{experimentName} with a matrix of unique TSS positions
+        (rows) and observed tag counts in each position for data set tssSet;
+        precisely, each entry of the matrix consists of "seq" (chr), "TSS" (num), "nTSSs" (num), and "strand" (+ or -),
 }
 \description{
-processTSS
-Creates an expression matrix for all TSSs within a given TSS experiment (in tssTagData)
+\emph{processTSS} Creates an expression matrix for all TSSs within a given TSS experiment (in tssTagData)
 }
 

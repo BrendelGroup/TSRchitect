@@ -1,9 +1,16 @@
-#' Computes TSS positions from all bam files and loads them into a tssObject object
-#' @param experimentName - a S4 object of class tssObject that contains information about the experiment
+#' @title \emph{importBam()}
+#'
+#' @description \emph{importBam} processes BAM files as specified by \emph{initializeExp}.
+#'
+#' @param experimentName - an S4 object of class tssObject that contains information about the experiment
+#'
+#' @return \emph{importBam} fills the slot experimentName@bamData in the tssObject \emph{experimentName} with
+#'         GAlignments objects from the \bold{GenomicAlignments} package, one for each parsed input
+#'         BAM file.
+#'
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
-#' @return alignment data (in BAM format) from the tss profiling experiments assigned to your tssObject object
 #' @export
 
 setGeneric(
@@ -16,7 +23,7 @@ setGeneric(
 setMethod("importBam",
           signature(experimentName="tssObject"),
           function(experimentName) {
-              experimentName.chr <- deparse(substitute(experimentName))
+              experimentName.seq <- deparse(substitute(experimentName))
               exp.type <- experimentName@dataType
 
               message("... importBam ...")
@@ -41,9 +48,9 @@ setMethod("importBam",
               cat("\nBeginning import of ", n.bams, " bam files ...\n")
               bams.GA <- bplapply(bam.paths, readGAlignments, BPPARAM = MulticoreParam(), param=my.param)
               experimentName@bamData <- bams.GA
-              cat("Done. Alignment data from ", n.bams, " bam files have been attached to tssObject\nobject \"", experimentName.chr, "\".\n")
+              cat("Done. Alignment data from ", n.bams, " bam files have been attached to tssObject\nobject \"", experimentName.seq, "\".\n")
               cat("--------------------------------------------------------------------------------\n")
-              assign(experimentName.chr, experimentName, parent.frame())
+              assign(experimentName.seq, experimentName, parent.frame())
               message(" Done.\n")
           }
           )

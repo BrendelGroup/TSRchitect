@@ -41,8 +41,8 @@ setMethod("mergeSampleData",
                   for (j in 1:length(replicate.set)) {
                       rbind(my.df, replicate.set[[j]]) -> my.df
                   }
-                  my.df <- my.df[with(my.df, order(chr, TSS)),]
-                  my.df <- my.df[with(my.df, mixedorder(chr)),]
+                  my.df <- my.df[with(my.df, order(seq, TSS)),]
+                  my.df <- my.df[with(my.df, mixedorder(seq)),]
                   my.df -> exp.list[[i]]
               }
 
@@ -53,8 +53,8 @@ setMethod("mergeSampleData",
               for (i in seq_along(uni.ids)) {
                   rbind(my.df, exp.list[[i]]) -> my.df
 	      }
-              my.df <- my.df[with(my.df, order(chr, TSS)),]
-              my.df <- my.df[with(my.df, mixedorder(chr)),]
+              my.df <- my.df[with(my.df, order(seq, TSS)),]
+              my.df <- my.df[with(my.df, mixedorder(seq)),]
               my.df -> exp.list[[i+1]]
 
               experimentName@tssCountDataMerged <- exp.list

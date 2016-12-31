@@ -3,20 +3,20 @@
 \name{tssChr}
 \alias{tssChr}
 \title{tssChr (internal function)
-Retreives tss data from a given experiment by chromosome.}
+Retreives tss data from a given experiment by sequence.}
 \usage{
-tssChr(tssObj, chrName)
+tssChr(tssObj, seqName)
 }
 \arguments{
 \item{tssObj}{an object of class GRanges containing data from a slot of tssTagData}
 
-\item{chrName}{the name of the chromosome to select}
+\item{seqName}{the name of the sequence to select}
 }
 \value{
-a list object containing TSS data for a single chromosome (plus and minus strands)
+a list object containing TSS data for a single sequence (plus and minus strands)
 }
 \description{
 tssChr (internal function)
-Retreives tss data from a given experiment by chromosome.
+Retreives tss data from a given experiment by sequence.
 }
 

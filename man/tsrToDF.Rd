@@ -2,13 +2,27 @@
 % Please edit documentation in R/tsrToDF.R
 \name{tsrToDF}
 \alias{tsrToDF}
-\title{An internal function for TSS clustering
-Creates a data frame for a given output of .tsrCluster}
+\title{\emph{tsrToDF()}}
 \usage{
 tsrToDF(x)
 }
+\arguments{
+\item{x}{A list (of lists) with TSR data as returned by tsrCluster()}
+}
+\value{
+A dataframe of TSRs with variables\cr
+\enumerate{
+        \item seq = sequence identifier (seq)
+        \item start = start of TSR (num)
+        \item end = end of TSR (num)
+        \item strand = + or - (factor)
+        \item nTSSs = count of TSSs (num)
+        \item tsrWidth = width of TSR (num)
+        \item shapeIndex = shape index value of TSR (num)
+}
+}
 \description{
-An internal function for TSS clustering
-Creates a data frame for a given output of .tsrCluster
+\emph{tsrToDF} is a utility function in \bold{TSRchitect} that converts
+a \emph{tsrCluster()}-generated list of TSR data to a dataframe.
 }
 
