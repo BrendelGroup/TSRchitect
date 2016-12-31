@@ -2,17 +2,19 @@
 % Please edit documentation in R/importBam.R
 \name{importBam}
 \alias{importBam}
-\title{Computes TSS positions from all bam files and loads them into a tssObject object}
+\title{\emph{importBam()}}
 \usage{
 importBam(experimentName)
 }
 \arguments{
-\item{experimentName}{- a S4 object of class tssObject that contains information about the experiment}
+\item{experimentName}{- an S4 object of class tssObject that contains information about the experiment}
 }
 \value{
-alignment data (in BAM format) from the tss profiling experiments assigned to your tssObject object
+\emph{importBam} fills the slot experimentName@bamData in the tssObject \emph{experimentName} with
+        GAlignments objects from the \bold{GenomicAlignments} package, one for each parsed input
+        BAM file.
 }
 \description{
-Computes TSS positions from all bam files and loads them into a tssObject object
+\emph{importBam} processes BAM files as specified by \emph{initializeExp}.
 }
 

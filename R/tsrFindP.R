@@ -1,5 +1,5 @@
 #' tsrFindP
-#' Finds TSRs from a given chromosome
+#' Finds TSRs from a given sequence
 #' @param experimentName - a S4 object of class tssObject containing information in slot tssTagData
 #' @param tssSet - number of the dataset to be analyzed
 #' @param tagCountThreshold - number of TSSs required at a given position
@@ -85,16 +85,16 @@ setMethod("tsrFindP",
                      if (nrow(this.tssSet) > 0) { # ... the following only makes sense if this.tssSet is non-empty
 
 #... now considering each combined TSR in turn (index k):
-                         lasttsrchr <- "null"
+                         lasttsrseq <- "null"
                          for (k in 1:nrow(combinedTSRset)) {
                              combinedTSRset[k,] -> this.tsr
 
-                             if (this.tsr$chr != lasttsrchr) {
-#... nothing to be counted if the current TSS chr does not match the current TSR chr:
-                                 that.tssSet <- this.tssSet[this.tssSet$chr == this.tsr$chr, ]
+                             if (this.tsr$seq != lasttsrseq) {
+#... nothing to be counted if the current TSS seq does not match the current TSR seq:
+                                 that.tssSet <- this.tssSet[this.tssSet$seq == this.tsr$seq, ]
                                  1 -> lbeg
                                  0 -> count
-                                 lasttsrchr <- this.tsr$chr
+                                 lasttsrseq <- this.tsr$seq
                              }
                              if (nrow(that.tssSet) == 0) { # ... the following only makes sense if that.tssSet is non-empty
                                  next

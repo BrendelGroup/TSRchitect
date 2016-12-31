@@ -4,7 +4,7 @@
 #'
 #' @param experimentName - an S4 object of class tssObject that contains information about the experiment
 #'
-#' @return _importBam_ fills the slot experimentName@bamData in the tssObject \emph{experimentName} with
+#' @return \emph{importBam} fills the slot experimentName@bamData in the tssObject \emph{experimentName} with
 #'         GAlignments objects from the \bold{GenomicAlignments} package, one for each parsed input
 #'         BAM file.
 #'
@@ -23,7 +23,7 @@ setGeneric(
 setMethod("importBam",
           signature(experimentName="tssObject"),
           function(experimentName) {
-              experimentName.chr <- deparse(substitute(experimentName))
+              experimentName.seq <- deparse(substitute(experimentName))
               exp.type <- experimentName@dataType
 
               message("... importBam ...")
@@ -48,9 +48,9 @@ setMethod("importBam",
               cat("\nBeginning import of ", n.bams, " bam files ...\n")
               bams.GA <- bplapply(bam.paths, readGAlignments, BPPARAM = MulticoreParam(), param=my.param)
               experimentName@bamData <- bams.GA
-              cat("Done. Alignment data from ", n.bams, " bam files have been attached to tssObject\nobject \"", experimentName.chr, "\".\n")
+              cat("Done. Alignment data from ", n.bams, " bam files have been attached to tssObject\nobject \"", experimentName.seq, "\".\n")
               cat("--------------------------------------------------------------------------------\n")
-              assign(experimentName.chr, experimentName, parent.frame())
+              assign(experimentName.seq, experimentName, parent.frame())
               message(" Done.\n")
           }
           )
