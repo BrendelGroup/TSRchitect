@@ -39,16 +39,15 @@ setMethod("processTSS",
               df.name <- paste(df.name, "txt", sep=".")
 
               if (writeTable=="TRUE") {
-                  tss.mat <- tagCountTSS(tss, dfName=df.name, writeDF=TRUE)
+                  tss.df <- tagCountTSS(tss, dfName=df.name, writeDF=TRUE)
               }
               else {
-                  tss.mat <- tagCountTSS(tss, dfName=df.name, writeDF=FALSE)
+                  tss.df <- tagCountTSS(tss, dfName=df.name, writeDF=FALSE)
               }
 
-              experimentName@tssCountData[[tssSet]] <- tss.mat
               cat("\n... the TSS expression matrix for dataset ", tssSet, " has been successfully added to\ntssObject object \"", object.name, "\"\n")
               cat("--------------------------------------------------------------------------------\n")
-              assign(object.name, experimentName, envir = parent.frame())
+              return(tss.df)
               message(" Done.\n")
           }
           )
