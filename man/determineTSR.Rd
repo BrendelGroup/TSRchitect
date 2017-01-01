@@ -11,7 +11,7 @@ determineTSR(experimentName, setToCluster, tagCountThreshold, clustDist,
 \arguments{
 \item{experimentName}{- a S4 object of class tssObject containing information in slot tssTagData}
 
-\item{setToCluster}{- specifies the set to be clustered. Options are "replicates" or "merged".}
+\item{setToCluster}{- specifies the set to be clustered. Options are "replicates" or "merged" or "combined".}
 
 \item{tagCountThreshold}{- number of TSSs required at a given position}
 

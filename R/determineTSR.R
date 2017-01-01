@@ -2,7 +2,7 @@
 #' Finds TSRs from a given sequence
 #'
 #' @param experimentName - a S4 object of class tssObject containing information in slot tssTagData
-#' @param setToCluster - specifies the set to be clustered. Options are "replicates" or "merged".
+#' @param setToCluster - specifies the set to be clustered. Options are "replicates" or "merged" or "combined".
 #' @param tagCountThreshold - number of TSSs required at a given position
 #' @param clustDist - maximum distance of TSSs between two TSRs (in base pairs)
 #' @param writeTable - specifies whether the output should be written to a table. (logical)
@@ -28,9 +28,14 @@ setMethod("determineTSR",
                  iend <- length(experimentName@tssCountData)
                  experimentName@tsrData <- foreach(i=1:iend,.packages="TSRchitect") %dopar% findTSR(experimentName = experimentName, setToCluster="replicates", tssSet = i, tagCountThreshold=10, clustDist=20, writeTable = TRUE)
              }
-	     else if (setToCluster=="merged") {
+	     else if (setToCluster=="merged" || setToCluster=="combined") {
                  iend <- length(experimentName@tssCountDataMerged)
-                 experimentName@tsrDataMerged <- foreach(i=1:iend,.packages="TSRchitect") %dopar% findTSR(experimentName = experimentName, setToCluster="merged", tssSet = i, tagCountThreshold=10, clustDist=20, writeTable = TRUE)
+                 if (setToCluster=="merged") {
+                     experimentName@tsrDataMerged <- foreach(i=1:iend,.packages="TSRchitect") %dopar% findTSR(experimentName = experimentName, setToCluster="merged", tssSet = i, tagCountThreshold=10, clustDist=20, writeTable = TRUE)
+                 }
+                 if ( iend > length(experimentName@tsrDataMerged) ) {
+                     stop("Error: Make sure the experimentName@tsrDataMerged slot for the combined TSR data was populated by the appropriate call to findTSR() or determineTSR().")
+                 }
 
 #Now we determine the TSS tag counts within the combined TSR set for each of the samples ...
                  experimentName@tsrDataMerged[[iend]] -> combinedTSRset
