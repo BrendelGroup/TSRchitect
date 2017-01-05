@@ -1,6 +1,6 @@
 #' @title \emph{importAnnotation}
 #'
-#' @description \emph{importAnnotation} processes BAM files as specified by \emph{initializeExp}.
+#' @description \emph{importAnnotation} imports an annotation from an external file and attaches it to your tssObject.
 #'
 #' @param experimentName - an S4 object of class tssObject that contains information about the experiment
 #'
@@ -8,8 +8,8 @@
 #'
 #' @param annotFile - a path (full or relative) to the annotation file to be imported. 
 #' 
-#' @return \emph{impartAnnotation} fills the slot experimentName@geneAnnot in the tssObject \emph{experimentName} with
-#'         a GRanges object contining the annotion data
+#' @return \emph{importAnnotation} fills the slot experimentName@geneAnnot in the tssObject \emph{experimentName} with
+#'         a GRanges object contining the annotation data
 #'
 #' @importFrom GenomicRanges GRanges
 #' @importFrom rtracklayer import.bed import.gff import.gff3
@@ -24,7 +24,7 @@ setGeneric(
 
 setMethod("importAnnotation",
           signature(experimentName="tssObject", fileType="character", annotFile="character"),
-          function(experimentName, fileType=c("bed","gff3"), annotFile) {
+          function(experimentName, fileType=c("bed","gff","gff3"), annotFile) {
               experimentName.seq <- deparse(substitute(experimentName))
               message("... importAnnotation ...")
               fileType <- match.arg(fileType, c("bed","gff", "gff3"), several.ok=FALSE)
