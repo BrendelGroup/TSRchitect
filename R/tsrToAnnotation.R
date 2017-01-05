@@ -11,7 +11,7 @@
 #'
 
 #' @importFrom BiocGenerics start end
-#' @importFrom GenomicRanges GRanges findOverlaps promoters paste
+#' @importFrom GenomicRanges GRanges findOverlaps promoters
 #' @importFrom GenomeInfoDb sortSeqlevels
 #' @importFrom IRanges IRanges
 #' @export
