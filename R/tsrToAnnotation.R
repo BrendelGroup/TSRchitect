@@ -6,6 +6,12 @@
 #'
 #' @param upstreamDist - the maximum distance (in bp) upstream of the selected interval necessary to associate a TSR with a given annotation.
 #'
+#' @param downstreamDist - the maximum distance (in bp) downstream of the selected interval (beginning with the CDS) to associate a TSR with a given annotation.
+#'
+#' @param featureType - Does the annotation file have more than just genes in its 'type' column? Defaults to TRUE.
+#'
+#' @param featureColumn - What is the name of the column in the annotation file containing the featureIDs? Defaults to 'ID'.
+#'
 #' @return tsrToAnnotation adds featureID information to the tsrData data frame and attaches it to the tssObject
 #' experimentName
 #'
@@ -17,21 +23,26 @@
 
 setGeneric(
     name="tsrToAnnotation",
-    def=function(experimentName, upstreamDist, downstreamDist) {
+    def=function(experimentName, upstreamDist, downstreamDist, featureType, featureColumn) {
         standardGeneric("tsrToAnnotation")
     }
     )
 
 setMethod("tsrToAnnotation",
-          signature(experimentName="tssObject", upstreamDist="numeric", downstreamDist="numeric"),
-          function(experimentName, upstreamDist=1000, downstreamDist=200) {
+          signature(experimentName="tssObject", upstreamDist="numeric", downstreamDist="numeric", featureType="logical", featureColumn="character"),
+          function(experimentName, upstreamDist=1000, downstreamDist=200, featureType=TRUE, featureColumn="ID") {
               experimentName.seq <- deparse(substitute(experimentName))
               message("... tsrToAnnotation ...")
               my.annot <- experimentName@geneAnnot
               if (length(my.annot)<1) {
                   stop("No annotation has been loaded to the tssObject. \nPlease run importAnnotation prior to using tsrToAnnotation.")
               }
-              annot.df <- my.annot[my.annot$type=="gene", ]
+              if (featureType==TRUE) {
+                  annot.df <- my.annot[my.annot$type=="gene", ]
+              }
+              else {
+                  annot.df <- my.annot
+              }
               n.sets  <- length(experimentName@tsrData)
               tsr.set <- experimentName@tsrData[[n.sets]] #creating a GRanges object from the data frame in tsr.set. There's no straightforward way to do this without doing what follows, because the start and end columns need to be handled separately.
               df.plus <- tsr.set[tsr.set$strand=="+",]
@@ -55,7 +66,7 @@ setMethod("tsrToAnnotation",
               tsr.gr <- sort(gr.combined) #The TSR data is now a GRanges object
               #extending the gene annotation upstream as specified by upstreamDist
               annot.extend <- promoters(annot.df, upstream=upstreamDist, downstream=downstreamDist) #extending the annotations interval.
-              ID.vec <- annot.extend$ID
+              ID.vec <- annot.extend$featureColumn
               my.OL <- findOverlaps(tsr.gr, annot.extend) #finding which intervals overlap between the tsr data and the annotation (which has been extended upstream as specified.
               OL.df <- as.data.frame(my.OL)
               tsr.set$featureID <- NA #seeding the data frame (with NAs, which will represent no overlap after the next line of code is complete
