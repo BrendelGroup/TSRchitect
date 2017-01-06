@@ -4,15 +4,22 @@
 \alias{tsrToAnnotation}
 \title{tsrToAnnotation}
 \usage{
-tsrToAnnotation(experimentName, upstreamDist)
+tsrToAnnotation(experimentName, upstreamDist, downstreamDist, featureType,
+  featureColumn)
 }
 \arguments{
 \item{experimentName}{- an S4 object of class tssObject that contains information about the experiment.}
 
 \item{upstreamDist}{- the maximum distance (in bp) upstream of the selected interval necessary to associate a TSR with a given annotation.}
+
+\item{downstreamDist}{- the maximum distance (in bp) downstream of the selected interval (beginning with the CDS) to associate a TSR with a given annotation.}
+
+\item{featureType}{- Does the annotation file have more than just genes in its 'type' column? Defaults to TRUE.}
+
+\item{featureColumn}{- What is the name of the column in the annotation file containing the featureIDs? Defaults to 'ID'.}
 }
 \value{
-tsrToAnnotation adds geneID information to the tsrData data frame and attaches it to the tssObject
+tsrToAnnotation adds featureID information to the tsrData data frame and attaches it to the tssObject
 experimentName
 }
 \description{
