@@ -14,10 +14,10 @@ importAnnotation(experimentName, fileType, annotFile)
 \item{annotFile}{- a path (full or relative) to the annotation file to be imported.}
 }
 \value{
-\emph{impartAnnotation} fills the slot experimentName@geneAnnot in the tssObject \emph{experimentName} with
-        a GRanges object contining the annotion data
+\emph{importAnnotation} fills the slot experimentName@geneAnnot in the tssObject \emph{experimentName} with
+        a GRanges object contining the annotation data
 }
 \description{
-\emph{importAnnotation} processes BAM files as specified by \emph{initializeExp}.
+\emph{importAnnotation} imports an annotation from an external file and attaches it to your tssObject.
 }
 
