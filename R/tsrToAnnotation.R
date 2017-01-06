@@ -43,8 +43,8 @@ setMethod("tsrToAnnotation",
                                       )
               gr2 <- GRanges(seqnames=df.minus$seq,
                                        ranges = IRanges(
-                                           start=df.minus$end,
-                                           end=df.minus$start
+                                           start=df.minus$start,
+                                           end=df.minus$end
                                            ),
                                        strand=df.minus$strand
                                        )
@@ -57,7 +57,7 @@ setMethod("tsrToAnnotation",
               my.OL <- findOverlaps(tsr.gr, annot.extend)
               OL.df <- as.data.frame(my.OL)
               tsr.set$geneID <- NA #seeding the data frame (with NAs, which will represent no overlap after the next line of code is complete
-              tsr.set$geneID[OL.df$queryHits] <- ID.vec[OD.df$subjectHits]
+              tsr.set$geneID[OL.df$queryHits] <- ID.vec[OL.df$subjectHits]
               rownames(tsr.set) <- paste(tsr.set$seq, tsr.set$start, tsr.set$end, tsr.set$strand, sep=".") #adding the promoterIDs to the rows of the tsr data frame
               experimentName@tsrData[[n.sets]] <- tsr.set #(for now). I still think we should create a new, dedicated slot for merged data.
               cat("Done. GeneIDs have been associated with adjacent TSRs and the data frame has been re-assigned to its slot.\n")
