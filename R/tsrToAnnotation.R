@@ -52,7 +52,7 @@ setMethod("tsrToAnnotation",
               gr.combined <- sortSeqlevels(gr.combined)
               tsr.gr <- sort(gr.combined)
               #extending the gene annotation upstream as specified by upstreamDist
-              annot.extend <- promoters(my.annot, upstream=upstreamDist, downstream=200)
+              annot.extend <- promoters(annot.df, upstream=upstreamDist, downstream=200)
               ID.vec <- annot.extend$ID
               my.OL <- findOverlaps(tsr.gr, annot.extend)
               OL.df <- as.data.frame(my.OL)
