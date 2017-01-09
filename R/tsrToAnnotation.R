@@ -38,13 +38,13 @@ setMethod("tsrToAnnotation",
                   stop("No annotation has been loaded to the tssObject. \nPlease run importAnnotation prior to using tsrToAnnotation.")
               }
               if (featureType==TRUE) {
-                  annot.df <- my.annot[my.annot$type=="gene", ]
+                  annot.gr <- my.annot[my.annot$type=="gene", ]
               }
               else {
-                  annot.df <- my.annot
+                  annot.gr <- my.annot
               }
-              n.sets  <- length(experimentName@tsrData)
-              tsr.set <- experimentName@tsrData[[n.sets]] #creating a GRanges object from the data frame in tsr.set. There's no straightforward way to do this without doing what follows, because the start and end columns need to be handled separately.
+              n.sets  <- length(experimentName@tsrDataMerged)
+              tsr.set <- experimentName@tsrDataMerged[[n.sets]] #creating a GRanges object from the data frame in tsr.set. There's no straightforward way to do this without doing what follows, because the start and end columns need to be handled separately.
               df.plus <- tsr.set[tsr.set$strand=="+",]
               df.minus <- tsr.set[tsr.set$strand=="-",]
               gr1 <- GRanges(seqnames=df.plus$seq,  
@@ -65,15 +65,14 @@ setMethod("tsrToAnnotation",
               gr.combined <- sortSeqlevels(gr.combined)
               tsr.gr <- sort(gr.combined) #The TSR data is now a GRanges object
               #extending the gene annotation upstream as specified by upstreamDist
-              annot.extend <- promoters(annot.df, upstream=upstreamDist, downstream=downstreamDist) #extending the annotations interval.
+              annot.extend <- promoters(annot.gr, upstream=upstreamDist, downstream=downstreamDist) #extending the annotations interval.
               ID.vec <- annot.extend$featureColumn
               my.OL <- findOverlaps(tsr.gr, annot.extend) #finding which intervals overlap between the tsr data and the annotation (which has been extended upstream as specified.
               OL.df <- as.data.frame(my.OL)
               tsr.set$featureID <- NA #seeding the data frame (with NAs, which will represent no overlap after the next line of code is complete
               tsr.set$featureID[OL.df$queryHits] <- ID.vec[OL.df$subjectHits]
               rownames(tsr.set) <- paste(tsr.set$seq, tsr.set$start, tsr.set$end, tsr.set$strand, sep=".") #adding the promoterIDs to the rows of the tsr data frame
-              n.merged <- length(experimentName@tsrDataMerged)
-              n.slot <- n.merged + 1
+              n.slot <- length(experimentName@tsrDataMerged)
               experimentName@tsrDataMerged[[n.slot]] <- tsr.set #(for now). I still think we should create a new, dedicated slot for merged data.
               cat("Done. GeneIDs have been associated with adjacent TSRs and the data frame has been re-assigned to its slot.\n")
               cat("--------------------------------------------------------------------------------\n")
