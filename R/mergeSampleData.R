@@ -52,7 +52,7 @@ setMethod("mergeSampleData",
               data.frame() -> my.df
               for (i in seq_along(uni.ids)) {
                   rbind(my.df, exp.list[[i]]) -> my.df
-	      }
+              }
               my.df <- my.df[with(my.df, order(seq, TSS)),]
               my.df <- my.df[with(my.df, mixedorder(seq)),]
               my.df -> exp.list[[i+1]]

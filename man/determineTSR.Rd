@@ -5,19 +5,23 @@
 \title{determineTSR
 Finds TSRs from a given sequence}
 \usage{
-determineTSR(experimentName, setToCluster, tagCountThreshold, clustDist,
-  writeTable = FALSE)
+determineTSR(experimentName, parallel, tsrSetType, tssSet, tagCountThreshold,
+  clustDist, writeTable = FALSE)
 }
 \arguments{
 \item{experimentName}{- a S4 object of class tssObject containing information in slot tssTagData}
 
-\item{setToCluster}{- specifies the set to be clustered. Options are "replicates" or "merged" or "combined".}
+\item{tsrSetType}{- specifies the set to be clustered. Options are "replicates" or "merged".}
+
+\item{tssSet}{- default is "all"; for specific use, specify tssSet number (as character)}
 
 \item{tagCountThreshold}{- number of TSSs required at a given position}
 
 \item{clustDist}{- maximum distance of TSSs between two TSRs (in base pairs)}
 
 \item{writeTable}{- specifies whether the output should be written to a table. (logical)}
+
+\item{paralel}{- whether to run in parallel or not (logical)}
 }
 \value{
 creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssObject object
