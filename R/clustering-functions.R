@@ -122,7 +122,7 @@ tagCountTSS <- function(x, dfName="TSS.txt", writeDF=FALSE) {
                 k + 1 -> k
                 c(this.seq, this.TSS, "+", n.TSSs) -> my.matrix.p[k,]
                 my.matrix <- rbind(my.matrix,my.matrix.p)	#adding the plus strand matrix of this.seq to the overall matrix
-	    }
+            }
 
             #now for the minus strand:
             tss.vec <- x[[i]]$minus
@@ -186,10 +186,10 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
          subset(sTSS, strand=="+") -> sTSS.p
          as.matrix(sTSS.p) -> sTSS.p
          nrow(sTSS.p) -> my.len
-	 if (my.len == 0) { # ... assign an empty list to tss.list.p
+         if (my.len == 0) { # ... assign an empty list to tss.list.p
              vector(mode="list") -> tss.list.p
          }
-	 else if (my.len == 1) {
+         else if (my.len == 1) {
              vector(mode="list") -> tss.list.p
              as.numeric(sTSS.p[1,2]) -> my.tss
              as.numeric(sTSS.p[1,4]) -> my.count
@@ -198,7 +198,7 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
              (1:ncol(combined.tss)) -> colnames(combined.tss)
              combined.tss -> tss.list.p[[1]]
          }
-	 else {
+         else {
              vector(mode="list") -> tss.list.p
              as.numeric(sTSS.p[1,2]) -> my.tss
              as.numeric(sTSS.p[1,4]) -> my.count
@@ -231,7 +231,7 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
                      tss.2.count -> my.count
                  }
              }
-	 }
+         }
          if (my.len > 0) {
              names.len <- length(tss.list.p)
              names.vec <- vector(mode="character",length=names.len)
@@ -246,10 +246,10 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
          subset(sTSS, strand=="-") -> sTSS.m
          as.matrix(sTSS.m) -> sTSS.m
          nrow(sTSS.m) -> my.len
-	 if (my.len == 0) { # ... assign an empty list to tss.list.m
+         if (my.len == 0) { # ... assign an empty list to tss.list.m
              vector(mode="list") -> tss.list.m
          }
-	 else if (my.len == 1) {
+         else if (my.len == 1) {
              vector(mode="list") -> tss.list.m
              as.numeric(sTSS.m[1,2]) -> my.tss
              as.numeric(sTSS.m[1,4]) -> my.count
@@ -257,8 +257,8 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
              c("coordinate","count") -> rownames(combined.tss)
              (1:ncol(combined.tss)) -> colnames(combined.tss)
              combined.tss -> tss.list.m[[1]]
-	 }
-	 else {
+         }
+         else {
              vector(mode="list") -> tss.list.m
              as.numeric(sTSS.m[1,2]) -> my.tss
              as.numeric(sTSS.m[1,4]) -> my.count
@@ -291,7 +291,7 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
                      tss.2.count -> my.count
                  }
              }
-	 }
+         }
          if (my.len > 0) {
              length(tss.list.m) -> names.len
              vector(mode="character",length=names.len) -> names.vec
