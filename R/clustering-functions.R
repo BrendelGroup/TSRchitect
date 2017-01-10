@@ -84,6 +84,8 @@ setMethod("acquireTSS",
 #' tagCountTSS
 #' Returns a matrix [a, h] where a = the number of unique TSSs and h = the # of tags observed at that position
 #' @importFrom gtools mixedsort
+#' @importFrom utils write.table
+#' 
 #' @export
 
 tagCountTSS <- function(x, dfName="TSS.txt", writeDF=FALSE) {

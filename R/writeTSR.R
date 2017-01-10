@@ -5,6 +5,8 @@
 #' @param tsrSetType - specifies the set to be written to file. Options are "replicates" or "merged".
 #' @param tsrSet - number of the dataset to be processed
 #'
+#' @importFrom utils write.table
+#'
 #' @return nothing
 #' @export
 

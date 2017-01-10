@@ -24,16 +24,14 @@ Maintainer: R. Taylor Raborn <rtraborn@indiana.edu>
 Depends:
     R (>= 3.3.0)
 Imports:
-    Biostrings,
-    Biobase,
-    BSgenome,    
+    BiocGenerics,
+    BiocParallel,
     GenomicAlignments,
+    GenomeInfoDb,
     GenomicRanges,
-    ggbio,
     gtools,
-    methods,
+    IRanges,
     Rsamtools (>= 1.14.3),    
-    Rsubread,
     rtracklayer
 License: GPL-3
 URL: https://github.com/brendelgroup/tsrchitect
