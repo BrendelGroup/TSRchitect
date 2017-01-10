@@ -17,6 +17,7 @@ setMethod("mergeSampleData",
           function(experimentName) {
               object.name <- deparse(substitute(experimentName))
 
+              message("... mergeSampleData ...")
               if (length(experimentName@tssCountData)==0) {
                   stop("\nThe slot @tssCountData is empty. Please run processTSS before proceeding with this command.\n")
               }
