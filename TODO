@@ -1,0 +1,5 @@
+1) Add runnable examples to TSRchitect (at least 80% of man pages must have them)
+2) Generate some biocViews
+3) Create a vignette folder (+ vignette)
+4) Convert tabs (where present) to 4 spaces
+5) Add some unit tests (strongly recommended by BioC)
