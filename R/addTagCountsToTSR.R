@@ -1,5 +1,5 @@
 #' addTagCountsToTSR
-#' Write TSRs for a specified data set to a tab-delimited file
+#' Adds a column of tag counts to a set of identifid TSRs
 #'
 #' @param experimentName - a S4 object of class tssObject containing information in slot tssTagData
 #' @param tsrSetType - specifies the set to be written to file. Options are "replicates" or "merged".
@@ -7,7 +7,10 @@
 #' @param tagCountThreshold - number of TSSs required at a given position
 #' @param writeTable - specifies whether the output should be written to a table. (logical)
 #'
-#' @return nothing
+#' @return a column of tag counts is appended to the selected set of identified TSRs
+#'
+#' @importFrom utils write.table
+#' 
 #' @export
 
 setGeneric(

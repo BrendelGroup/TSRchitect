@@ -3,7 +3,7 @@
 \name{addTagCountsToTSR}
 \alias{addTagCountsToTSR}
 \title{addTagCountsToTSR
-Write TSRs for a specified data set to a tab-delimited file}
+Adds a column of tag counts to a set of identifid TSRs}
 \usage{
 addTagCountsToTSR(experimentName, tsrSetType, tsrSet = 1,
   tagCountThreshold = 1, writeTable = TRUE)
@@ -20,10 +20,10 @@ addTagCountsToTSR(experimentName, tsrSetType, tsrSet = 1,
 \item{writeTable}{- specifies whether the output should be written to a table. (logical)}
 }
 \value{
-nothing
+a column of tag counts is appended to the selected set of identified TSRs
 }
 \description{
 addTagCountsToTSR
-Write TSRs for a specified data set to a tab-delimited file
+Adds a column of tag counts to a set of identifid TSRs
 }
 

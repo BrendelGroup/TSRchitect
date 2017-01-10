@@ -16,6 +16,7 @@
 #' @importFrom BiocGenerics start end
 #' @importFrom GenomicRanges GRanges findOverlaps promoters
 #' @importFrom IRanges IRanges
+#' @importFrom utils write.table
 #' @export
 
 
