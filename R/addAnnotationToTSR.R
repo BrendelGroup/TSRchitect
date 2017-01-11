@@ -64,7 +64,7 @@ setMethod("addAnnotationToTSR",
              }
 
 # ... loading the annotion GRange object and pulling out what we want:
-             allAnnotation <- experimentName@geneAnnot
+             allAnnotation <- experimentName@annotation
              if (length(allAnnotation)<1) {
                  stop("No annotation has been loaded to the tssObject. \nPlease run importAnnotation prior to using addAnnotationToTSR.")
              }
