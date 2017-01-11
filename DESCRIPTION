@@ -1,6 +1,6 @@
 Package: TSRchitect
 Version: 0.99.0
-Date: 2017-01-10
+Date: 2017-01-11
 Title: Promoter identification, visualization and manipulation using large-scale
     5' end (TSS) sequence data
 Description: In recent years, large-scale transcriptional sequence data has
@@ -15,10 +15,8 @@ Description: In recent years, large-scale transcriptional sequence data has
     (RAMPAGE, PEAT). TSRchitect also enables the user to visualize the landscape of TSSs,
     including the annotated promoter (TSR) for a specific gene of interest.
 Authors@R: c(person("R. Taylor","Raborn",email="rtraborn@indiana.edu",role=c("aut","cre", "cph")),
-  person("Krishnakumar","Sridharan",email="krishnakumar28@gmail.com",role="ctb"),
   person("Volker","Brendel",email="vbrendel@indiana.edu",role=c("aut","cph")))
 Author: R. Taylor Raborn [aut, cre, cph]
-	Krishnakumar Sridharan [ctb]
 	Volker P. Brendel [aut, cph]
 Maintainer: R. Taylor Raborn <rtraborn@indiana.edu>	
 Depends:
