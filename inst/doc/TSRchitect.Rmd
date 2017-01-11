@@ -1,6 +1,3 @@
----
-title: "Identifying Promoters in Paired-End TSS data using TSRchitect"
-output: rmarkdown::html_vignette
 <!--
 vignette: >
     %\VignetteEngine{knitr::rmarkdown}
@@ -9,7 +6,6 @@ vignette: >
     %\VignetteIndexExtry{TSRchitect}
     \usepackage[utf8]{inputenc}
 -->
----
 ```{r setup, include=FALSE}
 library(knitr)
 ```
