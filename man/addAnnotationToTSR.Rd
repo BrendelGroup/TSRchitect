@@ -5,7 +5,7 @@
 \title{addAnnotationToTSR}
 \usage{
 addAnnotationToTSR(experimentName, tsrSetType, tsrSet = 1, upstreamDist,
-  downstreamDist, featureType, featureColumn, writeTable = TRUE)
+  downstreamDist, feature, featureColumnID, writeTable = TRUE)
 }
 \arguments{
 \item{experimentName}{S4 object of class tssObject with filled data slots tsrData (and/or tsrDataMerged)}
@@ -18,14 +18,14 @@ addAnnotationToTSR(experimentName, tsrSetType, tsrSet = 1, upstreamDist,
 
 \item{downstreamDist}{- the maximum distance (in bp) downstream of the selected interval (beginning with the CDS) to associate a TSR with a given annotation.}
 
-\item{featureType}{- Does the annotation file have more than just genes in its 'type' column? Defaults to TRUE.}
+\item{feature}{Specifies the feature to be used for annotation (typically "gene" [default] or "mRNA" for GFF3 input); set to "all" if all annotations from the input are to be used.}
 
-\item{featureColumn}{- What is the name of the column in the annotation file containing the featureIDs? Defaults to 'ID'.}
+\item{featureColumnID}{Name of the column identifier in the annotation GRanges object. This should be "ID" (default) for GFF3 input or "name" for bed input.}
 
 \item{writeTable}{Specifies whether the output should be written to a tab-delimited file. Defaults to TRUE.}
 }
 \value{
-addAnnotationToTSR adds featureID information to the tsrData(Merged) data frame and attaches it to its tssObject slot.
+addAnnotationToTSR adds feature annotation to the tsrData(Merged) data frame and attaches it to its tssObject slot.
 }
 \description{
 addAnnotationToTSR associates an identified promoter with a given gene, if found upstream and on the same strand within a selected distance.

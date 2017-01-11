@@ -14,7 +14,7 @@ importAnnotation(experimentName, fileType, annotFile)
 \item{annotFile}{- a path (full or relative) to the annotation file to be imported.}
 }
 \value{
-\emph{importAnnotation} fills the slot experimentName@geneAnnot in the tssObject \emph{experimentName} with
+\emph{importAnnotation} fills the slot experimentName@annotation in the tssObject \emph{experimentName} with
         a GRanges object contining the annotation data
 }
 \description{
