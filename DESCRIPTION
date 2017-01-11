@@ -38,5 +38,11 @@ Suggests:
     devtools,
     knitr,
     rmarkdown
+BiocViews:
+    FunctionalGenomics,
+    GeneExpression,    
+    GeneRegulation,
+    GenomeAnnotation,
+    Transcription
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
