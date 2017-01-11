@@ -23,7 +23,7 @@ setGeneric(
 setMethod("importBam",
           signature(experimentName="tssObject"),
           function(experimentName) {
-              experimentName.seq <- deparse(substitute(experimentName))
+              object.name <- deparse(substitute(experimentName))
               exp.type <- experimentName@dataType
 
               message("... importBam ...")
@@ -48,9 +48,9 @@ setMethod("importBam",
               cat("\nBeginning import of ", n.bams, " bam files ...\n")
               bams.GA <- bplapply(bam.paths, readGAlignments, BPPARAM = MulticoreParam(), param=my.param)
               experimentName@bamData <- bams.GA
-              cat("Done. Alignment data from ", n.bams, " bam files have been attached to tssObject\nobject \"", experimentName.seq, "\".\n")
+              cat("Done. Alignment data from ", n.bams, " bam files have been attached to tssObject\nobject \"", object.name, "\".\n")
               cat("--------------------------------------------------------------------------------\n")
-              assign(experimentName.seq, experimentName, parent.frame())
+              assign(object.name, experimentName, parent.frame())
               message(" Done.\n")
           }
           )

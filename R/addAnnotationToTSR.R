@@ -7,29 +7,28 @@
 #' @param tsrSet Number of the data set of type tsrSetType to be processed
 #' @param upstreamDist - the maximum distance (in bp) upstream of the selected interval necessary to associate a TSR with a given annotation.
 #' @param downstreamDist - the maximum distance (in bp) downstream of the selected interval (beginning with the CDS) to associate a TSR with a given annotation.
-#' @param featureType - Does the annotation file have more than just genes in its 'type' column? Defaults to TRUE.
-#' @param featureColumn - What is the name of the column in the annotation file containing the featureIDs? Defaults to 'ID'.
+#' @param feature Specifies the feature to be used for annotation (typically "gene" [default] or "mRNA" for GFF3 input); set to "all" if all annotations from the input are to be used.
+#' @param featureColumnID Name of the column identifier in the annotation GRanges object. This should be "ID" (default) for GFF3 input or "name" for bed input.
 #' @param writeTable Specifies whether the output should be written to a tab-delimited file. Defaults to TRUE.
 #'
-#' @return addAnnotationToTSR adds featureID information to the tsrData(Merged) data frame and attaches it to its tssObject slot.
+#' @return addAnnotationToTSR adds feature annotation to the tsrData(Merged) data frame and attaches it to its tssObject slot.
 #'
 #' @importFrom BiocGenerics start end
 #' @importFrom GenomicRanges GRanges findOverlaps promoters
 #' @importFrom IRanges IRanges
-#' @importFrom utils write.table
 #' @export
 
 
 setGeneric(
            name="addAnnotationToTSR",
-           def=function(experimentName, tsrSetType, tsrSet=1, upstreamDist, downstreamDist, featureType, featureColumn, writeTable=TRUE) {
+           def=function(experimentName, tsrSetType, tsrSet=1, upstreamDist, downstreamDist, feature, featureColumnID, writeTable=TRUE) {
                standardGeneric("addAnnotationToTSR")
     }
     )
 
 setMethod("addAnnotationToTSR",
-          signature(experimentName="tssObject", "character", "numeric", upstreamDist="numeric", downstreamDist="numeric", featureType="logical", featureColumn="character", "logical"),
-          function(experimentName, tsrSetType, tsrSet, upstreamDist=1000, downstreamDist=200, featureType=TRUE, featureColumn="ID", writeTable=TRUE) {
+          signature(experimentName="tssObject", "character", "numeric", upstreamDist="numeric", downstreamDist="numeric", feature="character", featureColumnID="character", "logical"),
+          function(experimentName, tsrSetType, tsrSet, upstreamDist=1000, downstreamDist=200, feature="gene", featureColumnID="ID", writeTable=TRUE) {
 
              object.name <- deparse(substitute(experimentName))
              message("... addAnnotationToTSR ...")
@@ -65,18 +64,16 @@ setMethod("addAnnotationToTSR",
              }
 
 # ... loading the annotion GRange object and pulling out what we want:
-             my.annot <- experimentName@geneAnnot
-             if (length(my.annot)<1) {
+             allAnnotation <- experimentName@geneAnnot
+             if (length(allAnnotation)<1) {
                  stop("No annotation has been loaded to the tssObject. \nPlease run importAnnotation prior to using addAnnotationToTSR.")
              }
-             if (featureType==TRUE) {
-                 annot.gr <- my.annot[my.annot$type=="gene", ]
-#                annot.gr <- my.annot[my.annot$type=="mRNA", ]
-#VB COMMENT: ... this remains an open problem.  I think we want to specify two variable to be passed
-#            into this function: 1) the "feature" tag we wish to pull out of my.annot, and 2) the column identifier in annot.gr to indicate what we'll use for annotation
+# ... pulling out the selected feature from the annotation GRanges object (if the required, GFF3-standard, "type" column exists):
+             if ( feature == "all"  || is.na(match("type", names(allAnnotation@elementMetadata@listData))) ) {
+                 annot.gr <- allAnnotation
              }
              else {
-                 annot.gr <- my.annot
+                 annot.gr <- allAnnotation[allAnnotation$type==feature, ]
              }
 
              # ... creating a GRanges object from the data frame tsr.df:
@@ -87,23 +84,23 @@ setMethod("addAnnotationToTSR",
 # ... defining the regions of interest for annotation. Typically this would be the predicted promoter regions based on the gene annotion.
 # promoters() takes the 5'-start at x of annot.gr, then creates an interval x-upstreamDist,x+downstreamDist-1 on the plus strand
 # or x-downstreamDist+1,x+upstreamDist on the minus strand; in short - a potential promoter region.
-             annot.extend <- promoters(annot.gr, upstream=upstreamDist, downstream=downstreamDist) #extending the annotations interval.
+             regionOfInterest <- promoters(annot.gr, upstream=upstreamDist, downstream=downstreamDist)
 
-             idvec <- sprintf("annot.extend$%s",featureColumn)
+             idvec <- sprintf("regionOfInterest$%s",featureColumnID)
              ID.vec <- eval(parse(text=idvec))
-             my.OL <- findOverlaps(tsr.gr, annot.extend)
-# ... my.OL is a hit list that indicates the overlaps between tsr.gr entries and annot.extend entries:
-             OL.df <- as.data.frame(my.OL)
+             overlapHitList <- findOverlaps(tsr.gr, regionOfInterest)
+# ... overlapHitList is a hit list that indicates the overlaps between tsr.gr entries and regionOfInterest entries:
+             overlap.df <- as.data.frame(overlapHitList)
 
 #... adding featureID to tsr.df:
 #
              tsr.df$featureID <- NA #seeding the data frame (with NAs, which will represent no overlap after the next line of code is complete
 
-	     # now replacing the NAs in the queryHits locations with the featureColumn entries of corresponding subject = annot.extend entries:
+             # now replacing the NAs in the queryHits locations with the featureColumnID entries of corresponding subject = regionOfInterest entries:
 
-             tsr.df$featureID[OL.df$queryHits] <- ID.vec[OL.df$subjectHits]
+             tsr.df$featureID[overlap.df$queryHits] <- ID.vec[overlap.df$subjectHits]
              rownames(tsr.df) <- paste(tsr.df$seq, tsr.df$start, tsr.df$end, tsr.df$strand, sep=".") #adding the promoterIDs to the rows of the tsr data frame
-	     # not sure whether we want a column or rownames with this ID ...
+             # not sure whether we want a column or rownames with this ID ...
 
              if (writeTable=="TRUE") {
                  write.table(tsr.df, file=outfname, col.names=NA, row.names=TRUE, sep="\t", quote=FALSE)

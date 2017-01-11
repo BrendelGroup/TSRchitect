@@ -8,7 +8,7 @@
 #'
 #' @param annotFile - a path (full or relative) to the annotation file to be imported. 
 #' 
-#' @return \emph{importAnnotation} fills the slot experimentName@geneAnnot in the tssObject \emph{experimentName} with
+#' @return \emph{importAnnotation} fills the slot experimentName@annotation in the tssObject \emph{experimentName} with
 #'         a GRanges object contining the annotation data
 #'
 #' @importFrom GenomicRanges GRanges
@@ -25,22 +25,21 @@ setGeneric(
 setMethod("importAnnotation",
           signature(experimentName="tssObject", fileType="character", annotFile="character"),
           function(experimentName, fileType=c("bed","gff","gff3"), annotFile) {
-              experimentName.seq <- deparse(substitute(experimentName))
+              object.name <- deparse(substitute(experimentName))
               message("... importAnnotation ...")
               fileType <- match.arg(fileType, c("bed","gff", "gff3"), several.ok=FALSE)
               if (fileType=="bed") {
-                  import.bed(annotFile) -> my.annot
+                  import.bed(annotFile) -> experimentName@annotation
                   }
               if (fileType=="gff") {
-                  import.gff(annotFile) -> my.annot
+                  import.gff(annotFile) -> experimentName@annotation
                   }
               if (fileType=="gff3") {
-                  import.gff3(annotFile) -> my.annot
+                  import.gff3(annotFile) -> experimentName@annotation
                   }
-              experimentName@geneAnnot <- my.annot
               cat("Done. Annotation data has been attached to tssObject\nobject \"", experimentName.seq, "\".\n")
               cat("--------------------------------------------------------------------------------\n")
-              assign(experimentName.seq, experimentName, parent.frame())
+              assign(object.name, experimentName, parent.frame())
               message(" Done.\n")
           }
           )
