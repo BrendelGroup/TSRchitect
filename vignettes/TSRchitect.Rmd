@@ -1,5 +1,5 @@
 <!--
-%\VignetteEngine{knitr::knitr}
+%\VignetteEngine{knitr::rmarkdown}
 %\VignetteIndexEntry{TSRchitect}
 %\VignettePackage{TSRchitect}
 %\VignetteIndexExtry{TSRchitect}
@@ -10,15 +10,13 @@ library(knitr)
 
 This will be the Vignette for TSRchitect. What follows is a template file from the following [site](https://raw.githubusercontent.com/yihui/knitr/master/vignettes/knitr-markdown.Rmd), and will be filled in with the TSRchitect vignette material shortly.
 
-> Please note this example is for [R Markdown v1](http://rmarkdown.rstudio.com/authoring_migrating_from_v1.html) only. If you use [R Markdown v2](http://rmarkdown.rstudio.com/), you should use the vignette engine `knitr::rmarkdown` instead of `knitr::knitr`.
-
 ## Package vignettes
 
 To enable Markdown vignettes in an R package, you need to
 
 - add `*.Rmd` files under the `vignettes` directory
 - add `VignetteBuilder: knitr` to the `DESCRIPTION` file
-- specify the vignette engine `\VignetteEngine{knitr::knitr}` in the `Rmd` files (inside HTML comments)
+- specify the vignette engine `\VignetteEngine{knitr::rmarkdown}` in the `Rmd` files (inside HTML comments)
 
 ## View vignettes
 
