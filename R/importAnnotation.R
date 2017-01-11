@@ -37,7 +37,7 @@ setMethod("importAnnotation",
               if (fileType=="gff3") {
                   import.gff3(annotFile) -> experimentName@annotation
                   }
-              cat("Done. Annotation data has been attached to tssObject\nobject \"", experimentName.seq, "\".\n")
+              cat("Done. Annotation data has been attached to tssObject\nobject \"", object.name, "\".\n")
               cat("--------------------------------------------------------------------------------\n")
               assign(object.name, experimentName, parent.frame())
               message(" Done.\n")
