@@ -20,10 +20,10 @@ TSRchitect is an R package for analyzing diverse types of high-throughput transc
 
 Examples of TSS profiling data types that TSRchitect is capable of handling are as follows:
 
-- CAGE (Cap Analysis of Gene Expression)
-- PEAT (Paired-end Analysis of Transcription)
-- RAMPAGE (RNA Annotation and Mapping of Promoters for Analysis of Gene Expression)
-- TSS-seq 
+- CAGE (Cap Analysis of Gene Expression) [Single-end]
+- PEAT (Paired-end Analysis of Transcription) [Paired-end]
+- RAMPAGE (RNA Annotation and Mapping of Promoters for Analysis of Gene Expression) [Paired-end]
+- TSS-seq [Single-end]
 
 TSRchitect provides the capability to efficiently identify putative promoters---which we call transcription start regions (TSRs)---from TSS profiling experiments. TSRchitect possesses the flexibility to accomodate datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calcualtes a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width and the Shape Index (SI). Finally, TSRchitect's output is compatible with popular differential expression analyses such as edgeR, assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another. In addition to this vignette, the TSRchitect Reference Manual is available as part of the package's online documentation.
 
@@ -34,7 +34,11 @@ library(devtools) #loads devtools (please install this package if you haven't al
 install_github("brendelgroup/TSRchitect")
 ```
 
-## Examples
+## Example 1: Identifying promoters from RAMPAGE data derived from human fibrosarcoma vs normal lung tissue.
+
+RAMPAGE is a TSS profiling method that identifies promoters at large-scale using a cap-based library construction method that is adapted for paired-end sequencing. Developed recently by Batut and Gingeras (2013), it has become a popular method for promoter identification and is currently part of the data compredium in the latest edition of the ENCODE project.
+
+For our first example, we will process RAMPAGE data from human lung cell lines with TSRchitect.
 
 Below are some code chunks as examples.
 
