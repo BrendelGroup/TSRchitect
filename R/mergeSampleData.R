@@ -32,6 +32,7 @@ setMethod("mergeSampleData",
 
               rep.ids <- experimentName@replicateIDs
               uni.ids <- unique(rep.ids)
+              uni.ids <- uni.ids[uni.ids > 0]	# ... ignore samples with replicateID equal to zero
               exp.data <- experimentName@tssCountData
               exp.list <- vector(mode="list")
 
