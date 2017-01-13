@@ -27,33 +27,57 @@ Examples of TSS profiling data types that TSRchitect is capable of handling are 
 
 TSRchitect provides the capability to efficiently identify putative promoters---which we call transcription start regions (TSRs)---from TSS profiling experiments. TSRchitect possesses the flexibility to accomodate datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calcualtes a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width and the Shape Index (SI). Finally, TSRchitect's output is compatible with popular differential expression analyses such as edgeR, assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another. In addition to this vignette, the TSRchitect Reference Manual is available as part of the package's online documentation.
 
-To install TSRchitect, you can type the following from an R console:
+To install TSRchitect, please type the following from an R console:
 
 ```{r eval=FALSE}
 library(devtools) #loads devtools (please install this package if you haven't already done so)
 install_github("brendelgroup/TSRchitect")
 ```
 
-## Example 1: Identifying promoters from RAMPAGE data derived from human fibrosarcoma vs normal lung tissue.
+## Example 1: Identifying promoters from RAMPAGE data derived from two human cell lines.
 
 RAMPAGE is a TSS profiling method that identifies promoters at large-scale using a cap-based library construction method that is adapted for paired-end sequencing. Developed recently by Batut and Gingeras (2013), it has become a popular method for promoter identification and is currently part of the data compredium in the latest edition of the ENCODE project.
 
-For our first example, we will process RAMPAGE data from human lung cell lines with TSRchitect.
+In this example we will process RAMPAGE data derived from two immortalized human cell lines with TSRchitect. The experiments selected for this vignette are part of the ENCODE project and is publically available online at the [ENCODE Experiment matrix](https://www.encodeproject.org/matrix/?type=Experiment). The two samples come from HT1080 cells, which is a well-characterized fibrosarcoma cell line, and NCI-H460 cells, which are derived from a male large cell lung carcinoma. 
 
-Below are some code chunks as examples.
 
-```{r hello, results='asis'}
-if (TRUE) cat('_hello_ **markdown**!', '\n')
+Before we begin, please download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) from the following locations:
+
+HT1080:
+-[ENCFF474YPI-rep1](https://www.encodeproject.org/files/ENCFF474YPI/@@download/ENCFF474YPI.bam)
+-[ENCFF242UWH-rep2](https://www.encodeproject.org/files/ENCFF242UWH/@@download/ENCFF242UWH.bam)
+
+-[NCI-H460-rep1](https://www.encodeproject.org/files/ENCFF214GWH/@@download/ENCFF214GWH.bam)
+-[NCI-H460-rep2](https://www.encodeproject.org/files/ENCFF265SGZ/@@download/ENCFF265SGZ.bam)
+
+Please download these to your machine and place them in a new folder called ```bam_files/``` inside the demo/ folder.
+
+Now that we have our input files prepared, we can load TSRchitect into our workspace, along with another library required for parallelization:
+
+```{r eval=FALSE}
+library(TSRchitect) #loading TSRchitect
+library(doParallel) #loading the doParallel package, which is requried for parallel processing
 ```
 
-Normally you do not need any chunk options.
+To implement parallelization, we'll need to set up a cluster of 6 nodes first. (Please adjust the number of clusters as you desire and your compute permits):
 
-```{r test, collapse=TRUE}
-1+1
-10:1
-rnorm(5)^2
-strsplit('hello, markdown vignettes', '')
+```{r eval=FALSE}
+mycl <- makeCluster(6,type="FORK",outfile="")
+registerDoParallel(mycl)
 ```
+
+Next we'll create the dedicated S4 object---called the tssObj---that TSRchitect's functions will be performed on.
+
+```{r eval=FALSE}
+initializeExp("Human RAMPAGE lung", "Hs_lung_RAMPAGE", "/scratch/rtraborn/RAMPAGE_ENCODE/vignette_files", isPairedEnd=TRUE) 
+```
+
+This will create an object, `Hs_lung_RAMPAGE`, in your working directory. Let's take a look at our workspace to see it there:
+
+```{r eval=FALSE}
+ls()
+```
+
 
 Feel free to draw beautiful plots and write math $P(X>x)=\alpha/2$.
 
