@@ -30,16 +30,16 @@ setMethod("determineTSR",
                  if (tssSet=="all") {
                      iend <- length(experimentName@tssCountData)
                      if (parallel==TRUE) {
-                         experimentName@tsrData <- foreach(i=1:iend,.packages="TSRchitect") %dopar% detTSR(experimentName = experimentName, tsrSetType="replicates", tssSet = i, tagCountThreshold, clustDist)
+                         experimentName@tsrData <- foreach(i=1:iend,.packages="TSRchitect") %dopar% detTSR(experimentName = experimentName, tsrSetType="replicates", tssSet=i, tagCountThreshold, clustDist)
                          if (writeTable=="TRUE") {
-                             foreach(i=1:iend,.packages="TSRchitect") %dopar% writeTSR(experimentName = experimentName, tsrSetType="replicates", tsrSet = i)
+                             foreach(i=1:iend,.packages="TSRchitect") %dopar% writeTSR(experimentName = experimentName, tsrSetType="replicates", tsrSet=i, filetype="tab")
                          }
                      }
                      else {
                          for (i in 1:iend) {
-                             experimentName@tsrData[[i]] <- detTSR(experimentName = experimentName, tsrSetType="replicates", tssSet = i, tagCountThreshold, clustDist)
+                             experimentName@tsrData[[i]] <- detTSR(experimentName = experimentName, tsrSetType="replicates", tssSet=i, tagCountThreshold, clustDist)
                              if (writeTable=="TRUE") {
-                                 writeTSR(experimentName = experimentName, tsrSetType="replicates", tsrSet = i)
+                                 writeTSR(experimentName = experimentName, tsrSetType="replicates", tsrSet=i, filetype="tab")
                              }
                          }
                      }
@@ -49,9 +49,9 @@ setMethod("determineTSR",
                      if (i>length(experimentName@tssCountData)) {
                          stop("The value selected for tssSet exceeds the number of slots in tssCountData.")
                      }
-                     experimentName@tsrData[[i]] <- detTSR(experimentName = experimentName, tsrSetType="replicates", tssSet = i, tagCountThreshold, clustDist)
+                     experimentName@tsrData[[i]] <- detTSR(experimentName = experimentName, tsrSetType="replicates", tssSet=i, tagCountThreshold, clustDist)
                      if (writeTable=="TRUE") {
-                         writeTSR(experimentName = experimentName, tsrSetType="replicates", tsrSet = i)
+                         writeTSR(experimentName = experimentName, tsrSetType="replicates", tsrSet=i, filetype="tab")
                      }
                  }
              }
@@ -60,16 +60,16 @@ setMethod("determineTSR",
                  if (tssSet=="all") {
                      iend <- length(experimentName@tssCountDataMerged)
                      if (parallel==TRUE) {
-                         experimentName@tsrDataMerged <- foreach(i=1:iend,.packages="TSRchitect") %dopar% detTSR(experimentName = experimentName, tsrSetType="merged", tssSet = i, tagCountThreshold, clustDist)
+                         experimentName@tsrDataMerged <- foreach(i=1:iend,.packages="TSRchitect") %dopar% detTSR(experimentName = experimentName, tsrSetType="merged", tssSet=i, tagCountThreshold, clustDist)
                          if (writeTable=="TRUE") {
-                             foreach(i=1:iend,.packages="TSRchitect") %dopar% writeTSR(experimentName = experimentName, tsrSetType="merged", tsrSet = i)
+                             foreach(i=1:iend,.packages="TSRchitect") %dopar% writeTSR(experimentName = experimentName, tsrSetType="merged", tsrSet=i, filetype="tab")
                          }
                      }
                      else {
                          for (i in 1:iend) {
-                             experimentName@tsrDataMerged[[i]] <- detTSR(experimentName = experimentName, tsrSetType="merged", tssSet = i, tagCountThreshold, clustDist)
+                             experimentName@tsrDataMerged[[i]] <- detTSR(experimentName = experimentName, tsrSetType="merged", tssSet=i, tagCountThreshold, clustDist)
                              if (writeTable=="TRUE") {
-                                 writeTSR(experimentName = experimentName, tsrSetType="merged", tsrSet = i)
+                                 writeTSR(experimentName = experimentName, tsrSetType="merged", tsrSet=i, filetype="tab")
                              }
                          }
                      }
@@ -79,9 +79,9 @@ setMethod("determineTSR",
                      if (i>length(experimentName@tssCountDataMerged)) {
                          stop("The value selected for tssSet exceeds the number of slots in tssCountDataMerged.")
                      }
-                     experimentName@tsrDataMerged[[i]] <- detTSR(experimentName = experimentName, tsrSetType="merged", tssSet = i, tagCountThreshold, clustDist)
+                     experimentName@tsrDataMerged[[i]] <- detTSR(experimentName = experimentName, tsrSetType="merged", tssSet=i, tagCountThreshold, clustDist)
                      if (writeTable=="TRUE") {
-                         writeTSR(experimentName = experimentName, tsrSetType="merged", tsrSet = i)
+                         writeTSR(experimentName = experimentName, tsrSetType="merged", tsrSet=i, filetype="tab")
                      }
                  }
              }

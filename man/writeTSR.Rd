@@ -5,7 +5,7 @@
 \title{writeTSR
 Write TSRs for a specified data set to a tab-delimited file}
 \usage{
-writeTSR(experimentName, tsrSetType, tsrSet = 1)
+writeTSR(experimentName, tsrSetType, tsrSet = 1, filetype = "tab")
 }
 \arguments{
 \item{experimentName}{- a S4 object of class tssObject containing information in slot tssTagData}
@@ -13,6 +13,8 @@ writeTSR(experimentName, tsrSetType, tsrSet = 1)
 \item{tsrSetType}{- specifies the set to be written to file. Options are "replicates" or "merged".}
 
 \item{tsrSet}{- number of the dataset to be processed}
+
+\item{filetype}{- tab for tab-deliminted, bed for bed-file}
 }
 \value{
 nothing

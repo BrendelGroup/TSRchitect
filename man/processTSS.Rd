@@ -2,24 +2,25 @@
 % Please edit documentation in R/processTSS.R
 \name{processTSS}
 \alias{processTSS}
-\title{\emph{processTSS()}}
+\title{processTSS
+Finds TSRs from a given sequence}
 \usage{
-processTSS(experimentName, tssSet, writeTable)
+processTSS(experimentName, parallel, tssSet, writeTable = FALSE)
 }
 \arguments{
 \item{experimentName}{- a S4 object of class tssObject containing information in slot tssTagData}
 
-\item{tssSet}{- number of the dataset to be analyzed}
+\item{parallel}{- whether to run in parallel or not (logical)}
 
-\item{writeTable}{- if set to TRUE, writes a data frame containing the TSSs positions and their abundance to your workspace}
+\item{tssSet}{- default is "all"; for specific use, specify tssSet number (as character)}
+
+\item{writeTable}{- specifies whether the output should be written to a table. (logical)}
 }
 \value{
-\emph{processTSS} fills the slot experimentName@tssCountData[[tssSet]] in
-        the tssObject \emph{experimentName} with a matrix of unique TSS positions
-        (rows) and observed tag counts in each position for data set tssSet;
-        precisely, each entry of the matrix consists of "seq" (chr), "TSS" (num), "nTSSs" (num), and "strand" (+ or -),
+creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssObject object
 }
 \description{
-\emph{processTSS} Creates an expression matrix for all TSSs within a given TSS experiment (in tssTagData)
+processTSS
+Finds TSRs from a given sequence
 }
 
