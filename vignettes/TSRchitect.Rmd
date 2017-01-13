@@ -10,11 +10,22 @@ vignette: >
 library(knitr)
 ```
 
-This will be the Vignette for TSRchitect. What follows is a template file from the following [site](https://raw.githubusercontent.com/yihui/knitr/master/vignettes/knitr-markdown.Rmd), and will be filled in with the TSRchitect vignette material shortly.
+## TSRchitect Package Vignette
 
-## Package vignettes
+### R. Taylor Raborn
 
-To enable Markdown vignettes in an R package, you need to
+### 13 January 2017
+
+TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets. Data types acceptable for TSRchitect include CAGE, (which contains single-end sequence), PEAT and RAMPAGE (which both contain paired-end sequence). In recent years, large-scale TSS profiling data has characterized the landscape of transcription initiation at high resolution, identifying promoter architecture in a number of eukaryotic model systems, including human, mouse, fruit fly and worm. 
+TSRchitect provides the capability to efficiently identify putative promoters--which we call transcription start regions (TSRs)--from TSS profiling experiments. TSRchitect possesses the flexibility to accomodate datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calcualtes a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width and the Shape Index (SI). Finally, TSRchitect's output is compatible with popular differential expression analyses such as edgeR, assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another.
+In addition to this vignette, the TSRchitect Reference Manual is available as part of the package's online documentation.
+
+To install TSRchitect, you can type the following from an R console:
+
+```{r eval=FALSE}
+library(devtools) #loads devtools (please install this package if you haven't already done so)
+install_github("brendelgroup/TSRchitect")
+```
 
 - add `*.Rmd` files under the `vignettes` directory
 - add `VignetteBuilder: knitr` to the `DESCRIPTION` file
