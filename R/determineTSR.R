@@ -39,7 +39,7 @@ setMethod("determineTSR",
                          for (i in 1:iend) {
                              experimentName@tsrData[[i]] <- detTSR(experimentName = experimentName, tsrSetType="replicates", tssSet = i, tagCountThreshold, clustDist)
                              if (writeTable=="TRUE") {
-                                 writeTSR(experimentName = experimentName, tsrSetType="replicates", tsrSet = i)
+                                 writeTSR(experimentName = experimentName, tsrSetType="replicates", tsrSet=i, filetype="tab")
                              }
                          }
                      }
@@ -51,7 +51,7 @@ setMethod("determineTSR",
                      }
                      experimentName@tsrData[[i]] <- detTSR(experimentName = experimentName, tsrSetType="replicates", tssSet = i, tagCountThreshold, clustDist)
                      if (writeTable=="TRUE") {
-                         writeTSR(experimentName = experimentName, tsrSetType="replicates", tsrSet = i)
+                         writeTSR(experimentName = experimentName, tsrSetType="replicates", tsrSet=i, filetype="tab")
                      }
                  }
              }
@@ -62,14 +62,14 @@ setMethod("determineTSR",
                      if (parallel==TRUE) {
                          experimentName@tsrDataMerged <- foreach(i=1:iend,.packages="TSRchitect") %dopar% detTSR(experimentName = experimentName, tsrSetType="merged", tssSet = i, tagCountThreshold, clustDist)
                          if (writeTable=="TRUE") {
-                             foreach(i=1:iend,.packages="TSRchitect") %dopar% writeTSR(experimentName = experimentName, tsrSetType="merged", tsrSet = i)
+                             foreach(i=1:iend,.packages="TSRchitect") %dopar% writeTSR(experimentName = experimentName, tsrSetType="merged", tsrSet=i, filetype="tab")
                          }
                      }
                      else {
                          for (i in 1:iend) {
                              experimentName@tsrDataMerged[[i]] <- detTSR(experimentName = experimentName, tsrSetType="merged", tssSet = i, tagCountThreshold, clustDist)
                              if (writeTable=="TRUE") {
-                                 writeTSR(experimentName = experimentName, tsrSetType="merged", tsrSet = i)
+                                 writeTSR(experimentName = experimentName, tsrSetType="merged", tsrSet=i, filetype="tab")
                              }
                          }
                      }
@@ -81,7 +81,7 @@ setMethod("determineTSR",
                      }
                      experimentName@tsrDataMerged[[i]] <- detTSR(experimentName = experimentName, tsrSetType="merged", tssSet = i, tagCountThreshold, clustDist)
                      if (writeTable=="TRUE") {
-                         writeTSR(experimentName = experimentName, tsrSetType="merged", tsrSet = i)
+                         writeTSR(experimentName = experimentName, tsrSetType="merged", tsrSet=i, filetype="tab")
                      }
                  }
              }
