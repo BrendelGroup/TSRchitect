@@ -63,6 +63,9 @@ setMethod("addTagCountsToTSR",
 
 # ... going over each sample (index j):
              for (j in 1:length(experimentName@tssCountData)) {
+                if (experimentName@replicateIDs[j] == 0) { # ... samples with replicateID equal to zero are ignored
+                    next
+                }
                 experimentName@tssCountData[[j]] -> this.tssSet
 #... we are discarding counts below the tag count threshold tagCountThreshold:
                 this.tssSet <-this.tssSet[this.tssSet$nTSSs >= tagCountThreshold, ]

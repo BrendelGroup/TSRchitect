@@ -88,7 +88,7 @@ setMethod("acquireTSS",
 #' 
 #' @export
 
-tagCountTSS <- function(x, dfName="TSS.txt", writeDF=FALSE) {
+tagCountTSS <- function(x, outfname="TSS.txt", writeDF=FALSE) {
         n.seq <- length(names(x)) # how many sequences are there in the TSS list?
         uni.seq <- unique(names(x))
         uni.seq <- mixedsort(uni.seq)
@@ -97,7 +97,7 @@ tagCountTSS <- function(x, dfName="TSS.txt", writeDF=FALSE) {
         for (i in 1:n.seq) {
 #VB Note: Print a progress note on every 20th sequence; 20 should be a parameter
             if (i%%20 == 0) {
-                cat("... tagCountTSS running with sequence ", i, " of ", n.seq, " for TSS set ", dfName, "\n")
+                cat("... tagCountTSS running with sequence ", i, " of ", n.seq, " for TSS set ", outfname, "\n")
             }
             uni.seq[i] -> this.seq
 
@@ -159,8 +159,8 @@ tagCountTSS <- function(x, dfName="TSS.txt", writeDF=FALSE) {
         my.df$nTSSs <- as.numeric(as.character(my.df$nTSSs))
 
         if (writeDF==TRUE) {
-            write.table(my.df, dfName, quote=FALSE, col.names=TRUE, row.names=FALSE, sep="\t")
-            message("\nThe TSS dataset has been written to file ", dfName, "\nin your working directory.")
+            write.table(my.df, outfname, quote=FALSE, col.names=TRUE, row.names=FALSE, sep="\t")
+            message("\nThe TSS dataset has been written to file ", outfname, "\nin your working directory.")
         }
 
         return(my.df)
