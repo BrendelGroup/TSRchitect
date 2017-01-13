@@ -2,7 +2,7 @@
 #' Finds TSRs from a given sequence
 #'
 #' @param experimentName - a S4 object of class tssObject containing information in slot tssTagData
-#' @param paralel - whether to run in parallel or not (logical)
+#' @param parallel - whether to run in parallel or not (logical)
 #' @param tsrSetType - specifies the set to be clustered. Options are "replicates" or "merged".
 #' @param tssSet - default is "all"; for specific use, specify tssSet number (as character)
 #' @param tagCountThreshold - number of TSSs required at a given position
