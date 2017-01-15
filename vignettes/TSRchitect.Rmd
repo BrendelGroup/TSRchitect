@@ -69,23 +69,83 @@ registerDoParallel(mycl)
 Next we'll create the dedicated S4 object---called the tssObj---that TSRchitect's functions will be performed on.
 
 ```{r eval=FALSE}
-initializeExp("Human RAMPAGE lung", "Hs_lung_RAMPAGE", "/scratch/rtraborn/RAMPAGE_ENCODE/vignette_files", isPairedEnd=TRUE) 
+initializeExp(expTitle ="Human RAMPAGE", experimentName="Hs_RAMPAGE", expDir="vignette_files/", isPairedEnd=TRUE) 
 ```
 
-This will create an object, `Hs_lung_RAMPAGE`, in your working directory. Let's take a look at our workspace to see it there:
+This will create an object called `Hs_RAMPAGE`, in your workspace. We specified the directory "vignette_files" as the location of the bam files to be imported, and have given it the rather general title "Human RAMPAGE". Before we continue, let's take a look look at it to make sure it appears:
 
 ```{r eval=FALSE}
 ls()
 ```
+Unless you have been doing other work in your R console, that command should just return our tssObj S4 object:
 
-
-Feel free to draw beautiful plots and write math $P(X>x)=\alpha/2$.
-
-```{r}
-n=300; set.seed(123)
-par(mar=c(4,4,.1,.1))
-plot(rnorm(n), rnorm(n), pch=21, cex=5*runif(n), col='white', bg='gray')
+```{r eval=FALSE
+[1] "Hs_RAMPAGE"
 ```
+Now we need to provide the sample names and specify which samples are biological replicates. In this case we are working with 4 total datasets and 2 samples in duplicate, and we provide the names as follows:
+
+```{r eval=FALSE}
+setSampleID(Hs_RAMPAGE, c("HT1080-1","HT1080-2","H460-1", "H460-2"), c(1,1,2,2))
+```
+
+Now that we have completed the above commands, we can proceed with importing the bam files using the function `importBam()`. This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. 
+
+```{r eval=FALSE}
+importBam(Hs_RAMPAGE)
+
+... importBam ...
+
+Importing paired-end reads ...
+
+TSS data were specified to be paired-end read alignments.
+Beginning import of  4  bam files ...
+```
+
+This step will take between ten and fifteen minutes, so feel free to take a break and resume when the job is complete. You will receive a message on your console when all four files have been imported. 
+
+```{r eval=FALSE}
+Done. Alignment data from  4  bam files have been attached to tssObject
+object " Hs_RAMPAGE ".
+ Done.
+-------------------------------------------------------------------------------- 
+```
+
+Now that the alignment files have been imported and attached to our tssObj S4 object, we continue by computing the TSSs from the bam files. This will take approximately 5 minutes. 
+
+```{r eval=FALSE}
+bamToTSS(experimentName=Hs_RAMPAGE)
+}
+```
+
+Next we will calculate the abundance of each tag in our TSS datasets.
+
+```{r eval=FALSE}
+processTSS(experimentName=Hs_RAMPAGE, parallel=TRUE, tssSet="all", writeTable=TRUE)
+```
+
+Since we specified 'writeTable=TRUE', files containing TSS abundance will be written into your working directory. 
+
+Once we have calculated the abundance of each TSS we can calculate TSRs (promoters) on each of the 4 separate datasets. We have selected a tagCount threshold of 25 tags in order for a TSS to be considered.
+
+```{r eval=FALSE}
+determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
+```
+
+Now we need to merge the replicates into samples, as we have specified on your tssObj S4 object.
+
+```{r eval=FALSE}
+mergeSampleData(experimentName=Hs_RAMPAGE)
+```
+
+```{r eval=FALSE}
+determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)
+```
+
+```{r eval=FALSE}
+addTagCountsToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", tsrSet=3, tagCountThreshold=40, writeTable=TRUE)
+```
+
+
 
 You can use your own CSS file instead of the built-in style in the **markdown** package -- just set the option `markdown.HTML.stylesheet`, e.g.
 
