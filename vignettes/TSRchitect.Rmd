@@ -117,29 +117,33 @@ bamToTSS(experimentName=Hs_RAMPAGE)
 }
 ```
 
-Next we will calculate the abundance of each tag in our TSS datasets.
+Next we will calculate the abundance of each tag in our TSS datasets. This step will take somewhere between 20-30 minutes.
 
 ```{r eval=FALSE}
 processTSS(experimentName=Hs_RAMPAGE, parallel=TRUE, tssSet="all", writeTable=TRUE)
 ```
 
-Since we specified 'writeTable=TRUE', files containing TSS abundance will be written into your working directory. 
+Since we specified 'writeTable=TRUE', files (entitled "TSSset-1.txt" to "TSSset-4.txt") containing TSS abundance will be written into your working directory. 
 
-Once we have calculated the abundance of each TSS we can calculate TSRs (promoters) on each of the 4 separate datasets. We have selected a tagCount threshold of 25 tags in order for a TSS to be considered.
+Now that we have calculated the abundance for each TSS in the previous step we can calculate TSRs (promoters) on each of the 4 separate datasets. We have selected a tagCount threshold of 25 tags in order for a TSS to be considered. As with the previous step, we selected 'writeTable=TRUE' and therefore you will find the file ("TSRset-1" to "TSRset-4") written to your working directory. (Estimated time: 25 minutes).
 
 ```{r eval=FALSE}
 determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
 ```
 
-Now we need to merge the replicates into samples, as we have specified on your tssObj S4 object.
+To calculate TSRs from each sample (as opposed to each replicate) we need to combine our replicate data. This will be done using the identifiers we specified on our tssObj S4 object using the function initializeExp(). (Estimated time: 15 minutes)
 
 ```{r eval=FALSE}
 mergeSampleData(experimentName=Hs_RAMPAGE)
 ```
 
+Having combined the TSS abundance of replicate data into samples, we next proceed with identifying TSRs for the two samples individually. We specify this with 'tsrSetType="merge"'.
+
 ```{r eval=FALSE}
 determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)
 ```
+
+
 
 ```{r eval=FALSE}
 addTagCountsToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", tsrSet=3, tagCountThreshold=40, writeTable=TRUE)
