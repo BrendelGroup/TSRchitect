@@ -79,9 +79,8 @@ ls()
 ```
 Unless you have been doing other work in your R console, that command should just return our tssObj S4 object:
 
-```{r eval=FALSE
 [1] "Hs_RAMPAGE"
-```
+
 Now we need to provide the sample names and specify which samples are biological replicates. In this case we are working with 4 total datasets and 2 samples in duplicate, and we provide the names as follows:
 
 ```{r eval=FALSE}
