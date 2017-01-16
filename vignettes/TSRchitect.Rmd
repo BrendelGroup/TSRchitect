@@ -40,17 +40,17 @@ RAMPAGE is a TSS profiling method that identifies promoters at large-scale using
 
 In this example we will process RAMPAGE data derived from two immortalized human cell lines with TSRchitect. The experiments selected for this vignette are part of the ENCODE project and is publically available online at the [ENCODE Experiment matrix](https://www.encodeproject.org/matrix/?type=Experiment). The two samples come from HT1080 cells, which is a well-characterized fibrosarcoma cell line, and NCI-H460 cells, which are derived from a large cell lung carcinoma in a male patient. 
 
-Before we begin, please download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) from the following locations:
+Before we begin, please download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) from the following locations.
 
 HT1080:
--[ENCFF474YPI-rep1](https://www.encodeproject.org/files/ENCFF474YPI/@@download/ENCFF474YPI.bam)
--[ENCFF242UWH-rep2](https://www.encodeproject.org/files/ENCFF242UWH/@@download/ENCFF242UWH.bam)
+-[HT1080-rep1](https://www.encodeproject.org/files/ENCFF474YPI/@@download/ENCFF474YPI.bam)
+-[HT1080-rep2](https://www.encodeproject.org/files/ENCFF242UWH/@@download/ENCFF242UWH.bam)
 
 NCI-H460:
 -[NCI-H460-rep1](https://www.encodeproject.org/files/ENCFF214GWH/@@download/ENCFF214GWH.bam)
 -[NCI-H460-rep2](https://www.encodeproject.org/files/ENCFF265SGZ/@@download/ENCFF265SGZ.bam)
 
-Please download these to your machine and place them in a new folder called ```bam_files/``` inside the vignettes/ folder.
+Please download these to your machine and and rename them according to their labels above. For example, the file ENCFF474YPI.bam should be given the name HT1080-rep1.bam, and so on. Once this is complete, please move the files into a new folder called ```bam_files/``` inside the vignettes/ folder.
 
 We'll also need to download a human gene annotation, which will be important a little later.
 
