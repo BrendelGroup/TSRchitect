@@ -151,7 +151,7 @@ determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "merged"
 stopCluster(mycl) #ending the parallel session we set up earlier in the vignette.
 ```
 
-Now we will calculate the number of tags from each experiment within the combined set of TSRs. We will use this later.
+Now we will calculate the number of tags from each experiment within the combined set of TSRs.
 
 ```{r eval=FALSE}
 addTagCountsToTSR(experimentName= Hs_RAMPAGE, tsrSetType= "merged", tsrSet=3, tagCountThreshold= 40, writeTable= TRUE)
@@ -203,5 +203,18 @@ dim(combined.tsrs)
 
 We see that there are 22750 TSRs identified in the combined set, and 18040 and 15904 TSRs in the HT1080 and H460 samples, respectively. We also notice that there are 5 additional columns in the combined set. This is due to us previouly adding tag counts to the combined set of tSRs using addTagCountsToTSR, something we did not do in this vignette for the two samples.
 
-### 
+You now have a complete set of TSS and TSR data attached to your tssObj S4 object, in addition the tables that were already written to your working directory.
+
+These data can be accessed from the tssObj simply. For example, if we want to copy the TSR annotations from the HT1080 cells onto our R workspace, we could type the following command:
+
+```{r eval=FALSE}
+Hs_RAMPAGE@tsrDataMerged[[1]] -> HT1080.tsrs
+head(HT1080.tsrs) #printing the first few rows of the table to our console.
+```
+
+This covers the main features of TSRchitect at present. If we wish to save our tssObj and return to our work later, simply we simply type the following, which will write an R binary to your working directory.
+
+```{r eval=FALSE}
+save(Hs_RAMPAGE, file="Hs_RAMPAGE.RData")
+```
 
