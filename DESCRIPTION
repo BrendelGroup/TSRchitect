@@ -30,13 +30,21 @@ Imports:
     gtools,
     IRanges,
     Rsamtools (>= 1.14.3),    
-    rtracklayer
+    rtracklayer,
+    utils
 License: GPL-3
 URL: https://github.com/brendelgroup/tsrchitect
 BugReports: https://github.com/brendelgroup/tsrchitect/issues
 Suggests:
-    devtools,
     knitr,
     rmarkdown
+biocViews:
+    Clustering,
+    FunctionalGenomics,
+    GeneExpression,
+    GeneRegulation,
+    GenomeAnnotation,
+    Sequencing,
+    Transcription
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
