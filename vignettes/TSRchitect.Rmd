@@ -154,7 +154,7 @@ stopCluster(mycl) #ending the parallel session we set up earlier in the vignette
 Now we will calculate the number of tags from each experiment within the combined set of TSRs. We will use this later.
 
 ```{r eval=FALSE}
-addTagCountsToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", tsrSet=3, tagCountThreshold=40, writeTable=TRUE)
+addTagCountsToTSR(experimentName= Hs_RAMPAGE, tsrSetType= "merged", tsrSet=3, tagCountThreshold= 40, writeTable= TRUE)
 ```
 
 ### Associating identified TSRs with gene annotations
@@ -181,21 +181,21 @@ addAnnotationToTSR(experimentName = Hs_RAMPAGE, tsrSetType="merged", tsrSet=3, u
 Let's briefly look at our sets of identified TSRs.
 
 ```{r eval=FALSE}
-Hs_lung_RAMPAGE@tsrDataMerged[[1]] -> HT1080.tsrs
+Hs_RAMPAGE@tsrDataMerged[[1]] -> HT1080.tsrs
 dim(HT1080.tsrs)
 ```
 
 [1] 18040     8 
 
 ```{r eval=FALSE}
-Hs_lung_RAMPAGE@tsrDataMerged[[2]] -> H460.tsrs
+Hs_RAMPAGE@tsrDataMerged[[2]] -> H460.tsrs
 dim(H460)
 ```
 
 [1] 15904     8 
 
 ```{r eval=FALSE}
-Hs_lung_RAMPAGE@tsrDataMerged[[3]] -> combined.tsrs
+Hs_RAMPAGE@tsrDataMerged[[3]] -> combined.tsrs
 dim(combined.tsrs)
 ```
 
