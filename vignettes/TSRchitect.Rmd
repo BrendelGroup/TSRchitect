@@ -122,7 +122,6 @@ Now that the alignment files have been imported and attached to our tssObj S4 ob
 
 ```{r eval=FALSE}
 bamToTSS(experimentName=Hs_RAMPAGE)
-}
 ```
 
 Next we will calculate the abundance of each tag in our TSS datasets. This step will take somewhere between 20-30 minutes.
