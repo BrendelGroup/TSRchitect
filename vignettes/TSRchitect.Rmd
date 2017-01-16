@@ -14,7 +14,7 @@ library(knitr)
 
 ### R. Taylor Raborn, Indiana University
 
-### 13 January 2017
+### 15 January 2017
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets. TSRchitect can handle TSS profiling experiments that contain either single-end orb paired-end sequence. In recent years, large-scale TSS profiling data has characterized the landscape of transcription initiation at high resolution, identifying promoter architecture in a number of eukaryotic model systems, including human, mouse, fruit fly and worm.
 
@@ -34,11 +34,11 @@ library(devtools) #loads devtools (please install this package if you haven't al
 install_github("brendelgroup/TSRchitect")
 ```
 
-## Example 1: Identifying promoters from RAMPAGE data derived from two human cell lines.
+## Identifying promoters from RAMPAGE data derived from two human cell lines.
 
 RAMPAGE is a TSS profiling method that identifies promoters at large-scale using a cap-based library construction method that is adapted for paired-end sequencing. Developed recently by Batut and Gingeras (2013), it has become a popular method for promoter identification and is currently part of the data compredium in the latest edition of the ENCODE project.
 
-In this example we will process RAMPAGE data derived from two immortalized human cell lines with TSRchitect. The experiments selected for this vignette are part of the ENCODE project and is publically available online at the [ENCODE Experiment matrix](https://www.encodeproject.org/matrix/?type=Experiment). The two samples come from HT1080 cells, which is a well-characterized fibrosarcoma cell line, and NCI-H460 cells, which are derived from a male large cell lung carcinoma. 
+In this example we will process RAMPAGE data derived from two immortalized human cell lines with TSRchitect. The experiments selected for this vignette are part of the ENCODE project and is publically available online at the [ENCODE Experiment matrix](https://www.encodeproject.org/matrix/?type=Experiment). The two samples come from HT1080 cells, which is a well-characterized fibrosarcoma cell line, and NCI-H460 cells, which are derived from a large cell lung carcinoma in a male patient. 
 
 Before we begin, please download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) from the following locations:
 
@@ -50,9 +50,18 @@ NCI-H460:
 -[NCI-H460-rep1](https://www.encodeproject.org/files/ENCFF214GWH/@@download/ENCFF214GWH.bam)
 -[NCI-H460-rep2](https://www.encodeproject.org/files/ENCFF265SGZ/@@download/ENCFF265SGZ.bam)
 
-Please download these to your machine and place them in a new folder called ```bam_files/``` inside the demo/ folder.
+Please download these to your machine and place them in a new folder called ```bam_files/``` inside the vignettes/ folder.
 
-Now that we have our input files prepared, we can load TSRchitect into our workspace, along with another library required for parallelization:
+We'll also need to download a human gene annotation, which will be important a little later.
+
+Please download and uncompress the file as follows, and place it in the vignettes/ folder.
+
+```
+wget ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
+gzip -d gencode.v19.annotation.gff3.gz #unzipping the file
+```
+
+Now that we have our input and annotation files prepared, we can load TSRchitect into our workspace, along with another library required for parallelization:
 
 ```{r eval=FALSE}
 library(TSRchitect) #loading TSRchitect
@@ -69,7 +78,7 @@ registerDoParallel(mycl)
 Next we'll create the dedicated S4 object---called the tssObj---that TSRchitect's functions will be performed on.
 
 ```{r eval=FALSE}
-initializeExp(expTitle ="Human RAMPAGE", experimentName="Hs_RAMPAGE", expDir="vignette_files/", isPairedEnd=TRUE) 
+initializeExp(expTitle ="Human RAMPAGE", experimentName="Hs_RAMPAGE", expDir="vignettes/bam_files/", isPairedEnd=TRUE) 
 ```
 
 This will create an object called `Hs_RAMPAGE`, in your workspace. We specified the directory "vignette_files" as the location of the bam files to be imported, and have given it the rather general title "Human RAMPAGE". Before we continue, let's take a look look at it to make sure it appears:
@@ -139,19 +148,61 @@ mergeSampleData(experimentName=Hs_RAMPAGE)
 Having combined the TSS abundance of replicate data into samples, we next proceed with identifying TSRs for the two samples individually. We specify this with 'tsrSetType="merge"'.
 
 ```{r eval=FALSE}
-determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)
+determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE) (Estimated time: 20 minutes)
+stopCluster(mycl) #ending the parallel session we set up earlier in the vignette.
 ```
 
-
+Now we will calculate the number of tags from each experiment within the combined set of TSRs. We will use this later.
 
 ```{r eval=FALSE}
 addTagCountsToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", tsrSet=3, tagCountThreshold=40, writeTable=TRUE)
 ```
 
+### Associating identified TSRs with gene annotations
 
+Now that identifying TSRs are complete an obvious and biologically useful step is to determine which TSRs are adjacent to annotated genes, and to retrieve the appropriate gene IDs. Before doing this, it is imperative to select an annotation file that was generated for the assembly the reads were aligned to. Please make sure you have already downloaded the annotation file linked to at the beginning of this vignette.
 
-You can use your own CSS file instead of the built-in style in the **markdown** package -- just set the option `markdown.HTML.stylesheet`, e.g.
-
-```{r css, eval=FALSE}
-options(markdown.HTML.stylesheet = 'path/to/a/custom/style.css')
+```{r eval=FALSE}
+importAnnotation(experimentName = Hs_RAMPAGE, fileType = "gff3", annotFile = "vignettes/gencode.v19.annotation.gff3")
 ```
+Now we will associate the gene annotation to the TSRs within our two merged samples. We selected the feature 'transcript' from the Gencode annotation. 
+
+```{r eval=FALSE}
+addAnnotationToTSR(experimentName = Hs_RAMPAGE, tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE)
+
+addAnnotationToTSR(experimentName = Hs_RAMPAGE, tsrSetType="merged", tsrSet=2, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE)
+```
+
+Finally, we will repeat the two commands above, only associating the gene annotation to the "combined" set of TSRs, which is found in the 3rd position on the @tsrDataMerged slot.
+
+```{r eval=FALSE}
+addAnnotationToTSR(experimentName = Hs_RAMPAGE, tsrSetType="merged", tsrSet=3, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE)
+```w
+
+Let's briefly look at our sets of identified TSRs.
+
+```{r eval=FALSE}
+Hs_lung_RAMPAGE@tsrDataMerged[[1]] -> HT1080.tsrs
+dim(HT1080.tsrs)
+```
+
+[1] 18040     8 
+
+```{r eval=FALSE}
+Hs_lung_RAMPAGE@tsrDataMerged[[2]] -> H460.tsrs
+dim(H460)
+```
+
+[1] 15904     8 
+
+```{r eval=FALSE}
+Hs_lung_RAMPAGE@tsrDataMerged[[3]] -> combined.tsrs
+dim(combined.tsrs)
+```
+
+[1] 22750    12
+
+We see that there are 22750 TSRs identified in the combined set, and 18040 and 15904 TSRs in the HT1080 and H460 samples, respectively. We also notice that there are 5 additional columns in the combined set. This is due to us previouly adding tag counts to the combined set of tSRs using addTagCountsToTSR, something we did not do in this vignette for the two samples.
+
+### 
+
