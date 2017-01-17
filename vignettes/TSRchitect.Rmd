@@ -1,15 +1,15 @@
 ---
-title: "TSRchitect"
+title: "TSRchitect vignette"
 author: "R. Taylor Raborn"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{TSRchitect vignette}
   %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
 
-# TSRchitect Vignette
+# TSRchitect
 
 ## R. Taylor Raborn and Volker P. Brendel
 ## Department of Biology, Indiana University
@@ -107,9 +107,6 @@ importBam(Hs_RAMPAGE)
 ```
 You will receive a message on your console when all four files have been imported:
 
-Done. Alignment data from  4  bam files have been attached to tssObject
-object " Hs_RAMPAGE ".
-
 Now that the alignment files have been imported and attached to our tssObj S4 object, we continue by computing the TSSs from the bam files.
 
 ```{r eval=FALSE}
@@ -177,14 +174,10 @@ Hs_RAMPAGE@tsrDataMerged[[1]] -> HT1080.tsrs
 dim(HT1080.tsrs)
 ```
 
-[1] 18040     8 
-
 ```{r eval=FALSE}
 Hs_RAMPAGE@tsrDataMerged[[2]] -> H460.tsrs
 dim(H460)
 ```
-
-[1] 15904     8 
 
 ```{r eval=FALSE}
 Hs_RAMPAGE@tsrDataMerged[[3]] -> combined.tsrs

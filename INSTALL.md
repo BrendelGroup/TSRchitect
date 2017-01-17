@@ -13,12 +13,12 @@ Typical preliminary steps to install or updated these packages are as follows
 (note: for system-wide installation, you would need to invoke
 [R](https://www.r-project.org/) as root):
 
-```bash
-R
->source("http://bioconductor.org/biocLite.R")
->biocLite(c("GenomeInfoDb", "GenomicAlignments", "GenomicRanges", "Rsamtools", "BiocParallel", "ggbio", "Rsubread", "gtools"))
-q()
+
 ```
+source("http://bioconductor.org/biocLite.R")
+biocLite(c("BiocGenerics", "BiocParallel", "ENCODExplorer", "GenomicAlignments", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools", "rtracklayer"))
+```
+
 ## Obtaining TSRchitect
 Eventually, __TSRchitect__ will also be available as a
 [_Bioconductor_](http://bioconductor.org/) package.
