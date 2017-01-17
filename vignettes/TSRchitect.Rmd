@@ -3,12 +3,12 @@ title:    TSRchitect
 output:    rmarkdown::html_vignette
 vignette: >
     %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteIndexEntry{TSRchitect}
+    %\VignettePackage{TSRchitect}
+    %\VignetteIndexExtry{TSRchitect}
+    \usepackage[utf8]{inputenc}
 ...
 ---
-
-```{r setup, include=FALSE}
-library(knitr)
-```
 
 ## TSRchitect Package Vignette
 
@@ -42,9 +42,9 @@ library(ENCODExplorer)
 data(encode_df, package = "ENCODExplorer")
 datasets <- fuzzySearch(searchTerm = c("ENCFF474YPI", "ENCFF242UWH", "ENCFF214GWH", "ENCFF265SGZ"), database = encode_df, filterVector = c("file_accession"), multipleTerm = TRUE)
 downloadEncode(datasets, df=encode_df, format="bam")
-`
+```
 
-Once the above steps are complete, please move the files into a new folder called ```bam_files/``` inside the demo/ folder.
+Once the above steps are complete, please move the files into a new folder called `bam_files/` inside the demo/ folder.
 
 We'll also need to download a human gene annotation, which will be important a little later.
 
