@@ -4,16 +4,16 @@
 #' @param experimentName - a S4 object of class tssObject containing information in slot tssTagData
 #' @param tsrSetType - specifies the set to be written to file. Options are "replicates" or "merged".
 #' @param tsrSet - number of the dataset to be processed
-#' @param filetype - tab for tab-deliminted, bed for bed-file
+#' @param fileType - "tab" for tab-delimited output,"bed" for bed-file
 #'
 #' @importFrom utils write.table
 #' 
-#' @return nothing
+#' @return a table containing the specified TSR data set will be written to your working directory
 #' @export
 
 setGeneric(
            name="writeTSR",
-           def=function(experimentName, tsrSetType, tsrSet=1, filetype="tab") {
+           def=function(experimentName, tsrSetType, tsrSet=1, fileType="tab") {
                standardGeneric("writeTSR")
     }
     )
@@ -21,7 +21,7 @@ setGeneric(
 setMethod("writeTSR",
           signature(experimentName="tssObject", "character", "numeric", "character"),
 
-          function(experimentName, tsrSetType, tsrSet, filetype) {
+          function(experimentName, tsrSetType, tsrSet, fileType) {
 
              message("... writeTSR ...")
              if (tsrSetType=="replicates") {
@@ -29,14 +29,14 @@ setMethod("writeTSR",
                      stop("The value selected for tsrSet exceeds the number of slots in tsrData.")
                  }
                  outfname <- paste("TSRset-", tsrSet, sep="")
-                 if (filetype == "tab") {
+                 if (fileType == "tab") {
                      outfname <- paste(outfname, "tab", sep=".")
                  }
-                 else if (filetype == "bed") {
+                 else if (fileType == "bed") {
                      outfname <- paste(outfname, "bed", sep=".")
                  }
                  else {
-                     stop("Unknown filetype selected for writeTSR.  Please check.")
+                     stop("Unknown fileType selected for writeTSR.  Please check.")
                  }
                  message("\nThe TSR set for TSS dataset ", tsrSet, " has been written to file ", outfname, "\nin your working directory.")
                  tsr.df <- experimentName@tsrData[[tsrSet]]
@@ -87,8 +87,6 @@ setMethod("writeTSR",
                  bed.df <- tsr.df[, c("seq", "start", "end", "ID", "shapeIndex", "strand")]
                  colnames(bed.df) <- c("chrom", "start", "end", "name", "score", "strand")
                  bed.df$start <- bed.df$start - 1
-#                bed.df$end[bed.df$strand=="+"] <- bed.df$end[bed.df$strand=="+"] - 1
-#                bed.df$end[bed.df$strand=="-"] <- bed.df$end[bed.df$strand=="-"] - 50
                  write.table(bed.df, file=outfname, col.names=FALSE, row.names=FALSE, sep="\t", quote=FALSE)
              }
 

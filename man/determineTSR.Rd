@@ -11,6 +11,8 @@ determineTSR(experimentName, parallel, tsrSetType, tssSet, tagCountThreshold,
 \arguments{
 \item{experimentName}{- a S4 object of class tssObject containing information in slot tssTagData}
 
+\item{parallel}{- whether to run in parallel or not (logical)}
+
 \item{tsrSetType}{- specifies the set to be clustered. Options are "replicates" or "merged".}
 
 \item{tssSet}{- default is "all"; for specific use, specify tssSet number (as character)}
@@ -20,8 +22,6 @@ determineTSR(experimentName, parallel, tsrSetType, tssSet, tagCountThreshold,
 \item{clustDist}{- maximum distance of TSSs between two TSRs (in base pairs)}
 
 \item{writeTable}{- specifies whether the output should be written to a table. (logical)}
-
-\item{paralel}{- whether to run in parallel or not (logical)}
 }
 \value{
 creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssObject object
