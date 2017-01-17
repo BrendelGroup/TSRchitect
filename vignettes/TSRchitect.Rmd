@@ -27,6 +27,16 @@ Examples of TSS profiling data types that TSRchitect is capable of handling are 
 
 TSRchitect provides the capability to efficiently identify putative promoters---which we call transcription start regions (TSRs)---from TSS profiling experiments. TSRchitect possesses the flexibility to accomodate datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calcualtes a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width and the Shape Index (SI). Finally, TSRchitect's output is compatible with popular differential expression analyses such as edgeR, assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another. In addition to this vignette, the TSRchitect Reference Manual is available as part of the package's online documentation.
 
+## Getting started
+
+To load TSRchitect, please enter the following into an R console:
+
+```{r eval=FALSE}
+library(TSRchitect)
+```
+
+Now that this is complete, we proceed with the first of the three examples contained in this vignette.
+
 ## Example 1: Identifying promoters from RAMPAGE data derived from two human cell lines.
 
 RAMPAGE is a TSS profiling method that identifies promoters at large-scale using a cap-based library construction method that is adapted for paired-end sequencing. Developed recently by Batut and Gingeras (2013), it has become a popular method for promoter identification and is currently part of the data compredium in the latest edition of the ENCODE project.
@@ -34,13 +44,6 @@ RAMPAGE is a TSS profiling method that identifies promoters at large-scale using
 In this example we will process RAMPAGE data derived from two immortalized human cell lines with TSRchitect. The experiments selected for this vignette are part of the ENCODE project and is publically available online at the [ENCODE Experiment matrix](https://www.encodeproject.org/matrix/?type=Experiment). The two samples come from HT1080 cells, which is a well-characterized fibrosarcoma cell line, and NCI-H460 cells, which are derived from a large cell lung carcinoma in a male patient. 
 
 To begin, we must first download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) to our local system. To accomplish this we will utilize the "ENCODExplorer" package, which is part of the Bioconductor suite. More information on ENCODExplorer package can be found at the following link: https://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html.
-
-First, we will install ENCODExplorer directly from github using devtools.
-
-```{r eval=FALSE}
-library(devtools)
-install_github("CharlesJB/ENCODExplorer")
-```
 
 Now we can proceed with downloading the data:
 
@@ -51,11 +54,20 @@ datasets <- fuzzySearch(searchTerm = c("ENCFF474YPI", "ENCFF242UWH", "ENCFF214GW
 downloadEncode(datasets, df=encode_df, format="bam") #downloading the files
 ```
 
-Once the above steps are complete, please move the files into a new folder called `bam_files/` inside the demo/ folder.
+Once the above steps are complete, we will move the files into a new folder called `hsRAMPAGE/` inside the demo/ folder.
+
+```{bash eval=FALSE}
+cd ../demo #assumes the user is in /vignettes
+mkdir demo/hsRAMPAGE
+ln -s ENCFF474YPI.bam hsRAMPAGE/HT1080-rep1.bam
+ln -s ENCFF242UWH.bam hsRAMPAGE/HT1080-rep2.bam
+ln -s ENCFF214GWH.bam hsRAMPAGE/H460-rep1.bam
+ln -s ENCFF265SGZ.bam hsRAMPAGE/H460-rep2.bam
+```
 
 We'll also need to download a human gene annotation, which will be important a little later.
 
-Please download and uncompress the annoation file and place it in the `vignettes/` folder.
+Please download and uncompress the annoation file and place it in the `demo/` folder.
 
 The file is found here:
 ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
@@ -70,7 +82,7 @@ library(doParallel) #loading the doParallel package, which is requried for paral
 To implement parallelization, we'll need to set up a cluster of 6 nodes first. (Please adjust the number of clusters as you desire and your compute permits):
 
 ```{r eval=FALSE}
-mycl <- makeCluster(6,type="FORK",outfile="")
+mycl <- makeCluster(5,type="FORK",outfile="")
 registerDoParallel(mycl)
 ```
 
@@ -80,37 +92,23 @@ Next we'll create the dedicated S4 object---called the tssObj---that TSRchitect'
 initializeExp(expTitle ="Human RAMPAGE", experimentName="Hs_RAMPAGE", expDir="demo/bam_files/", isPairedEnd=TRUE) 
 ```
 
-This will create an object called `Hs_RAMPAGE`, in your workspace. We specified the directory "vignette_files" as the location of the bam files to be imported, and have given it the rather general title "Human RAMPAGE". Before we continue, let's take a look look at the object in our workspace using `ls()` to make sure it appears:
-
-[1] "Hs_RAMPAGE"
+This will create an object called `Hs_RAMPAGE`, in your workspace. We specified the directory "vignette_files" as the location of the bam files to be imported, and have given it the rather general title "Human RAMPAGE". Before we continue, let's take a look look at the object in our workspace using `ls()` to make sure it appears.
 
 Now we need to provide the sample names and specify which samples are biological replicates. In this case we are working with 4 total datasets and 2 samples in duplicate, and we provide the names as follows:
 
 ```{r eval=FALSE}
-setSampleID(Hs_RAMPAGE, c("HT1080-1","HT1080-2","H460-1", "H460-2"), c(1,1,2,2))
+setSampleID(Hs_RAMPAGE, sample.names=c("HT1080-rep1","HT1080-rep2","H460-rep1", "H460-rep2"), replicate.IDs=c(1,1,2,2))
 ```
 
 Now that we have completed the above commands, we can proceed with importing the bam files using the function `importBam`. This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. 
 
 ```{r eval=FALSE}
 importBam(Hs_RAMPAGE)
-
-... importBam ...
-
-Importing paired-end reads ...
-
-TSS data were specified to be paired-end read alignments.
-Beginning import of  4  bam files ...
 ```
-
 You will receive a message on your console when all four files have been imported:
 
-```{r eval=FALSE}
 Done. Alignment data from  4  bam files have been attached to tssObject
 object " Hs_RAMPAGE ".
- Done.
--------------------------------------------------------------------------------- 
-```
 
 Now that the alignment files have been imported and attached to our tssObj S4 object, we continue by computing the TSSs from the bam files.
 
@@ -240,6 +238,7 @@ As in the previous example, now we can calculate the tag abundance at each locat
 ```{r eval=FALSE}
 processTSS(experimentName=At_PEAT, parallel=FALSE, tssSet="all", writeTable=TRUE)
 determineTSR(experimentName=At_PEAT, parallel=FALSE, tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
+stopCluster(mycl) #ending the parallel session we set up earlier in this example.
 ```
 
 ### Associating identified TSRs with gene annotations
@@ -259,7 +258,121 @@ dim(At.tsrs)
 head(At.tsrs)
 ```
 
+We can optionally save the tssObj S4 as we have previously.
 
 ```{r eval=FALSE}
 save(At_PEAT, file="At_PEAT_vignette.RData")
 ```
+
+## Example 3: Analysis of CAGE datasets from the FANTOM project
+
+As we stated in the introduction of this vignette, TSRchitect is capable of handling diverse forms of TSS profiling data. In the first two examples, we analyze two distinct paired-end datasets: RAMPAGE and PEAT, respectively. In this example we will process data from CAGE, which is most widely-used TSS profiling method to date.  We will analyze CAGE data generated in two well-characterized immortalized cell lines, MCF-7 and A549. MCF-7 cells are derived from a breast cancer tumor, and A549 originates from an adenocarinoma isolated from lung tissue. Both datasets are part of the ENCODE project, and therefore we can make use of the ENCODExplorer package that we originally introduced in Example 1 (see https://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html information on installation).
+
+```{r eval=FALSE}
+library(ENCODExplorer)
+data(encode_df, package = "ENCODExplorer")
+cage_data <- fuzzySearch(searchTerm = c("ENCFF552BXH","ENCFF288VTZ","ENCFF265RSX","ENCFF944PCJ"), database = encode_df, filterVector = c("file_accession"), multipleTerm = TRUE)
+downloadEncode(cage_data, df=encode_df, format="bam") #downloading the files
+```
+
+Now that the files have been downloaded, we will create symbolic links with the appropriate sample names. Please run the following commands from a linux command line:
+
+```{bash eval=FALSE}
+cd ../demo #assumes the user is in /vignettes
+mkdir hsCAGE
+ln -s ENCFF474YPI.bam hsCAGE/MCF7-rep1.bam
+ln -s ENCFF242UWH.bam hsCAGE/MCF7-rep2.bam
+ln -s ENCFF265RSX.bam hsCAGE/A549-rep1.bam
+ln -s ENCFF944PCJ.bam hsCAGE/A549-rep2.bam
+```
+
+As in Example 1, we also need to download a human gene annotation.  Please download, uncompress the annoation file and place it in the `demo/` folder. [Note: you may ignore this is you have already downloaded the file from Example 1]
+
+The annotation file is found at the following location:
+ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
+
+As we did in our first example, we need to set up a parallel instance as follows:
+
+```{r eval=FALSE}
+library(doParallel)
+mycl <- makeCluster(5,type="FORK",outfile="")
+registerDoParallel(mycl)
+```
+
+Now we can set up the tssObj S4 object. Note that we must specify `isPairedEnd=FALSE` because this is single-end CAGE data.
+
+```{r eval=FALSE}
+initializeExp(expTitle ="Human CAGE experiment", experimentName="CAGEhuman", expDir="demo/hsCAGE", isPairedEnd=FALSE) # initializing the tssObj object:
+setSampleID(experimentName=CAGEhuman, sample.names=c("MCF7-rep1","MCF7-rep2","A549-rep1","A549-rep2"), replicate.IDs=c(1,1,2,2)) # setting the sample IDs and names for the datasets within the CAGE library
+```
+
+As in our other two examples, we then import the BAM files and obtain TSSs from this data.
+
+```{r eval=FALSE}
+importBam(experimentName=CAGEhuman) # loading the BAM files from CAGE experiment
+bamToTSS(experimentName=CAGEhuman) # converting BAM data into TSS information and attaching it to the tssObj object:
+```
+
+Next we must calculate the CAGE tag abundance at each TSS position, followed by identification of TSRs within our 4 replicate datasets.
+
+```{r eval=FALSE}
+processTSS(experimentName=CAGEhuman, parallel=TRUE, tssSet="all", writeTable=TRUE) # constructing the tag count per TSS data matrix:
+determineTSR(experimentName=CAGEhuman, parallel=TRUE, tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE) # finding TSRs for the replicate datasets
+```
+
+Now we merge data from replicates into their two corresponding samples.
+
+```{r eval=FALSE}
+mergeSampleData(experimentName=CAGEhuman) #merging TSS data from the replicates
+```
+
+Once this is complete, we can complete TSR identification on the merged samples.
+
+```{r eval=FALSE}
+determineTSR(experimentName=CAGEhuman, parallel=TRUE, tsrSetType="merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE) # finding TSRs for the merged samples
+```
+
+```{r eval=FALSE}
+addTagCountsToTSR(experimentName= CAGEhuman, tsrSetType= "merged", tsrSet=3, tagCountThreshold= 40, writeTable= TRUE)
+```
+Now we need to import the annotation file and attach it to our tssObj S4 object.
+
+```{r eval=FALSE}
+importAnnotation(experimentName = CAGEhuman, fileType = "gff3", annotFile = "demo/gencode.v19.annotation.gff3")
+```
+
+Now we will associate the gene annotation to the TSRs within our two merged samples. As we did in Example 1, we select the feature 'transcript' from the Gencode annotation.
+
+Associating the annotation features with the TSRs from i) MCF7 cells and ii) A549 cells:
+
+```{r eval=FALSE}
+addAnnotationToTSR(experimentName = CAGEhuman, tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE) #MCF7 cells
+addAnnotationToTSR(experimentName = CAGEhuman, tsrSetType="merged", tsrSet=2, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE) #A549 cells
+```
+
+Associating our selected annotation features with the TSRs on the 'combined' slot.
+
+```{r eval=FALSE}
+addAnnotationToTSR(experimentName = CAGEhuman, tsrSetType="merged", tsrSet=3, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE)
+```
+
+Let's take a quick glance at our combined set of identified TSRs:
+
+```{r eval=FALSE}
+CAGEhuman@tsrDataMerged[[1]] -> MCF7.tsrs
+dim(MCF7.tsrs)
+```
+
+```{r eval=FALSE}
+CAGEhuman@tsrDataMerged[[2]] -> A549.tsrs
+dim(A549.tsrs)
+```
+
+```{r eval=FALSE}
+CAGEhuman@tsrDataMerged[[3]] -> CAGEhuman.tsrs
+dim(CAGEhuman.tsrs)
+```
+
+We can now optionally save the tssObj for future use.
+
+save(CAGEhuman, file="CAGEhuman-vignette.RData")
