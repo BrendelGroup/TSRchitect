@@ -48,9 +48,10 @@ Once the above steps are complete, please move the files into a new folder calle
 
 We'll also need to download a human gene annotation, which will be important a little later.
 
-Please download and uncompress the file as follows, and place it in the vignettes/ folder.
+Please download and uncompress the annoation file and place it in the vignettes/ folder.
 
-[genocode annotation](ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz)
+The file is found here:
+ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
 
 Now that we have our input and annotation files prepared, we can load TSRchitect into our workspace, along with another library required for parallelization:
 
