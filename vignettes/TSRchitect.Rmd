@@ -48,7 +48,7 @@ Once the above steps are complete, please move the files into a new folder calle
 
 We'll also need to download a human gene annotation, which will be important a little later.
 
-Please download and uncompress the annoation file and place it in the vignettes/ folder.
+Please download and uncompress the annoation file and place it in the `vignettes/` folder.
 
 The file is found here:
 ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
@@ -88,7 +88,7 @@ Now we need to provide the sample names and specify which samples are biological
 setSampleID(Hs_RAMPAGE, c("HT1080-1","HT1080-2","H460-1", "H460-2"), c(1,1,2,2))
 ```
 
-Now that we have completed the above commands, we can proceed with importing the bam files using the function `importBam()`. This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. 
+Now that we have completed the above commands, we can proceed with importing the bam files using the function `importBam`. This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. 
 
 ```{r eval=FALSE}
 importBam(Hs_RAMPAGE)
@@ -101,7 +101,7 @@ TSS data were specified to be paired-end read alignments.
 Beginning import of  4  bam files ...
 ```
 
-This step will take between ten and fifteen minutes, so feel free to take a break and resume when the job is complete. You will receive a message on your console when all four files have been imported. 
+You will receive a message on your console when all four files have been imported:
 
 ```{r eval=FALSE}
 Done. Alignment data from  4  bam files have been attached to tssObject
@@ -110,13 +110,13 @@ object " Hs_RAMPAGE ".
 -------------------------------------------------------------------------------- 
 ```
 
-Now that the alignment files have been imported and attached to our tssObj S4 object, we continue by computing the TSSs from the bam files. This will take approximately 5 minutes. 
+Now that the alignment files have been imported and attached to our tssObj S4 object, we continue by computing the TSSs from the bam files.
 
 ```{r eval=FALSE}
 bamToTSS(experimentName=Hs_RAMPAGE)
 ```
 
-Next we will calculate the abundance of each tag in our TSS datasets. This step will take somewhere between 20-30 minutes.
+Next we will calculate the abundance of each tag in our TSS datasets.
 
 ```{r eval=FALSE}
 processTSS(experimentName=Hs_RAMPAGE, parallel=TRUE, tssSet="all", writeTable=TRUE)
@@ -124,13 +124,13 @@ processTSS(experimentName=Hs_RAMPAGE, parallel=TRUE, tssSet="all", writeTable=TR
 
 Since we specified 'writeTable=TRUE', files (entitled "TSSset-1.txt" to "TSSset-4.txt") containing TSS abundance will be written into your working directory. 
 
-Now that we have calculated the abundance for each TSS in the previous step we can calculate TSRs (promoters) on each of the 4 separate datasets. We have selected a tagCount threshold of 25 tags in order for a TSS to be considered. As with the previous step, we selected 'writeTable=TRUE' and therefore you will find the file ("TSRset-1" to "TSRset-4") written to your working directory. (Estimated time: 25 minutes).
+Now that we have calculated the abundance for each TSS in the previous step we can calculate TSRs (promoters) on each of the 4 separate datasets. We have selected a tagCount threshold of 25 tags in order for a TSS to be considered. As with the previous step, we selected 'writeTable=TRUE' and therefore you will find the file ("TSRset-1" to "TSRset-4") written to your working directory.
 
 ```{r eval=FALSE}
 determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
 ```
 
-To calculate TSRs from each sample (as opposed to each replicate) we need to combine our replicate data. This will be done using the identifiers we specified on our tssObj S4 object using the function initializeExp(). (Estimated time: 15 minutes)
+To calculate TSRs from each sample (as opposed to each replicate) we need to combine our replicate data. This will be done using the identifiers we specified on our tssObj S4 object using the function initializeExp().
 
 ```{r eval=FALSE}
 mergeSampleData(experimentName=Hs_RAMPAGE)
@@ -139,7 +139,7 @@ mergeSampleData(experimentName=Hs_RAMPAGE)
 Having combined the TSS abundance of replicate data into samples, we next proceed with identifying TSRs for the two samples individually. We specify this with 'tsrSetType="merge"'.
 
 ```{r eval=FALSE}
-determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE) (Estimated time: 20 minutes)
+determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)
 stopCluster(mycl) #ending the parallel session we set up earlier in the vignette.
 ```
 
