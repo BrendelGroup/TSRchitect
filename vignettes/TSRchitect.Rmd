@@ -214,7 +214,7 @@ save(Hs_RAMPAGE, file="Hs_RAMPAGE.RData")
 
 ## Example 2: Identifying promoters in the model plant A. thaliana using a PEAT dataset.
 
-For our second example will process TSS profiling data from Arabidopsis root tissue. This data comes from the Megraw Lab of Oregon State University and was reported in Morton et al., 2014. [link](10.1105/tpc.114.125617)
+For our second example will process TSS profiling data from Arabidopsis root tissue. This data comes from the Megraw Lab of Oregon State University and was reported in Morton et al., 2014. [Link to paper:](http://www.plantcell.org/content/26/7/2746)
 
 As with the previous example, we first must download the raw data. In this case we have only a single alignment file to retrieve, which is found here: http://megraw.cgrb.oregonstate.edu/jbrowse_public/arabidopsis_public/webdata/peat/peat.sorted.bam .
 
@@ -241,6 +241,8 @@ As in the previous example, now we can calculate the tag abundance at each locat
 processTSS(experimentName=At_PEAT, parallel=FALSE, tssSet="all", writeTable=TRUE)
 determineTSR(experimentName=At_PEAT, parallel=FALSE, tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
 ```
+
+### Associating identified TSRs with gene annotations
 
 We continue by associating our newly-identified TSRs with genes from the TAIR10 annotation. Note that we use different parameters for upstreamDist and downstreamDist than we did in Example 1. This is due to the high degree of compactness in the A. thaliana genome.
 
