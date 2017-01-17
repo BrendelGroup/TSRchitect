@@ -14,7 +14,7 @@ vignette: >
 ## R. Taylor Raborn and Volker P. Brendel
 ## Department of Biology, Indiana University
 
-### `r Sys.Date()`
+### January 17, 2017
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets. TSRchitect can handle TSS profiling experiments that contain either single-end orb paired-end sequence. In recent years, large-scale TSS profiling data has characterized the landscape of transcription initiation at high resolution, identifying promoter architecture in a number of eukaryotic model systems, including human, mouse, fruit fly and worm.
 
@@ -27,19 +27,28 @@ Examples of TSS profiling data types that TSRchitect is capable of handling are 
 
 TSRchitect provides the capability to efficiently identify putative promoters---which we call transcription start regions (TSRs)---from TSS profiling experiments. TSRchitect possesses the flexibility to accomodate datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calcualtes a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width and the Shape Index (SI). Finally, TSRchitect's output is compatible with popular differential expression analyses such as edgeR, assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another. In addition to this vignette, the TSRchitect Reference Manual is available as part of the package's online documentation.
 
-## Identifying promoters from RAMPAGE data derived from two human cell lines.
+## Example 1: Identifying promoters from RAMPAGE data derived from two human cell lines.
 
 RAMPAGE is a TSS profiling method that identifies promoters at large-scale using a cap-based library construction method that is adapted for paired-end sequencing. Developed recently by Batut and Gingeras (2013), it has become a popular method for promoter identification and is currently part of the data compredium in the latest edition of the ENCODE project.
 
 In this example we will process RAMPAGE data derived from two immortalized human cell lines with TSRchitect. The experiments selected for this vignette are part of the ENCODE project and is publically available online at the [ENCODE Experiment matrix](https://www.encodeproject.org/matrix/?type=Experiment). The two samples come from HT1080 cells, which is a well-characterized fibrosarcoma cell line, and NCI-H460 cells, which are derived from a large cell lung carcinoma in a male patient. 
 
-To begin, we must first download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) to our local system. Do accomplish this we will utilize the "ENCODExplorer" package, which is part of the Bioconductor suite. More information on ENCODExplorer package, including information in installation, can be at the following link: https://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html 
+To begin, we must first download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) to our local system. To accomplish this we will utilize the "ENCODExplorer" package, which is part of the Bioconductor suite. More information on ENCODExplorer package can be found at the following link: https://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html.
+
+First, we will install ENCODExplorer directly from github using devtools.
+
+```{r eval=FALSE}
+library(devtools)
+install_github("CharlesJB/ENCODExplorer")
+```
+
+Now we can proceed with downloading the data:
 
 ```{r eval=FALSE}
 library(ENCODExplorer)
 data(encode_df, package = "ENCODExplorer")
 datasets <- fuzzySearch(searchTerm = c("ENCFF474YPI", "ENCFF242UWH", "ENCFF214GWH", "ENCFF265SGZ"), database = encode_df, filterVector = c("file_accession"), multipleTerm = TRUE)
-downloadEncode(datasets, df=encode_df, format="bam")
+downloadEncode(datasets, df=encode_df, format="bam") #downloading the files
 ```
 
 Once the above steps are complete, please move the files into a new folder called `bam_files/` inside the demo/ folder.
@@ -68,15 +77,10 @@ registerDoParallel(mycl)
 Next we'll create the dedicated S4 object---called the tssObj---that TSRchitect's functions will be performed on.
 
 ```{r eval=FALSE}
-initializeExp(expTitle ="Human RAMPAGE", experimentName="Hs_RAMPAGE", expDir="vignettes/bam_files/", isPairedEnd=TRUE) 
+initializeExp(expTitle ="Human RAMPAGE", experimentName="Hs_RAMPAGE", expDir="demo/bam_files/", isPairedEnd=TRUE) 
 ```
 
-This will create an object called `Hs_RAMPAGE`, in your workspace. We specified the directory "vignette_files" as the location of the bam files to be imported, and have given it the rather general title "Human RAMPAGE". Before we continue, let's take a look look at it to make sure it appears:
-
-```{r eval=FALSE}
-ls()
-```
-Unless you have been doing other work in your R console, that command should just return our tssObj S4 object:
+This will create an object called `Hs_RAMPAGE`, in your workspace. We specified the directory "vignette_files" as the location of the bam files to be imported, and have given it the rather general title "Human RAMPAGE". Before we continue, let's take a look look at the object in our workspace using `ls()` to make sure it appears:
 
 [1] "Hs_RAMPAGE"
 
@@ -202,9 +206,58 @@ Hs_RAMPAGE@tsrDataMerged[[1]] -> HT1080.tsrs
 head(HT1080.tsrs) #printing the first few rows of the table to our console.
 ```
 
-This covers the main features of TSRchitect at present. If we wish to save our tssObj and return to our work later, simply we simply type the following, which will write an R binary to your working directory.
+This concludes Example 1. Should we wish to save our tssObj and return to our work later, we simply type the following, which will write an R binary to your working directory.
 
 ```{r eval=FALSE}
 save(Hs_RAMPAGE, file="Hs_RAMPAGE.RData")
 ```
 
+## Example 2: Identifying promoters in the model plant A. thaliana using a PEAT dataset.
+
+For our second example will process TSS profiling data from Arabidopsis root tissue. This data comes from the Megraw Lab of Oregon State University and was reported in Morton et al., 2014. [link](10.1105/tpc.114.125617)
+
+As with the previous example, we first must download the raw data. In this case we have only a single alignment file to retrieve, which is found here: http://megraw.cgrb.oregonstate.edu/jbrowse_public/arabidopsis_public/webdata/peat/peat.sorted.bam .
+
+The annotation dataset is available from the TAIR10 database: ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff . Please place this file in the `demo/` folder.
+
+Once download of the file `pead.sorted.bam` is complete, please move it to a directory within `demo/` entitled "PEAT_bam".
+Since there is only a single experiment, setting the sample IDs is simple:
+
+```{r eval=FALSE}
+initializeExp(expTitle="Arabidopsis PEAT dataset", experimentName="At_PEAT", expDir="demo/PEAT_bam", isPairedEnd=TRUE)
+setSampleID(experimentName=At_PEAT, sample.names=c("experiment1"), replicate.IDs=c(1))
+```
+
+Now we import the alignment file to our tssObj S4 object and convert the data to TSS coordinates:
+
+```{r eval=FALSE}
+importBam(At_PEAT)
+bamToTSS(At_PEAT)
+```
+
+As in the previous example, now we can calculate the tag abundance at each location using `processTSS` and the identify TSRs within the sample using `determineTSR`. Note that we do not need to use `mergeDampleData` because there is only a single sample.
+
+```{r eval=FALSE}
+processTSS(experimentName=At_PEAT, parallel=FALSE, tssSet="all", writeTable=TRUE)
+determineTSR(experimentName=At_PEAT, parallel=FALSE, tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
+```
+
+We continue by associating our newly-identified TSRs with genes from the TAIR10 annotation. Note that we use different parameters for upstreamDist and downstreamDist than we did in Example 1. This is due to the high degree of compactness in the A. thaliana genome.
+
+```{r eval=FALSE}
+importAnnotation(experimentName=At_PEAT, fileType="gff3", annotFile="demo/TAIR10_GFF3_genes.gff")
+addAnnotationToTSR(experimentName=At_PEAT, tsrSetType="replicates", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="gene", featureColumnID="ID", writeTable=TRUE)
+```
+
+Now we have a complete set of TSRs on our tssObj object. Let's take a look at them:
+
+```{r eval=FALSE}
+At.tsrs <- AtPEAT@tsrDataMerged[[1]]
+dim(At.tsrs)
+head(At.tsrs)
+```
+
+
+```{r eval=FALSE}
+save(At_PEAT, file="At_PEAT_vignette.RData")
+```
