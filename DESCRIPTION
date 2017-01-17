@@ -1,6 +1,6 @@
 Package: TSRchitect
 Version: 0.99.0
-Date: 2017-01-11
+Date: 2017-01-15
 Title: Promoter identification, visualization and manipulation using large-scale
     5' end (TSS) sequence data
 Description: In recent years, large-scale transcriptional sequence data has
@@ -36,6 +36,7 @@ License: GPL-3
 URL: https://github.com/brendelgroup/tsrchitect
 BugReports: https://github.com/brendelgroup/tsrchitect/issues
 Suggests:
+    ENCODExplorer 	 
     knitr,
     rmarkdown
 biocViews:

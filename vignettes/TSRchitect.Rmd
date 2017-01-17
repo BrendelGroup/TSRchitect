@@ -1,20 +1,22 @@
-<!--
+---
+title:    TSRchitect
+output:    rmarkdown::html_vignette
 vignette: >
     %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteIndexEntry{TSRchitect}
-    %\VignettePackage{TSRchitect}
-    %\VignetteIndexExtry{TSRchitect}
-    \usepackage[utf8]{inputenc}
--->
+...
+---
+
 ```{r setup, include=FALSE}
 library(knitr)
 ```
 
 ## TSRchitect Package Vignette
 
-### R. Taylor Raborn, Indiana University
+### R. Taylor Raborn
+### Volker P. Brendel
+### Department of Biology, Indiana University
 
-### 15 January 2017
+### 16 January 2017
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets. TSRchitect can handle TSS profiling experiments that contain either single-end orb paired-end sequence. In recent years, large-scale TSS profiling data has characterized the landscape of transcription initiation at high resolution, identifying promoter architecture in a number of eukaryotic model systems, including human, mouse, fruit fly and worm.
 
@@ -27,39 +29,28 @@ Examples of TSS profiling data types that TSRchitect is capable of handling are 
 
 TSRchitect provides the capability to efficiently identify putative promoters---which we call transcription start regions (TSRs)---from TSS profiling experiments. TSRchitect possesses the flexibility to accomodate datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calcualtes a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width and the Shape Index (SI). Finally, TSRchitect's output is compatible with popular differential expression analyses such as edgeR, assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another. In addition to this vignette, the TSRchitect Reference Manual is available as part of the package's online documentation.
 
-To install TSRchitect, please type the following from an R console:
-
-```{r eval=FALSE}
-library(devtools) #loads devtools (please install this package if you haven't already done so)
-install_github("brendelgroup/TSRchitect")
-```
-
 ## Identifying promoters from RAMPAGE data derived from two human cell lines.
 
 RAMPAGE is a TSS profiling method that identifies promoters at large-scale using a cap-based library construction method that is adapted for paired-end sequencing. Developed recently by Batut and Gingeras (2013), it has become a popular method for promoter identification and is currently part of the data compredium in the latest edition of the ENCODE project.
 
 In this example we will process RAMPAGE data derived from two immortalized human cell lines with TSRchitect. The experiments selected for this vignette are part of the ENCODE project and is publically available online at the [ENCODE Experiment matrix](https://www.encodeproject.org/matrix/?type=Experiment). The two samples come from HT1080 cells, which is a well-characterized fibrosarcoma cell line, and NCI-H460 cells, which are derived from a large cell lung carcinoma in a male patient. 
 
-Before we begin, please download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) from the following locations.
+To begin, we must first download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) to our local system. Do accomplish this we will utilize the "ENCODExplorer" package, which is part of the Bioconductor suite. More information on ENCODExplorer package, including the 
 
-HT1080:
--[HT1080-rep1](https://www.encodeproject.org/files/ENCFF474YPI/@@download/ENCFF474YPI.bam)
--[HT1080-rep2](https://www.encodeproject.org/files/ENCFF242UWH/@@download/ENCFF242UWH.bam)
+```{r eval=FALSE}
+library(ENCODExplorer)
+data(encode_df, package = "ENCODExplorer")
+datasets <- fuzzySearch(searchTerm = c("ENCFF474YPI", "ENCFF242UWH", "ENCFF214GWH", "ENCFF265SGZ"), database = encode_df, filterVector = c("file_accession"), multipleTerm = TRUE)
+downloadEncode(datasets, df=encode_df, format="bam")
+`
 
-NCI-H460:
--[NCI-H460-rep1](https://www.encodeproject.org/files/ENCFF214GWH/@@download/ENCFF214GWH.bam)
--[NCI-H460-rep2](https://www.encodeproject.org/files/ENCFF265SGZ/@@download/ENCFF265SGZ.bam)
-
-Please download these to your machine and and rename them according to their labels above. For example, the file ENCFF474YPI.bam should be given the name HT1080-rep1.bam, and so on. Once this is complete, please move the files into a new folder called ```bam_files/``` inside the vignettes/ folder.
+Once the above steps are complete, please move the files into a new folder called ```bam_files/``` inside the demo/ folder.
 
 We'll also need to download a human gene annotation, which will be important a little later.
 
 Please download and uncompress the file as follows, and place it in the vignettes/ folder.
 
-```
-wget ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
-gzip -d gencode.v19.annotation.gff3.gz #unzipping the file
-```
+[genocode annotation](ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz)
 
 Now that we have our input and annotation files prepared, we can load TSRchitect into our workspace, along with another library required for parallelization:
 
