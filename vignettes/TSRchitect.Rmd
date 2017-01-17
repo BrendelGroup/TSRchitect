@@ -35,7 +35,7 @@ RAMPAGE is a TSS profiling method that identifies promoters at large-scale using
 
 In this example we will process RAMPAGE data derived from two immortalized human cell lines with TSRchitect. The experiments selected for this vignette are part of the ENCODE project and is publically available online at the [ENCODE Experiment matrix](https://www.encodeproject.org/matrix/?type=Experiment). The two samples come from HT1080 cells, which is a well-characterized fibrosarcoma cell line, and NCI-H460 cells, which are derived from a large cell lung carcinoma in a male patient. 
 
-To begin, we must first download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) to our local system. Do accomplish this we will utilize the "ENCODExplorer" package, which is part of the Bioconductor suite. More information on ENCODExplorer package, including the 
+To begin, we must first download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) to our local system. Do accomplish this we will utilize the "ENCODExplorer" package, which is part of the Bioconductor suite. More information on ENCODExplorer package, including information in installation, can be at the following link: https://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html 
 
 ```{r eval=FALSE}
 library(ENCODExplorer)
