@@ -1,13 +1,12 @@
 ---
-title:    TSRchitect
-output:    rmarkdown::html_vignette
+title: "TSRchitect"
+author: "R. Taylor Raborn"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
 vignette: >
-    %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteIndexEntry{TSRchitect}
-    %\VignettePackage{TSRchitect}
-    %\VignetteIndexExtry{TSRchitect}
-    \usepackage[utf8]{inputenc}
-...
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
 
 ## TSRchitect Package Vignette
