@@ -9,11 +9,11 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-## TSRchitect Package Vignette
+# TSRchitect Vignette
 
-### R. Taylor Raborn
-### Volker P. Brendel
-### Department of Biology, Indiana University
+## R. Taylor Raborn
+## Volker P. Brendel
+## Department of Biology, Indiana University
 
 ### 16 January 2017
 
