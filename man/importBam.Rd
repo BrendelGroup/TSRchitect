@@ -15,6 +15,6 @@ importBam(experimentName)
         BAM file.
 }
 \description{
-\emph{importBam} processes BAM files as specified by \emph{initializeExp}.
+\emph{importBam} processes BAM files as specified by \emph{initializeExp}. Files will be imported in the order that they appear on the @fileNames slot, which is in ascending alphanumeric order.
 }
 
