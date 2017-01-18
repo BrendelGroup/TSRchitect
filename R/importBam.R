@@ -1,16 +1,15 @@
-#' @title \emph{importBam()}
+#' @title \emph{importBam}
 #'
-#' @description \emph{importBam} processes BAM files as specified by \emph{initializeExp}. Files will be imported in the order that they appear on the @fileNames slot, which is in ascending alphanumeric order.
-#'
-#' @param experimentName - an S4 object of class tssObject that contains information about the experiment
-#'
+#' @description \code{importBam} processes .bam files as specified by \code{\link{initializeExp}}.
+#' Files will be imported in the order that they appear on the \emph{@fileNames} slot, which is in ascending alphanumeric order.
+#' @param experimentName - an S4 object of class \emph{tssObject} that contains information about the experiment
 #' @return \emph{importBam} fills the slot experimentName@bamData in the tssObject \emph{experimentName} with
-#'         GAlignments objects from the \bold{GenomicAlignments} package, one for each parsed input
-#'         BAM file.
-#'
+#'         GAlignments objects from the \bold{GenomicAlignments} package, one for each attached .bam file.
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
+#' @examples
+#' @note
 #' @export
 
 setGeneric(

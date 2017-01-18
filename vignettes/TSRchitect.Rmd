@@ -145,8 +145,8 @@ processTSS(experimentName=Hs_RAMPAGE, parallel=TRUE, tssSet="all", writeTable=TR
 Since we specified 'writeTable=TRUE', files (entitled "TSSset-1.txt" to "TSSset-4.txt") containing TSS abundance will be written into your working directory. 
 
 Now that we have calculated the abundance for each TSS in the previous step we can calculate TSRs (promoters) on each of the 4 separate datasets.
-We select a `tagCount' threshold of 25 tags in order for a TSS to be considered.
-The option `clustDist' is critical for the identification of TSRs and refers to the minimum distance between distinct TSRs (in other words, adjacent TSSs seperated by more than 'clustDist' nucleotides will be in different TSRs).
+We select a `tagCount` threshold of 25 tags in order for a TSS to be considered.
+The option `clustDist` is critical for the identification of TSRs and refers to the minimum distance between distinct TSRs (in other words, adjacent TSSs seperated by more than `clustDist` nucleotides will be in different TSRs).
 As with the previous step, we select 'writeTable=TRUE', and therefore we will find the output files ("TSRset-1" to "TSRset-4") written to the working directory.
 
 ```{r eval=FALSE}

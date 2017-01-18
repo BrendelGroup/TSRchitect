@@ -1,16 +1,15 @@
-#' addTagCountsToTSR
-#' Adds a column of tag counts to a set of identifid TSRs
-#'
-#' @param experimentName - a S4 object of class tssObject containing information in slot tssTagData
-#' @param tsrSetType - specifies the set to be written to file. Options are "replicates" or "merged".
-#' @param tsrSet - number of the dataset to be processed
-#' @param tagCountThreshold - number of TSSs required at a given position
-#' @param writeTable - specifies whether the output should be written to a table. (logical)
-#'
-#' @return a column of tag counts is appended to the selected set of identified TSRs
-#'
+#' @title \strong{addTagCountsToTSR}
+#' @description \code{addTagCountsToTSR} adds a matrix of tag counts to a set of identified TSRs
+#' @param experimentName a S4 object of class \emph{tssObject} containing information in slot \emph{@tssTagData}
+#' @param tsrSetType specifies the set to be written to file. Options are "replicates" or "merged". (character)
+#' @param tsrSet number of the dataset to be processed, where 1 corresponds to the first slot, and so on. (numeric)
+#' @param tagCountThreshold number of TSSs required at a given position (numeric)
+#' @param writeTable specifies whether the output should be written to a table. (logical)
+#' @return a matrix of tag counts (where the number of columns will equal to the number of replicates in the sample) is appended to the data frame of the selected set of identified TSRs
 #' @importFrom utils write.table
-#' 
+#' @examples
+#' addTagCountsToTSR(experimentName= Hs_RAMPAGE, tsrSetType= "merged", tsrSet=3, tagCountThreshold= 25, writeTable= TRUE)
+#' @note The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd) 
 #' @export
 
 setGeneric(

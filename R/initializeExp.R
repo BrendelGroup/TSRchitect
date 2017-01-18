@@ -1,9 +1,14 @@
-#' Initializes the TSS profiling experiment
-#' @param expTitle    - title for the experiment (character)
-#' @param experimentName     - name for the tssObject object to be created in your working environment (character)
-#' @param expDir      - path to the directory with the alignment files in bam format (character). Please note that all .bam files found in expDir will be retrieved and written in ascending alphanumeric order to the @fileNames slot on the tssObject that is created.
-#' @param isPairedEnd - TRUE/FALSE according to whether the TSS profiling experiment was paired-end or not (logical)
-#' @return Creates a tssObject object in the user's current workspace. 
+#' @title \strong{initializeExp}
+#' @description \code{initializeExp} initializes the TSS profiling experiment
+#' @param expTitle A descriptive title for the experiment (character)
+#' @param experimentName name for the \emph{tssObject} to be created in your working environment (character). Your choice for \emph{experimentName} must lack spaces.
+#' @param expDir path to the directory with the alignment files in .bam format (character). Note that all the paths to all files in \emph{expDir} with the extension .bam in \emph{expDir} will be imported with this function.
+#' @param isPairedEnd specifies whether the TSS profiling experiment is paired-end (if TRUE) or single-end (if FALSE) (logical)
+#' @return Creates a new \emph{tssObject} with the name \emph{experimentName} that is written to the user's working environment.
+#' @examples
+#'  initializeExp(expTitle ="Human RAMPAGE", experimentName="Hs_RAMPAGE", expDir="hsRAMPAGEbam/", isPairedEnd=TRUE)
+#' @note The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd) 
+#' @note Please note that all .bam files found in \emph{expDir} will be retrieved and written in ascending alphanumeric order to the \emph{@fileNames} slot on the \emph{tssObject} that is created.
 #' @export
 
 setGeneric(

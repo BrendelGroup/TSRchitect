@@ -1,18 +1,21 @@
-#' @title \emph{importAnnotation}
+#' @title \strong{importAnnotation}
 #'
-#' @description \emph{importAnnotation} imports an annotation from an external file and attaches it to your tssObject.
+#' @description \code{importAnnotation} imports an annotation from an external file and attaches it to \emph{experimentName}.
 #'
-#' @param experimentName - an S4 object of class tssObject that contains information about the experiment
+#' @param experimentName - an S4 object of class \emph{tssObject} that contains information about the experiment
 #'
 #' @param fileType - the format of the annotation file to be imported. Must be one of: "bed", "gff" or "gff3".
 #'
 #' @param annotFile - a path (full or relative) to the annotation file to be imported. 
 #' 
 #' @return \emph{importAnnotation} fills the slot experimentName@annotation in the tssObject \emph{experimentName} with
-#'         a GRanges object contining the annotation data
+#'         a \linkS4class{GRanges} object contining the annotation data.
 #'
 #' @importFrom GenomicRanges GRanges
 #' @importFrom rtracklayer import.bed import.gff import.gff3
+#' @examples importAnnotation(experimentName = Hs_RAMPAGE, fileType ="gff3", annotFile ="vignettes/gencode.v19.annotation.gff3")
+#' @note The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+#' @note \code{importAnnotation} makes use of three functions from the \emph{rtracklayer} Bioconductor package: \code{\link[rtracklayer]{import.bed}}, \code{\link[rtracklayer]{import.gff}}, and \code{\link[rtracklayer]{import.gff3}}
 #' @export
 
 setGeneric(

@@ -1,12 +1,14 @@
-#' processTSS
-#' Finds TSRs from a given sequence
-#'
-#' @param experimentName - a S4 object of class tssObject containing information in slot tssTagData
-#' @param parallel - whether to run in parallel or not (logical)
-#' @param tssSet - default is "all"; for specific use, specify tssSet number (as character)
-#' @param writeTable - specifies whether the output should be written to a table. (logical)
-#'
-#' @return creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssObject object
+#' @title \strong{processTSS}
+#' @description \code{processTSS} calulates the number of observed reads at a given TSS coordinate across an entire dataset.
+#' @param experimentName an S4 object of class \emph{tssObject} containing information in slot \emph{@tssTagData}
+#' @param parallel whether to run in parallel or not (logical)
+#' @param tssSet default is "all"; for specific use, specify \emph{tssSet} number (as character)
+#' @param writeTable specifies whether the output should be written to a table. (logical)
+#' @return creates a list of \linkS4class{GenomicRanges} containing TSS positions in slot \emph{tssTagData} on the \emph{tssObject}
+#' @examples
+#' processTSS(experimentName=Hs_RAMPAGE, parallel=TRUE, tssSet="all", writeTable=TRUE)
+#' @note The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd) 
+#' @note Note that the \emph{tssSet} parameter must be of class \emph{character}, even when selecting an individual dataset.
 #' @export
 
 setGeneric(
