@@ -368,4 +368,6 @@ dim(CAGEhuman.tsrs)
 
 We can now optionally save the tssObj for future use.
 
+```{r eval=FALSE}
 save(CAGEhuman, file="CAGEhuman-vignette.RData")
+```
