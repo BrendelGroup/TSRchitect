@@ -211,7 +211,7 @@ As with the previous example, we first must download the raw data. In this case 
 
 The annotation dataset is available from the TAIR10 database: ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff . Please place this file in the `demo/` folder.
 
-Once download of the file `pead.sorted.bam` is complete, please move it to a directory within `demo/` entitled "PEAT_bam".
+Once download of the file `peat.sorted.bam` is complete, please move it to a directory within `demo/` entitled "PEAT_bam".
 Since there is only a single experiment, setting the sample IDs is simple:
 
 ```{r eval=FALSE}
