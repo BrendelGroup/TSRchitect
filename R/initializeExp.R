@@ -1,9 +1,9 @@
 #' Initializes the TSS profiling experiment
 #' @param expTitle    - title for the experiment (character)
 #' @param experimentName     - name for the tssObject object to be created in your working environment (character)
-#' @param expDir      - path to the directory with the alignment files in bam format (character)
+#' @param expDir      - path to the directory with the alignment files in bam format (character). Please note that all .bam files found in expDir will be retrieved and written in ascending alphanumeric order to the @fileNames slot on the tssObject that is created.
 #' @param isPairedEnd - TRUE/FALSE according to whether the TSS profiling experiment was paired-end or not (logical)
-#' @return Creates a tssObject object in the user's current workspace.
+#' @return Creates a tssObject object in the user's current workspace. 
 #' @export
 
 setGeneric(

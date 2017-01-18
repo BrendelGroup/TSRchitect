@@ -1,6 +1,6 @@
 #' @title \emph{importBam()}
 #'
-#' @description \emph{importBam} processes BAM files as specified by \emph{initializeExp}.
+#' @description \emph{importBam} processes BAM files as specified by \emph{initializeExp}. Files will be imported in the order that they appear on the @fileNames slot, which is in ascending alphanumeric order.
 #'
 #' @param experimentName - an S4 object of class tssObject that contains information about the experiment
 #'

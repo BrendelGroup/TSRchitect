@@ -50,26 +50,26 @@ setMethod("writeTSR",
                  }
                  if (tsrSet<length(experimentName@tssCountDataMerged)) {
                      outfname <- paste("TSRsetMerged-", tsrSet, sep="")
-                     if (filetype == "tab") {
+                     if (fileType == "tab") {
                          outfname <- paste(outfname, "tab", sep=".")
                      }
-                     else if (filetype == "bed") {
+                     else if (fileType == "bed") {
                          outfname <- paste(outfname, "bed", sep=".")
                      }
                      else {
-                         stop("Unknown filetype selected for writeTSR.  Please check.")
+                         stop("Unknown fileType selected for writeTSR.  Please check.")
                      }
                      message("\nThe merged TSR set for TSS dataset ", tsrSet, " has been written to file ", outfname, "\nin your working directory.")
                  }
                  else { # "combined" case
-                     if (filetype == "tab") {
+                     if (fileType == "tab") {
                          outfname <- "TSRsetCombined.tab"
                      }
-                     else if (filetype == "bed") {
+                     else if (fileType == "bed") {
                          outfname <- "TSRsetCombined.bed"
                      }
                      else {
-                         stop("Unknown filetype selected for writeTSR.  Please check.")
+                         stop("Unknown fileType selected for writeTSR.  Please check.")
                      }
                      message("\nThe combined TSR set derived from all samples has been written to file ", outfname, "\nin your working directory.")
                  }
@@ -79,7 +79,7 @@ setMethod("writeTSR",
                  stop("Error: argument tsrSetType to writeTSR() should be either \"replicates\" or \"merged\".")
              }
 
-             if (filetype == "tab") {
+             if (fileType == "tab") {
                  write.table(tsr.df, file=outfname, col.names=FALSE, row.names=FALSE, sep="\t", quote=FALSE)
              }
              else {

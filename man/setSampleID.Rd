@@ -7,11 +7,11 @@
 setSampleID(experimentName, sample.names, replicate.IDs)
 }
 \arguments{
-\item{experimentName}{an S4 object of class tssObject that contains information about the experiment}
+\item{experimentName}{an S4 object of class tssObject that contains information about the experiment.}
 
-\item{sample.names}{unique labels (of class character) for each TSS sample within the experiment}
+\item{sample.names}{unique labels (of class character) for each TSS sample within the experiment. Please note that importBam attaches bamData in ascending alphanumeric order, so sample.names must be arranged in this order also so that they directly correspond to the intended file.}
 
-\item{replicate.IDs}{identifiers indicating which samples are biological replicates}
+\item{replicate.IDs}{identifiers indicating which samples are biological replicates. Please note that importBam ataches bamData in ascending alphanumeric order, so replicate.IDs must be arranged in this order also so that they directly correspond to the intended file.}
 }
 \value{
 names and replicate information for experimental samples assigned to your tssObject object

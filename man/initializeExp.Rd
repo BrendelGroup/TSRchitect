@@ -11,7 +11,7 @@ initializeExp(expTitle, experimentName, expDir, isPairedEnd)
 
 \item{experimentName}{- name for the tssObject object to be created in your working environment (character)}
 
-\item{expDir}{- path to the directory with the alignment files in bam format (character)}
+\item{expDir}{- path to the directory with the alignment files in bam format (character). Please note that all .bam files found in expDir will be retrieved and written in ascending alphanumeric order to the @fileNames slot on the tssObject that is created.}
 
 \item{isPairedEnd}{- TRUE/FALSE according to whether the TSS profiling experiment was paired-end or not (logical)}
 }

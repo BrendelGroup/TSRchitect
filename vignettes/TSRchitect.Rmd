@@ -59,10 +59,11 @@ Once the above steps are complete, we will move the files into a new folder call
 ```{bash eval=FALSE}
 cd ../demo #assumes the user is in /vignettes
 mkdir demo/hsRAMPAGE
-ln -s ENCFF474YPI.bam hsRAMPAGE/HT1080-rep1.bam
-ln -s ENCFF242UWH.bam hsRAMPAGE/HT1080-rep2.bam
-ln -s ENCFF214GWH.bam hsRAMPAGE/H460-rep1.bam
-ln -s ENCFF265SGZ.bam hsRAMPAGE/H460-rep2.bam
+cd hsRAMPAGE
+ln -s ../ENCFF214GWH.bam H460-rep1.bam
+ln -s ../ENCFF265SGZ.bam H460-rep2.bam
+ln -s ../ENCFF474YPI.bam HT1080-rep1.bam
+ln -s ../ENCFF242UWH.bam HT1080-rep2.bam
 ```
 
 We'll also need to download a human gene annotation, which will be important a little later.
@@ -75,8 +76,13 @@ ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotati
 Now that we have our input and annotation files prepared, we can load TSRchitect into our workspace, along with another library required for parallelization:
 
 ```{r eval=FALSE}
-library(TSRchitect) #loading TSRchitect
-library(doParallel) #loading the doParallel package, which is requried for parallel processing
+#loading TSRchitect
+library(TSRchitect)
+```
+
+```{r eval=FALSE}
+#loading the doParallel package, which is requried for parallel processing
+library(doParallel) 
 ```
 
 To implement parallelization, we'll need to set up a cluster of 6 nodes first. (Please adjust the number of clusters as you desire and your compute permits):
@@ -86,7 +92,7 @@ mycl <- makeCluster(5,type="FORK",outfile="")
 registerDoParallel(mycl)
 ```
 
-Next we'll create the dedicated S4 object---called the tssObj---that TSRchitect's functions will be performed on.
+Next we'll create the dedicated S4 object---called the tssObject---that TSRchitect's functions will be performed on.
 
 ```{r eval=FALSE}
 initializeExp(expTitle ="Human RAMPAGE", experimentName="Hs_RAMPAGE", expDir="demo/bam_files/", isPairedEnd=TRUE) 
@@ -94,10 +100,15 @@ initializeExp(expTitle ="Human RAMPAGE", experimentName="Hs_RAMPAGE", expDir="de
 
 This will create an object called `Hs_RAMPAGE`, in your workspace. We specified the directory "vignette_files" as the location of the bam files to be imported, and have given it the rather general title "Human RAMPAGE". Before we continue, let's take a look look at the object in our workspace using `ls()` to make sure it appears.
 
-Now we need to provide the sample names and specify which samples are biological replicates. In this case we are working with 4 total datasets and 2 samples in duplicate, and we provide the names as follows:
+Now we need to provide the sample names and specify which samples are biological replicates. In this case we are working with 4 total datasets and 2 samples in duplicate. Please note that, because the alignments on our @bamData slot are organized in ascending alphabetical order (as are the file names on the @fileNames slot), we provide must provide our identifiers in `sample.names` and `replicateIDs` to directly correspond to this. To check this on the tssObject S4 object you have created, simply check the list of bam files as follows:
 
 ```{r eval=FALSE}
-setSampleID(Hs_RAMPAGE, sample.names=c("HT1080-rep1","HT1080-rep2","H460-rep1", "H460-rep2"), replicate.IDs=c(1,1,2,2))
+#obtaining the list of bam files loaded to the tssObject S4 object
+Hs_RAMPAGE@fileNames
+```
+
+```{r eval=FALSE}
+setSampleID(Hs_RAMPAGE, sample.names=c("H460-rep1", "H460-rep2","HT1080-rep1","HT1080-rep2"), replicate.IDs=c(1,1,2,2))
 ```
 
 Now that we have completed the above commands, we can proceed with importing the bam files using the function `importBam`. This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. 
@@ -107,7 +118,7 @@ importBam(Hs_RAMPAGE)
 ```
 You will receive a message on your console when all four files have been imported:
 
-Now that the alignment files have been imported and attached to our tssObj S4 object, we continue by computing the TSSs from the bam files.
+Now that the alignment files have been imported and attached to our tssObject S4 object, we continue by computing the TSSs from the bam files.
 
 ```{r eval=FALSE}
 bamToTSS(experimentName=Hs_RAMPAGE)
@@ -127,7 +138,7 @@ Now that we have calculated the abundance for each TSS in the previous step we c
 determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
 ```
 
-To calculate TSRs from each sample (as opposed to each replicate) we need to combine our replicate data. This will be done using the identifiers we specified on our tssObj S4 object using the function initializeExp().
+To calculate TSRs from each sample (as opposed to each replicate) we need to combine our replicate data. This will be done using the identifiers we specified on our tssObject S4 object using the function initializeExp().
 
 ```{r eval=FALSE}
 mergeSampleData(experimentName=Hs_RAMPAGE)
@@ -170,13 +181,13 @@ addAnnotationToTSR(experimentName = Hs_RAMPAGE, tsrSetType="merged", tsrSet=3, u
 Let's briefly look at our sets of identified TSRs.
 
 ```{r eval=FALSE}
-Hs_RAMPAGE@tsrDataMerged[[1]] -> HT1080.tsrs
-dim(HT1080.tsrs)
+Hs_RAMPAGE@tsrDataMerged[[1]] -> H460.tsrs
+dim(H460.tsrs)
 ```
 
 ```{r eval=FALSE}
-Hs_RAMPAGE@tsrDataMerged[[2]] -> H460.tsrs
-dim(H460)
+Hs_RAMPAGE@tsrDataMerged[[2]] -> HT1080.tsrs
+dim(HT1080.tsrs)
 ```
 
 ```{r eval=FALSE}
@@ -186,22 +197,25 @@ dim(combined.tsrs)
 
 [1] 22750    12
 
-We see that there are 22750 TSRs identified in the combined set, and 18040 and 15904 TSRs in the HT1080 and H460 samples, respectively. We also notice that there are 5 additional columns in the combined set. This is due to us previouly adding tag counts to the combined set of tSRs using addTagCountsToTSR, something we did not do in this vignette for the two samples.
+We see that there are 22750 TSRs identified in the combined set, and 15904 and 18040 TSRs in the H460 and HT1080 samples, respectively. We also notice that there are 5 additional columns in the combined set. This is due to us previouly adding tag counts to the combined set of tSRs using addTagCountsToTSR, something we did not do in this vignette for the two samples.
 
-You now have a complete set of TSS and TSR data attached to your tssObj S4 object, in addition the tables that were already written to your working directory.
+You now have a complete set of TSS and TSR data attached to your tssObject S4 object, in addition the tables that were already written to your working directory.
 
-These data can be accessed from the tssObj simply. For example, if we want to copy the TSR annotations from the HT1080 cells onto our R workspace, we could type the following command:
+These data can be accessed from the tssObject simply. For example, if we want to copy the TSR annotations from the HT1080 cells onto our R workspace, we could type the following command:
 
 ```{r eval=FALSE}
-Hs_RAMPAGE@tsrDataMerged[[1]] -> HT1080.tsrs
-head(HT1080.tsrs) #printing the first few rows of the table to our console.
+# retrieving TSR data from the tssObject S4 object
+Hs_RAMPAGE@tsrDataMerged[[1]] -> H460.tsrs
+head(H460.tsrs) #printing the first few rows of the table to our console.
 ```
 
-This concludes Example 1. Should we wish to save our tssObj and return to our work later, we simply type the following, which will write an R binary to your working directory.
+This concludes Example 1. Should we wish to save our tssObject and return to our work later, we simply type the following, which will write an R binary to your working directory.
 
 ```{r eval=FALSE}
 save(Hs_RAMPAGE, file="Hs_RAMPAGE.RData")
 ```
+
+Important note: before you continue with another example, please move the output files generated in your working directory to a separate, dedicated folder. Otherwise some or all of the files you generate in subsequent examples will be overwritten.
 
 ## Example 2: Identifying promoters in the model plant A. thaliana using a PEAT dataset.
 
@@ -219,7 +233,7 @@ initializeExp(expTitle="Arabidopsis PEAT dataset", experimentName="At_PEAT", exp
 setSampleID(experimentName=At_PEAT, sample.names=c("experiment1"), replicate.IDs=c(1))
 ```
 
-Now we import the alignment file to our tssObj S4 object and convert the data to TSS coordinates:
+Now we import the alignment file to our tssObject S4 object and convert the data to TSS coordinates:
 
 ```{r eval=FALSE}
 importBam(At_PEAT)
@@ -243,7 +257,7 @@ importAnnotation(experimentName=At_PEAT, fileType="gff3", annotFile="demo/TAIR10
 addAnnotationToTSR(experimentName=At_PEAT, tsrSetType="replicates", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="gene", featureColumnID="ID", writeTable=TRUE)
 ```
 
-Now we have a complete set of TSRs on our tssObj object. Let's take a look at them:
+Now we have a complete set of TSRs on our tssObject object. Let's take a look at them:
 
 ```{r eval=FALSE}
 At.tsrs <- AtPEAT@tsrDataMerged[[1]]
@@ -251,7 +265,7 @@ dim(At.tsrs)
 head(At.tsrs)
 ```
 
-We can optionally save the tssObj S4 as we have previously.
+We can optionally save the tssObject as we have previously.
 
 ```{r eval=FALSE}
 save(At_PEAT, file="At_PEAT_vignette.RData")
@@ -273,10 +287,11 @@ Now that the files have been downloaded, we will create symbolic links with the 
 ```{bash eval=FALSE}
 cd ../demo #assumes the user is in /vignettes
 mkdir hsCAGE
-ln -s ENCFF474YPI.bam hsCAGE/MCF7-rep1.bam
-ln -s ENCFF242UWH.bam hsCAGE/MCF7-rep2.bam
-ln -s ENCFF265RSX.bam hsCAGE/A549-rep1.bam
-ln -s ENCFF944PCJ.bam hsCAGE/A549-rep2.bam
+cd hsCAGE
+ln -s ../ENCFF552BXH.bam MCF7-rep1.bam
+ln -s ../ENCFF288VTZ.bam MCF7-rep2.bam
+ln -s ../ENCFF265RSX.bam A549-rep1.bam
+ln -s ../ENCFF944PCJ.bam A549-rep2.bam
 ```
 
 As in Example 1, we also need to download a human gene annotation.  Please download, uncompress the annoation file and place it in the `demo/` folder. [Note: you may ignore this is you have already downloaded the file from Example 1]
@@ -284,51 +299,68 @@ As in Example 1, we also need to download a human gene annotation.  Please downl
 The annotation file is found at the following location:
 ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
 
+Now we can set up the tssObject S4 object. Note that we must specify `isPairedEnd=FALSE` because this is single-end CAGE data.
+
+```{r eval=FALSE}
+# initializing the tssObject
+initializeExp(expTitle ="Human CAGE experiment", experimentName="CAGEhuman", expDir="demo/hsCAGE", isPairedEnd=FALSE)
+```
+
+```{r eval=FALSE}
+# setting the sample IDs and names for the datasets within the CAGE library
+setSampleID(experimentName=CAGEhuman, sample.names=c("MCF7-rep1","MCF7-rep2","A549-rep1","A549-rep2"), replicate.IDs=c(1,1,2,2)) 
+```
+
+As in the prior two examples, we then import the BAM files and obtain TSSs from this data.
+
+```{r eval=FALSE}
+# loading the BAM files from CAGE experiment
+importBam(experimentName=CAGEhuman)
+```
+
+```{r eval=FALSE}
+# converting BAM data into TSS information and attaching it to the tssObject:
+bamToTSS(experimentName=CAGEhuman)
+```
+
 As we did in our first example, we need to set up a parallel instance as follows:
 
 ```{r eval=FALSE}
+# setting up a parallel instance
 library(doParallel)
 mycl <- makeCluster(5,type="FORK",outfile="")
 registerDoParallel(mycl)
 ```
 
-Now we can set up the tssObj S4 object. Note that we must specify `isPairedEnd=FALSE` because this is single-end CAGE data.
-
-```{r eval=FALSE}
-initializeExp(expTitle ="Human CAGE experiment", experimentName="CAGEhuman", expDir="demo/hsCAGE", isPairedEnd=FALSE) # initializing the tssObj object:
-setSampleID(experimentName=CAGEhuman, sample.names=c("MCF7-rep1","MCF7-rep2","A549-rep1","A549-rep2"), replicate.IDs=c(1,1,2,2)) # setting the sample IDs and names for the datasets within the CAGE library
-```
-
-As in our other two examples, we then import the BAM files and obtain TSSs from this data.
-
-```{r eval=FALSE}
-importBam(experimentName=CAGEhuman) # loading the BAM files from CAGE experiment
-bamToTSS(experimentName=CAGEhuman) # converting BAM data into TSS information and attaching it to the tssObj object:
-```
-
 Next we must calculate the CAGE tag abundance at each TSS position, followed by identification of TSRs within our 4 replicate datasets.
 
 ```{r eval=FALSE}
-processTSS(experimentName=CAGEhuman, parallel=TRUE, tssSet="all", writeTable=TRUE) # constructing the tag count per TSS data matrix:
-determineTSR(experimentName=CAGEhuman, parallel=TRUE, tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE) # finding TSRs for the replicate datasets
+# constructing the tag count per TSS data matrix:
+processTSS(experimentName=CAGEhuman, parallel=TRUE, tssSet="all", writeTable=TRUE)
+```
+```{r eval=FALSE}
+# finding TSRs for the replicate datasets
+determineTSR(experimentName=CAGEhuman, parallel=TRUE, tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
 ```
 
 Now we merge data from replicates into their two corresponding samples.
 
 ```{r eval=FALSE}
-mergeSampleData(experimentName=CAGEhuman) #merging TSS data from the replicates
+#merging TSS data from the replicates
+mergeSampleData(experimentName=CAGEhuman) 
 ```
 
 Once this is complete, we can complete TSR identification on the merged samples.
 
 ```{r eval=FALSE}
-determineTSR(experimentName=CAGEhuman, parallel=TRUE, tsrSetType="merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE) # finding TSRs for the merged samples
+# finding TSRs for the merged samples
+determineTSR(experimentName=CAGEhuman, parallel=TRUE, tsrSetType="merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE) 
 ```
 
 ```{r eval=FALSE}
 addTagCountsToTSR(experimentName= CAGEhuman, tsrSetType= "merged", tsrSet=3, tagCountThreshold= 40, writeTable= TRUE)
 ```
-Now we need to import the annotation file and attach it to our tssObj S4 object.
+Now we need to import the annotation file and attach it to our tssObject S4 object.
 
 ```{r eval=FALSE}
 importAnnotation(experimentName = CAGEhuman, fileType = "gff3", annotFile = "demo/gencode.v19.annotation.gff3")
@@ -366,7 +398,7 @@ CAGEhuman@tsrDataMerged[[3]] -> CAGEhuman.tsrs
 dim(CAGEhuman.tsrs)
 ```
 
-We can now optionally save the tssObj for future use.
+We can now optionally save the tssObject for future use.
 
 ```{r eval=FALSE}
 save(CAGEhuman, file="CAGEhuman-vignette.RData")
