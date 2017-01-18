@@ -13,8 +13,13 @@ Typical preliminary steps to install or updated these packages are as follows
 (note: for system-wide installation, you would need to invoke
 [R](https://www.r-project.org/) as root):
 
-
+```{r eval=FALSE}
+#installing CRAN packages
+install.packages("doParallel")
 ```
+
+
+```{r eval=FALSE)
 source("http://bioconductor.org/biocLite.R")
 biocLite(c("BiocGenerics", "BiocParallel", "ENCODExplorer", "GenomicAlignments", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools", "rtracklayer"))
 ```
