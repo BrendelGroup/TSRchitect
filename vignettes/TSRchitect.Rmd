@@ -288,10 +288,10 @@ Now that the files have been downloaded, we will create symbolic links with the 
 cd ../demo #assumes the user is in /vignettes
 mkdir hsCAGE
 cd hsCAGE
-ln -s ../ENCFF552BXH.bam MCF7-rep1.bam
-ln -s ../ENCFF288VTZ.bam MCF7-rep2.bam
 ln -s ../ENCFF265RSX.bam A549-rep1.bam
 ln -s ../ENCFF944PCJ.bam A549-rep2.bam
+ln -s ../ENCFF552BXH.bam MCF7-rep1.bam
+ln -s ../ENCFF288VTZ.bam MCF7-rep2.bam
 ```
 
 As in Example 1, we also need to download a human gene annotation.  Please download, uncompress the annoation file and place it in the `demo/` folder. [Note: you may ignore this is you have already downloaded the file from Example 1]
@@ -306,9 +306,11 @@ Now we can set up the tssObject S4 object. Note that we must specify `isPairedEn
 initializeExp(expTitle ="Human CAGE experiment", experimentName="CAGEhuman", expDir="demo/hsCAGE", isPairedEnd=FALSE)
 ```
 
+Now we set the sample IDs. As before, it is vital to provide `sample.names` and `replicate.IDs` in the order of the files on the @fileNames slot to they exactly correspond to the bam data that we imported.
+
 ```{r eval=FALSE}
 # setting the sample IDs and names for the datasets within the CAGE library
-setSampleID(experimentName=CAGEhuman, sample.names=c("MCF7-rep1","MCF7-rep2","A549-rep1","A549-rep2"), replicate.IDs=c(1,1,2,2)) 
+setSampleID(experimentName=CAGEhuman, sample.names=c("A549-rep1","A549-rep2", "MCF7-rep1","MCF7-rep2"), replicate.IDs=c(1,1,2,2)) 
 ```
 
 As in the prior two examples, we then import the BAM files and obtain TSSs from this data.
@@ -371,8 +373,8 @@ Now we will associate the gene annotation to the TSRs within our two merged samp
 Associating the annotation features with the TSRs from i) MCF7 cells and ii) A549 cells:
 
 ```{r eval=FALSE}
-addAnnotationToTSR(experimentName = CAGEhuman, tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE) #MCF7 cells
-addAnnotationToTSR(experimentName = CAGEhuman, tsrSetType="merged", tsrSet=2, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE) #A549 cells
+addAnnotationToTSR(experimentName = CAGEhuman, tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE) #A549 cells
+addAnnotationToTSR(experimentName = CAGEhuman, tsrSetType="merged", tsrSet=2, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE) #MCF7 cells
 ```
 
 Associating our selected annotation features with the TSRs on the 'combined' slot.
@@ -383,14 +385,15 @@ addAnnotationToTSR(experimentName = CAGEhuman, tsrSetType="merged", tsrSet=3, up
 
 Let's take a quick glance at our combined set of identified TSRs:
 
+
 ```{r eval=FALSE}
-CAGEhuman@tsrDataMerged[[1]] -> MCF7.tsrs
-dim(MCF7.tsrs)
+CAGEhuman@tsrDataMerged[[1]] -> A549.tsrs
+dim(A549.tsrs)
 ```
 
 ```{r eval=FALSE}
-CAGEhuman@tsrDataMerged[[2]] -> A549.tsrs
-dim(A549.tsrs)
+CAGEhuman@tsrDataMerged[[2]] -> MCF7.tsrs
+dim(MCF7.tsrs)
 ```
 
 ```{r eval=FALSE}
