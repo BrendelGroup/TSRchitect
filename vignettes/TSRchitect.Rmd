@@ -55,7 +55,7 @@ Now we can proceed (in the R console) with downloading the data:
 #Downloading the files:
 library(ENCODExplorer)
 data(encode_df, package = "ENCODExplorer")
-datasets <- fuzzySearch(searchTerm = c("ENCFF474YPI", "ENCFF242UWH", "ENCFF214GWH", "ENCFF265SGZ"), database = encode_df, filterVector = c("file_accession"), multipleTerm = TRUE)
+datasets <- fuzzySearch(searchTerm = c("ENCFF214GWH", "ENCFF265SGZ", "ENCFF242UWH", "ENCFF348EKW"), database = encode_df, filterVector = c("file_accession"), multipleTerm = TRUE)
 downloadEncode(datasets, df=encode_df, format="bam")
 ```
 
@@ -68,8 +68,8 @@ mv *.bam downloads
 cd HsRAMPAGEbam
 ln -s ../downloads/ENCFF214GWH.bam H460-rep1.bam
 ln -s ../downloads/ENCFF265SGZ.bam H460-rep2.bam
-ln -s ../downloads/ENCFF474YPI.bam HT1080-rep1.bam
-ln -s ../downloads/ENCFF242UWH.bam HT1080-rep2.bam
+ln -s ../downloads/ENCFF242UWH.bam HT1080-rep1.bam
+ln -s ../downloads/ENCFF348EKW.bam HT1080-rep2.bam
 cd ..
 ```
 

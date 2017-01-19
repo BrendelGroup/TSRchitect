@@ -29,6 +29,6 @@ An example similar to the one provided can be found in \emph{Example 1} from the
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))   
-addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=3, tagCountThreshold=25, writeTable=TRUE)
+addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
 }
 
