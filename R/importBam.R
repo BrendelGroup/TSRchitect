@@ -1,16 +1,15 @@
-#' @title \emph{importBam()}
-#'
-#' @description \emph{importBam} processes BAM files as specified by \emph{initializeExp}. Files will be imported in the order that they appear on the @fileNames slot, which is in ascending alphanumeric order.
-#'
-#' @param experimentName - an S4 object of class tssObject that contains information about the experiment
-#'
-#' @return \emph{importBam} fills the slot experimentName@bamData in the tssObject \emph{experimentName} with
-#'         GAlignments objects from the \bold{GenomicAlignments} package, one for each parsed input
-#'         BAM file.
-#'
+#' @title \emph{importBam}
+#' @description \code{importBam} processes .bam files as specified by \code{\link{initializeExp}}.
+#' @param experimentName an S4 object of class \emph{tssObject} that contains information about the experiment
+#' @return \emph{importBam} fills the slot \emph{@@bamData} on the \emph{tssObject} with \linkS4class{GAlignments} objects from the \bold{GenomicAlignments} package, one for each attached .bam file on the \emph{@@fileNames} slot. 
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
+#' @examples
+#' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+#' importBam(experimentName=tssObjectExample)
+#' @note An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
+#' @note Files will be imported in the order that they appear on the \emph{@fileNames} slot, which is in ascending alphanumeric order.
 #' @export
 
 setGeneric(

@@ -2,22 +2,32 @@
 % Please edit documentation in R/importAnnotation.R
 \name{importAnnotation}
 \alias{importAnnotation}
-\title{\emph{importAnnotation}}
+\title{\strong{importAnnotation}}
 \usage{
 importAnnotation(experimentName, fileType, annotFile)
 }
 \arguments{
-\item{experimentName}{- an S4 object of class tssObject that contains information about the experiment}
+\item{experimentName}{- an S4 object of class \emph{tssObject} that contains information about the experiment}
 
 \item{fileType}{- the format of the annotation file to be imported. Must be one of: "bed", "gff" or "gff3".}
 
 \item{annotFile}{- a path (full or relative) to the annotation file to be imported.}
 }
 \value{
-\emph{importAnnotation} fills the slot experimentName@annotation in the tssObject \emph{experimentName} with
-        a GRanges object contining the annotation data
+\emph{importAnnotation} fills the slot \emph{@annotation} in the \emph{tssObject} with
+        a \linkS4class{GRanges} object contining parsed annotation file of the selected type.
 }
 \description{
-\emph{importAnnotation} imports an annotation from an external file and attaches it to your tssObject.
+\code{importAnnotation} imports an annotation from an external file and attaches it to \emph{experimentName}.
+}
+\note{
+An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+
+\code{importAnnotation} makes use of three functions from the \emph{rtracklayer} package: \code{\link[rtracklayer]{import.bed}}, \code{\link[rtracklayer]{import.gff}}, and \code{\link[rtracklayer]{import.gff3}}
+}
+\examples{
+load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+load(system.file("extdata", "genocode.v19.annotation.gff3", package="TSRchitect"))
+importAnnotation(experimentName=tssObjectExample, fileType ="gff3", annotFile ="data/gencode.v19.annotation.gff3")
 }
 

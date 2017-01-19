@@ -2,32 +2,37 @@
 % Please edit documentation in R/determineTSR.R
 \name{determineTSR}
 \alias{determineTSR}
-\title{determineTSR
-Finds TSRs from a given sequence}
+\title{\emph{determineTSR}}
 \usage{
 determineTSR(experimentName, parallel, tsrSetType, tssSet, tagCountThreshold,
   clustDist, writeTable = FALSE)
 }
 \arguments{
-\item{experimentName}{- a S4 object of class tssObject containing information in slot tssTagData}
+\item{experimentName}{an object of class \emph{tssObject} containing information in slot \emph{@tssTagData}}
 
-\item{parallel}{- whether to run in parallel or not (logical)}
+\item{parallel}{if TRUE, the analysis is run in parallel (logical)}
 
-\item{tsrSetType}{- specifies the set to be clustered. Options are "replicates" or "merged".}
+\item{tsrSetType}{specifies the set to be clustered. Options are "replicates" or "merged". (character)}
 
-\item{tssSet}{- default is "all"; for specific use, specify tssSet number (as character)}
+\item{tssSet}{default is "all"; if a single TSS dataset is desired, specify tssSet number (character)}
 
-\item{tagCountThreshold}{- number of TSSs required at a given position}
+\item{tagCountThreshold}{the number of TSSs required at a given position for it to be considered in TSR identification. (numeric)}
 
-\item{clustDist}{- maximum distance of TSSs between two TSRs (in base pairs)}
+\item{clustDist}{the maximum distance of TSSs between two TSRs in base pairs. (numeric)}
 
-\item{writeTable}{- specifies whether the output should be written to a table. (logical)}
+\item{writeTable}{specifies whether the output should be written to a table. (logical)}
 }
 \value{
-creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssObject object
+creates a list of \linkS4class{GenomicRanges}-containing TSR positions in slot \emph{@tsrData} on the \emph{tssObject} object
 }
 \description{
-determineTSR
-Finds TSRs from a given sequence
+\code{determineTSR} Identifies TSRs from entire TSS datasets as specified
+}
+\note{
+An example similar to this one can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+}
+\examples{
+load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+determineTSR(experimentName=tssObjectExample, parallel=FALSE, tsrSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
 }
 

@@ -18,7 +18,6 @@ Typical preliminary steps to install or updated these packages are as follows
 install.packages("doParallel")
 ```
 
-
 ```{r eval=FALSE)
 source("http://bioconductor.org/biocLite.R")
 biocLite(c("BiocGenerics", "BiocParallel", "ENCODExplorer", "GenomicAlignments", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools", "rtracklayer"))
@@ -27,27 +26,26 @@ biocLite(c("BiocGenerics", "BiocParallel", "ENCODExplorer", "GenomicAlignments",
 ## Obtaining TSRchitect
 Eventually, __TSRchitect__ will also be available as a
 [_Bioconductor_](http://bioconductor.org/) package.
+
 For now (and in general, for the latest development version), you can install
 __TSRchitect__ as follows (again, use root privileges on the install command for
 system-wide installation):
 
-```bash
+```{bash eval=FALSE}
 git clone https://github.com/BrendelGroup/TSRchitect
 R CMD INSTALL TSRchitect
 ```
 
 To check on successful installation, load the package in your
-[R](https://www.r-project.org/) console:
+R console:
 
-```bash
-R
->library(TSRchitect)
-q()
+```{r eval=FALSE}
+library(TSRchitect)
 ```
 Either fix problems according to displayed error messages, or go on to the next
 step.
 
 ## Finally
 
-proceed to the [HOWTO](./HOWTO.md) document, and we'll tell you how to execute
+Proceed to the vignette (inst/doc/TSRchitect.md), and we'll tell you how to execute
 sample workflows (or, equally easy, your very own data analyses).

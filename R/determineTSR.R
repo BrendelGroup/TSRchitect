@@ -1,15 +1,17 @@
-#' determineTSR
-#' Finds TSRs from a given sequence
-#'
-#' @param experimentName - a S4 object of class tssObject containing information in slot tssTagData
-#' @param parallel - whether to run in parallel or not (logical)
-#' @param tsrSetType - specifies the set to be clustered. Options are "replicates" or "merged".
-#' @param tssSet - default is "all"; for specific use, specify tssSet number (as character)
-#' @param tagCountThreshold - number of TSSs required at a given position
-#' @param clustDist - maximum distance of TSSs between two TSRs (in base pairs)
-#' @param writeTable - specifies whether the output should be written to a table. (logical)
-#'
-#' @return creates a list of GenomicRanges containing TSR positions in slot 'tsrData' on your tssObject object
+#' @title \emph{determineTSR}
+#' @description \code{determineTSR} Identifies TSRs from entire TSS datasets as specified
+#' @param experimentName an object of class \emph{tssObject} containing information in slot \emph{@@tssTagData}
+#' @param parallel if TRUE, the analysis is run in parallel (logical)
+#' @param tsrSetType specifies the set to be clustered. Options are "replicates" or "merged". (character)
+#' @param tssSet default is "all"; if a single TSS dataset is desired, specify tssSet number (character)
+#' @param tagCountThreshold the number of TSSs required at a given position for it to be considered in TSR identification. (numeric)
+#' @param clustDist the maximum distance of TSSs between two TSRs in base pairs. (numeric)
+#' @param writeTable specifies whether the output should be written to a table. (logical)
+#' @examples
+#' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+#' determineTSR(experimentName=tssObjectExample, parallel=FALSE, tsrSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
+#' @note An example similar to this one can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+#' @return creates a list of \linkS4class{GenomicRanges}-containing TSR positions in slot \emph{@@tsrData} on the \emph{tssObject} object
 #' @export
 
 setGeneric(

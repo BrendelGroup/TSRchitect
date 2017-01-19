@@ -1,23 +1,24 @@
-#' @title addAnnotationToTSR
+#' @title \strong{addAnnotationToTSR}
+#' @description \code{addAnnotationToTSR} associates an identified promoter with a given gene, if found upstream and on the same strand within a specified range.
 #'
-#' @description addAnnotationToTSR associates an identified promoter with a given gene, if found upstream and on the same strand within a selected distance.
-#'
-#' @param experimentName S4 object of class tssObject with filled data slots tsrData (and/or tsrDataMerged)
-#' @param tsrSetType Specifies the type of TSR set to be processed.  Options are "replicates" or "merged".
-#' @param tsrSet Number of the data set of type tsrSetType to be processed
-#' @param upstreamDist - the maximum distance (in bp) upstream of the selected interval necessary to associate a TSR with a given annotation.
-#' @param downstreamDist - the maximum distance (in bp) downstream of the selected interval (beginning with the CDS) to associate a TSR with a given annotation.
-#' @param feature Specifies the feature to be used for annotation (typically "gene" [default] or "mRNA" for GFF3 input); set to "all" if all annotations from the input are to be used.
-#' @param featureColumnID Name of the column identifier in the annotation GRanges object. This should be "ID" (default) for GFF3 input or "name" for bed input.
-#' @param writeTable Specifies whether the output should be written to a tab-delimited file. Defaults to TRUE.
-#'
-#' @return addAnnotationToTSR adds feature annotation to the tsrData(Merged) data frame and attaches it to its tssObject slot.
-#'
+#' @param experimentName an object of class \emph{tssObject} with occupied data slots \emph{@@tsrData} (and/or \emph{@@tsrDataMerged}). The \emph{tssObject} must alrady have an annotation attached to the slot \emph{@@annotation}, which is provided by \code{\link{importAnnotation}}
+#' @param tsrSetType Specifies the type of TSR set to be processed. Options are "replicates" or "merged".
+#' @param tsrSet Number of the data set (of type \emph{tsrSetType}) to be processed. (numeric)
+#' @param upstreamDist the maximum distance (in bp) upstream of the selected interval necessary to associate a TSR with a given annotation. (numeric)
+#' @param downstreamDist the maximum distance (in bp) downstream of the start of the selected interval to associate a TSR with a given annotation. (numeric)
+#' @param feature Specifies the feature to be used for annotation (typically "gene" [default] or "mRNA" for GFF3 input); set to "all" if all annotations from the input are to be used. (character)
+#' @param featureColumnID Name of the column identifier in the \linkS4class{GRanges} annotation object. This should be "ID" (default) for GFF3 input or "name" for bed input. (character)
+#' @param writeTable logical, specifying whether the output should be written to a tab-delimited file. Defaults to TRUE.
+#' @return addAnnotationToTSR adds feature annotation to the (merged) \emph{@@tsrData} data frame and returns the updated \emph{tssObject} to the workspace
 #' @importFrom BiocGenerics start end
 #' @importFrom GenomicRanges GRanges findOverlaps promoters
 #' @importFrom IRanges IRanges
 #' @importFrom utils write.table
-#' 
+#' @examples
+#' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))   
+#' addAnnotationToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=FALSE) #if the object attached to @@annotation is a gff/gff3 file
+#' addAnnotationToTSR(experimentName=tssObjectExample, experimentName, tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="all", featureColumnID="name", writeTable=TRUE) #if the object attached to @@annotation is a typical bed file
+#' @note An example similar to the first of the two formal examples can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd) 
 #' @export
 
 

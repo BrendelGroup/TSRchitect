@@ -28,7 +28,6 @@ setMethod("prcTSS",
           function(experimentName, tssSet, writeTable) {
               object.name <- deparse(substitute(experimentName))
 
-              message("... prcTSS ...")
               if (tssSet>length(experimentName@replicateIDs)) {
                   stop("The value selected exceeds the number of samples specified.")
               }
@@ -48,6 +47,5 @@ setMethod("prcTSS",
               cat("\n... the TSS expression matrix for dataset ", tssSet, " has been successfully added to\ntssObject object \"", object.name, "\"\n")
               cat("--------------------------------------------------------------------------------\n")
               return(tss.df)
-              message(" Done.\n")
           }
           )
