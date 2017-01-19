@@ -2,19 +2,25 @@
 % Please edit documentation in R/importBam.R
 \name{importBam}
 \alias{importBam}
-\title{\emph{importBam()}}
+\title{\emph{importBam}}
 \usage{
 importBam(experimentName)
 }
 \arguments{
-\item{experimentName}{- an S4 object of class tssObject that contains information about the experiment}
+\item{experimentName}{an S4 object of class \emph{tssObject} that contains information about the experiment}
 }
 \value{
-\emph{importBam} fills the slot experimentName@bamData in the tssObject \emph{experimentName} with
-        GAlignments objects from the \bold{GenomicAlignments} package, one for each parsed input
-        BAM file.
+\emph{importBam} fills the slot \emph{@bamData} on the \emph{tssObject} with \linkS4class{GAlignments} objects from the \bold{GenomicAlignments} package, one for each attached .bam file on the \emph{@fileNames} slot.
 }
 \description{
-\emph{importBam} processes BAM files as specified by \emph{initializeExp}. Files will be imported in the order that they appear on the @fileNames slot, which is in ascending alphanumeric order.
+\code{importBam} processes .bam files as specified by \code{\link{initializeExp}}.
+}
+\note{
+The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+
+Files will be imported in the order that they appear on the \emph{@fileNames} slot, which is in ascending alphanumeric order.
+}
+\examples{
+importBam(experimentName=Hs_RAMPAGE)
 }
 

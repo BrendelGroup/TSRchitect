@@ -2,17 +2,23 @@
 % Please edit documentation in R/mergeSampleData.R
 \name{mergeSampleData}
 \alias{mergeSampleData}
-\title{Combines samples from two different tss experiments into a single GRanges object}
+\title{\strong{mergeSampleData}}
 \usage{
 mergeSampleData(experimentName)
 }
 \arguments{
-\item{experimentName}{- an S4 object of class tssObject that contains information about the experiment.}
+\item{experimentName}{an S4 object of class \emph{tssObject} that contains information about the experiment.}
 }
 \value{
-tssCountData datasets will be merged (according to the sampleIDs) and assigned to your tssObject object
+tssCountData datasets will be merged (according to the \emph{sampleIDs}) and assigned to your \emph{tssObject}.
 }
 \description{
-Combines samples from two different tss experiments into a single GRanges object
+\code{mergeSampleData} combines samples from two different TSS experiments into a single \linkS4class{GRanges} object
+}
+\note{
+The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
+}
+\examples{
+mergeSampleData(experimentName=Hs_RAMPAGE)
 }
 

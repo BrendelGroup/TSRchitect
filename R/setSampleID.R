@@ -1,8 +1,12 @@
-#' Sets names and replicate information for experimental samples in a tssObject object
-#' @param experimentName an S4 object of class tssObject that contains information about the experiment.
-#' @param sample.names unique labels (of class character) for each TSS sample within the experiment. Please note that importBam attaches bamData in ascending alphanumeric order, so sample.names must be arranged in this order also so that they directly correspond to the intended file.
-#' @param replicate.IDs identifiers indicating which samples are biological replicates. Please note that importBam ataches bamData in ascending alphanumeric order, so replicate.IDs must be arranged in this order also so that they directly correspond to the intended file.
-#' @return names and replicate information for experimental samples assigned to your tssObject object
+#' @title \strong{bamToTSS}
+#' @description \code{bamToTSS} Sets names and replicate information for experimental samples in a \emph{tssObject} S4 object
+#' @param experimentName an S4 object of class \emph{tssObject} that contains information about the experiment.
+#' @param sample.names unique labels of class character for each TSS sample within the experiment. Please note that \code{importBam} attaches .bam data in ascending alphanumeric order, so \emph{sample.names} must be arranged in this order also so that they directly correspond to the intended file.
+#' @param replicate.IDs identifiers indicating which samples are biological replicates. As with \emph{sample.names}, note that \code{importBam} imports bam data in ascending alphanumeric order, so replicate.IDs must be arranged in this order also so that they directly correspond to the intended file.
+#' @return names and replicate information for experimental samples assigned to your \emph{tssObject} object
+#' @examples
+#' setSampleID(Hs_RAMPAGE, sample.names=c("H460-rep1","H460-rep2","HT1080-rep1","HT1080-rep2"), replicate.IDs=c(1,1,2,2)) #experiments 1 & 2 and 3 & 4 are replicates of the samples H460 and HT1080, respectively
+#' @note The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd) 
 #' @export
 
 setGeneric(

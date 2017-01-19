@@ -1,14 +1,14 @@
-#' writeTSR
-#' Write TSRs for a specified data set to a tab-delimited file
-#'
-#' @param experimentName - a S4 object of class tssObject containing information in slot tssTagData
-#' @param tsrSetType - specifies the set to be written to file. Options are "replicates" or "merged".
-#' @param tsrSet - number of the dataset to be processed
-#' @param fileType - "tab" for tab-delimited output,"bed" for bed-file
-#'
+#' @title \strong{writeTSR}
+#' @description \code{writeTSR} writes identified TSRs from a specified data set to a file in either tab or BED formats
+#' @param experimentName an S4 object of class \emph{tssObject} containing information in slot \emph{@@tssTagData}
+#' @param tsrSetType specifies the set to be written to file. Options are "replicates" or "merged". (character)
+#' @param tsrSet number of the dataset to be processed (numeric).
+#' @param fileType the format of the file to be written. Possible choices are "tab" for tab-delimited output,"bed" for BED format (character).
 #' @importFrom utils write.table
-#' 
-#' @return a table containing the specified TSR data set will be written to your working directory
+#' @return a table containing the specified TSR data set is be written to your working directory.
+#' @examples
+#' writeTSR(experimentName=myExp, tsrSetType="replicates", tsrSet=1, fileType="bed") #this writes a file in BED format from the first tsrSet of replicates.
+#' @note the .bed file written adheres to the standard six-column BED format, while "tab" format is identical to that of the data.frames containing TSR data.
 #' @export
 
 setGeneric(

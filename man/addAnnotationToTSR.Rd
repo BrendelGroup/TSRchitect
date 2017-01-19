@@ -2,32 +2,42 @@
 % Please edit documentation in R/addAnnotationToTSR.R
 \name{addAnnotationToTSR}
 \alias{addAnnotationToTSR}
-\title{addAnnotationToTSR}
+\title{\strong{addAnnotationToTSR}}
 \usage{
 addAnnotationToTSR(experimentName, tsrSetType, tsrSet = 1, upstreamDist,
   downstreamDist, feature, featureColumnID, writeTable = TRUE)
 }
 \arguments{
-\item{experimentName}{S4 object of class tssObject with filled data slots tsrData (and/or tsrDataMerged)}
+\item{experimentName}{an object of class \emph{tssObject} with occupied data slots \emph{@tsrData} (and/or \emph{@tsrDataMerged}). The \emph{tssObject} must alrady have an annotation attached to the slot \emph{@annotation}, which is provided by \code{\link{importAnnotation}}}
 
-\item{tsrSetType}{Specifies the type of TSR set to be processed.  Options are "replicates" or "merged".}
+\item{tsrSetType}{Specifies the type of TSR set to be processed. Options are "replicates" or "merged".}
 
-\item{tsrSet}{Number of the data set of type tsrSetType to be processed}
+\item{tsrSet}{Number of the data set (of type \emph{tsrSetType}) to be processed. (numeric)}
 
-\item{upstreamDist}{- the maximum distance (in bp) upstream of the selected interval necessary to associate a TSR with a given annotation.}
+\item{upstreamDist}{the maximum distance (in bp) upstream of the selected interval necessary to associate a TSR with a given annotation. (numeric)}
 
-\item{downstreamDist}{- the maximum distance (in bp) downstream of the selected interval (beginning with the CDS) to associate a TSR with a given annotation.}
+\item{downstreamDist}{the maximum distance (in bp) downstream of the start of the selected interval to associate a TSR with a given annotation. (numeric)}
 
-\item{feature}{Specifies the feature to be used for annotation (typically "gene" [default] or "mRNA" for GFF3 input); set to "all" if all annotations from the input are to be used.}
+\item{feature}{Specifies the feature to be used for annotation (typically "gene" [default] or "mRNA" for GFF3 input); set to "all" if all annotations from the input are to be used. (character)}
 
-\item{featureColumnID}{Name of the column identifier in the annotation GRanges object. This should be "ID" (default) for GFF3 input or "name" for bed input.}
+\item{featureColumnID}{Name of the column identifier in the \linkS4class{GRanges} annotation object. This should be "ID" (default) for GFF3 input or "name" for bed input. (character)}
 
-\item{writeTable}{Specifies whether the output should be written to a tab-delimited file. Defaults to TRUE.}
+\item{writeTable}{logical, specifying whether the output should be written to a tab-delimited file. Defaults to TRUE.}
 }
 \value{
-addAnnotationToTSR adds feature annotation to the tsrData(Merged) data frame and attaches it to its tssObject slot.
+addAnnotationToTSR adds feature annotation to the (merged) \emph{@tsrData} data frame and returns the updated \emph{tssObject} to the workspace
 }
 \description{
-addAnnotationToTSR associates an identified promoter with a given gene, if found upstream and on the same strand within a selected distance.
+\code{addAnnotationToTSR} associates an identified promoter with a given gene, if found upstream and on the same strand within a specified range.
+}
+\note{
+The first of the two examples provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
+}
+\examples{
+#if the object attached to @annotation is a gff/gff3 file
+addAnnotationToTSR(experimentName = Hs_RAMPAGE, tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE) 
+
+#if the object attached to @annotation is a typical bed file
+#' addAnnotationToTSR(experimentName = , tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="all", featureColumnID="name", writeTable=TRUE)
 }
 

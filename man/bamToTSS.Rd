@@ -2,19 +2,23 @@
 % Please edit documentation in R/bamToTSS.R
 \name{bamToTSS}
 \alias{bamToTSS}
-\title{bamToTSS
-Extracts TSS information from each bam file in a tssObject object}
+\title{\strong{bamToTSS}}
 \usage{
 bamToTSS(experimentName)
 }
 \arguments{
-\item{experimentName}{- a S4 object of class tssObject with bam files loaded}
+\item{experimentName}{an S4 object of class tssObject with bam files loaded}
 }
 \value{
-creates a list of TSSs in class GRanges for each bam file contained within experimentName and places them in the tssObject object
+creates a list of TSSs in class \linkS4class{GRanges} for each .bam file contained within \emph{experimentName} and places them in the \emph{tssObject}.
 }
 \description{
-bamToTSS
-Extracts TSS information from each bam file in a tssObject object
+\code{bamToTSS} extracts TSS information from each attached .bam file in a tssObject object
+}
+\note{
+The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+}
+\examples{
+bamToTSS(experimentName=Hs_RAMPAGE)
 }
 

@@ -7,8 +7,8 @@
 #' @param tagCountThreshold the number of TSSs required at a given position for it to be considered in TSR identification. (numeric)
 #' @param clustDist the maximum distance of TSSs between two TSRs in base pairs. (numeric)
 #' @param writeTable specifies whether the output should be written to a table. (logical)
-#' @examples 
-#' @note
+#' @examples determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
+#' @note The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd) 
 #' @return creates a list of \linkS4class{GenomicRanges}-containing TSR positions in slot \emph{@@tsrData} on the \emph{tssObject} object
 #' @export
 

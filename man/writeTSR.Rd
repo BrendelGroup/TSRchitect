@@ -2,25 +2,29 @@
 % Please edit documentation in R/writeTSR.R
 \name{writeTSR}
 \alias{writeTSR}
-\title{writeTSR
-Write TSRs for a specified data set to a tab-delimited file}
+\title{\strong{writeTSR}}
 \usage{
 writeTSR(experimentName, tsrSetType, tsrSet = 1, fileType = "tab")
 }
 \arguments{
-\item{experimentName}{- a S4 object of class tssObject containing information in slot tssTagData}
+\item{experimentName}{an S4 object of class \emph{tssObject} containing information in slot \emph{@tssTagData}}
 
-\item{tsrSetType}{- specifies the set to be written to file. Options are "replicates" or "merged".}
+\item{tsrSetType}{specifies the set to be written to file. Options are "replicates" or "merged". (character)}
 
-\item{tsrSet}{- number of the dataset to be processed}
+\item{tsrSet}{number of the dataset to be processed (numeric).}
 
-\item{fileType}{- "tab" for tab-delimited output,"bed" for bed-file}
+\item{fileType}{the format of the file to be written. Possible choices are "tab" for tab-delimited output,"bed" for BED format (character).}
 }
 \value{
-a table containing the specified TSR data set will be written to your working directory
+a table containing the specified TSR data set is be written to your working directory.
 }
 \description{
-writeTSR
-Write TSRs for a specified data set to a tab-delimited file
+\code{writeTSR} writes identified TSRs from a specified data set to a file in either tab or BED formats
+}
+\note{
+the .bed file written adheres to the standard six-column BED format, while "tab" format is identical to that of the data.frames containing TSR data.
+}
+\examples{
+writeTSR(experimentName=myExp, tsrSetType="replicates", tsrSet=1, fileType="bed") #this writes a file in BED format from the first tsrSet of replicates.
 }
 

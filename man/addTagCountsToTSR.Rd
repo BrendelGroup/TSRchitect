@@ -2,28 +2,32 @@
 % Please edit documentation in R/addTagCountsToTSR.R
 \name{addTagCountsToTSR}
 \alias{addTagCountsToTSR}
-\title{addTagCountsToTSR
-Adds a column of tag counts to a set of identifid TSRs}
+\title{\strong{addTagCountsToTSR}}
 \usage{
 addTagCountsToTSR(experimentName, tsrSetType, tsrSet = 1,
   tagCountThreshold = 1, writeTable = TRUE)
 }
 \arguments{
-\item{experimentName}{- a S4 object of class tssObject containing information in slot tssTagData}
+\item{experimentName}{a S4 object of class \emph{tssObject} containing information in slot \emph{@tssTagData}}
 
-\item{tsrSetType}{- specifies the set to be written to file. Options are "replicates" or "merged".}
+\item{tsrSetType}{specifies the set to be written to file. Options are "replicates" or "merged". (character)}
 
-\item{tsrSet}{- number of the dataset to be processed}
+\item{tsrSet}{number of the dataset to be processed, where 1 corresponds to the first slot, and so on. (numeric)}
 
-\item{tagCountThreshold}{- number of TSSs required at a given position}
+\item{tagCountThreshold}{number of TSSs required at a given position (numeric)}
 
-\item{writeTable}{- specifies whether the output should be written to a table. (logical)}
+\item{writeTable}{specifies whether the output should be written to a table. (logical)}
 }
 \value{
-a column of tag counts is appended to the selected set of identified TSRs
+a matrix of tag counts (where the number of columns will equal to the number of replicates in the sample) is appended to the data frame of the selected set of identified TSRs
 }
 \description{
-addTagCountsToTSR
-Adds a column of tag counts to a set of identifid TSRs
+\code{addTagCountsToTSR} adds a matrix of tag counts to a set of identified TSRs
+}
+\note{
+The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+}
+\examples{
+addTagCountsToTSR(experimentName= Hs_RAMPAGE, tsrSetType= "merged", tsrSet=3, tagCountThreshold= 25, writeTable= TRUE)
 }
 
