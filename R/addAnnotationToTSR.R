@@ -15,13 +15,9 @@
 #' @importFrom GenomicRanges GRanges findOverlaps promoters
 #' @importFrom IRanges IRanges
 #' @importFrom utils write.table
-#'
 #' @examples
-#' #if the object attached to @@annotation is a gff/gff3 file
-#' addAnnotationToTSR(experimentName = Hs_RAMPAGE, tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE) 
-#'
-#' #if the object attached to @@annotation is a typical bed file
-#' #' addAnnotationToTSR(experimentName = , tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="all", featureColumnID="name", writeTable=TRUE)
+#' addAnnotationToTSR(experimentName = Hs_RAMPAGE, tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE) #if the object attached to @@annotation is a gff/gff3 file
+#' addAnnotationToTSR(experimentName = , tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="all", featureColumnID="name", writeTable=TRUE) #if the object attached to @@annotation is a typical bed file
 #' @note The first of the two examples provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
 #' @export
 
