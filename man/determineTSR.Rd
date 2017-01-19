@@ -29,9 +29,10 @@ creates a list of \linkS4class{GenomicRanges}-containing TSR positions in slot \
 \code{determineTSR} Identifies TSRs from entire TSS datasets as specified
 }
 \note{
-The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+An example similar to this one can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
 }
 \examples{
-determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
+load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+determineTSR(experimentName=tssObjectExample, parallel=FALSE, tsrSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
 }
 

@@ -6,9 +6,10 @@
 #' @importFrom BiocGenerics start end
 #' @importFrom GenomeInfoDb sortSeqlevels
 #' @importFrom IRanges IRanges
-#' @examples 
-#' bamToTSS(experimentName=Hs_RAMPAGE)
-#' @note The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd) 
+#' @examples
+#' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+#' bamToTSS(experimentName=tssObjectExample)
+#' @note An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
 #' @export
 
 setGeneric(

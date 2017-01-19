@@ -16,15 +16,14 @@ writeTSR(experimentName, tsrSetType, tsrSet = 1, fileType = "tab")
 \item{fileType}{the format of the file to be written. Possible choices are "tab" for tab-delimited output,"bed" for BED format (character).}
 }
 \value{
-a table containing the specified TSR data set is be written to your working directory.
+A table containing the specified TSR data set is be written to your working directory.
 }
 \description{
 \code{writeTSR} writes identified TSRs from a specified data set to a file in either tab or BED formats
 }
 \note{
-the .bed file written adheres to the standard six-column BED format, while "tab" format is identical to that of the data.frames containing TSR data.
-}
-\examples{
-writeTSR(experimentName=myExp, tsrSetType="replicates", tsrSet=1, fileType="bed") #this writes a file in BED format from the first tsrSet of replicates.
+The .bed file written adheres to the standard six-column BED format, while "tab" format is identical to that of the data.frames containing TSR data.
+
+For more information on the BED format, please visit https://genome.ucsc.edu/FAQ/FAQformat#format1
 }
 

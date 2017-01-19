@@ -8,8 +8,9 @@
 #' @return a matrix of tag counts (where the number of columns will equal to the number of replicates in the sample) is appended to the data frame of the selected set of identified TSRs
 #' @importFrom utils write.table
 #' @examples
-#' addTagCountsToTSR(experimentName= Hs_RAMPAGE, tsrSetType= "merged", tsrSet=3, tagCountThreshold= 25, writeTable= TRUE)
-#' @note The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd) 
+#' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))   
+#' addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=3, tagCountThreshold=25, writeTable=TRUE)
+#' @note An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd) 
 #' @export
 
 setGeneric(

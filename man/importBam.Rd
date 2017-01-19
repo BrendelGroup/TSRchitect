@@ -16,11 +16,12 @@ importBam(experimentName)
 \code{importBam} processes .bam files as specified by \code{\link{initializeExp}}.
 }
 \note{
-The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
 
 Files will be imported in the order that they appear on the \emph{@fileNames} slot, which is in ascending alphanumeric order.
 }
 \examples{
-importBam(experimentName=Hs_RAMPAGE)
+load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+importBam(experimentName=tssObjectExample)
 }
 

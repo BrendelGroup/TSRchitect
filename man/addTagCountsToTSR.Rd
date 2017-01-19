@@ -25,9 +25,10 @@ a matrix of tag counts (where the number of columns will equal to the number of 
 \code{addTagCountsToTSR} adds a matrix of tag counts to a set of identified TSRs
 }
 \note{
-The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
 }
 \examples{
-addTagCountsToTSR(experimentName= Hs_RAMPAGE, tsrSetType= "merged", tsrSet=3, tagCountThreshold= 25, writeTable= TRUE)
+load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))   
+addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=3, tagCountThreshold=25, writeTable=TRUE)
 }
 

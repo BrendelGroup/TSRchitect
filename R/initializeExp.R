@@ -6,8 +6,8 @@
 #' @param isPairedEnd specifies whether the TSS profiling experiment is paired-end (if TRUE) or single-end (if FALSE) (logical)
 #' @return Creates a new \emph{tssObject} with the name \emph{experimentName} that is written to the user's working environment.
 #' @examples
-#'  initializeExp(expTitle ="Human RAMPAGE", experimentName="Hs_RAMPAGE", expDir="hsRAMPAGEbam/", isPairedEnd=TRUE)
-#' @note The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd) 
+#' initializeExp(expTitle ="tssObject Example", experimentName="tssObjectExample", expDir="data/bamSamples", isPairedEnd=TRUE)
+#' @note An example similar to the first of the two formal examples can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd) 
 #' @note Please note that all .bam files found in \emph{expDir} will be retrieved and written in ascending alphanumeric order to the \emph{@fileNames} slot on the \emph{tssObject} that is created.
 #' @export
 

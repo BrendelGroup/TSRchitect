@@ -6,8 +6,9 @@
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
 #' @examples
-#' importBam(experimentName=Hs_RAMPAGE)
-#' @note The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+#' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+#' importBam(experimentName=tssObjectExample)
+#' @note An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
 #' @note Files will be imported in the order that they appear on the \emph{@fileNames} slot, which is in ascending alphanumeric order.
 #' @export
 

@@ -16,9 +16,10 @@ creates a list of TSSs in class \linkS4class{GRanges} for each .bam file contain
 \code{bamToTSS} extracts TSS information from each attached .bam file in a tssObject object
 }
 \note{
-The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
 }
 \examples{
-bamToTSS(experimentName=Hs_RAMPAGE)
+load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+bamToTSS(experimentName=tssObjectExample)
 }
 

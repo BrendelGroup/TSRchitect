@@ -16,17 +16,18 @@ processTSS(experimentName, parallel, tssSet, writeTable = FALSE)
 \item{writeTable}{specifies whether the output should be written to a table. (logical)}
 }
 \value{
-creates a list of \linkS4class{GenomicRanges} containing TSS positions in slot \emph{tssTagData} on the \emph{tssObject}
+Creates a list of \linkS4class{GenomicRanges} containing TSS positions in slot \emph{tssTagData} on the \emph{tssObject}.
 }
 \description{
 \code{processTSS} calulates the number of observed reads at a given TSS coordinate across an entire dataset.
 }
 \note{
-The example provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
 
 Note that the \emph{tssSet} parameter must be of class \emph{character}, even when selecting an individual dataset.
 }
 \examples{
-processTSS(experimentName=Hs_RAMPAGE, parallel=TRUE, tssSet="all", writeTable=TRUE)
+load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+processTSS(experimentName=tssObjectExample, parallel=FALSE, tssSet="all", writeTable=FALSE)
 }
 

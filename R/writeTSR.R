@@ -5,10 +5,9 @@
 #' @param tsrSet number of the dataset to be processed (numeric).
 #' @param fileType the format of the file to be written. Possible choices are "tab" for tab-delimited output,"bed" for BED format (character).
 #' @importFrom utils write.table
-#' @return a table containing the specified TSR data set is be written to your working directory.
-#' @examples
-#' writeTSR(experimentName=myExp, tsrSetType="replicates", tsrSet=1, fileType="bed") #this writes a file in BED format from the first tsrSet of replicates.
-#' @note the .bed file written adheres to the standard six-column BED format, while "tab" format is identical to that of the data.frames containing TSR data.
+#' @return A table containing the specified TSR data set is be written to your working directory.
+#' @note The .bed file written adheres to the standard six-column BED format, while "tab" format is identical to that of the data.frames containing TSR data.
+#' @note For more information on the BED format, please visit https://genome.ucsc.edu/FAQ/FAQformat#format1
 #' @export
 
 setGeneric(
