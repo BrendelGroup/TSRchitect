@@ -22,11 +22,8 @@ Creates a new \emph{tssObject} with the name \emph{experimentName} that is writt
 \code{initializeExp} initializes the TSS profiling experiment
 }
 \note{
-An example similar to the first of the two formal examples can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+\code{initializeExp("TSS Object Example", experimentName=tssObjectExample, expDir="extdata", isPairedEnd=TRUE)}
 
 Please note that all .bam files found in \emph{expDir} will be retrieved and written in ascending alphanumeric order to the \emph{@fileNames} slot on the \emph{tssObject} that is created.
-}
-\examples{
-initializeExp(expTitle ="tssObject Example", experimentName="tssObjectExample", expDir="data/bamSamples", isPairedEnd=TRUE)
 }
 

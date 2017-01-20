@@ -31,11 +31,10 @@ addAnnotationToTSR adds feature annotation to the (merged) \emph{@tsrData} data 
 \code{addAnnotationToTSR} associates an identified promoter with a given gene, if found upstream and on the same strand within a specified range.
 }
 \note{
-An example similar to the first of the two formal examples can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+An example similar to the this one can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
 }
 \examples{
-load(system.file("data", "tssObjectExample.RData", package="TSRchitect"))   
+load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))   
 addAnnotationToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=FALSE) #if the object attached to @annotation is a gff/gff3 file
-addAnnotationToTSR(experimentName=tssObjectExample, experimentName, tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="all", featureColumnID="name", writeTable=TRUE) #if the object attached to @annotation is a typical bed file
 }
 
