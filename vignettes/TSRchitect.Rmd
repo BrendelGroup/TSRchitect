@@ -1,5 +1,5 @@
 ---
-title: "TSRchitect vignette"
+title: "TSRchitect Vignette"
 author: "R. Taylor Raborn"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# TSRchitect
+# TSRchitect Vignette
 
 ## R. Taylor Raborn and Volker P. Brendel
 ## Department of Biology, Indiana University
@@ -249,7 +249,7 @@ Otherwise some or all of the files you generate in subsequent examples will be o
 For our second example will process TSS profiling data from Arabidopsis root tissue.
 These data come from the Megraw Lab at Oregon State University as reported in Morton et al., 2014. [Link to paper:](http://www.plantcell.org/content/26/7/2746)
 
-As with the previous example, we first must download the raw data. In this case we have only a single alignment file to retrieve, which is found here: http://megraw.cgrb.oregonstate.edu/jbrowse_public/arabidopsis_public/webdata/peat/peat.sorted.bam.
+As with the previous example, we first must download the raw data. In this case we have only a single alignment file to retrieve, which is found here: https://drive.google.com/open?id=0B5WxM8Ere19uZmlHM1F3ZS1iWWc.
 
 The annotation file is available from the TAIR10 database: ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff.
 
@@ -261,7 +261,7 @@ initializeExp(expTitle="Arabidopsis PEAT dataset", experimentName="At_PEAT", exp
 setSampleID(experimentName=At_PEAT, sample.names=c("experiment1"), replicate.IDs=c(1))
 ```
 
-Now we import the alignment file to our tssObject S4 object and convert the data to TSS coordinates:
+Now we import the alignment file to our tssObject and convert the data to TSS coordinates:
 
 ```{r eval=FALSE}
 importBam(At_PEAT)
