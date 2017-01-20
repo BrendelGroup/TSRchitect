@@ -1,9 +1,0 @@
-#!/usr/bin/bash
-#
-# Usage: xshowman <file>
-#
-#   where <file> is a file from TSRchitect/R/*.R
-
-Rfile=$1
-
-Rscript -e "library(TSRchitect); ?$Rfile"
