@@ -18,7 +18,7 @@ Typical preliminary steps to install or updated these packages are as follows
 install.packages("doParallel")
 ```
 
-```{r eval=FALSE)
+```{r eval=FALSE}
 source("http://bioconductor.org/biocLite.R")
 biocLite(c("BiocGenerics", "BiocParallel", "ENCODExplorer", "GenomicAlignments", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools", "rtracklayer"))
 ```
