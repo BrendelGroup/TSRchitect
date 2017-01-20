@@ -7,7 +7,6 @@
 #'         a \linkS4class{GRanges} object contining parsed annotation file of the selected type.
 #' @importFrom GenomicRanges GRanges
 #' @importFrom rtracklayer import.bed import.gff import.gff3
-#' @note An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
 #' @note \code{importAnnotation} makes use of three functions from the \emph{rtracklayer} package: \code{\link[rtracklayer]{import.bed}}, \code{\link[rtracklayer]{import.gff}}, and \code{\link[rtracklayer]{import.gff3}}
 #' @export
 
