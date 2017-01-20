@@ -31,17 +31,17 @@ For now (and in general, for the latest development version), you can install
 __TSRchitect__ as follows (again, use root privileges on the install command for
 system-wide installation):
 
-This repository contains two branches. The branch 'master' is our working development version, whereas our 'Bioc' branch contains the Bioconductor code.
+This repository contains two branches. The branch 'master' is our stable, submitted Bioconductor version, whereas our 'devel' branch contains recent development and additional files that are not found in the branch master.
 
-To clone just the Bioc branch, please do the following:
+If you wish to clone and install the current stable version of the software, please type the following command:
 ```{bash eval=FALSE}
-git clone https://github.com/BrendelGroup/TSRchitect --branch Bioc --single-branch
+git clone https://github.com/BrendelGroup/TSRchitect
 R CMD INSTALL TSRchitect
 ```
 
-If you wish to clone this entire repository, type the following command:
+To clone and install just the 'devel' branch, please do the following:
 ```{bash eval=FALSE}
-git clone https://github.com/BrendelGroup/TSRchitect
+git clone https://github.com/BrendelGroup/TSRchitect --branch devel --single-branch
 R CMD INSTALL TSRchitect
 ```
 
