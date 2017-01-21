@@ -7,8 +7,6 @@
 #' @return Creates a new \emph{tssObject} with the name \emph{experimentName} that is written to the user's working environment.
 #' @note \code{initializeExp("TSS Object Example", experimentName=tssObjectExample, expDir="extdata", isPairedEnd=TRUE)}
 #' @note Please note that all .bam files found in \emph{expDir} will be retrieved and written in ascending alphanumeric order to the \emph{@fileNames} slot on the \emph{tssObject} that is created.
-#'
-#' @importFrom methods new
 #' @export
 
 setGeneric(
