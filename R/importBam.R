@@ -7,6 +7,8 @@
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+#' extdata.dir <- system.file("extdata", package="TSRchitect")
+#' tssObjectExample@fileNames <- dir(extdata.dir, pattern="\\.bam$", full.names=TRUE)
 #' importBam(experimentName=tssObjectExample)
 #' @note An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
 #' @note Files will be imported in the order that they appear on the \emph{@fileNames} slot, which is in ascending alphanumeric order.
