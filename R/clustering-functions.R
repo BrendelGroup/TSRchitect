@@ -181,7 +181,7 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
 
      for (l in 1:n.seq) { #by sequence
          subset(tss.df, seq==uni.seq[l]) -> this.tss
-         subset(this.tss, nTSSs>=minNbrTSSs) -> sTSS
+         subset(this.tss, this.tss$nTSSs>=minNbrTSSs) -> sTSS
 
          #... clustering TSS on the plus strand:
 
