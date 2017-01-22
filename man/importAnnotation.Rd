@@ -23,4 +23,11 @@ importAnnotation(experimentName, fileType, annotFile)
 \note{
 \code{importAnnotation} makes use of three functions from the \emph{rtracklayer} package: \code{\link[rtracklayer]{import.bed}}, \code{\link[rtracklayer]{import.gff}}, and \code{\link[rtracklayer]{import.gff3}}
 }
+\examples{
+load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+extdata.dir <- system.file("extdata", package="TSRchitect")
+annotation <- dir(extdata.dir, pattern="\\\\.gff3$", full.names=TRUE)
+importAnnotation(experimentName=tssObjectExample, fileType="gff3", annotFile=annotation)
+
+}
 

@@ -25,5 +25,6 @@ load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 extdata.dir <- system.file("extdata", package="TSRchitect")
 tssObjectExample@fileNames <- dir(extdata.dir, pattern="\\\\.bam$", full.names=TRUE)
 importBam(experimentName=tssObjectExample)
+
 }
 
