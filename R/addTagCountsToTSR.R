@@ -1,16 +1,22 @@
 #' @title \strong{addTagCountsToTSR}
 #' @description \code{addTagCountsToTSR} adds a matrix of tag counts to a set of identified TSRs
+#' 
 #' @param experimentName a S4 object of class \emph{tssObject} containing information in slot \emph{@tssTagData}
 #' @param tsrSetType specifies the set to be written to file. Options are "replicates" or "merged". (character)
 #' @param tsrSet number of the dataset to be processed, where 1 corresponds to the first slot, and so on. (numeric)
 #' @param tagCountThreshold number of TSSs required at a given position (numeric)
 #' @param writeTable specifies whether the output should be written to a table. (logical)
-#' @return a matrix of tag counts (where the number of columns will equal to the number of replicates in the sample) is appended to the data frame of the selected set of identified TSRs
+#' 
+#' @return a matrix of tag counts (where the number of columns will equal to the number of replicates in the sample) is appended to the data frame of the selected set of identified TSRs.
+#' 
 #' @importFrom utils write.table
+#' 
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))   
 #' addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
-#' @note An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd) 
+#' 
+#' @note An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+#' 
 #' @export
 
 setGeneric(

@@ -26,4 +26,9 @@ The .bed file written adheres to the standard six-column BED format, while "tab"
 
 For more information on the BED format, please visit https://genome.ucsc.edu/FAQ/FAQformat#format1
 }
+\examples{
+load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+writeTSR(experimentName=tssObjectExample, tsrSetType="replicates", tsrSet=1, fileType="tab")
+
+}
 
