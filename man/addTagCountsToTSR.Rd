@@ -19,7 +19,7 @@ addTagCountsToTSR(experimentName, tsrSetType, tsrSet = 1,
 \item{writeTable}{specifies whether the output should be written to a table. (logical)}
 }
 \value{
-a matrix of tag counts (where the number of columns will equal to the number of replicates in the sample) is appended to the data frame of the selected set of identified TSRs
+a matrix of tag counts (where the number of columns will equal to the number of replicates in the sample) is appended to the data frame of the selected set of identified TSRs.
 }
 \description{
 \code{addTagCountsToTSR} adds a matrix of tag counts to a set of identified TSRs
@@ -30,5 +30,6 @@ An example similar to the one provided can be found in \emph{Example 1} from the
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))   
 addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
+
 }
 

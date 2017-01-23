@@ -21,5 +21,6 @@ An example similar to the one provided can be found in \emph{Example 1} from the
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 mergeSampleData(experimentName=tssObjectExample)
+
 }
 
