@@ -1,12 +1,15 @@
 #' @title \strong{initializeExp}
 #' @description \code{initializeExp} initializes the TSS profiling experiment
+#' 
 #' @param expTitle A descriptive title for the experiment (character)
 #' @param experimentName name for the \emph{tssObject} to be created in your working environment (character). Your choice for \emph{experimentName} must lack spaces.
 #' @param expDir path to the directory with the alignment files in .bam format (character). Note that all the paths to all files in \emph{expDir} with the extension .bam in \emph{expDir} will be imported with this function.
 #' @param isPairedEnd specifies whether the TSS profiling experiment is paired-end (if TRUE) or single-end (if FALSE) (logical)
+#'
 #' @return Creates a new \emph{tssObject} with the name \emph{experimentName} that is written to the user's working environment.
-#' @note \code{initializeExp("TSS Object Example", experimentName=tssObjectExample, expDir="extdata", isPairedEnd=TRUE)}
+#'
 #' @note Please note that all .bam files found in \emph{expDir} will be retrieved and written in ascending alphanumeric order to the \emph{@fileNames} slot on the \emph{tssObject} that is created.
+#' 
 #' @export
 
 setGeneric(

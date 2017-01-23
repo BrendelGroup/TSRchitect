@@ -1,12 +1,17 @@
 #' @title \strong{mergeSampleData}
 #' @description \code{mergeSampleData} combines samples from multiple TSS experiments into a single \linkS4class{GRanges} object
+#' 
 #' @param experimentName an S4 object of class \emph{tssObject} that contains information about the experiment.
+#' 
 #' @return tssCountData datasets will be merged (according to the \emph{sampleIDs}) and assigned to your \emph{tssObject}.
+#' 
 #' @importFrom GenomicRanges as.data.frame
 #' @importFrom gtools mixedorder
+#' 
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' mergeSampleData(experimentName=tssObjectExample)
+#' 
 #' @note An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
 #' @export
 

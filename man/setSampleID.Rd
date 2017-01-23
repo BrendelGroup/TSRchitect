@@ -14,17 +14,17 @@ setSampleID(experimentName, sample.names, replicate.IDs)
 \item{replicate.IDs}{identifiers indicating which samples are biological replicates. As with \emph{sample.names}, note that \code{importBam} imports bam data in ascending alphanumeric order, so replicate.IDs must be arranged in this order also so that they directly correspond to the intended file.}
 }
 \value{
-names and replicate information for experimental samples assigned to your \emph{tssObject} object
+names and replicate information for experimental samples assigned to your \emph{tssObject} object.
 }
 \description{
-\code{bamToTSS} Sets names and replicate information for experimental samples in a \emph{tssObject} S4 object
+\code{bamToTSS} Sets names and replicate information for experimental samples in a \emph{tssObject} S4 object.
 }
 \note{
 An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
-setSampleID(experimentName=tssObjectExample, sample.names=c("sample1-rep1","sample1-rep2","sample2-rep1","sample2-rep2"), replicate.IDs=c(1,1,2,2)) 
-#experiments 1 & 2 and 3 & 4 are replicates of samples 1 and 2, respectively
+setSampleID(experimentName=tssObjectExample, sample.names=c("sample1-rep1","sample1-rep2","sample2-rep1","sample2-rep2"), replicate.IDs=c(1,1,2,2)) #experiments 1 & 2 and 3 & 4 are replicates of samples 1 and 2, respectively
+
 }
 

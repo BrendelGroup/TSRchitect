@@ -9,17 +9,21 @@
 #' @param feature Specifies the feature to be used for annotation (typically "gene" [default] or "mRNA" for GFF3 input); set to "all" if all annotations from the input are to be used. (character)
 #' @param featureColumnID Name of the column identifier in the \linkS4class{GRanges} annotation object. This should be "ID" (default) for GFF3 input or "name" for bed input. (character)
 #' @param writeTable logical, specifying whether the output should be written to a tab-delimited file. Defaults to TRUE.
-#' @return addAnnotationToTSR adds feature annotation to the (merged) \emph{@@tsrData} data frame and returns the updated \emph{tssObject} to the workspace
+#' 
+#' @return addAnnotationToTSR adds feature annotation to the (merged) \emph{@@tsrData} data frame and returns the updated \emph{tssObject} to the workspace.
+#' 
 #' @importFrom BiocGenerics start end
 #' @importFrom GenomicRanges GRanges findOverlaps promoters
 #' @importFrom IRanges IRanges
 #' @importFrom utils write.table
+#' 
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))   
 #' addAnnotationToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=FALSE) #if the object attached to @@annotation is a gff/gff3 file
-#' @note An example similar to the this one can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd) 
+#' 
+#' @note An example similar to the this one can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+#' 
 #' @export
-
 
 setGeneric(
            name="addAnnotationToTSR",

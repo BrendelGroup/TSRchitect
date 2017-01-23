@@ -26,7 +26,7 @@ determineTSR(experimentName, parallel, tsrSetType, tssSet, tagCountThreshold,
 creates a list of \linkS4class{GenomicRanges}-containing TSR positions in slot \emph{@tsrData} on the \emph{tssObject} object
 }
 \description{
-\code{determineTSR} Identifies TSRs from entire TSS datasets as specified
+\code{determineTSR} Identifies TSRs from entire TSS datasets as specified.
 }
 \note{
 An example similar to this one can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
@@ -34,5 +34,6 @@ An example similar to this one can be found in \emph{Example 1} from the vignett
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 determineTSR(experimentName=tssObjectExample, parallel=FALSE, tsrSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
+
 }
 
