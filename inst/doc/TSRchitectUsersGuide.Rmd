@@ -104,11 +104,12 @@ registerDoParallel(mycl)
 Next we'll create the dedicated S4 object---called the tssObject---on which TSRchitect's functions will be performed.
 
 ```{r eval=FALSE}
-initializeExp(expTitle ="Human RAMPAGE", experimentName="Hs_RAMPAGE", expDir="HsRAMPAGEbam/", isPairedEnd=TRUE) 
+initializeExp(expTitle ="Human RAMPAGE", experimentName="Hs_RAMPAGE", /
+expDir="HsRAMPAGEbam/", isPairedEnd=TRUE) 
 ls()
 ```
 
-This will create an object called `Hs_RAMPAGE` in your workspace.\
+This will create an object called `Hs_RAMPAGE` in your workspace.
 Before we continue, let's take a look look at the object in our workspace using `ls()` to make sure it appears.
 
 Next we need to provide the sample names and specify which samples are biological replicates.
@@ -121,8 +122,10 @@ Hs_RAMPAGE@fileNames
 ```
 
 ```{r eval=FALSE}
-setSampleID(experimentName=Hs_RAMPAGE, sample.names=c("H460-rep1", "H460-rep2","HT1080-rep1","HT1080-rep2"), /
-replicate.IDs=c(1,1,2,2))
+setSampleID(experimentName=Hs_RAMPAGE, /
+sample.names=c("H460-rep1", "H460-rep2", /
+"HT1080-rep1","HT1080-rep2"), replicate.IDs /
+=c(1,1,2,2))
 ```
 
 Now that we have completed the above commands, we can proceed with importing the .bam files using the function `importBam`.
@@ -168,8 +171,9 @@ We specify this with 'tsrSetType="merged"'.
 
 ```{r eval=FALSE}
 #Generating the TSRs for the merged datasets:
-determineTSR(experimentName=Hs_RAMPAGE, parallel=TRUE, tsrSetType="merged", tssSet="all", /
-tagCountThreshold=40, clustDist=20, writeTable=TRUE)
+determineTSR(experimentName=Hs_RAMPAGE, parallel=TRUE, /
+tsrSetType="merged", tssSet="all", tagCountThreshold=40,/
+clustDist=20, writeTable=TRUE)
 ```
 
 ```{r eval=FALSE}
@@ -180,8 +184,8 @@ stopCluster(mycl)
 Now calculating the number of tags from each experiment within the combined set of TSRs:
 
 ```{r eval=FALSE}
-addTagCountsToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", tsrSet=3, /
-tagCountThreshold=40, writeTable=TRUE)
+addTagCountsToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged",/
+tsrSet=3, tagCountThreshold=40, writeTable=TRUE)
 ```
 
 ### Associating identified TSRs with gene annotations
@@ -198,17 +202,20 @@ Next, we associate the gene annotation to the TSRs within our two merged samples
 We selected the feature 'transcript' from the Gencode annotation. 
 
 ```{r eval=FALSE}
-addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", tsrSet=1, upstreamDist=1000, /
-downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE)
-addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", tsrSet=2, upstreamDist=1000, /
-downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE)
+addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", /
+tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript",/
+featureColumnID="ID", writeTable=TRUE)
+addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged",/
+tsrSet=2, upstreamDist=1000, downstreamDist=200, feature="transcript",/
+featureColumnID="ID", writeTable=TRUE)
 ```
 
 Finally, we will repeat the two commands above, instead associating the gene annotation to the "combined" set of TSRs, which is found in the 3rd position on the @tsrDataMerged slot.
 
 ```{r eval=FALSE}
-addAnnotationToTSR(experimentName = Hs_RAMPAGE, tsrSetType="merged", tsrSet=3, upstreamDist=1000, /
-downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE)
+addAnnotationToTSR(experimentName = Hs_RAMPAGE, tsrSetType="merged", tsrSet=3,/
+upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID",/
+writeTable=TRUE)
 ```
 
 Let's briefly look at the sets of TSRchitect-identified TSRs.
