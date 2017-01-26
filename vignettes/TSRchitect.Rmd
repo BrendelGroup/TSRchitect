@@ -9,8 +9,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Introduction to TSRchitect 
-
 ## R. Taylor Raborn and Volker P. Brendel
 ## Department of Biology, Indiana University
 
@@ -21,11 +19,17 @@ TSRchitect can handle TSS profiling experiments that contain either single-end o
 
 The TSRchitect User's Guide is available; it goes through several well-documented examples of TSRchitect.
 
+To open the TSRchitect User's Guide on your machine, enter the following:
+
+```{r eval=TRUE}
+TSRchitectUsersGuide()
+```
+
 ## Getting started
 
 ```{r eval=TRUE}
 library(TSRchitect)
 ```
 
-Now that this is complete, we proceed with a small example.
+Now that you have loaded TSRchitect, we can proceed with a small example.
 
