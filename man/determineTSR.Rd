@@ -2,7 +2,7 @@
 % Please edit documentation in R/determineTSR.R
 \name{determineTSR}
 \alias{determineTSR}
-\title{\emph{determineTSR}}
+\title{\strong{determineTSR}}
 \usage{
 determineTSR(experimentName, parallel, tsrSetType, tssSet, tagCountThreshold,
   clustDist, writeTable = FALSE)

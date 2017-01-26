@@ -1,20 +1,19 @@
 ---
-title: "TSRchitect Vignette"
+title: "TSRchitect User's Guide"
 author: "R. Taylor Raborn"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{TSRchitect UsersGuide}
+  %\VignetteIndexEntry{TSRchitect User's Guide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-# TSRchitect Vignette
 
 ## R. Taylor Raborn and Volker P. Brendel
 ## Department of Biology, Indiana University
 
-### January 20, 2017
+## First edition 25 January 2017
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 In recent years, large-scale TSS profiling data has characterized the landscape of transcription initiation at high resolution, identifying promoter architecture in a number of eukaryotic model systems, including human, mouse, fruit fly and worm.

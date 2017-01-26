@@ -1,4 +1,5 @@
 #' @title \strong{TSRchitectUsersGuide}
+#' @return Opens the TSRchitect User's Guide in a pdf viewer on the user's system.
 #' @export
 
 TSRchitectUsersGuide <- function(view=TRUE)
