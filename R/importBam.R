@@ -1,4 +1,4 @@
-#' @title \emph{importBam}
+#' @title \strong{importBam}
 #' @description \code{importBam} processes .bam files as specified by \code{\link{initializeExp}}.
 #'
 #' @param experimentName an S4 object of class \emph{tssObject} that contains information about the experiment
