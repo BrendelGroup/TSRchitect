@@ -8,7 +8,8 @@ setMethod("show",
               cat("       Object of Class 'tssObject'\n")
               cat("############################################\n\n")
               cat("Title of experiment:", object@title,"\n\n")
-              cat("The TSS data were specified to be \"", object@dataType, "\"\n")
+              cat("The TSS data were specified to be \"", object@dataType,
+                  "\"\n")
               if (length(object@fileNames) > 0) {
                   cat("and are located in the following files:\n")
                   for (i in 1:length(object@fileNames)) {
@@ -22,12 +23,13 @@ setMethod("show",
                   experimentName <- deparse(substitute(object))
                   cat("\n")
                   cat(length(object@tssTagData))
-                  cat(" TSS datasets were loaded into the tssObject object \"", experimentName, "\".\n")
+                  cat(" TSS datasets were loaded into the tssObject object \"",
+                      experimentName, "\".\n")
               }
               else {
                   cat("\nNo tss data have been loaded.\n")
               }
-### enter more show components here
+### enter future show components here
               #######
           }
           )

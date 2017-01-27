@@ -22,6 +22,7 @@ The TSRchitect User's Guide is available; it goes through several well-documente
 To open the TSRchitect User's Guide on your machine, enter the following:
 
 ```{r eval=TRUE}
+library(TSRchitect)
 TSRchitectUsersGuide()
 ```
 

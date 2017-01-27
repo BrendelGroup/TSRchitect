@@ -1,7 +1,8 @@
 #' @title \emph{tsrToDF()}
 #'
-#' @description \emph{tsrToDF} is a utility function in \bold{TSRchitect} that converts
-#' a \emph{tsrCluster()}-generated list of TSR data to a dataframe.
+#' @description \emph{tsrToDF} is a utility function in \bold{TSRchitect}
+#' that converts a \emph{tsrCluster()}-generated list of TSR data to
+#' a data frame.
 #'
 #' @param x A list (of lists) with TSR data as returned by tsrCluster()
 #' @return A dataframe of TSRs with variables\cr
@@ -31,7 +32,7 @@ tsrToDF <- function(x) {
         this.seq.list$plus -> this.p
         c("+") -> my.strand
         matrix(NA, nrow=length(this.p), ncol=7) -> plus.matrix
-        if (length(this.p) > 0 ) { # ... making sure that there are plus strand TSRs to process
+        if (length(this.p) > 0 ) { # ensures there are + strand TSRs to process
            for (i in 1:max(1,length(this.p))) {
                this.p[[i]] -> my.tsr
                countsToVector(my.tsr) -> my.vec
@@ -42,7 +43,8 @@ tsrToDF <- function(x) {
                range(my.vec) -> my.range
                my.range[1] -> my.start
                my.range[2] -> my.end
-               c(this.seq, my.start, my.end, my.strand, my.counts, my.width, my.SI) -> my.string
+               c(this.seq, my.start, my.end, my.strand, my.counts,
+                 my.width, my.SI) -> my.string
                my.string -> plus.matrix[i,]
            }
         }
@@ -50,7 +52,7 @@ tsrToDF <- function(x) {
         this.seq.list$minus -> this.m
         c("-") -> my.strand
         matrix(NA, nrow=length(this.m), ncol=7) -> minus.matrix
-        if (length(this.m) > 0 ) { # ... making sure that there are minus strand TSRs to process
+        if (length(this.m) > 0 ) { # ensures there are - strand TSRs to process
            for (i in 1:max(1,length(this.m))){
                this.m[[i]] -> my.tsr
                countsToVector(my.tsr) -> my.vec
@@ -61,7 +63,8 @@ tsrToDF <- function(x) {
                range(my.vec) -> my.range
                my.range[1] -> my.start
                my.range[2] -> my.end
-               c(this.seq, my.start, my.end, my.strand, my.counts, my.width, my.SI) -> my.string
+               c(this.seq, my.start, my.end, my.strand, my.counts,
+                 my.width, my.SI) -> my.string
                my.string -> minus.matrix[i,]
            }
         }
@@ -69,8 +72,9 @@ tsrToDF <- function(x) {
         rbind(plus.matrix, minus.matrix) -> seq.matrix
         rbind(final.matrix, seq.matrix) -> final.matrix
     }
-    final.matrix <- final.matrix[-1,] #removes the empty first row used to initialize the matrix
-    colnames(final.matrix) <- c("seq", "start", "end", "strand", "nTSSs", "tsrWidth", "shapeIndex")
+    final.matrix <- final.matrix[-1,] #removes the 1st row used to initialize
+    colnames(final.matrix) <- c("seq", "start", "end", "strand",
+                                "nTSSs", "tsrWidth", "shapeIndex")
     final.df <- as.data.frame(final.matrix)
 #Convert dataframe column classes to appropriate types:    
     final.df$seq   <- as.character(final.df$seq)

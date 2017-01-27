@@ -1,9 +1,12 @@
 #' @title \strong{bamToTSS}
-#' @description \code{bamToTSS} extracts TSS information from each attached .bam file in a tssObject object
+#' @description \code{bamToTSS} extracts TSS information from each
+#' attached .bam file in a tssObject object
 #' 
 #' @param experimentName an S4 object of class tssObject with bam files loaded
 #' 
-#' @return creates a list of TSSs in class \linkS4class{GRanges} for each .bam file contained within \emph{experimentName} and places them in the \emph{tssObject}.
+#' @return creates a list of TSSs in class \linkS4class{GRanges} for each
+#' .bam file contained within \emph{experimentName} and places them in
+#' the \emph{tssObject}.
 #' 
 #' @importFrom GenomicRanges granges GRanges GRangesList
 #' @importFrom BiocGenerics start end
@@ -14,7 +17,8 @@
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' bamToTSS(experimentName=tssObjectExample)
 #' 
-#' @note An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
+#' @note An example similar to the one provided can be found in \emph{Example 1}
+#' from the vignette (/inst/doc/TSRchitect.Rmd).
 #' 
 #' @export
 
@@ -32,10 +36,12 @@ setMethod("bamToTSS",
 
               message("... bamToTSS ...")
               if (length(experimentName@bamData) == 0) {
-                  stop("Slot @bamData is empty.\n\n Please load alignment files to your tssObject object.")
+                  stop("@bamData is empty.\n\n /
+Please load files to your tssObject.")
               }
               else {
-                  cat("\nBeginning .bam read alignment to TSS data conversion ...\n\n")
+                  cat("\nBeginning .bam read alignment /
+ to TSS data conversion ...\n\n")
               }
 
               bam.len <- length(experimentName@bamData)
@@ -70,8 +76,9 @@ setMethod("bamToTSS",
               GR.list <- GRangesList(bam.vec)
               experimentName@tssTagData <- GR.list
               experimentName@tssCountData <- vector(mode="list", length=bam.len)
-              cat("Done. TSS data from ", bam.len, " separate bam files have been successfully added to\ntssObject object \"", object.name, "\".\n\n")
-              cat("--------------------------------------------------------------------------------\n")
+              cat("Done. TSS data from ", bam.len, " separate bam files /
+ have been successfully added to\ntssObject object \"", object.name, "\".\n\n")
+              cat("---------------------------------------------------------\n")
               assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
           }
