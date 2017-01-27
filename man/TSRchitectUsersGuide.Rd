@@ -6,7 +6,22 @@
 \usage{
 TSRchitectUsersGuide(view = TRUE)
 }
+\arguments{
+\item{view}{(logical) if TRUE (default) the User's Guide
+is opened in the local pdf viewer.
+If FALSE then the full path to the User's Guide is
+returned.}
+}
 \value{
-Opens the TSRchitect User's Guide in a pdf viewer on the user's system.
+if view=FALSE, then the full path to the User's Guide
+is returned.
+}
+\description{
+Opens the TSRchitect User's Guide in a pdf viewer
+on the user's system.
+}
+\examples{
+myPath <- TSRchitectUsersGuide(view=FALSE)
+
 }
 
