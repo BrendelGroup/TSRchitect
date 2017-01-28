@@ -2,7 +2,7 @@
 % Please edit documentation in R/importBam.R
 \name{importBam}
 \alias{importBam}
-\title{\emph{importBam}}
+\title{\strong{importBam}}
 \usage{
 importBam(experimentName)
 }

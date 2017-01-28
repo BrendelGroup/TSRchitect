@@ -15,7 +15,7 @@ Typical preliminary steps to install or updated these packages are as follows
 
 ```{r eval=FALSE}
 #installing CRAN packages
-install.packages("doParallel")
+install.packages(c("doParallel","gtools","knitr"))
 ```
 
 ```{r eval=FALSE}

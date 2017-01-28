@@ -1,4 +1,4 @@
-#' @title \emph{determineTSR}
+#' @title \strong{determineTSR}
 #' @description \code{determineTSR} Identifies TSRs from entire TSS datasets as specified.
 #' 
 #' @param experimentName an object of class \emph{tssObject} containing information in slot \emph{@@tssTagData}
