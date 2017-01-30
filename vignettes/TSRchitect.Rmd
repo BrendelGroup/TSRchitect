@@ -12,25 +12,92 @@ vignette: >
 ## R. Taylor Raborn and Volker P. Brendel
 ## Department of Biology, Indiana University
 
-### January 25, 2017
+### January 30, 2017
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 TSRchitect can handle TSS profiling experiments that contain either single-end or paired-end sequence reads, such as CAGE, RAMPAGE, PEAT and others. TSRchitect is an open-source bioinformatics package that is intended to support large-scale, reproducible analysis of TSS profiling data in a broad array of eukaryotic model systems.
 
-The TSRchitect User's Guide is available; it goes through several well-documented examples of TSRchitect.
-
-To open the TSRchitect User's Guide on your machine, enter the following:
+Before we can begin, we must first load TSRchitect in our working environment.
 
 ```{r eval=TRUE}
 library(TSRchitect)
+```
+
+The TSRchitect User's Guide is available; it goes through several well-documented examples of TSRchitect using different datasets.
+
+To open the TSRchitect User's Guide on your machine, enter the following:
+
+```{r eval=FALSE}
 TSRchitectUsersGuide()
 ```
 
 ## Getting started
 
-```{r eval=TRUE}
-library(TSRchitect)
-```
-
 Now that you have loaded TSRchitect, we can proceed with a small example.
 
+First, we will create a tssObject and import our sample bam files (which are found in `extdata/`).
+In doing this, we provide sample names and identify our replicate names using `setSampleID`.
+We do this in the following manner:
+
+```{r eval=TRUE}
+extdata.dir <- system.file("extdata", package="TSRchitect") 
+initializeExp("Vignette Example", "tssObjectExample",
+extdata.dir, isPairedEnd=TRUE)
+setSampleID(experimentName=tssObjectExample, sample.names=c("sample1-rep1",
+"sample1-rep2","sample2-rep1","sample2-rep2"), replicate.IDs=c(1,1,2,2))
+importBam(experimentName=tssObjectExample)
+```
+
+If we wish to see our new tssObject, we simply type its name on the console and hit return, as follows:
+
+```{r eval=FALSE}
+tssObjectExample
+```
+
+Now that the .bam files have been imported, we need to retrieve TSSs from the BAM records, and calculate the abundance of each tag at a given TSS.
+
+```{r eval=TRUE}
+bamToTSS(experimentName=tssObjectExample)
+processTSS(experimentName=tssObjectExample, parallel=FALSE,
+tssSet="all", writeTable=FALSE)
+```
+
+Now that this is complete  we can we proceed with identifing TSRs from TSSs.
+We do this for each of the 4 datasets we imported.
+
+```{r eval=TRUE}
+determineTSR(experimentName=tssObjectExample, parallel=FALSE,
+tsrSetType="replicates", tssSet="1", tagCountThreshold=25,
+clustDist=20, writeTable=FALSE)
+determineTSR(experimentName=tssObjectExample, parallel=FALSE,
+tsrSetType="replicates", tssSet="2", tagCountThreshold=25,
+clustDist=20, writeTable=FALSE)
+determineTSR(experimentName=tssObjectExample, parallel=FALSE,
+tsrSetType="replicates", tssSet="3", tagCountThreshold=25,
+clustDist=20, writeTable=FALSE)
+determineTSR(experimentName=tssObjectExample, parallel=FALSE,
+tsrSetType="replicates", tssSet="4", tagCountThreshold=25,
+clustDist=20, writeTable=FALSE)
+```
+
+Next we merge our replicate data (according to the information we provided in `setSampleID`) and identify TSRs on these merged samples. We then use `addTagCountsToTSR` to quantify the number of tags found in each of our 4 datasets.
+
+```{r eval=TRUE}
+mergeSampleData(experimentName=tssObjectExample)
+determineTSR(experimentName=tssObjectExample, parallel=FALSE, tsrSetType="merged", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
+addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
+```
+
+Finally, we import an annotation file (containing GENCODE annotated transcripts) and then assocate this annotation with our small set of identified TSRs.
+
+```{r eval=TRUE}
+setwd(extdata.dir)
+importAnnotation(experimentName=tssObjectExample, fileType="gff3", annotFile="gencode.v19.chr22.transcript.gff3")
+addAnnotationToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1, upstreamDist=2000, downstreamDist=500, feature="transcript", featureColumnID="ID", writeTable=FALSE)
+```
+
+Finally, we can choose to save an binary of our tssObject to return to at a later time.
+
+```{r eval=FALSE}
+save(tssObjectExample, file="tssObjectExample_vignette.RData")
+```
