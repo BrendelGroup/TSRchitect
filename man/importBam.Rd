@@ -7,23 +7,32 @@
 importBam(experimentName)
 }
 \arguments{
-\item{experimentName}{an S4 object of class \emph{tssObject} that contains information about the experiment}
+\item{experimentName}{an S4 object of class \emph{tssObject} that
+contains information about the experiment}
 }
 \value{
-\emph{importBam} fills the slot \emph{@bamData} on the \emph{tssObject} with \linkS4class{GAlignments} objects from the \bold{GenomicAlignments} package, one for each attached .bam file on the \emph{@fileNames} slot.
+\emph{importBam} fills the slot \emph{@bamData} on the
+\emph{tssObject} with \linkS4class{GAlignments} objects from the
+\bold{GenomicAlignments} package, one for each attached .bam file
+on the \emph{@fileNames} slot.
 }
 \description{
-\code{importBam} processes .bam files as specified by \code{\link{initializeExp}}.
+\code{importBam} processes .bam files as specified by
+\code{\link{initializeExp}}.
 }
 \note{
-An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
+An example similar to the one provided can be found in
+\emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
 
-Files will be imported in the order that they appear on the \emph{@fileNames} slot, which is in ascending alphanumeric order.
+Files will be imported in the order that they appear on
+the \emph{@fileNames} slot, which is in ascending alphanumeric order.
 }
 \examples{
-load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+load(system.file("extdata", "tssObjectExample.RData",
+package="TSRchitect"))
 extdata.dir <- system.file("extdata", package="TSRchitect")
-tssObjectExample@fileNames <- dir(extdata.dir, pattern="\\\\.bam$", full.names=TRUE)
+tssObjectExample@fileNames <- dir(extdata.dir, pattern="\\\\.bam$",
+full.names=TRUE)
 importBam(experimentName=tssObjectExample)
 
 }

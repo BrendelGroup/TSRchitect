@@ -14,11 +14,13 @@
 #' @importFrom IRanges IRanges
 #' 
 #' @examples
-#' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+#' load(system.file("extdata", "tssObjectExample.RData",
+#' package="TSRchitect"))
 #' bamToTSS(experimentName=tssObjectExample)
 #' 
-#' @note An example similar to the one provided can be found in \emph{Example 1}
-#' from the vignette (/inst/doc/TSRchitect.Rmd).
+#' @note An example similar to the one provided can be
+#' found in \emph{Example 1} from the vignette
+#' (/inst/doc/TSRchitect.Rmd).
 #' 
 #' @export
 
@@ -37,11 +39,11 @@ setMethod("bamToTSS",
               message("... bamToTSS ...")
               if (length(experimentName@bamData) == 0) {
                   stop("@bamData is empty.\n\n /
-Please load files to your tssObject.")
+                       Please load files to your tssObject.")
               }
               else {
-                  cat("\nBeginning .bam read alignment /
- to TSS data conversion ...\n\n")
+                  cat("\nBeginning .bam read alignment", 
+                      "to TSS data conversion ...\n\n")
               }
 
               bam.len <- length(experimentName@bamData)
@@ -76,9 +78,10 @@ Please load files to your tssObject.")
               GR.list <- GRangesList(bam.vec)
               experimentName@tssTagData <- GR.list
               experimentName@tssCountData <- vector(mode="list", length=bam.len)
-              cat("Done. TSS data from ", bam.len, " separate bam files /
- have been successfully added to\ntssObject object \"", object.name, "\".\n\n")
-              cat("---------------------------------------------------------\n")
+              cat("Done. TSS data from ", bam.len, " separate bam files" ,
+                  "have been successfully added to the \ntssObject \"",
+                  object.name, "\".\n\n")
+              cat("-------------------------------------------------------\n")
               assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
           }
