@@ -7,29 +7,39 @@
 importAnnotation(experimentName, fileType, annotFile)
 }
 \arguments{
-\item{experimentName}{- an S4 object of class \emph{tssObject} that contains information about the experiment}
+\item{experimentName}{- an S4 object of class \emph{tssObject}
+that contains information about the experiment}
 
-\item{fileType}{- the format of the annotation file to be imported. Must be one of: "bed", "gff" or "gff3".}
+\item{fileType}{- the format of the annotation file to be imported.
+Must be one of: "bed", "gff" or "gff3".}
 
-\item{annotFile}{- a path (full or relative) to the annotation file to be imported.}
+\item{annotFile}{- a path (full or relative) to the annotation
+file to be imported.}
 }
 \value{
-\emph{importAnnotation} fills the slot \emph{@annotation} in the \emph{tssObject} with
-        a \linkS4class{GRanges} object contining parsed annotation file of the selected type.
+\emph{importAnnotation} fills the slot \emph{@annotation}
+in the \emph{tssObject} with a \linkS4class{GRanges} object contining
+a parsed annotation file of the selected type.
 }
 \description{
-\code{importAnnotation} imports an annotation from an external file and attaches it to \emph{experimentName}.
+\code{importAnnotation} imports an annotation from
+an external file and attaches it to \emph{experimentName}.
 }
 \note{
-\code{importAnnotation} makes use of three functions from the \emph{rtracklayer} package: \code{\link[rtracklayer]{import.bed}}, \code{\link[rtracklayer]{import.gff}}, and \code{\link[rtracklayer]{import.gff3}}
+\code{importAnnotation} makes use of three functions from the
+\emph{rtracklayer} package: \code{\link[rtracklayer]{import.bed}},
+\code{\link[rtracklayer]{import.gff}}, and
+\code{\link[rtracklayer]{import.gff3}}
 
-An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+An example similar to the one provided can be found in
+\emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 extdata.dir <- system.file("extdata", package="TSRchitect")
 annotation <- dir(extdata.dir, pattern="\\\\.gff3$", full.names=TRUE)
-importAnnotation(experimentName=tssObjectExample, fileType="gff3", annotFile=annotation)
+importAnnotation(experimentName=tssObjectExample, fileType="gff3",
+annotFile=annotation)
 
 }
 
