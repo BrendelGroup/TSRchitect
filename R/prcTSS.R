@@ -1,13 +1,15 @@
 #' @title \emph{prcTSS()}
 #'
-#' @description \emph{prcTSS} Creates an expression matrix for
-#' all TSSs within a given TSS experiment (in tssTagData)
+#' @description An internal function that Creates an expression matrix for
+#' all TSSs within a given TSS experiment (in slot tssTagData)
 #'
 #' @param experimentName - a S4 object of class tssObject containing
 #' information in slot tssTagData
 #' @param tssSet - number of the dataset to be analyzed
 #' @param writeTable - if set to TRUE, writes a data frame containing
 #' the TSSs positions and their abundance to your workspace
+#'
+#' @keywords internal
 #'
 #' @return \emph{prcTSS} fills the slot experimentName@tssCountData[[tssSet]]
 #' in the tssObject \emph{experimentName} with a matrix of unique TSS positions
@@ -18,7 +20,6 @@
 #' respectively.
 #'
 #' @importFrom gtools mixedsort
-#' @export
 
 setGeneric(
            name="prcTSS",
