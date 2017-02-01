@@ -224,7 +224,7 @@ setMethod("getTSScountData",
 #' package="TSRchitect"))
 #' ex.tsrData <- getBamData(experimentName=tssObjectExample,
 #' slotType="replicates", slot = 1)
-#' ex.tssCountData
+#' ex.tsrData
 #'
 #' @export
 

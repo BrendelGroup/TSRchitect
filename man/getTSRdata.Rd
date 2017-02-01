@@ -29,7 +29,7 @@ load(system.file("extdata", "tssObjectExample.RData",
 package="TSRchitect"))
 ex.tsrData <- getBamData(experimentName=tssObjectExample,
 slotType="replicates", slot = 1)
-ex.tssCountData
+ex.tsrData
 
 }
 \keyword{methods}
