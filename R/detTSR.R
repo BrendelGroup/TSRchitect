@@ -9,9 +9,10 @@
 #' @param tagCountThreshold - number of TSSs required at a given position
 #' @param clustDist - maximum distance of TSSs between two TSRs (in base pairs)
 #'
+#' @keywords internal
+#'
 #' @return creates a list of GenomicRanges containing TSR positions in slot
 #' 'tsrData' on your tssObject object
-#' @export
 
 setGeneric(
            name="detTSR",

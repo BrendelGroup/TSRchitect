@@ -1,11 +1,14 @@
 #' @title \emph{tsrToDF()}
 #'
-#' @description \emph{tsrToDF} is a utility function in \bold{TSRchitect}
+#' @description \emph{tsrToDF} is an internal utility function in
 #' that converts a \emph{tsrCluster()}-generated list of TSR data to
 #' a data frame.
 #'
-#' @param x A list (of lists) with TSR data as returned by tsrCluster()
-#' @return A dataframe of TSRs with variables\cr
+#' @param x A list with TSR data as returned by tsrCluster()
+#'
+#' @keywords internal
+#' 
+#' @return A data frame of TSRs with variables\cr
 #' \enumerate{
 #'         \item seq = sequence identifier (seq)
 #'         \item start = start of TSR (num)
@@ -15,7 +18,6 @@
 #'         \item tsrWidth = width of TSR (num)
 #'         \item shapeIndex = shape index value of TSR (num)
 #' }
-#' @export
 
 
 tsrToDF <- function(x) {
