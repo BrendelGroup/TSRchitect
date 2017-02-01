@@ -7,7 +7,7 @@
 getFileNames(experimentName)
 }
 \arguments{
-\item{experimentName}{n S4 object of class \emph{tssObject}}
+\item{experimentName}{an S4 object of class \emph{tssObject}}
 }
 \value{
 the contents of slot "fileNames" are returned
