@@ -26,7 +26,8 @@ def=function(experimentName){
 setMethod("getTitle",
 signature(experimentName = "tssObject"),
 function (experimentName){
-	experimentName@title
+    my.title <- experimentName@title
+    return(my.title)
 }
 )
 
@@ -34,7 +35,7 @@ function (experimentName){
 #' @description an accessor function that retrieves the contents of slot "fileNames"
 #' from a given \emph{tssObject}
 #'
-#' @param experimentName n S4 object of class \emph{tssObject}
+#' @param experimentName an S4 object of class \emph{tssObject}
 #' 
 #' @return the contents of slot "fileNames" are returned
 #'
@@ -58,62 +59,206 @@ def=function(experimentName){
 setMethod("getFileNames",
 signature(experimentName = "tssObject"),
 function (experimentName){
-    experimentName@fileNames
+    my.files <- experimentName@fileNames
+    return(my.files)
 }
 )
 
+#' @title \strong{getBamData}
+#' @description an accessor function that retrieves the contents of 
+#' a specified slot "bamData" from a given \emph{tssObject}
+#'
+#' @param experimentName an S4 object of class \emph{tssObject}
+#' @param slot 'numeric' a number corresponding to the slot in
+#' "bamData" to be retrieved.
+#' 
+#' @return the contents of the specified slot "bamData" are returned
+#'
+#' @keywords methods
+#' 
+#' @examples
+#' load(system.file("extdata", "tssObjectExample.RData",
+#' package="TSRchitect"))
+#' example.bamData <- getBamData(experimentName=tssObjectExample, slot = 1)
+#' example.bamData
+#'
+#' @export
+
 setGeneric(
 name="getBamData",
-def=function(experimentName){
+def=function(experimentName, slot){
 	standardGeneric("getBamData")
 }
 )
 
 setMethod("getBamData",
-signature(experimentName = "tssObject"),
-function (experimentName){
-	experimentName@bamData
+signature(experimentName = "tssObject", slot = "numeric"),
+function (experimentName, slot){
+    n.bams <- length(experimentName@bamData)
+    if (slot > n.bams) {
+        stop("The @bamData slot you selected does not exist.\n")
+    }
+    bam.data <- experimentName@bamData[[slot]]
+    return(bam.data)
 }
 )
+
+#' @title \strong{getTSStagData}
+#' @description an accessor function that retrieves the contents of 
+#' a specified slot "tssTagData" from a given \emph{tssObject}
+#'
+#' @param experimentName an S4 object of class \emph{tssObject}
+#' @param slot 'numeric' a number corresponding to the slot in
+#' "tssTagData" to be retrieved.
+#' 
+#' @return the contents of the specified slot "tssTagData" are returned
+#'
+#' @keywords methods
+#' 
+#' @examples
+#' load(system.file("extdata", "tssObjectExample.RData",
+#' package="TSRchitect"))
+#' example.tssTagData <- getTSStagData(experimentName=tssObjectExample, slot = 1)
+#' example.tssTagData
+#'
+#' @export
 
 setGeneric(
-name="getTSSs",
-def=function(experimentName){
-	standardGeneric("getTSSs")
+name="getTSStagData",
+def=function(experimentName, slot){
+	standardGeneric("getTSStagData")
 }
 )
 
-setMethod("getTSSs",
-signature(experimentName = "tssObject"),
-function (experimentName){
-	experimentName@tssTagData
+setMethod("getTSStagData",
+          signature(experimentName = "tssObject", slot = "numeric"),
+          function (experimentName, slot){
+          
+              n.tss <- length(experimentName@tssTagData)
+              if (slot > n.tss) {
+                  stop("The @tssTagData slot you selected does not exist.\n")
+              }
+              tss.data <- experimentName@tssTagData[[slot]]
+              return(tss.data)
 }
 )
+
+#' @title \strong{getTSScountData}
+#' @description an accessor function that retrieves the contents of 
+#' a specified slot "tssCountData"/"tssCountDataMerged" from a
+#' given \emph{tssObject}
+#'
+#' @param experimentName an S4 object of class \emph{tssObject}
+#' @param slotType 'character' which data type is to be selected.
+#' Either "replicates" (tssCountData) or "merged" (tssCountDataMerged)
+#' @param slot 'numeric' a number corresponding to the slot in
+#' "tssCountData"/"tssCountDataMerged" to be retrieved.
+#' 
+#' @return the contents of the selected slot (either "tssCountData" or
+#' "tssCountDataMerged" are returned)
+#'
+#' @keywords methods
+#' 
+#' @examples
+#' load(system.file("extdata", "tssObjectExample.RData",
+#' package="TSRchitect"))
+#' ex.tssCountData <- getTSScountData(experimentName=tssObjectExample,
+#' slotType="replicates", slot = 1)
+#' ex.tssCountData
+#'
+#' @export
 
 setGeneric(
-name="getExpr",
-def=function(experimentName){
-	standardGeneric("getExpr")
+name="getTSScountData",
+def=function(experimentName, slotType, slot){
+	standardGeneric("getTSScountData")
 }
 )
 
-setMethod("getExpr",
-signature(experimentName = "tssObject"),
-function (experimentName){
-	experimentName@tssCountData
-}
+setMethod("getTSScountData",
+          signature(experimentName = "tssObject", slotType = "character",
+                    slot = "numeric"),
+          function (experimentName, slotType = c("replicates", "merged"),
+                    slot) {
+              fileType <- match.arg(slotType, c("replicates","merged"),
+                                    several.ok=FALSE)
+              if (slotType=="replicates") {                  
+                  n.tss.counts  <- length(experimentName@tssCountData)
+                  if (slot > n.tss.counts) {
+                      stop("The @tssTagData slot you selected",
+                           "does not exist.\n")
+                  }
+                  my.counts.data <- experimentName@tssCountData[[slot]]
+              }
+
+              if (slotType=="merged") {                  
+                  n.tss.counts  <- length(experimentName@tssCountDataMerged)
+                  if (slot > n.tss.counts) {
+                      stop("The @tssTagDataMerged slot you selected",
+                           "does not exist.\n")
+                  }
+                  my.counts.data <- experimentName@tssCountDataMerged[[slot]]
+              }
+              return(my.counts.data)
+          }
 )
+
+#' @title \strong{getTSRdata}
+#' @description an accessor function that retrieves the contents of 
+#' a specified slot "tsrData"/"tsrDataMerged" from a
+#' given \emph{tssObject}
+#'
+#' @param experimentName an S4 object of class \emph{tssObject}
+#' @param slotType 'character' which data type is to be selected.
+#' Either "replicates" (tsrCountData) or "merged" (tsrCountDataMerged)
+#' @param slot 'numeric' a number corresponding to the slot in
+#' "tsrData"/"tsrDataMerged" to be retrieved.
+#' 
+#' @return the contents of the selected slot (either "tsrData" or
+#' "tsrDataMerged" are returned)
+#'
+#' @keywords methods
+#' 
+#' @examples
+#' load(system.file("extdata", "tssObjectExample.RData",
+#' package="TSRchitect"))
+#' ex.tsrData <- getBamData(experimentName=tssObjectExample,
+#' slotType="replicates", slot = 1)
+#' ex.tssCountData
+#'
+#' @export
 
 setGeneric(
-name="getTSRs",
-def=function(experimentName){
-	standardGeneric("getTSRs")
+name="getTSRdata",
+def=function(experimentName, slotType, slot){
+	standardGeneric("getTSRdata")
     }
 )
 
-setMethod("getTSRs",
-signature(experimentName = "tssObject"),
-function (experimentName){
-	experimentName@tsrData
-}
+setMethod("getTSRdata",
+          signature(experimentName = "tssObject", slotType = "character",
+                    slot = "numeric"),
+          function (experimentName, slotType = c("replicates", "merged"),
+                    slot) {
+                    fileType <- match.arg(slotType, c("replicates","merged"),
+                                    several.ok=FALSE)
+                    if (slotType=="replicates") {                  
+                        n.tsrs  <- length(experimentName@tsrData)
+                        if (slot > n.tsrs) {
+                            stop("The @tsrData slot you selected",
+                                 "does not exist.\n")
+                     }
+                  my.tsrs <- experimentName@tsrData[[slot]]
+                  }
+
+              if (slotType=="merged") {                  
+                  n.tsrs  <- length(experimentName@tsrDataMerged)
+                  if (slot > n.tsrs) {
+                      stop("The @tsrDataMerged slot you selected",
+                           "does not exist.\n")
+                  }
+                  my.tsrs <- experimentName@tsrDataMerged[[slot]]
+              }
+              return(my.tsrs)
+   }
 )
