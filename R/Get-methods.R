@@ -186,7 +186,7 @@ setMethod("getTSScountData",
                   n.tss.counts  <- length(experimentName@tssCountData)
                   if (slot > n.tss.counts) {
                       stop("The @tssTagData slot you selected",
-                           "does not exist.\n")
+                           " does not exist.\n")
                   }
                   my.counts.data <- experimentName@tssCountData[[slot]]
               }
