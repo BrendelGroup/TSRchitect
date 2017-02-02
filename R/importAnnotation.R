@@ -1,6 +1,6 @@
 #' @title \strong{importAnnotation}
 #' @description \code{importAnnotation} imports an annotation from
-#' an external file and attaches it to \emph{experimentName}.
+#' an external file and attaches it to the \emph{tssObject}
 #'
 #' @param experimentName - an S4 object of class \emph{tssObject}
 #' that contains information about the experiment
