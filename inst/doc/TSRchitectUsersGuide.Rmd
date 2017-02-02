@@ -113,19 +113,17 @@ This will create an object called `Hs_RAMPAGE` in your workspace.
 Before we continue, let's take a look look at the object in our workspace using `ls()` to make sure it appears.
 
 Next we need to provide the sample names and specify which samples are biological replicates.
-In this case we are working with 4 total datasets and 2 samples in duplicate. Please note that, because the alignments on our @bamData slot are organized in ascending alphabetical order (as are the file names on the @fileNames slot), we must provide our identifiers in `sample.names` and `replicateIDs` to directly correspond to this.
-To check this on the tssObject [S4 object](http://adv-r.had.co.nz/S4.html) you have created, simply check the list of .bam files as follows:
+In this case we are working with 4 total datasets and 2 samples in duplicate. Please note that, because the alignments on our `bamData` slot are organized in ascending alphabetical order (as are the file names on the `fileNames` slot), we must provide our identifiers in `sample.names` and `replicateIDs` to directly correspond to this.
+To check this on the tssObject [S4 object](http://adv-r.had.co.nz/S4.html) you have created, simply check the list of .bam files as follows using one of TSRchitect's accessor methods.
 
 ```{r eval=FALSE}
-#obtaining the list of bam files loaded to the tssObject S4 object
-Hs_RAMPAGE@fileNames
+#obtaining a list of bam files loaded to the tssObject S4 object
+getFileNames(experimentName=Hs_RAMPAGE)
 ```
 
 ```{r eval=FALSE}
-setSampleID(experimentName=Hs_RAMPAGE, /
-sample.names=c("H460-rep1", "H460-rep2", /
-"HT1080-rep1","HT1080-rep2"), replicate.IDs /
-=c(1,1,2,2))
+setSampleID(experimentName=Hs_RAMPAGE, sample.names=c("H460-rep1", /
+"H460-rep2", "HT1080-rep1","HT1080-rep2"), replicate.IDs=c(1,1,2,2))
 ```
 
 Now that we have completed the above commands, we can proceed with importing the .bam files using the function `importBam`.
@@ -171,9 +169,8 @@ We specify this with 'tsrSetType="merged"'.
 
 ```{r eval=FALSE}
 #Generating the TSRs for the merged datasets:
-determineTSR(experimentName=Hs_RAMPAGE, parallel=TRUE, /
-tsrSetType="merged", tssSet="all", tagCountThreshold=40,/
-clustDist=20, writeTable=TRUE)
+determineTSR(experimentName=Hs_RAMPAGE, parallel=TRUE, tsrSetType="merged", /
+tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)
 ```
 
 ```{r eval=FALSE}
@@ -184,73 +181,116 @@ stopCluster(mycl)
 Now calculating the number of tags from each experiment within the combined set of TSRs:
 
 ```{r eval=FALSE}
-addTagCountsToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged",/
+addTagCountsToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", /
 tsrSet=3, tagCountThreshold=40, writeTable=TRUE)
 ```
 
 ### Associating identified TSRs with gene annotations
 
-Now that identifying TSRs are complete, an obvious and biologically useful step is to determine which TSRs are adjacent to annotated genes, and to retrieve the appropriate gene IDs.
-Before doing this, it is imperative to select an annotation file that was generated for the assembly to which the reads were aligned.
-Please make sure you have already downloaded the annotation file linked to at the beginning of this vignette.
+Now that identifying TSRs are complete, an obvious and biologically useful step is to determine which TSRs are adjacent to annotated genes, and to retrieve the appropriate gene IDs. Before doing this, it is imperative to select an annotation file that was generated for the assembly to which the reads were aligned. For this example we will retrieve the appropriate annotation files from the Bioconductor package `AnnotationHub`.
+
+Please install `AnnotationHub` if you haven't already done so.
 
 ```{r eval=FALSE}
-importAnnotation(experimentName = Hs_RAMPAGE, fileType = "gff3", /
-annotFile = "downloads/gencode.v19.annotation.gff3")
+source("https://bioconductor.org/biocLite.R") 
+biocLite("AnnotationHub")
 ```
+
+In our case we need to download the [Gencode](https://www.gencodegenes.org/) annotation.
+We do this in the following manner:
+
+```{r eval=FALSE}
+library(AnnotationHub)
+hub <- AnnotationHub()
+query(hub, c("gencode", "gff", "human"))
+```
+
+This reveals nine gff3 annotations from Gencode that we can choose from.
+We will select the full annotation, which has the identifier "AH49555".
+
+```
+AnnotationHub with 9 records
+# snapshotDate(): 2017-01-05
+# $dataprovider: Gencode
+# $species: Homo sapiens
+# $rdataclass: GRanges
+# additional mcols(): taxonomyid, genome, description,
+#   coordinate_1_based, maintainer, rdatadateadded, preparerclass, tags,
+#   sourceurl, sourcetype
+# retrieve records with, e.g., 'object[["AH49554"]]'
+
+            title                                                   
+  AH49554 | gencode.v23.2wayconspseudos.gff3.gz                     
+  AH49555 | gencode.v23.annotation.gff3.gz                          
+  AH49556 | gencode.v23.basic.annotation.gff3.gz                    
+  AH49557 | gencode.v23.chr_patch_hapl_scaff.annotation.gff3.gz     
+  AH49558 | gencode.v23.chr_patch_hapl_scaff.basic.annotation.gff3.gz
+  AH49559 | gencode.v23.long_noncoding_RNAs.gff3.gz                 
+  AH49560 | gencode.v23.polyAs.gff3.gz                              
+  AH49561 | gencode.v23.primary_assembly.annotation.gff3.gz         
+  AH49562 | gencode.v23.tRNAs.gff3.gz
+
+```
+
+Using TSRchitect, We can use the function `importAnnotationHub` to import our desired annotated record and attach it our `tssObject`.
+We accomplish this as follows:
+
+```{r eval=FALSE}
+importAnnotationHub(experimentName = Hs_RAMPAGE, provider = "gencode", annotType = "gff3", species = "human", /
+ID = "AH49555")
+```
+
 Next, we associate the gene annotation to the TSRs within our two merged samples.
 We selected the feature 'transcript' from the Gencode annotation. 
 
 ```{r eval=FALSE}
 addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", /
-tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript",/
+tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", /
 featureColumnID="ID", writeTable=TRUE)
-addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged",/
-tsrSet=2, upstreamDist=1000, downstreamDist=200, feature="transcript",/
+
+addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", /
+tsrSet=2, upstreamDist=1000, downstreamDist=200, feature="transcript", /
 featureColumnID="ID", writeTable=TRUE)
 ```
 
-Finally, we will repeat the two commands above, instead associating the gene annotation to the "combined" set of TSRs, which is found in the 3rd position on the @tsrDataMerged slot.
+Finally, we will repeat the two commands above, instead associating the gene annotation to the "combined" set of TSRs, which is found in the 3rd position on the `tsrDataMerged` slot.
 
 ```{r eval=FALSE}
-addAnnotationToTSR(experimentName = Hs_RAMPAGE, tsrSetType="merged", tsrSet=3,/
-upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID",/
+addAnnotationToTSR(experimentName = Hs_RAMPAGE, tsrSetType="merged", tsrSet=3, /
+upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", /
 writeTable=TRUE)
 ```
 
 Let's briefly look at the sets of TSRchitect-identified TSRs.
 
-```{r eval=FALSE}
-Hs_RAMPAGE@tsrDataMerged[[1]] -> H460.tsrs
-dim(H460.tsrs)
-```
+Using the accessor methods we applied in earlier examples, let's take a quick glance at our set of identified TSRs.
 
 ```{r eval=FALSE}
-Hs_RAMPAGE@tsrDataMerged[[2]] -> HT1080.tsrs
+getTSRdata(Hs_RAMPAGE, slotType="merged", slot=1) -> HT1080.tsrs
 dim(HT1080.tsrs)
 ```
 
 ```{r eval=FALSE}
-Hs_RAMPAGE@tsrDataMerged[[3]] -> combined.tsrs
+getTSRdata(Hs_RAMPAGE, slotType="merged", slot=2) -> H460.tsrs
+dim(H460)
+```
+
+```{r eval=FALSE}
+getTSRdata(Hs_RAMPAGE, slotType="merged", slot=3) -> combined.tsrs
 dim(combined.tsrs)
 ```
 
-[1] 22750    12
+Let's look at some of the tsrs we identified on our 'combined' set.
+
+```{r eval=FALSE}
+head(combined.tsrs)
+```
 
 We see that there are 22750 TSRs identified in the combined set, and 15904 and 18040 TSRs in the H460 and HT1080 samples, respectively.
 We also notice that there are 5 additional columns in the combined set.
 This is due to us previouly having added tag counts to the combined set of TSRs using `addTagCountsToTSR', something we did not do in this vignette for the two individual samples.
 
 You now have a complete set of TSS and TSR data attached to your tssObject S4 object, in addition the tables that were already written to your working directory.
-
-These data can be easily accessed from the tssObject.
-For example, if we want to copy the TSR annotations from the HT1080 cells onto our R workspace, we could type the following command:
-
-```{r eval=FALSE}
-# retrieving TSR data from the tssObject S4 object
-Hs_RAMPAGE@tsrDataMerged[[1]] -> H460.tsrs
-head(H460.tsrs)
-```
 
 This concludes Example 1. Should we wish to save our tssObject and return to our work later, we simply type the following, which will write an R binary to your working directory.
 
@@ -274,9 +314,10 @@ Once download of the file `peat.sorted.bam` is complete, please move it to subdi
 Since there is only a single experiment, setting the sample IDs is simple:
 
 ```{r eval=FALSE}
-initializeExp(expTitle="Arabidopsis PEAT dataset", experimentName="At_PEAT", /
-expDir="PEATbam/", isPairedEnd=TRUE)
-setSampleID(experimentName=At_PEAT, sample.names=c("experiment1"), /
+initializeExp(expTitle="Arabidopsis PEAT dataset", experimentName="At_PEAT", expDir="PEATbam/",
+isPairedEnd=TRUE)
+
+setSampleID(experimentName=At_PEAT, sample.names=c("experiment1"),
 replicate.IDs=c(1))
 ```
 
@@ -284,6 +325,7 @@ Now we import the alignment file to our tssObject and convert the data to TSS co
 
 ```{r eval=FALSE}
 importBam(At_PEAT)
+
 bamToTSS(At_PEAT)
 ```
 
@@ -291,7 +333,7 @@ As in the previous example, now we can calculate the tag abundance at each locat
 
 ```{r eval=FALSE}
 processTSS(experimentName=At_PEAT, parallel=FALSE, tssSet="all", writeTable=TRUE)
-determineTSR(experimentName=At_PEAT, parallel=FALSE, tsrSetType="replicates", tssSet="all", /
+determineTSR(experimentName=At_PEAT, parallel=FALSE, tsrSetType="replicates", tssSet="all", 
 tagCountThreshold=25, clustDist=20, writeTable=TRUE)
 ```
 
@@ -300,16 +342,17 @@ tagCountThreshold=25, clustDist=20, writeTable=TRUE)
 We continue by associating our newly-identified TSRs with genes from the TAIR10 annotation. Note that we use different parameters for upstreamDist and downstreamDist than we did in Example 1. This is due to the high degree of compactness in the A. thaliana genome.
 
 ```{r eval=FALSE}
-importAnnotation(experimentName=At_PEAT, fileType="gff3", /
-annotFile="downloads/TAIR10_GFF3_genes.gff")
+importAnnotationExternal(experimentName=At_PEAT, fileType="gff3", /
+annotFile="downloads/TAIR10_GFF3_genes.gff") /
+
 addAnnotationToTSR(experimentName=At_PEAT, tsrSetType="replicates", tsrSet=1, upstreamDist=500, /
 downstreamDist=200, feature="gene", featureColumnID="ID", writeTable=TRUE)
 ```
 
-Now we have a complete set of TSRs on our tssObject object. Let's take a look at them:
+Now we have a complete set of TSRs on our tssObj object. Let's take a look at them using one of our accessor methods.
 
 ```{r eval=FALSE}
-At.tsrs <- AtPEAT@tsrData[[1]]
+At.tsrs <- getTSRdata(AtPEAT, setType="replicates", set=1)
 dim(At.tsrs)
 head(At.tsrs)
 ```
@@ -363,7 +406,7 @@ initializeExp(expTitle ="Human CAGE experiment", experimentName="CAGEhuman", exp
 ```
 
 Now we set the sample IDs.
-As before, it is vital to provide `sample.names` and `replicate.IDs` in the order of the files on the `@fileNames' slot to they exactly correspond to the .bam files that we imported.
+As before, it is vital to provide `sample.names` and `replicate.IDs` in the order of the files on the `fileNames` slot to they exactly correspond to the .bam files that we imported.
 
 ```{r eval=FALSE}
 # setting the sample IDs and names for the datasets within the CAGE library
@@ -426,11 +469,11 @@ tagCountThreshold=40, writeTable=TRUE)
 stopCluster(mycl)
 ```
 
-Now we need to import the annotation file and attach it to our tssObject S4 object.
+Now we need to import the annotation file and attach it to our tssObj S4 object. To do this, we will to use the same record (Gencode v. 23) that we referred to in Example 1.
 
 ```{r eval=FALSE}
-importAnnotation(experimentName=CAGEhuman, fileType="gff3", /
-annotFile="downloads/gencode.v19.annotation.gff3")
+importAnnotationHub(experimentName = CAGEhuman, provider = "gencode", annotType = "gff3",
+species = "human", ID = "AH49555")
 ```
 
 Next we associate the gene annotation to the TSRs within our two merged samples i) MCF7 cells and ii) A549 cells.
@@ -453,21 +496,30 @@ upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID
 writeTable=TRUE)
 ```
 
-Let's take a quick glance at the 'merged" and 'combined' sets of identified TSRs:
+Using the accessor methods we applied in earlier examples, let's take a quick glance at our set of identified TSRs.
 
 ```{r eval=FALSE}
-CAGEhuman@tsrDataMerged[[1]] -> A549.tsrs
-dim(A549.tsrs)
-```
+getTSRdata(CAGEhuman, setType="merged", slot=1) -> MCF7.tsrs
 
-```{r eval=FALSE}
-CAGEhuman@tsrDataMerged[[2]] -> MCF7.tsrs
 dim(MCF7.tsrs)
 ```
 
 ```{r eval=FALSE}
-CAGEhuman@tsrDataMerged[[3]] -> CAGEhuman.tsrs
+getTSRdata(CAGEhuman, setType="merged", slot=2) -> A549.tsrs
+
+dim(A549.tsrs)
+```
+
+```{r eval=FALSE}
+getTSRdata(CAGEhuman, setType="merged", slot=3) -> CAGEhuman.tsrs
+
 dim(CAGEhuman.tsrs)
+```
+
+Let's look at some of the tsrs we identified on our 'combined' set.
+
+```{r eval=FALSE}
+head(CAGEhuman.tsrs)
 ```
 
 We can optionally save the tssObject for future use:
