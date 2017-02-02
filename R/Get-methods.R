@@ -222,7 +222,7 @@ setMethod("getTSScountData",
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
-#' ex.tsrData <- getBamData(experimentName=tssObjectExample,
+#' ex.tsrData <- getTSRdata(experimentName=tssObjectExample,
 #' slotType="replicates", slot = 1)
 #' ex.tsrData
 #'

@@ -94,6 +94,17 @@ addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1
 tagCountThreshold=25, writeTable=FALSE)
 ```
 
+Now that we have identified TSRs using `determineTSR` from all replicate and merged datasets, we can select individual results directly.
+To do this, we use `getTSRdata`, one of the `tssObject` accessor methods.
+
+```{r eval=TRUE}
+sample_1_1_tsrs <- getTSRdata(experimentName=tssObjectExample, slotType="replicates", slot=1)
+
+print(sample_1_1_tsrs)
+```
+
+We see that 3 distinct TSRs were identified from this small example dataset.
+
 Finally, we import an annotation file (containing GENCODE annotated transcripts) and then assocate this annotation with our small set of identified TSRs.
 
 ```{r eval=TRUE}
@@ -106,8 +117,10 @@ addAnnotationToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=
 upstreamDist=2000, downstreamDist=500, feature="transcript", featureColumnID="ID", writeTable=FALSE)
 ```
 
-Finally, we can choose to save an binary of our tssObject to return to at a later time.
+Before we end, we can choose to save an binary of our tssObject to return to at a later time.
 
 ```{r eval=FALSE}
 save(tssObjectExample, file="tssObjectExample_vignette.RData")
 ```
+
+This ends our vignette. Please see the TSRchitect User's Guide for more extensively documented examples.
