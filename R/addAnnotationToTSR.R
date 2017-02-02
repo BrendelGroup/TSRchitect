@@ -6,7 +6,9 @@
 #' @param experimentName an object of class \emph{tssObject} with occupied
 #' data slots \emph{@@tsrData} (and/or \emph{@@tsrDataMerged}).
 #' The \emph{tssObject} must alrady have an annotation attached to the slot
-#' \emph{@@annotation}, which is provided by \code{\link{importAnnotation}}
+#' \emph{@@annotation}, which is provided by either
+#' \code{\link{importAnnotationExternal}} or
+#' \code{\link{importAnnotationHub}}.
 #' @param tsrSetType Specifies the type of TSR set to be processed.
 #' Options are "replicates" or "merged".
 #' @param tsrSet Number of the data set (of type \emph{tsrSetType}) to be

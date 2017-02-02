@@ -1,6 +1,6 @@
 Package: TSRchitect
 Version: 0.99.2
-Date: 2017-01-26
+Date: 2017-02-2
 Title: Promoter identification from diverse types of large-scale TSS profiling data
 Description: In recent years, large-scale transcriptional sequence data has
     yielded considerable insights into the nature of gene expression and regulation
@@ -22,7 +22,7 @@ Author: R. Taylor Raborn [aut, cre, cph]
 	Volker P. Brendel [aut, cph]
 Maintainer: R. Taylor Raborn <rtraborn@indiana.edu>
 Depends: R (>= 3.3.0)
-Imports: BiocGenerics, BiocParallel, GenomicAlignments, GenomeInfoDb,
+Imports: AnnotationHub, BiocGenerics, BiocParallel, GenomicAlignments, GenomeInfoDb,
         GenomicRanges, gtools, IRanges, Rsamtools (>= 1.14.3),
         rtracklayer, utils
 License: GPL-3

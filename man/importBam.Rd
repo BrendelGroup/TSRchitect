@@ -25,7 +25,7 @@ An example similar to the one provided can be found in
 \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
 
 Files will be imported in the order that they appear on
-the \emph{@fileNames} slot, which is in ascending alphanumeric order.
+the \emph{fileNames} slot, which is in ascending alphanumeric order.
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",

@@ -21,7 +21,7 @@
 #' @note An example similar to the one provided can be found in
 #' \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
 #' @note Please consult the available records in AnnotationHub
-#' beforehand using \code{\link[AnnotationHub]{AnnoationHub}}
+#' beforehand using \code{\link[AnnotationHub]{AnnotationHub}}
 #'
 #' @export
 
