@@ -11,10 +11,10 @@ importBam(experimentName)
 contains information about the experiment}
 }
 \value{
-\emph{importBam} fills the slot \emph{@bamData} on the
+\emph{importBam} fills the slot \emph{bamData} on the
 \emph{tssObject} with \linkS4class{GAlignments} objects from the
 \bold{GenomicAlignments} package, one for each attached .bam file
-on the \emph{@fileNames} slot.
+on the \emph{fileNames} slot.
 }
 \description{
 \code{importBam} processes .bam files as specified by
