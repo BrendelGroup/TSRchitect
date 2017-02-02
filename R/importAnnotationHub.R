@@ -5,12 +5,12 @@
 #' @param experimentName - an S4 object of class \emph{tssObject}
 #' that contains information about the experiment
 #' @param provider - 'character' the source of the annotation in AnnotationHub
-#' (e.g. 'Gencode')
+#' (e.g. 'gencode')
 #' @param annotType - 'character' the format of the annotationHub annotation
-#' to be imported. Set to 'gff' by default.
+#' to be imported. Using 'gff' will find annotations in both gff or gff3 formats
 #' @param species - 'character' the species identifier in AnnotationHub
 #' (e.g. 'human')
-#' @param annotID - 'character' the identifier corresponding to the 
+#' @param annotID - 'character' the AnnotationHub identifier to be retrieved
 #' 
 #' @return fills the slot \emph{@@annotation} in the \emph{tssObject}
 #' with an AnnotationHub record. The record retrieved must be an object
@@ -42,7 +42,7 @@ setMethod("importAnnotationHub",
               message("... importAnnotationHub ...")
               AnnotationHub() -> hub
               query(hub, c(provider, annotType, species))
-              message("\nRetrieving selected record from AnnotationHub record",
+              message("\nRetrieving selected record from AnnotationHub record ",
                       annotID, ".\n")
               annot.object <- hub[[annotID]]
               if (class(annot.object) != "GRanges") {

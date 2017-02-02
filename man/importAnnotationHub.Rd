@@ -11,15 +11,15 @@ importAnnotationHub(experimentName, provider, annotType, species, annotID)
 that contains information about the experiment}
 
 \item{provider}{- 'character' the source of the annotation in AnnotationHub
-(e.g. 'Gencode')}
+(e.g. 'gencode')}
 
 \item{annotType}{- 'character' the format of the annotationHub annotation
-to be imported. Set to 'gff' by default.}
+to be imported. Using 'gff' will find annotations in both gff or gff3 formats}
 
 \item{species}{- 'character' the species identifier in AnnotationHub
 (e.g. 'human')}
 
-\item{annotID}{- 'character' the identifier corresponding to the}
+\item{annotID}{- 'character' the AnnotationHub identifier to be retrieved}
 }
 \value{
 fills the slot \emph{@annotation} in the \emph{tssObject}
