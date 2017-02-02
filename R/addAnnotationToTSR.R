@@ -110,7 +110,7 @@ should be either \"replicates\" or \"merged\".")
              allAnnotation <- experimentName@annotation
              if (length(allAnnotation)<1) {
                  stop("No annotation has been loaded to the tssObject./
- \nPlease run importAnnotation prior to using addAnnotationToTSR.")
+ \nPlease import an annotation prior to using addAnnotationToTSR.")
              }
 # ... pulling out the selected feature from the annotation GRanges
 # object (if the required, GFF3-standard, "type" column exists):

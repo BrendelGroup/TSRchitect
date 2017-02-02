@@ -12,16 +12,15 @@
 #' (e.g. 'human')
 #' @param annotID - 'character' the identifier corresponding to the 
 #' 
-#' @return \emph{importAnnotation} fills the slot \emph{@@annotation}
-#' in the \emph{tssObject} with a \linkS4class{GRanges} object contining
-#' a parsed annotation file of the selected type.
+#' @return fills the slot \emph{@@annotation} in the \emph{tssObject}
+#' with an AnnotationHub record. The record retrieved must be an object
+#' of class \linkS4class{GRanges}.
 #'
 #' @importFrom AnnotationHub AnnotationHub query
-#' @importFrom GenomicRanges GRanges
 #'
 #' @note An example similar to the one provided can be found in
 #' \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
-#' @note Please consult the available annotations in AnnotationHub
+#' @note Please consult the available records in AnnotationHub
 #' beforehand using \code{\link[AnnotationHub]{AnnoationHub}}
 #'
 #' @export
@@ -36,15 +35,23 @@ setGeneric(
 setMethod("importAnnotationHub",
           signature(experimentName="tssObject", provider="character",
                     annotType="character", species="character",
-                    annotID="character")
+                    annotID="character"),
           function(experimentName, provider, annotType, species,
                    annotID) {
               object.name <- deparse(substitute(experimentName))
               message("... importAnnotationHub ...")
               AnnotationHub() -> hub
               query(hub, c(provider, annotType, species))
+              message("\nRetrieving selected record from AnnotationHub record",
+                      annotID, ".\n")
               annot.object <- hub[[annotID]]
-              experimentName@annotation
+              if (class(annot.object) != "GRanges") {
+                  stop("\nThe selected annotation record is not",
+                       " a GRanges object. Please select another.")
+              }
+              else {
+                  annot.object -> experimentName@annotation
+              }
               cat("Done. Annotation data has been attached to",
                   "tssObject\nobject \"", object.name, "\".\n")
               cat("-------------------------------------------------------\n")
