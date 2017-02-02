@@ -6,7 +6,9 @@
 #' @param experimentName an object of class \emph{tssObject} with occupied
 #' data slots \emph{@@tsrData} (and/or \emph{@@tsrDataMerged}).
 #' The \emph{tssObject} must alrady have an annotation attached to the slot
-#' \emph{@@annotation}, which is provided by \code{\link{importAnnotation}}
+#' \emph{@@annotation}, which is provided by either
+#' \code{\link{importAnnotationExternal}} or
+#' \code{\link{importAnnotationHub}}.
 #' @param tsrSetType Specifies the type of TSR set to be processed.
 #' Options are "replicates" or "merged".
 #' @param tsrSet Number of the data set (of type \emph{tsrSetType}) to be
@@ -110,7 +112,7 @@ should be either \"replicates\" or \"merged\".")
              allAnnotation <- experimentName@annotation
              if (length(allAnnotation)<1) {
                  stop("No annotation has been loaded to the tssObject./
- \nPlease run importAnnotation prior to using addAnnotationToTSR.")
+ \nPlease import an annotation prior to using addAnnotationToTSR.")
              }
 # ... pulling out the selected feature from the annotation GRanges
 # object (if the required, GFF3-standard, "type" column exists):
