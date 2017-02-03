@@ -1,9 +1,13 @@
 #' @title \strong{importBam}
-#' @description \code{importBam} processes .bam files as specified by
-#' \code{\link{initializeExp}}.
+#' @description \code{importBam} processes alignment files in .bam format
+#' from the local directory supplied.
 #'
 #' @param experimentName an S4 object of class \emph{tssObject} that
 #' contains information about the experiment
+#' @param expDir path to the directory containing the alignment files in .bam
+#' format (character).
+#' Note that all the paths to all files in \emph{expDir} with the extension
+#' .bam in \emph{expDir} will be imported with this function.
 #' 
 #' @return \emph{importBam} fills the slot \emph{bamData} on the
 #' \emph{tssObject} with \linkS4class{GAlignments} objects from the
@@ -18,31 +22,43 @@
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
 #' extdata.dir <- system.file("extdata", package="TSRchitect")
-#' tssObjectExample@fileNames <- dir(extdata.dir, pattern="\\.bam$",
 #' full.names=TRUE)
-#' importBam(experimentName=tssObjectExample)
+#' importBam(experimentName=tssObjectExample, expDir=extdata.dir)
 #'
 #' @note An example similar to the one provided can be found in
 #' \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
-#' @note Files will be imported in the order that they appear on
-#' the \emph{fileNames} slot, which is in ascending alphanumeric order.
+#' @note All .bam files found in \emph{expDir} will be
+#' retrieved and written in ascending alphanumeric order to the
+#' \emph{@fileNames} slot on the \emph{tssObject} that is created.
 #' 
 #' @export
 
 setGeneric(
     name="importBam",
-    def=function(experimentName) {
+    def=function(experimentName, expDir) {
         standardGeneric("importBam")
     }
     )
 
 setMethod("importBam",
-          signature(experimentName="tssObject"),
-          function(experimentName) {
+          signature(experimentName="tssObject", expDir = "character"),
+          function(experimentName, expDir) {
               object.name <- deparse(substitute(experimentName))
               exp.type <- experimentName@dataType
 
               message("... importBam ...")
+              tss_files <- list.files(expDir, pattern="\\.bam$",
+                           all.files=FALSE, full.names=TRUE)
+
+              if (length(tss_files) < 1) {
+                  stop("There are no .bam files in the directory you",
+                       "specified, or the directory itself does not exist.",
+                       "\n Please check your input for the argument 'expDir'.")
+              }
+
+              experimentName@fileNames <- tss_files
+              message("\nLinks to .bam files have been assigned...\n")
+              
               if(exp.type=="pairedEnd") {
                   message("\nImporting paired-end reads ...\n")
                   scanBamFlag(isPaired=TRUE, isProperPair=TRUE,

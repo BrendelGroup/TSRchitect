@@ -40,14 +40,15 @@ In doing this, we provide sample names and identify our replicate names using `s
 We do this in the following manner:
 
 ```{r eval=TRUE}
+initializeExp("Vignette Example", "tssObjectExample", isPairedEnd=TRUE)
+
 extdata.dir <- system.file("extdata", package="TSRchitect") 
 
-initializeExp("Vignette Example", "tssObjectExample", extdata.dir, isPairedEnd=TRUE)
+importBam(experimentName=tssObjectExample, extdata.dir)
 
 setSampleID(experimentName=tssObjectExample, sample.names=c("sample1-rep1", "sample1-rep2",
-"sample2-rep1","sample2-rep2"), replicate.IDs=c(1,1,2,2)) #datasets 1-2 and 3-4 are replicates
-
-importBam(experimentName=tssObjectExample)
+"sample2-rep1","sample2-rep2"), replicate.IDs=c(1,1,2,2))
+#datasets 1-2 and 3-4 are replicates
 ```
 
 If we wish to see our new tssObject, we simply type its name on the console and hit return, as follows:
