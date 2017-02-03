@@ -50,9 +50,7 @@ setClass(Class="tssObject",
 
 tssObject <- function(title=NA, bamData=NA) {
 
-    new.tssObj <- new("tssObject",
-                      title=title,
-                      bamData=bamData)
+    new.tssObj <- new("tssObject")
 
     if (!(is.na(title))) {
         new.tssObj@title <- title
