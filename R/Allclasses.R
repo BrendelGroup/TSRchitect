@@ -13,8 +13,7 @@ setClass(Class="tssObject",
              countsData = "data.frame",
              tsrData = "list",
              tsrDataMerged = "list",
-             tsrCounts = "data.frame",
-             consensusTSRs = "data.frame"
+             tsrCounts = "data.frame"
              ),
          prototype(
              title = NA_character_,
@@ -30,7 +29,30 @@ setClass(Class="tssObject",
              countsData = data.frame(),
              tsrData = list(),
              tsrDataMerged = list(),
-             tsrCounts = data.frame(),
-             consensusTSRs = data.frame()
+             tsrCounts = data.frame()
              ),
          )
+
+tssObject <- function(title=NA, dataType=NA, bamData=NA) {
+
+    new.tssObj <- new("tssObject",
+                      title=title,
+                      dataType=dataType,
+                      bamData=bamData)
+
+    if (!(is.na(title))) {
+        new.tssObj@title <- title
+    }
+
+    if (!(is.na(dataType))) {
+        new.tssObj@dataType <- dataType
+    }
+
+    if (!(is.na(bamData))) {
+        new.tssObj@bamData <- bamData
+    }
+
+    message("\nA new tssObject has been created in your workspace.\n")
+    return(new.tssObj)
+}
+                      
