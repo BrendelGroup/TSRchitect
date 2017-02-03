@@ -14,13 +14,13 @@ experiment. Is set to NA by default.}
 objects in the workspace. Set to NA by default.}
 }
 \value{
-a new \emph{tssObject} is returned to the user's workspace
+a new \emph{tssObject} is returned to the user's workspace.
 }
 \description{
-S4 constructor function for \emph(tssObject)
+S4 constructor function for \emph{tssObject}
 }
 \examples{
-new.tssObj <- tssObject(title="Example tssObject")
+new.tssObj <- tssObject(title="Example")
 
 }
 

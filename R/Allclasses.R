@@ -34,17 +34,17 @@ setClass(Class="tssObject",
          )
 
 #' @title \strong{tssObject}
-#' @description S4 constructor function for \emph(tssObject)
+#' @description S4 constructor function for \emph{tssObject}
 #'
 #' @param title 'character' A short descriptive title for the
 #' experiment. Is set to NA by default.
 #' @param bamData 'list' the name of a list of \linkS4class{GAlignments}
 #' objects in the workspace. Set to NA by default.
 #'
-#' @return a new \emph{tssObject} is returned to the user's workspace
+#' @return a new \emph{tssObject} is returned to the user's workspace.
 #' 
 #' @examples
-#' new.tssObj <- tssObject(title="Example tssObject")
+#' new.tssObj <- tssObject(title="Example")
 #'
 #' @export
 
