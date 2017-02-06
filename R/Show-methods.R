@@ -7,20 +7,20 @@ setMethod("show",
               cat("############## TSRchitect ##################\n")
               cat("     S4 Object of Class 'tssObject'\n")
               cat("############################################\n\n")
-              if (length(object@title) > 0) {
+              if (is.na(object@title)==FALSE) {
                   cat("Title of experiment:", object@title,"\n\n")
               }
               else {
                   cat("No experiment title has been added.\n\n")
               }
-              if (length(object@dataType) > 0) {
+              if (is.na(object@dataType)==FALSE) {
                   cat("The TSS data were specified to be \"",
                       object@dataType, "\"\n")
               }
               else {
                   cat("The TSS data type has not been specified,\n")
               }
-              if (length(object@fileNames) > 0) {
+              if (is.na(object@fileNames)==FALSE) {
                   cat("and originate in the following files:\n")
                   for (i in 1:length(object@fileNames)) {
                       cat(paste(object@fileNames[i]), sep="\n")
@@ -30,7 +30,7 @@ setMethod("show",
               else {
                   cat("\nNo *.bam files were found. Please check. \n")
               }
-              if (length(object@sampleNames) > 0) {
+              if (is.na(object@sampleNames)==TRUE) {
                   cat("The names of the datasets are:\n")
                   for (i in 1:length(object@fileNames)) {
                       cat(paste(object@sampleNames[i]), sep="\n")
