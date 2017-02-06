@@ -18,7 +18,7 @@ setMethod("show",
                       object@dataType, "\"\n")
               }
               else {
-                  cat("The TSS data type has not been specified,\n")
+                  cat("The TSS data type has not been specified.\n")
               }
               if (is.na(object@fileNames)==FALSE) {
                   cat("and originate in the following files:\n")
