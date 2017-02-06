@@ -28,10 +28,10 @@ setMethod("show",
                   cat("\n")
               }
               else {
-                  cat("\nNo *.bam files were found. Please check. \n")
+                  cat("\nNo *.bam files have been added. \n")
               }
-              if (is.na(object@sampleNames)==TRUE) {
-                  cat("The names of the datasets are:\n")
+              if (is.na(object@sampleNames)==FALSE) {
+                  cat("\nThe names of the datasets are:\n")
                   for (i in 1:length(object@fileNames)) {
                       cat(paste(object@sampleNames[i]), sep="\n")
                   }
