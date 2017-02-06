@@ -7,9 +7,19 @@ setMethod("show",
               cat("############## TSRchitect ##################\n")
               cat("     S4 Object of Class 'tssObject'\n")
               cat("############################################\n\n")
-              cat("Title of experiment:", object@title,"\n\n")
-              cat("The TSS data were specified to be \"", object@dataType,
-                  "\"\n")
+              if (length(object@title) > 0) {
+                  cat("Title of experiment:", object@title,"\n\n")
+              }
+              else {
+                  cat("No experiment title has been added.\n\n")
+              }
+              if (length(object@dataType) > 0) {
+                  cat("The TSS data were specified to be \"",
+                      object@dataType, "\"\n")
+              }
+              else {
+                  cat("The TSS data type has not been specified,\n")
+              }
               if (length(object@fileNames) > 0) {
                   cat("and originate in the following files:\n")
                   for (i in 1:length(object@fileNames)) {
