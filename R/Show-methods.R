@@ -37,7 +37,7 @@ setMethod("show",
                   }
               }
               else {
-                  cat("\nDataset names have not been provided \n")
+                  cat("\nDataset names have not been provided.\n")
               }
               if (length(object@tssTagData) > 0) {
                   object.name <- as.character(deparse(substitute(object)))
