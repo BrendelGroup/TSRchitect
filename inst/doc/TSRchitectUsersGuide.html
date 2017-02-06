@@ -258,7 +258,7 @@ registerDoParallel(mycl)
 <p>Next we&#39;ll create the dedicated S4 object---called the tssObject---on which TSRchitect&#39;s functions will be performed.</p>
 
 <pre><code class="r">initializeExp(expTitle =&quot;Human RAMPAGE&quot;, experimentName=&quot;Hs_RAMPAGE&quot;, /
-expDir=&quot;HsRAMPAGEbam/&quot;, isPairedEnd=TRUE) 
+isPairedEnd=TRUE) 
 ls()
 </code></pre>
 
@@ -280,7 +280,7 @@ getFileNames(experimentName=Hs_RAMPAGE)
 <p>Now that we have completed the above commands, we can proceed with importing the .bam files using the function <code>importBam</code>.
 This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. </p>
 
-<pre><code class="r">importBam(experimentName=Hs_RAMPAGE)
+<pre><code class="r">importBam(experimentName=Hs_RAMPAGE, expDir=&quot;HsRAMPAGEbam/&quot;
 </code></pre>
 
 <p>You will receive a message on your console when all four files have been imported:</p>
@@ -446,7 +446,7 @@ These data come from the Megraw Lab at Oregon State University as reported in Mo
 <p>Once download of the file <code>peat.sorted.bam</code> is complete, please move it to subdirectory &quot;PEATbam/&quot;.
 Since there is only a single experiment, setting the sample IDs is simple:</p>
 
-<pre><code class="r">initializeExp(expTitle=&quot;Arabidopsis PEAT dataset&quot;, experimentName=&quot;At_PEAT&quot;, expDir=&quot;PEATbam/&quot;,
+<pre><code class="r">initializeExp(expTitle=&quot;Arabidopsis PEAT dataset&quot;, experimentName=&quot;At_PEAT&quot;,
 isPairedEnd=TRUE)
 
 setSampleID(experimentName=At_PEAT, sample.names=c(&quot;experiment1&quot;),
@@ -455,7 +455,7 @@ replicate.IDs=c(1))
 
 <p>Now we import the alignment file to our tssObject and convert the data to TSS coordinates:</p>
 
-<pre><code class="r">importBam(At_PEAT)
+<pre><code class="r">importBam(experimentName=At_PEAT, expDir=&quot;PEATbam/&quot;)
 
 bamToTSS(At_PEAT)
 </code></pre>

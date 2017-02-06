@@ -106,7 +106,7 @@ Next we'll create the dedicated S4 object---called the tssObject---on which TSRc
 
 ```{r eval=FALSE}
 initializeExp(expTitle ="Human RAMPAGE", experimentName="Hs_RAMPAGE", /
-expDir="HsRAMPAGEbam/", isPairedEnd=TRUE) 
+isPairedEnd=TRUE) 
 ls()
 ```
 
@@ -131,7 +131,7 @@ Now that we have completed the above commands, we can proceed with importing the
 This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. 
 
 ```{r eval=FALSE}
-importBam(experimentName=Hs_RAMPAGE)
+importBam(experimentName=Hs_RAMPAGE, expDir="HsRAMPAGEbam/"
 ```
 You will receive a message on your console when all four files have been imported:
 
@@ -315,7 +315,7 @@ Once download of the file `peat.sorted.bam` is complete, please move it to subdi
 Since there is only a single experiment, setting the sample IDs is simple:
 
 ```{r eval=FALSE}
-initializeExp(expTitle="Arabidopsis PEAT dataset", experimentName="At_PEAT", expDir="PEATbam/",
+initializeExp(expTitle="Arabidopsis PEAT dataset", experimentName="At_PEAT",
 isPairedEnd=TRUE)
 
 setSampleID(experimentName=At_PEAT, sample.names=c("experiment1"),
@@ -325,7 +325,7 @@ replicate.IDs=c(1))
 Now we import the alignment file to our tssObject and convert the data to TSS coordinates:
 
 ```{r eval=FALSE}
-importBam(At_PEAT)
+importBam(experimentName=At_PEAT, expDir="PEATbam/")
 
 bamToTSS(At_PEAT)
 ```

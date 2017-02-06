@@ -7,10 +7,20 @@ setMethod("show",
               cat("############## TSRchitect ##################\n")
               cat("     S4 Object of Class 'tssObject'\n")
               cat("############################################\n\n")
-              cat("Title of experiment:", object@title,"\n\n")
-              cat("The TSS data were specified to be \"", object@dataType,
-                  "\"\n")
-              if (length(object@fileNames) > 0) {
+              if (is.na(object@title)==FALSE) {
+                  cat("Title of experiment:", object@title,"\n\n")
+              }
+              else {
+                  cat("No experiment title has been added.\n\n")
+              }
+              if (is.na(object@dataType)==FALSE) {
+                  cat("The TSS data were specified to be \"",
+                      object@dataType, "\"\n")
+              }
+              else {
+                  cat("The TSS data type has not been specified.\n")
+              }
+              if (is.na(object@fileNames)==FALSE) {
                   cat("and originate in the following files:\n")
                   for (i in 1:length(object@fileNames)) {
                       cat(paste(object@fileNames[i]), sep="\n")
@@ -18,16 +28,16 @@ setMethod("show",
                   cat("\n")
               }
               else {
-                  cat("\nNo *.bam files were found. Please check. \n")
+                  cat("\nNo *.bam files have been added. \n")
               }
-              if (length(object@sampleNames) > 0) {
-                  cat("The names of the datasets are:\n")
+              if (is.na(object@sampleNames)==FALSE) {
+                  cat("\nThe names of the datasets are:\n")
                   for (i in 1:length(object@fileNames)) {
                       cat(paste(object@sampleNames[i]), sep="\n")
                   }
               }
               else {
-                  cat("\nDataset names have not been provided \n")
+                  cat("\nDataset names have not been provided.\n")
               }
               if (length(object@tssTagData) > 0) {
                   object.name <- as.character(deparse(substitute(object)))
