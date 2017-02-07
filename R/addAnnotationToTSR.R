@@ -44,8 +44,8 @@
 #' featureColumnID="ID", writeTable=FALSE)
 #' #if the object attached to @@annotation is a gff/gff3 file
 #' 
-#' @note An example similar to the this one can be found in \emph{Example 1}
-#' from the vignette (/inst/doc/TSRchitect.Rmd)
+#' @note An example similar to the this one can be found
+#' in the vignette (/inst/doc/TSRchitect.Rmd)
 #' 
 #' @export
 

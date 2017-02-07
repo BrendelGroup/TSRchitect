@@ -50,8 +50,8 @@ with a given gene, if found upstream and on the same strand within
 a specified range.
 }
 \note{
-An example similar to the this one can be found in \emph{Example 1}
-from the vignette (/inst/doc/TSRchitect.Rmd)
+An example similar to the this one can be found
+in the vignette (/inst/doc/TSRchitect.Rmd)
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",

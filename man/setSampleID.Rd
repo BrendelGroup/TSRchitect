@@ -11,10 +11,7 @@ setSampleID(experimentName, sample.names, replicate.IDs)
 contains information about the experiment.}
 
 \item{sample.names}{unique labels of class character for each TSS sample
-within the experiment.
-Please note that \code{importBam} attaches .bam data in ascending
-alphanumeric order, so \emph{sample.names} must be arranged in this order
-also so that they directly correspond to the intended file.}
+within the experiment.}
 
 \item{replicate.IDs}{identifiers indicating which samples are biological
 replicates. As with \emph{sample.names}, note that \code{importBam} imports
@@ -30,8 +27,10 @@ to your \emph{tssObject} object.
 for experimental samples in a \emph{tssObject} S4 object.
 }
 \note{
-An example similar to the one provided can be found in
-\emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+Please note that \code{importBam} attaches .bam data in ascending
+alphanumeric order, so \emph{sample.names} must be arranged in such
+a way that they directly correspond to the intended file.
+This order can be specified using \code{\link{getFileNames}}
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",

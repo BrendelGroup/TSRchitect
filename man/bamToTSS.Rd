@@ -20,8 +20,7 @@ attached .bam file in a tssObject object
 }
 \note{
 An example similar to the one provided can be
-found in \emph{Example 1} from the vignette
-(/inst/doc/TSRchitect.Rmd).
+found in the vignette (/inst/doc/TSRchitect.Rmd).
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",

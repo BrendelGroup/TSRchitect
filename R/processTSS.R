@@ -22,7 +22,7 @@
 #' @note Note that the \emph{tssSet} parameter must be of class
 #' \emph{character}, even when selecting an individual dataset.
 #' @note An example similar to the one provided can be found in
-#' \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
+#' the vignette (/inst/doc/TSRchitect.Rmd).
 #' 
 #' @export
 

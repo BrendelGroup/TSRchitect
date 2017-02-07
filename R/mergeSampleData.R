@@ -17,7 +17,7 @@
 #' mergeSampleData(experimentName=tssObjectExample)
 #' 
 #' @note An example similar to the one provided can be found in
-#' \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
+#' the vignette (/inst/doc/TSRchitect.Rmd).
 #' @export
 
 setGeneric(
