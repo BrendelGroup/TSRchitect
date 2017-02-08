@@ -1,7 +1,7 @@
 Package: TSRchitect
 Version: 0.99.2
-Date: 2017-02-2
-Title: Promoter identification from diverse types of large-scale TSS profiling data
+Date: 2017-02-08
+Title: Promoter identification from large-scale TSS profiling data
 Description: In recent years, large-scale transcriptional sequence data has
     yielded considerable insights into the nature of gene expression and regulation
     in eukaryotes. Techniques that identify the 5' end of mRNAs, most notably CAGE,
@@ -13,9 +13,9 @@ Description: In recent years, large-scale transcriptional sequence data has
     data types, including both single-end (e.g. CAGE) as well as paired-end (RAMPAGE, PEAT).
     Along with the coordiantes of identified TSRs, TSRchitect also calculates the width,
     abundance and Shape Index, and handles biological replicates for expression profiling.
-    Finally, TSRchitect imports annotation files, allowing the user to associate identified promoters
-    with genes and other genomic features. Three detailed examples of TSRchitect's utility are provided
-    in the vignette, included with this package.
+    Finally, TSRchitect imports annotation files, allowing the user to associate identified 
+    promoters with genes and other genomic features. Three detailed examples of TSRchitect's
+    utility are provided in the User's Guide, included with this package.
 Authors@R: c(person("R. Taylor","Raborn",email="rtraborn@indiana.edu",role=c("aut","cre", "cph")),
   person("Volker","Brendel",email="vbrendel@indiana.edu",role=c("aut","cph")))
 Author: R. Taylor Raborn [aut, cre, cph]
