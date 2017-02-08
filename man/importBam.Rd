@@ -36,7 +36,7 @@ retrieved and written in ascending alphanumeric order to the
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",
 package="TSRchitect"))
-extdata.dir <- system.file("extdata", package="TSRchitect")
+extdata.dir <- system.file("extdata", package="TSRchitect"
 full.names=TRUE)
 importBam(experimentName=tssObjectExample, expDir=extdata.dir)
 
