@@ -27,17 +27,15 @@ from the local directory supplied.
 }
 \note{
 An example similar to the one provided can be found in
-\emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
+the vignette (/inst/doc/TSRchitect.Rmd).
 
 All .bam files found in \emph{expDir} will be
 retrieved and written in ascending alphanumeric order to the
 \emph{@fileNames} slot on the \emph{tssObject} that is created.
 }
 \examples{
-load(system.file("extdata", "tssObjectExample.RData",
-package="TSRchitect"))
-extdata.dir <- system.file("extdata", package="TSRchitect",
-full.names=TRUE)
+load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+extdata.dir <- system.file("extdata", package="TSRchitect", full.names=TRUE)
 importBam(experimentName=tssObjectExample, expDir=extdata.dir)
 
 }
