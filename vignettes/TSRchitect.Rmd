@@ -12,7 +12,7 @@ vignette: >
 ## R. Taylor Raborn and Volker P. Brendel
 ## Department of Biology, Indiana University
 
-### February 10, 2017
+### February 13, 2017
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 TSRchitect can handle TSS profiling experiments that contain either single-end or paired-end sequence reads, such as CAGE, RAMPAGE, PEAT and others. TSRchitect is an open-source bioinformatics package that is intended to support large-scale, reproducible analysis of TSS profiling data in a broad array of eukaryotic model systems.
@@ -40,7 +40,7 @@ In doing this, we provide sample names and identify our replicate names using `s
 We do this in the following manner:
 
 ```{r eval=TRUE}
-initializeExp(expTitle = "Vignette Example", experimentName= "tssObjectExample", /
+initializeExp(expTitle = "Vignette Example", experimentName= "tssObjectExample", 
 isPairedEnd=TRUE)
 
 extdata.dir <- system.file("extdata", package="TSRchitect") 
@@ -70,16 +70,16 @@ Now that this is complete  we can we proceed with identifing TSRs from TSSs.
 We do this for each of the 4 datasets we imported.
 
 ```{r eval=TRUE}
-determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", /
+determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", 
 tssSet="1", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
 
-determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", /
+determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", 
 tssSet="2", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
 
-determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", /
+determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", 
 tssSet="3", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
 
-determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", /
+determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", 
 tssSet="4", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
 ```
 
@@ -88,10 +88,10 @@ Next we merge our replicate data (according to the information we provided in `s
 ```{r eval=TRUE}
 mergeSampleData(experimentName=tssObjectExample)
 
-determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="merged", /
+determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="merged", 
 tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
 
-addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1, /
+addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1, 
 tagCountThreshold=25, writeTable=FALSE)
 ```
 
