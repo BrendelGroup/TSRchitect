@@ -29,7 +29,7 @@ setMethod("detTSR",
           function(experimentName, tsrSetType, tssSet,
                    tagCountThreshold=1, clustDist) {
 
-             message("... detTSR ...")
+             #message("... detTSR ...")
              if (tsrSetType=="replicates") {
                  if (tssSet>length(experimentName@tssCountData)) {
                      stop("The value selected for tssSet exceeds /

@@ -40,8 +40,7 @@ In doing this, we provide sample names and identify our replicate names using `s
 We do this in the following manner:
 
 ```{r eval=TRUE}
-initializeExp(expTitle = "Vignette Example",
-experimentName= "tssObjectExample",
+initializeExp(expTitle = "Vignette Example", experimentName= "tssObjectExample", /
 isPairedEnd=TRUE)
 
 extdata.dir <- system.file("extdata", package="TSRchitect") 
@@ -71,19 +70,17 @@ Now that this is complete  we can we proceed with identifing TSRs from TSSs.
 We do this for each of the 4 datasets we imported.
 
 ```{r eval=TRUE}
-determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", tssSet="1",
+determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", /
+tssSet="1", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
 
-tagCountThreshold=25, clustDist=20,
-writeTable=FALSE)
+determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", /
+tssSet="2", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
 
-determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", tssSet="2",
-tagCountThreshold=25, clustDist=20, writeTable=FALSE)
+determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", /
+tssSet="3", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
 
-determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", tssSet="3",
-tagCountThreshold=25, clustDist=20, writeTable=FALSE)
-
-determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", tssSet="4", tagCountThreshold=25, clustDist=20, 
-writeTable=FALSE)
+determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="replicates", /
+tssSet="4", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
 ```
 
 Next we merge our replicate data (according to the information we provided in `setSampleID`) and identify TSRs on these merged samples. We then use `addTagCountsToTSR` to quantify the number of tags found in each of our 4 datasets.
@@ -91,10 +88,10 @@ Next we merge our replicate data (according to the information we provided in `s
 ```{r eval=TRUE}
 mergeSampleData(experimentName=tssObjectExample)
 
-determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="merged",
+determineTSR(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tsrSetType="merged", /
 tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
 
-addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1,
+addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1, /
 tagCountThreshold=25, writeTable=FALSE)
 ```
 
