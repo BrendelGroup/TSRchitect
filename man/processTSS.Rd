@@ -4,19 +4,22 @@
 \alias{processTSS}
 \title{\strong{processTSS}}
 \usage{
-processTSS(experimentName, parallel, tssSet, writeTable = FALSE)
+processTSS(experimentName, parallel, n.cores, tssSet, writeTable)
 }
 \arguments{
 \item{experimentName}{an S4 object of class \emph{tssObject} containing
 information in slot \emph{@tssTagData}}
 
-\item{parallel}{whether to run in parallel or not (logical)}
+\item{parallel}{if TRUE, the job will be run in parallel (logical)}
 
-\item{tssSet}{default is "all"; for specific use, specify \emph{tssSet}
-number (as character)}
+\item{n.cores}{the number of cores to be used for this job.
+Ignored if 'parallel=FALSE' (numeric)}
+
+\item{tssSet}{default is "all"; to select a single \emph{tssSet},
+specify it (as character)}
 
 \item{writeTable}{specifies whether the output should be written
-to a table. (logical)}
+to a file. (logical)}
 }
 \value{
 Creates a list of \linkS4class{GenomicRanges} containing TSS
@@ -36,8 +39,8 @@ the vignette (/inst/doc/TSRchitect.Rmd).
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",
 package="TSRchitect"))
-processTSS(experimentName=tssObjectExample, parallel=FALSE, tssSet="all",
-writeTable=FALSE)
+processTSS(experimentName=tssObjectExample, parallel=FALSE, n.cores=1,
+tssSet="all", writeTable=FALSE)
 
 }
 

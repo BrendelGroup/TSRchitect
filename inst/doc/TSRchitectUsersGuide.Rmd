@@ -144,7 +144,8 @@ bamToTSS(experimentName=Hs_RAMPAGE)
 Next we will calculate the abundance of each tag in our TSS datasets.
 
 ```{r eval=FALSE}
-processTSS(experimentName=Hs_RAMPAGE, parallel=TRUE, tssSet="all", writeTable=TRUE)
+processTSS(experimentName=Hs_RAMPAGE, parallel=TRUE, n.cores = 4, tssSet="all", /
+writeTable=TRUE)
 ```
 
 Since we specified 'writeTable=TRUE', files (entitled "TSSset-1.txt" to "TSSset-4.txt") containing TSS abundance will be written into your working directory. 
@@ -155,8 +156,9 @@ The option `clustDist` is critical for the identification of TSRs and refers to 
 As with the previous step, we select 'writeTable=TRUE', and therefore we will find the output files ("TSRset-1" to "TSRset-4") written to the working directory.
 
 ```{r eval=FALSE}
-determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, tsrSetType = "replicates", /
-tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
+determineTSR(experimentName = Hs_RAMPAGE, parallel = TRUE, n.cores = 4, /
+tsrSetType = "replicates", tssSet="all", tagCountThreshold=25, clustDist=20, /
+writeTable=TRUE)
 ```
 
 To calculate TSRs from each sample (as opposed to each replicate) we need to combine our replicate data. This will be done using the identifiers we specified on our tssObject S4 object using the function initializeExp().
@@ -170,8 +172,9 @@ We specify this with 'tsrSetType="merged"'.
 
 ```{r eval=FALSE}
 #Generating the TSRs for the merged datasets:
-determineTSR(experimentName=Hs_RAMPAGE, parallel=TRUE, tsrSetType="merged", /
-tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)
+determineTSR(experimentName=Hs_RAMPAGE, parallel=TRUE, n.cores = 4, /
+tsrSetType="merged", tssSet="all", tagCountThreshold=40, clustDist=20, /
+writeTable=TRUE)
 ```
 
 ```{r eval=FALSE}
@@ -333,9 +336,11 @@ bamToTSS(At_PEAT)
 As in the previous example, now we can calculate the tag abundance at each location using `processTSS` and the identify TSRs within the sample using `determineTSR`. Note that we do not need to use `mergeSampleData` because there is only a single sample.
 
 ```{r eval=FALSE}
-processTSS(experimentName=At_PEAT, parallel=FALSE, tssSet="all", writeTable=TRUE)
-determineTSR(experimentName=At_PEAT, parallel=FALSE, tsrSetType="replicates", tssSet="all", 
-tagCountThreshold=25, clustDist=20, writeTable=TRUE)
+processTSS(experimentName=At_PEAT, parallel=FALSE, n.cores=1, tssSet="all", /
+writeTable=TRUE)
+
+determineTSR(experimentName=At_PEAT, parallel=FALSE, n.cores=1, tsrSetType="replicates", /
+tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
 ```
 
 ### Associating identified TSRs with gene annotations
@@ -440,12 +445,14 @@ Next we must calculate the CAGE tag abundance at each TSS position, followed by 
 
 ```{r eval=FALSE}
 #Constructing the tag count per TSS data matrix:
-processTSS(experimentName=CAGEhuman, parallel=TRUE, tssSet="all", writeTable=TRUE)
+processTSS(experimentName=CAGEhuman, parallel=TRUE, n.cores = 4, tssSet="all", /
+writeTable=TRUE)
 ```
 ```{r eval=FALSE}
 #Finding TSRs for the replicate datasets:
-determineTSR(experimentName=CAGEhuman, parallel=TRUE, tsrSetType="replicates", /
-tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
+determineTSR(experimentName=CAGEhuman, parallel=TRUE, n.cores = 4, /
+tsrSetType="replicates", tssSet="all", tagCountThreshold=25, /
+clustDist=20, writeTable=TRUE)
 ```
 
 Now we merge data from replicates into their two corresponding samples.
@@ -459,8 +466,10 @@ Once this is complete, we can complete TSR identification on the merged samples.
 
 ```{r eval=FALSE}
 #Finding TSRs for the merged samples and adding tag counts:
-determineTSR(experimentName=CAGEhuman, parallel=TRUE, tsrSetType="merged", /
-tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE) 
+determineTSR(experimentName=CAGEhuman, parallel=TRUE, n.cores = 4, /
+tsrSetType="merged", tssSet="all", tagCountThreshold=40, /
+clustDist=20, writeTable=TRUE)
+
 addTagCountsToTSR(experimentName=CAGEhuman, tsrSetType="merged", tsrSet=3, /
 tagCountThreshold=40, writeTable=TRUE)
 ```

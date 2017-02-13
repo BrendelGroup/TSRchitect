@@ -4,14 +4,17 @@
 \alias{determineTSR}
 \title{\strong{determineTSR}}
 \usage{
-determineTSR(experimentName, parallel, tsrSetType, tssSet, tagCountThreshold,
-  clustDist, writeTable = FALSE)
+determineTSR(experimentName, parallel, n.cores, tsrSetType, tssSet,
+  tagCountThreshold, clustDist, writeTable = FALSE)
 }
 \arguments{
 \item{experimentName}{an object of class \emph{tssObject}
 containing information in slot \emph{@tssTagData}}
 
 \item{parallel}{if TRUE, the analysis is run in parallel (logical)}
+
+\item{n.cores}{the number of cores to be used for this job.
+Ignored if 'parallel=FALSE' (numeric)}
 
 \item{tsrSetType}{specifies the set to be clustered.
 Options are "replicates" or "merged". (character)}
@@ -43,7 +46,7 @@ An example similar to this one can be found in the vignette
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 determineTSR(experimentName=tssObjectExample, parallel=FALSE,
-tsrSetType="replicates", tssSet="1", tagCountThreshold=25,
+n.cores=1, tsrSetType="replicates", tssSet="1", tagCountThreshold=25,
 clustDist=20, writeTable=FALSE)
 
 }

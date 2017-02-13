@@ -83,8 +83,8 @@ setMethod("mergeSampleData",
               my.df -> exp.list[[i+1]]
 
               experimentName@tssCountDataMerged <- exp.list
-              cat("\n... the TSS expression data has been successfully merged /
-                    and added to\ntssObject object \"", object.name, "\"\n")
+              cat("\n... the TSS expression data has been successfully merged",
+                    "and added to\ntssObject object \"", object.name, "\"\n")
               cat("--------------------------------------------------------\n")
               assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
