@@ -36,7 +36,7 @@ setGeneric(
     def=function(experimentName, expDir) {
         standardGeneric("importBam")
     }
-    )
+   )
 
 setMethod("importBam",
           signature(experimentName="tssObject", expDir = "character"),

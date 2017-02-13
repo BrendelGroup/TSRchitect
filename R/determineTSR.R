@@ -5,6 +5,8 @@
 #' @param experimentName an object of class \emph{tssObject}
 #' containing information in slot \emph{@@tssTagData}
 #' @param parallel if TRUE, the analysis is run in parallel (logical)
+#' @param n.cores the number of cores to be used for this job.
+#' Ignored if 'parallel=FALSE' (numeric)
 #' @param tsrSetType specifies the set to be clustered.
 #' Options are "replicates" or "merged". (character)
 #' @param tssSet default is "all"; if a single TSS dataset is desired,
@@ -16,13 +18,15 @@
 #' @param writeTable specifies whether the output should
 #' be written to a table. (logical)
 #'
+#' @importFrom BiocParallel bplapply MulticoreParam
+#'
 #' @return creates a list of \linkS4class{GenomicRanges}-containing
 #' TSR positions in slot \emph{@@tsrData} on the \emph{tssObject} object
 #'  
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' determineTSR(experimentName=tssObjectExample, parallel=FALSE,
-#' tsrSetType="replicates", tssSet="1", tagCountThreshold=25,
+#' n.cores=1, tsrSetType="replicates", tssSet="1", tagCountThreshold=25,
 #' clustDist=20, writeTable=FALSE)
 #' 
 #' @note An example similar to this one can be found in the vignette
@@ -32,18 +36,20 @@
 
 setGeneric(
            name="determineTSR",
-    def=function(experimentName, parallel, tsrSetType, tssSet,
+    def=function(experimentName, parallel, n.cores, tsrSetType, tssSet,
         tagCountThreshold, clustDist, writeTable=FALSE) {
                standardGeneric("determineTSR")
     }
     )
 
 setMethod("determineTSR",
-          signature(experimentName="tssObject", "logical", "character",
-                    "character", "numeric", "numeric", "logical"),
+          signature(experimentName="tssObject", "logical", "numeric",
+                    "character", "character", "numeric", "numeric",
+                    "logical"),
 
-          function(experimentName, parallel=TRUE, tsrSetType, tssSet="all",
-                   tagCountThreshold=1, clustDist=20, writeTable=FALSE) {
+          function(experimentName, parallel=FALSE, n.cores=1, tsrSetType,
+                   tssSet="all", tagCountThreshold=1, clustDist=20,
+                   writeTable=FALSE) {
              object.name <- deparse(substitute(experimentName))
 
              message("... determineTSR ...")
@@ -51,21 +57,23 @@ setMethod("determineTSR",
                  if (tssSet=="all") {
                      iend <- length(experimentName@tssCountData)
                      if (parallel==TRUE) {
-                         experimentName@tsrData <- foreach(i=1:iend,
-                                      .packages="TSRchitect") %dopar% 
-                                                      detTSR(experimentName =
-                                                      experimentName,
-                                                      tsrSetType="replicates",
-                                                      tssSet=i, 
-                                                      tagCountThreshold,
-                                                      clustDist)
+                         multicoreParam <- MulticoreParam(workers=n.cores)
+                         FUN  <- function(x) {
+                                    detTSR(experimentName=experimentName,
+                                    tssSetType="replicates",
+                                    tssSet=x,
+                                    tagCountThreshold,
+                                    clustDist)       
+                                    }
+                         experimentName@tsrData <- bplapply(1:iend, FUN)
                          if (writeTable=="TRUE") {
-                             foreach(i=1:iend,.packages="TSRchitect") %dopar%
+                            for (i in 1:iend) {                            
                                  writeTSR(experimentName = experimentName,
                                  tsrSetType="replicates",
                                  tsrSet=i,
                                  fileType="tab")
-                         }
+                             }
+                        }
                      }
                      else {
                          for (i in 1:iend) {
@@ -109,21 +117,23 @@ setMethod("determineTSR",
                  if (tssSet=="all") {
                      iend <- length(experimentName@tssCountDataMerged)
                      if (parallel==TRUE) {
-                         experimentName@tsrDataMerged <-
-                             foreach(i=1:iend,.packages="TSRchitect") %dopar%
-                                 detTSR(experimentName =
-                                 experimentName,
-                                 tsrSetType="merged",
-                                 tssSet=i,
-                                 tagCountThreshold,
-                                 clustDist)
+                         multicoreParam <- MulticoreParam(workers=n.cores)
+                         FUN  <- function(x) {
+                                    detTSR(experimentName=experimentName,
+                                    tssSetType="replicates",
+                                    tssSet=x,
+                                    tagCountThreshold,
+                                    clustDist)       
+                                    }
+                         experimentName@tsrDataMerged <- bplapply(1:iend, FUN)
                          if (writeTable=="TRUE") {
-                             foreach(i=1:iend,.packages="TSRchitect") %dopar%
+                             for (i in 1:iend) {
                                  writeTSR(experimentName =
                                  experimentName,
                                  tsrSetType="merged",
                                  tsrSet=i,
                                  fileType="tab")
+                             }
                          }
                      }
                      else {
