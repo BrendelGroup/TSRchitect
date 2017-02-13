@@ -90,18 +90,6 @@ Now that we have our input and annotation files prepared, we can load TSRchitect
 library(TSRchitect)
 ```
 
-To implement parallelization, we'll need to set up a cluster of nodes first (here we use 4 nodes as we have 4 .bam files). Using parallelization will substantially speed up processing.
-
-```{r eval=FALSE}
-#loading the doParallel package, which is requried for parallel processing
-library(doParallel) 
-```
-
-```{r eval=FALSE}
-mycl <- makeCluster(4,type="FORK",outfile="")
-registerDoParallel(mycl)
-```
-
 Next we'll create the dedicated S4 object---called the tssObject---on which TSRchitect's functions will be performed.
 
 ```{r eval=FALSE}
@@ -175,11 +163,6 @@ We specify this with 'tsrSetType="merged"'.
 determineTSR(experimentName=Hs_RAMPAGE, parallel=TRUE, n.cores = 4, /
 tsrSetType="merged", tssSet="all", tagCountThreshold=40, clustDist=20, /
 writeTable=TRUE)
-```
-
-```{r eval=FALSE}
-#Ending the parallel session we set up earlier in the vignette:
-stopCluster(mycl)
 ```
 
 Now calculating the number of tags from each experiment within the combined set of TSRs:
@@ -432,15 +415,6 @@ importBam(experimentName=CAGEhuman)
 bamToTSS(experimentName=CAGEhuman)
 ```
 
-As we did in our first example, we need to set up a parallel instance as follows:
-
-```{r eval=FALSE}
-#Setting up a parallel instance:
-library(doParallel)
-mycl <- makeCluster(4,type="FORK",outfile="")
-registerDoParallel(mycl)
-```
-
 Next we must calculate the CAGE tag abundance at each TSS position, followed by identification of TSRs within our 4 replicate datasets.
 
 ```{r eval=FALSE}
@@ -472,11 +446,6 @@ clustDist=20, writeTable=TRUE)
 
 addTagCountsToTSR(experimentName=CAGEhuman, tsrSetType="merged", tsrSet=3, /
 tagCountThreshold=40, writeTable=TRUE)
-```
-
-```{r eval=FALSE}
-#Ending the parallel session we set up earlier in the vignette:
-stopCluster(mycl)
 ```
 
 Now we need to import the annotation file and attach it to our tssObj S4 object. To do this, we will to use the same record (Gencode v. 23) that we referred to in Example 1.

@@ -245,16 +245,6 @@ cd ..
 library(TSRchitect)
 </code></pre>
 
-<p>To implement parallelization, we&#39;ll need to set up a cluster of nodes first (here we use 4 nodes as we have 4 .bam files). Using parallelization will substantially speed up processing.</p>
-
-<pre><code class="r">#loading the doParallel package, which is requried for parallel processing
-library(doParallel) 
-</code></pre>
-
-<pre><code class="r">mycl &lt;- makeCluster(4,type=&quot;FORK&quot;,outfile=&quot;&quot;)
-registerDoParallel(mycl)
-</code></pre>
-
 <p>Next we&#39;ll create the dedicated S4 object---called the tssObject---on which TSRchitect&#39;s functions will be performed.</p>
 
 <pre><code class="r">initializeExp(expTitle =&quot;Human RAMPAGE&quot;, experimentName=&quot;Hs_RAMPAGE&quot;, /
@@ -320,10 +310,6 @@ We specify this with &#39;tsrSetType=&quot;merged&quot;&#39;.</p>
 determineTSR(experimentName=Hs_RAMPAGE, parallel=TRUE, n.cores = 4, /
 tsrSetType=&quot;merged&quot;, tssSet=&quot;all&quot;, tagCountThreshold=40, clustDist=20, /
 writeTable=TRUE)
-</code></pre>
-
-<pre><code class="r">#Ending the parallel session we set up earlier in the vignette:
-stopCluster(mycl)
 </code></pre>
 
 <p>Now calculating the number of tags from each experiment within the combined set of TSRs:</p>
@@ -552,14 +538,6 @@ importBam(experimentName=CAGEhuman)
 bamToTSS(experimentName=CAGEhuman)
 </code></pre>
 
-<p>As we did in our first example, we need to set up a parallel instance as follows:</p>
-
-<pre><code class="r">#Setting up a parallel instance:
-library(doParallel)
-mycl &lt;- makeCluster(4,type=&quot;FORK&quot;,outfile=&quot;&quot;)
-registerDoParallel(mycl)
-</code></pre>
-
 <p>Next we must calculate the CAGE tag abundance at each TSS position, followed by identification of TSRs within our 4 replicate datasets.</p>
 
 <pre><code class="r">#Constructing the tag count per TSS data matrix:
@@ -588,10 +566,6 @@ clustDist=20, writeTable=TRUE)
 
 addTagCountsToTSR(experimentName=CAGEhuman, tsrSetType=&quot;merged&quot;, tsrSet=3, /
 tagCountThreshold=40, writeTable=TRUE)
-</code></pre>
-
-<pre><code class="r">#Ending the parallel session we set up earlier in the vignette:
-stopCluster(mycl)
 </code></pre>
 
 <p>Now we need to import the annotation file and attach it to our tssObj S4 object. To do this, we will to use the same record (Gencode v. 23) that we referred to in Example 1.</p>
