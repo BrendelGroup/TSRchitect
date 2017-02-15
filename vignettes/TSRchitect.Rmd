@@ -66,7 +66,7 @@ bamToTSS(experimentName=tssObjectExample)
 processTSS(experimentName=tssObjectExample, parallel=FALSE, n.cores=1, tssSet="all", writeTable=FALSE)
 ```
 
-Now that this is complete  we can we proceed with identifing TSRs from TSSs.
+Now that this is complete we can we proceed with identifing TSRs from TSSs.
 We do this for each of the 4 datasets we imported.
 
 ```{r eval=TRUE}
