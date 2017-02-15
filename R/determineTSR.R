@@ -131,7 +131,7 @@ setMethod("determineTSR",
                                  writeTSR(experimentName =
                                  experimentName,
                                  tsrSetType="merged",
-                                 tssSet=i,
+                                 tsrSet=i,
                                  fileType="tab")
                              }
                          }
@@ -147,7 +147,7 @@ setMethod("determineTSR",
                              if (writeTable=="TRUE") {
                                  writeTSR(experimentName = experimentName,
                                           tsrSetType="merged",
-                                          tssSet=i,
+                                          tsrSet=i,
                                           fileType="tab")
                              }
                          }
