@@ -64,21 +64,10 @@ setMethod("determineTSR",
                                     tssSet=x,
                                     tagCountThreshold,
                                     clustDist)       
-                                    }
-                         
-                         wFUN <- function(y) {
-                             writeTSR(experimentName = experimentName,
-                                      tsrSetType="replicates",
-                                      tsrSet=y,
-                                      fileType="tab")
-                         }
-                         experimentName@tsrData <- bplapply(1:iend, FUN)
-                         
+                                }
+                         experimentName@tsrData <- bplapply(1:iend, FUN)                         
                          if (writeTable=="TRUE") {
-                              #bplapply(1:iend, wFUN, BPPARAM = serialParam)
-                      #       bplapply(1:iend, wFUN)
                              for (i in 1:iend) {
-                                  print(i)
                                   writeTSR(experimentName = experimentName,
                                   tsrSetType="replicates",
                                   tsrSet=i,
