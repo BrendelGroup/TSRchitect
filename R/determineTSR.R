@@ -60,20 +60,20 @@ setMethod("determineTSR",
                          multicoreParam <- MulticoreParam(workers=n.cores)
                          FUN  <- function(x) {
                                     detTSR(experimentName=experimentName,
-                                    tssSetType="replicates",
+                                    tsrSetType="replicates",
                                     tssSet=x,
                                     tagCountThreshold,
                                     clustDist)       
-                                    }
-                         experimentName@tsrData <- bplapply(1:iend, FUN)
+                                }
+                         experimentName@tsrData <- bplapply(1:iend, FUN)                         
                          if (writeTable=="TRUE") {
-                            for (i in 1:iend) {                            
-                                 writeTSR(experimentName = experimentName,
-                                 tsrSetType="replicates",
-                                 tsrSet=i,
-                                 fileType="tab")
-                             }
-                        }
+                             for (i in 1:iend) {
+                                  writeTSR(experimentName = experimentName,
+                                  tsrSetType="replicates",
+                                  tsrSet=i,
+                                  fileType="tab")
+                              }
+                          }
                      }
                      else {
                          for (i in 1:iend) {
@@ -91,7 +91,7 @@ setMethod("determineTSR",
                              }
                          }
                      }
-                 }
+             }
                  else {
                      i <- as.numeric(tssSet)
                      if (i>length(experimentName@tssCountData)) {
@@ -111,16 +111,16 @@ setMethod("determineTSR",
                                   fileType="tab")
                      }
                  }
-             }
+         }
 
-             else if (tsrSetType=="merged") {
+           else if (tsrSetType=="merged") {
                  if (tssSet=="all") {
                      iend <- length(experimentName@tssCountDataMerged)
                      if (parallel==TRUE) {
                          multicoreParam <- MulticoreParam(workers=n.cores)
                          FUN  <- function(x) {
                                     detTSR(experimentName=experimentName,
-                                    tssSetType="replicates",
+                                    tsrSetType="replicates",
                                     tssSet=x,
                                     tagCountThreshold,
                                     clustDist)       
@@ -162,7 +162,7 @@ setMethod("determineTSR",
                      experimentName@tsrDataMerged[[i]] <-
                          detTSR(experimentName = experimentName,
                                 tsrSetType="merged",
-                                tssSet=i,
+                                tsrSet=i,
                                 tagCountThreshold,
                                 clustDist)
                      if (writeTable=="TRUE") {
