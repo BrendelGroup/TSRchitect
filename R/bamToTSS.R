@@ -37,8 +37,8 @@ setMethod("bamToTSS",
 
               message("... bamToTSS ...")
               if (length(experimentName@bamData) == 0) {
-                  stop("@bamData is empty.\n\n /
-                       Please load files to your tssObject.")
+                  stop("@bamData is empty.\n\n",
+                       "Please load alignment files to your tssObject.")
               }
               else {
                   cat("\nBeginning .bam read alignment", 

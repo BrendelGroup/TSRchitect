@@ -55,7 +55,7 @@ setMethod("importBam",
               }
 
               experimentName@fileNames <- tss_files
-              message("\nLinks to .bam files have been assigned...\n")
+              message("\nPaths to .bam files have been assigned...\n")
               
               if(exp.type=="pairedEnd") {
                   message("\nImporting paired-end reads ...\n")
