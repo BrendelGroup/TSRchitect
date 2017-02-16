@@ -48,8 +48,8 @@ setMethod("addTagCountsToTSR",
              message("... addTagCountsToTSR ...")
              if (tsrSetType=="replicates") {
                  if (tsrSet>length(experimentName@tsrData)) {
-                     stop("The value selected for tsrSet exceeds the /
-number of slots in tsrData.")
+                     stop("The value selected for tsrSet exceeds the ",
+                           "number of slots in tsrData.")
                  }
                  outfname <- paste("TSRset-", tsrSet, sep="")
                  outfname <- paste(outfname, "txt", sep=".")
@@ -60,12 +60,12 @@ number of slots in tsrData.")
              }
              else if (tsrSetType=="merged") {
                  if (length(experimentName@tsrDataMerged)<1) {
-                     stop("The @tsrDataMerged slot is currently empty./
- Please complete the merger before continuing.")
+                     stop("The @tsrDataMerged slot is currently empty.",
+                          "Please complete the merger before continuing.")
                  }
                  if (tsrSet>length(experimentName@tsrDataMerged)) {
-                     stop("The value selected for tsrSet exceeds the /
- number of slots in tsrDataMerged.")
+                     stop("The value selected for tsrSet exceeds the ",
+                          "number of slots in tsrDataMerged.")
                  }
                  if (tsrSet<length(experimentName@tssCountDataMerged)) {
                      outfname <- paste("TSRsetMerged-", tsrSet, sep="")
@@ -76,14 +76,15 @@ number of slots in tsrData.")
                  }
                  else { # "combined" case
                      outfname <- "TSRsetCombined.txt"
-                     message("\nThe combined TSR set derived from all samples /
-has been written to file ", outfname, "\nin your working directory.")
+                     message("\nThe combined TSR set derived from all samples ",
+                             "has been written to file ", outfname,
+                             "\nin your working directory.")
                  }
                  tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
              }
              else {
-                 stop("Error: argument tsrSetType to addTagCountsToTSR() /
-should be either \"replicates\" or \"merged\".")
+                 stop("Error: argument tsrSetType to addTagCountsToTSR() ",
+                      "should be either \"replicates\" or \"merged\".")
              }
 
 #Now we determine the TSS tag counts within the

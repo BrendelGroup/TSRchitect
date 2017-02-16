@@ -44,8 +44,8 @@ setMethod("writeTSR",
              message("... writeTSR ...")
              if (tsrSetType=="replicates") {
                  if (tsrSet>length(experimentName@tsrData)) {
-                     stop("The value selected for tsrSet exceeds the / 
-                          number of slots in tsrData.")
+                     stop("The value selected for tsrSet exceeds the",
+                          "number of slots in tsrData.")
                  }
                  outfname <- paste("TSRset-", tsrSet, sep="")
                  if (fileType == "tab") {
@@ -55,8 +55,8 @@ setMethod("writeTSR",
                      outfname <- paste(outfname, "bed", sep=".")
                  }
                  else {
-                     stop("Unknown fileType selected for writeTSR. /
-                          Please check.")
+                     stop("Unknown fileType selected for writeTSR.",
+                          "Please check.")
                  }
                  message("\nThe TSR set for TSS dataset ", tsrSet,
                          " has been written to file ",
@@ -65,12 +65,12 @@ setMethod("writeTSR",
              }
              else if (tsrSetType=="merged") {
                  if (length(experimentName@tsrDataMerged)<1) {
-                     stop("The @tsrDataMerged slot is currently empty. /
-                           Please complete the merger before continuing.")
+                     stop("The @tsrDataMerged slot is currently empty.",
+                           "Please complete the merger before continuing.")
                  }
                  if (tsrSet>length(experimentName@tsrDataMerged)) {
-                     stop("The value selected for tsrSet exceeds the /
-                           number of slots in tsrDataMerged.")
+                     stop("The value selected for tsrSet exceeds the",
+                           "number of slots in tsrDataMerged.")
                  }
                  if (tsrSet<length(experimentName@tssCountDataMerged)) {
                      outfname <- paste("TSRsetMerged-", tsrSet, sep="")
@@ -81,8 +81,8 @@ setMethod("writeTSR",
                          outfname <- paste(outfname, "bed", sep=".")
                      }
                      else {
-                         stop("Unknown fileType selected for writeTSR. /
-                              Please check.")
+                         stop("Unknown fileType selected for writeTSR.",
+                              "Please check.")
                      }
                      message("\nThe merged TSR set for TSS dataset ", tsrSet,
                      " has been written to file ", outfname,
@@ -99,15 +99,15 @@ setMethod("writeTSR",
                          stop("Unknown fileType selected for writeTSR.
                          Please check.")
                      }
-                     message("\nThe combined TSR set derived from all samples /
-                             has been written to file ", outfname,
+                     message("\nThe combined TSR set derived from all samples",
+                             "has been written to file ", outfname,
                              "\nin your working directory.")
                  }
                  tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
              }
              else {
-                 stop("Error: argument tsrSetType to writeTSR() should be /
-                      either \"replicates\" or \"merged\".")
+                 stop("Error: argument tsrSetType to writeTSR() should be",
+                      "either \"replicates\" or \"merged\".")
              }
 
              if (fileType == "tab") {

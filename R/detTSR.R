@@ -1,5 +1,5 @@
 #' detTSR
-#' Finds TSRs from a given sequence
+#' Finds TSRs from a given sequence (Internal function)
 #'
 #' @param experimentName - a S4 object of class tssObject containing
 #' information in slot tssTagData
@@ -32,25 +32,25 @@ setMethod("detTSR",
              #message("... detTSR ...")
              if (tsrSetType=="replicates") {
                  if (tssSet>length(experimentName@tssCountData)) {
-                     stop("The value selected for tssSet exceeds /
- the number of slots in tssCountData.")
+                     stop("The value selected for tssSet exceeds ",
+                          "the number of slots in tssCountData.")
                  }
                  tss.df <- experimentName@tssCountData[[tssSet]]
              }
              else if (tsrSetType=="merged") {
                  if (length(experimentName@tssCountDataMerged)<1) {
-                     stop("The @tssCountDataMerged slot is currently empty. /
- Please complete the merger before continuing.")
+                     stop("The @tssCountDataMerged slot is currently empty.",
+                          "\nPlease complete the merger before continuing.")
                  }
                  if (tssSet>length(experimentName@tssCountData)) {
-                     stop("The value selected for tssSet exceeds the number /
- of slots in tssCountDataMerged.")
+                     stop("The value selected for tssSet exceeds the number ",
+                          "of slots in tssCountDataMerged.")
                  }
                  tss.df <- experimentName@tssCountDataMerged[[tssSet]]
              }
              else {
-                 stop("Error: argument tsrSetType to detTSR() should be /
- either \"replicates\" or \"merged\".")
+                 stop("Error: argument tsrSetType to detTSR() should be ",
+                      "either \"replicates\" or \"merged\".")
              }
 
              tsr.list <- tsrCluster(tss.df, minNbrTSSs=tagCountThreshold,

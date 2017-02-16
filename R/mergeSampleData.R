@@ -34,21 +34,21 @@ setMethod("mergeSampleData",
 
               message("... mergeSampleData ...")
               if (length(experimentName@tssCountData)==0) {
-                  stop("\nThe slot @tssCountData is empty. / 
-                       Please run processTSS before proceeding with /
-                       this command.\n")
+                  stop("\nThe slot @tssCountData is empty.",
+                       "Please run processTSS before proceeding with",
+                       "this command.\n")
               }
 
               if (length(experimentName@sampleNames) < 1) {
-                  stop("\nThe slot @sampleNames on your tssObject /
-                       object is empty. Please add sampleNames to /
-                       the object.\n")
+                  stop("\nThe slot @sampleNames on your tssObject",
+                       "object is empty. Please add sampleNames to",
+                       "the object.\n")
               }
 
               if (length(experimentName@replicateIDs) < 1) {
-                  stop("\nThe slot @replicateIDs on your tssObject /
-                       object is empty. /
-                       Please add replicateIDs to the object.\n")
+                  stop("\nThe slot @replicateIDs on your tssObject",
+                       "object is empty.\n",
+                       "Please add replicateIDs to the object.\n")
               }
 
               rep.ids <- experimentName@replicateIDs

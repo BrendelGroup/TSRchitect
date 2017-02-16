@@ -70,8 +70,8 @@ setMethod("addAnnotationToTSR",
              message("... addAnnotationToTSR ...")
              if (tsrSetType=="replicates") {
                  if (tsrSet>length(experimentName@tsrData)) {
-                     stop("The value selected for tsrSet exceeds the number /
- of slots in tsrData.")
+                     stop("The value selected for tsrSet exceeds the number ",
+                          "of slots in tsrData.")
                  }
                  outfname <- paste("TSRset-", tsrSet, sep="")
                  outfname <- paste(outfname, "txt", sep=".")
@@ -82,37 +82,39 @@ setMethod("addAnnotationToTSR",
              }
              else if (tsrSetType=="merged") {
                  if (length(experimentName@tsrDataMerged)<1) {
-                     stop("The @tsrDataMerged slot is currently empty./
- Please complete the merger before continuing.")
+                     stop("The @tsrDataMerged slot is currently empty.\n",
+                         "Please complete the merger before continuing.")
                  }
                  if (tsrSet>length(experimentName@tsrDataMerged)) {
-                     stop("The value selected for tsrSet exceeds the /
- number of slots in tsrDataMerged.")
+                     stop("The value selected for tsrSet exceeds the ",
+                          "number of slots in tsrDataMerged.")
                  }
                  if (tsrSet<length(experimentName@tssCountDataMerged)) {
                      outfname <- paste("TSRsetMerged-", tsrSet, sep="")
                      outfname <- paste(outfname, "txt", sep=".")
                      message("\nThe merged TSR set for TSS dataset ",
                              tsrSet, " has been written to file ", outfname,
-                             "\nin your working directory.")
+                             "in your working directory.")
                  }
                  else { # "combined" case
                      outfname <- "TSRsetCombined.txt"
-                     message("\nThe combined TSR set derived from all samples /
- has been written to file ", outfname, "\nin your working directory.")
+                     message("\nThe combined TSR set derived from all samples ",
+                             "has been written to file ", outfname,
+                             "in your working directory.")
                  }
                  tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
              }
              else {
-                 stop("Error: argument tsrSetType to addAnnotationToTSR() /
-should be either \"replicates\" or \"merged\".")
+                 stop("Error: argument tsrSetType to addAnnotationToTSR()",
+                      "should be either \"replicates\" or \"merged\".")
              }
 
 # ... loading the annotion GRange object and pulling out what we want:
              allAnnotation <- experimentName@annotation
              if (length(allAnnotation)<1) {
-                 stop("No annotation has been loaded to the tssObject./
- \nPlease import an annotation prior to using addAnnotationToTSR.")
+                 stop("No annotation has been loaded to the tssObject.",
+                      "\n\nPlease import an annotation prior to using ",
+                      "addAnnotationToTSR.")
              }
 # ... pulling out the selected feature from the annotation GRanges
 # object (if the required, GFF3-standard, "type" column exists):
@@ -164,8 +166,8 @@ should be either \"replicates\" or \"merged\".")
              if (writeTable=="TRUE") {
                  write.table(tsr.df, file=outfname, col.names=NA, 
 row.names=TRUE, sep="\t", quote=FALSE)
-                 message("\nThe updated TSR data have been written to /
- file ", outfname, "\nin your working directory.")
+                 message("\nThe updated TSR data have been written to ",
+                         "file ", outfname, "in your working directory.")
              }
              #Update the record:
              if (tsrSetType=="replicates") {
@@ -175,8 +177,8 @@ row.names=TRUE, sep="\t", quote=FALSE)
                  tsr.df -> experimentName@tsrDataMerged[[tsrSet]]
              }
              
-             cat("Done. GeneIDs have been associated with adjacent TSRs /
- and the data frame has been re-assigned to its slot.\n")
+             cat("Done. GeneIDs have been associated with adjacent TSRs ",
+                 "and the data frame has been re-assigned to its slot.\n")
              cat("--------------------------------------------------------\n")
              assign(object.name, experimentName, envir = parent.frame())
              message(" Done.\n")
