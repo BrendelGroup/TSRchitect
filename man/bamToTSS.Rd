@@ -10,16 +10,21 @@ bamToTSS(experimentName)
 \item{experimentName}{an S4 object of class tssObject with bam files loaded}
 }
 \value{
-creates a list of TSSs in class \linkS4class{GRanges} for each .bam file contained within \emph{experimentName} and places them in the \emph{tssObject}.
+creates a list of TSSs in class \linkS4class{GRanges} for each
+.bam file contained within \emph{experimentName} and places them in
+the \emph{tssObject}.
 }
 \description{
-\code{bamToTSS} extracts TSS information from each attached .bam file in a tssObject object
+\code{bamToTSS} extracts TSS information from each
+attached .bam file in a tssObject object
 }
 \note{
-An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
+An example similar to the one provided can be
+found in the vignette (/inst/doc/TSRchitect.Rmd).
 }
 \examples{
-load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+load(system.file("extdata", "tssObjectExample.RData",
+package="TSRchitect"))
 bamToTSS(experimentName=tssObjectExample)
 
 }
