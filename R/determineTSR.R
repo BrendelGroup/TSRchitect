@@ -162,7 +162,7 @@ setMethod("determineTSR",
                      experimentName@tsrDataMerged[[i]] <-
                          detTSR(experimentName = experimentName,
                                 tsrSetType="merged",
-                                tsrSet=i,
+                                tssSet=i,
                                 tagCountThreshold,
                                 clustDist)
                      if (writeTable=="TRUE") {
