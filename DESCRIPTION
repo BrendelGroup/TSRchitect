@@ -5,33 +5,48 @@ Title: Promoter identification from large-scale TSS profiling data
 Description: In recent years, large-scale transcriptional sequence data has
     yielded considerable insights into the nature of gene expression and regulation
     in eukaryotes. Techniques that identify the 5' end of mRNAs, most notably CAGE,
-    have mapped the promoter landscape across a number of model organisms.
-    Due to the variability of TSS distributions and the transcriptional noise present
-    in datasets, precisely identifying the active promoter(s) for genes from these datasets
-    is not straightforward. TSRchitect allows the user to efficiently identify the putative
-    promoter (the transcription start region, or TSR) from a variety of TSS profiling
-    data types, including both single-end (e.g. CAGE) as well as paired-end (RAMPAGE, PEAT).
-    Along with the coordiantes of identified TSRs, TSRchitect also calculates the width,
-    abundance and Shape Index, and handles biological replicates for expression profiling.
-    Finally, TSRchitect imports annotation files, allowing the user to associate identified 
-    promoters with genes and other genomic features. Three detailed examples of TSRchitect's
+    have mapped the promoter landscape across a number of model organisms. Due to
+    the variability of TSS distributions and the transcriptional noise present in
+    datasets, precisely identifying the active promoter(s) for genes from these
+    datasets is not straightforward. TSRchitect allows the user to efficiently
+    identify the putative promoter (the transcription start region, or TSR) from a
+    variety of TSS profiling data types, including both single-end (e.g. CAGE) as
+    well as paired-end (RAMPAGE, PEAT). Along with the coordiantes of identified
+    TSRs, TSRchitect also calculates the width, abundance and Shape Index, and
+    handles biological replicates for expression profiling. Finally, TSRchitect
+    imports annotation files, allowing the user to associate identified promoters
+    with genes and other genomic features. Three detailed examples of TSRchitect's
     utility are provided in the User's Guide, included with this package.
 Authors@R: c(person("R. Taylor","Raborn",email="rtraborn@indiana.edu",role=c("aut","cre", "cph")),
              person("Volker","Brendel",email="vbrendel@indiana.edu",role=c("aut","cph")))
 Author: R. Taylor Raborn [aut, cre, cph]
-	Volker P. Brendel [aut, cph]
+    Volker P. Brendel [aut, cph]
 Maintainer: R. Taylor Raborn <rtraborn@indiana.edu>
-Depends: R (>= 3.3.0)
-Imports: AnnotationHub, BiocGenerics, BiocParallel, GenomicAlignments, GenomeInfoDb,
-         GenomicRanges, gtools, IRanges, methods, Rsamtools (>= 1.14.3),
-         rtracklayer, stats, utils
+Depends:
+    R (>= 3.3.0)
+Imports:
+    AnnotationHub,
+    BiocGenerics,
+    BiocParallel,
+    GenomicAlignments,
+    GenomeInfoDb,
+    GenomicRanges,
+    gtools,
+    IRanges,
+    methods,
+    Rsamtools (>= 1.14.3),
+    rtracklayer,
+    utils
 License: GPL-3
 URL: https://github.com/brendelgroup/tsrchitect
 BugReports: https://github.com/brendelgroup/tsrchitect/issues
-Suggests: ENCODExplorer, knitr, rmarkdown
+Suggests:
+    ENCODExplorer,
+    knitr,
+    rmarkdown
 biocViews: Clustering, FunctionalGenomics, GeneExpression,
-        GeneRegulation, GenomeAnnotation, Sequencing, Transcription
+    GeneRegulation, GenomeAnnotation, Sequencing, Transcription
 VignetteBuilder: knitr
-RoxygenNote: 6.0.0
+RoxygenNote: 5.0.1
 NeedsCompilation: no
 Packaged: 2017-01-18 15:20:28 UTC; rtraborn
