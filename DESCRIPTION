@@ -32,6 +32,6 @@ Suggests: ENCODExplorer, knitr, rmarkdown
 biocViews: Clustering, FunctionalGenomics, GeneExpression,
         GeneRegulation, GenomeAnnotation, Sequencing, Transcription
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.0
 NeedsCompilation: no
 Packaged: 2017-01-18 15:20:28 UTC; rtraborn

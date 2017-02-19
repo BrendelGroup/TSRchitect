@@ -62,4 +62,3 @@ featureColumnID="ID", writeTable=FALSE)
 #if the object attached to @annotation is a gff/gff3 file
 
 }
-

@@ -24,4 +24,3 @@ that is written to the user's working environment.
 \code{initializeExp} creates an initialized tssObject
 in the user's workspace
 }
-
