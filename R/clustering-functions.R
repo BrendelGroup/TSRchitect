@@ -1,24 +1,24 @@
 #' @title tssChr
 #' @description Retrieves tss data from a given experiment by sequence.
-#' 
+#'
 #' @param tssObj an object of class \linkS4class{GRanges} containing data
 #' from a slot of \emph{tssTagData}
 #' @param seqName the name of the sequence to select
 #'
 #' @keywords internal
-#' 
+#'
 #' @return generates a list containing TSS data for a single sequence
 #' (plus and minus strands)
-#' 
-#' @importFrom BiocGenerics strand start
+#'
+#' @importFrom BiocGenerics strand start unique
 #' @importFrom GenomeInfoDb seqnames
+#' @importFrom methods new
 
-setGeneric(
-           name="tssChr",
-           def=function(tssObj, seqName) {
-               standardGeneric("tssChr")
-    }
-    )
+
+setGeneric("tssChr",
+           function(tssObj, seqName)
+           standardGeneric("tssChr")
+)
 
 setMethod("tssChr",
           signature(tssObj="GRanges", seqName="character"),
@@ -45,27 +45,27 @@ setMethod("tssChr",
           }
           )
 
-##############################################################################
 
+################################################################################
 #' @title acquireTSS
 #' @description Retrieves all tss data from a given TSS experiment.
-#' 
+#'
 #' @param experimentName an S4 object of class tssObject
 #' containing the tss data
 #' @param tssSet the slot number of the tss data to be clustered
 #'
 #' @keywords internal
-#' 
+#'
 #' @return a list object containing TSS data from the entire dataset
-#' 
+#'
+#' @importFrom BiocGenerics unique
 #' @importFrom gtools mixedsort
 
-setGeneric(
-           name="acquireTSS",
-           def=function(experimentName, tssSet) {
-               standardGeneric("acquireTSS")
-    }
-    )
+
+setGeneric("acquireTSS",
+    function(experimentName, tssSet)
+    standardGeneric("acquireTSS")
+)
 
 setMethod("acquireTSS",
           signature(experimentName="tssObject", tssSet="numeric"),
@@ -93,15 +93,18 @@ setMethod("acquireTSS",
          }
          )
 
-###########################################################################
+
+################################################################################
 #' tagCountTSS
 #' @description Returns a matrix [a, h] where a = the number of unique TSSs
 #' and h = the # of tags observed at that position
-#' 
+#'
+#' @importFrom BiocGenerics unique
 #' @importFrom gtools mixedsort
 #' @importFrom utils write.table
 #'
 #' @keywords internal
+
 
 tagCountTSS <- function(x, outfname="TSS.txt", writeDF=FALSE) {
         n.seq <- length(names(x)) # how many sequences are in the TSS list?
@@ -139,12 +142,14 @@ tagCountTSS <- function(x, outfname="TSS.txt", writeDF=FALSE) {
                 }
                 k + 1 -> k
                 c(this.seq, this.TSS, "+", n.TSSs) -> my.matrix.p[k,]
-                my.matrix <- rbind(my.matrix,my.matrix.p)	#adding the plus strand matrix of this.seq to the overall matrix
+# ... adding the plus strand matrix of this.seq to the overall matrix:
+                my.matrix <- rbind(my.matrix,my.matrix.p)
             }
 
             #now for the minus strand:
             tss.vec <- x[[i]]$minus
-            if (length(tss.vec) > 3) {	# ... no point continuing when there are almost no TSS tags
+            if (length(tss.vec) > 3) {
+# ... no point continuing when there are almost no TSS tags
                 my.TSSs <- unique(tss.vec)
                 my.matrix.m <- matrix(NA, nrow=(length(my.TSSs)), ncol=4)
 
@@ -164,7 +169,8 @@ tagCountTSS <- function(x, outfname="TSS.txt", writeDF=FALSE) {
                 }
                 k + 1 -> k
                 c(this.seq, this.TSS, "-", n.TSSs) -> my.matrix.m[k,]
-                my.matrix <- rbind(my.matrix,my.matrix.m)	#adding the minus strand matrix of this.seq to the overall matrix
+# ... adding the minus strand matrix of this.seq to the overall matrix:
+                my.matrix <- rbind(my.matrix,my.matrix.m)
             }
         }
         colnames(my.matrix) <- c("seq","TSS","strand","nTSSs")
@@ -175,21 +181,25 @@ tagCountTSS <- function(x, outfname="TSS.txt", writeDF=FALSE) {
         my.df$nTSSs <- as.numeric(as.character(my.df$nTSSs))
 
         if (writeDF==TRUE) {
-            write.table(my.df, outfname, quote=FALSE, col.names=TRUE, row.names=FALSE, sep="\t")
-            message("\nThe TSS dataset has been written to file ", outfname, "\nin your working directory.")
+            write.table(my.df, outfname, quote=FALSE, col.names=TRUE,
+			row.names=FALSE, sep="\t")
+            message("\nThe TSS dataset has been written to file ", outfname,
+		    "\nin your working directory.")
         }
 
         return(my.df)
         }
 
 
-##############################################################################################
+################################################################################
 #' @title tsrCluster
 #' @description Partitions, then clusters tss data by sequence.
 #'
 #' @keywords internal
-#' 
-#' @return A list of TSRs from the data frame generated by \code{\link{tagCountTSS}}
+#'
+#' @return A list of TSRs from the data frame generated by
+#' \code{\link{tagCountTSS}}
+
 
 tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
      tss.df <- x

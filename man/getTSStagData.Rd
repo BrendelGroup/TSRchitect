@@ -16,13 +16,13 @@ getTSStagData(experimentName, slot)
 the contents of the specified slot "tssTagData" are returned
 }
 \description{
-an accessor function that retrieves the contents of 
+an accessor function that retrieves the contents of
 a specified slot "tssTagData" from a given \emph{tssObject}
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",
 package="TSRchitect"))
-example.tssTagData <- getTSStagData(experimentName=tssObjectExample, slot = 1)
+example.tssTagData <- getTSStagData(experimentName=tssObjectExample, slot=1)
 example.tssTagData
 
 }

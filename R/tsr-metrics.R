@@ -55,7 +55,7 @@ tsrWidth <- function(x) {
 #' of a given TSR from the output of tsrCluster
 #'
 #' @keywords internal
-#' 
+#'
 #' @return Calculates the shape index (SI) for a given TSR
 
 shapeIndex <- function(x) {
