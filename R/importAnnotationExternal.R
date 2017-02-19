@@ -8,7 +8,7 @@
 #' @param fileType - the format of the annotation file to be imported.
 #' Must be one of: "bed", "gff" or "gff3".
 #' @param annotFile - a path (full or relative) to the annotation
-#' file to be imported. 
+#' file to be imported.
 #'
 #' @return fills the slot \emph{@@annotation} in the \emph{tssObject}
 #' with a \linkS4class{GRanges} object contining a parsed annotation
@@ -35,12 +35,11 @@
 #'
 #' @export
 
-setGeneric(
-    name="importAnnotationExternal",
-    def=function(experimentName, fileType, annotFile) {
-        standardGeneric("importAnnotationExternal")
-    }
-    )
+
+setGeneric("importAnnotationExternal",
+    function(experimentName, fileType, annotFile)
+    standardGeneric("importAnnotationExternal")
+)
 
 setMethod("importAnnotationExternal",
           signature(experimentName="tssObject", fileType="character",
@@ -60,9 +59,9 @@ setMethod("importAnnotationExternal",
               if (fileType=="gff3") {
                   import.gff3(annotFile) -> experimentName@annotation
                   }
-              cat("Done. Annotation data has been attached to",
+              cat("Done. Annotation data have been attached to",
                   "tssObject\nobject \"", object.name, "\".\n")
-              cat("-------------------------------------------------------\n")
+              cat("---------------------------------------------------------\n")
               assign(object.name, experimentName, parent.frame())
               message(" Done.\n")
           }

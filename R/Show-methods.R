@@ -63,21 +63,21 @@ setMethod("show",
                   cat("\nTSS replicate datasets have not been merged.\n")
               }
              if (length(object@tsrData) > 0) {
-                  object.name <- as.character(deparse(substitute(object)))
-                  cat("\nTSRs have been identified from",
-                      length(object@tsrData), "replicate datasets. \n")
+                 object.name <- as.character(deparse(substitute(object)))
+                 cat("\nTSRs have been identified from",
+                     length(object@tsrData), "replicate datasets. \n")
               }
              else {
                  cat("\nTSRs have not been identified from replicate",
                     "datasets. \n")
              }
              if (length(object@tsrDataMerged) > 0) {
-                  object.name <- as.character(deparse(substitute(object)))
-                  cat("\nTSRs have been identified from", 
-                      length(object@tsrDataMerged), "merged datasets. \n")
+                 object.name <- as.character(deparse(substitute(object)))
+                 cat("\nTSRs have been identified from",
+                     length(object@tsrDataMerged), "merged datasets. \n")
               }
              else {
-                 cat("\nTSRs have not been identified from", 
+                 cat("\nTSRs have not been identified from",
                      "merged datasets.\n")
              }
           }

@@ -1,12 +1,11 @@
 #' @title \strong{determineTSR}
 #' @description \code{determineTSR} Identifies TSRs from
 #' entire TSS datasets as specified.
-#' 
+#'
 #' @param experimentName an object of class \emph{tssObject}
 #' containing information in slot \emph{@@tssTagData}
-#' @param parallel if TRUE, the analysis is run in parallel (logical)
 #' @param n.cores the number of cores to be used for this job.
-#' Ignored if 'parallel=FALSE' (numeric)
+#' ncores=1 means serial execution of function calls (numeric)
 #' @param tsrSetType specifies the set to be clustered.
 #' Options are "replicates" or "merged". (character)
 #' @param tssSet default is "all"; if a single TSS dataset is desired,
@@ -22,164 +21,161 @@
 #'
 #' @return creates a list of \linkS4class{GenomicRanges}-containing
 #' TSR positions in slot \emph{@@tsrData} on the \emph{tssObject} object
-#'  
+#'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
-#' determineTSR(experimentName=tssObjectExample, parallel=FALSE,
-#' n.cores=1, tsrSetType="replicates", tssSet="1", tagCountThreshold=25,
-#' clustDist=20, writeTable=FALSE)
-#' 
+#' determineTSR(experimentName=tssObjectExample, n.cores=1,
+#' tsrSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20,
+#' writeTable=FALSE)
+#'
 #' @note An example similar to this one can be found in the vignette
 #' (/inst/doc/TSRchitect.Rmd)
 
 #' @export
 
-setGeneric(
-           name="determineTSR",
-    def=function(experimentName, parallel, n.cores, tsrSetType, tssSet,
-        tagCountThreshold, clustDist, writeTable=FALSE) {
-               standardGeneric("determineTSR")
-    }
-    )
+
+setGeneric("determineTSR",
+    function(experimentName, n.cores, tsrSetType, tssSet, tagCountThreshold,
+             clustDist, writeTable=FALSE)
+    standardGeneric("determineTSR")
+)
 
 setMethod("determineTSR",
-          signature(experimentName="tssObject", "logical", "numeric",
-                    "character", "character", "numeric", "numeric",
-                    "logical"),
+          signature(experimentName="tssObject", "numeric", "character",
+                    "character", "numeric", "numeric", "logical"),
 
-          function(experimentName, parallel=FALSE, n.cores=1, tsrSetType,
-                   tssSet="all", tagCountThreshold=1, clustDist=20,
-                   writeTable=FALSE) {
-             object.name <- deparse(substitute(experimentName))
+          function(experimentName, n.cores=1, tsrSetType, tssSet="all",
+                   tagCountThreshold=1, clustDist=20, writeTable=FALSE) {
+              object.name <- deparse(substitute(experimentName))
 
-             message("... determineTSR ...")
-             if (tsrSetType=="replicates") {
-                 if (tssSet=="all") {
-                     iend <- length(experimentName@tssCountData)
-                     if (parallel==TRUE) {
-                         multicoreParam <- MulticoreParam(workers=n.cores)
-                         FUN  <- function(x) {
-                                    detTSR(experimentName=experimentName,
-                                    tsrSetType="replicates",
-                                    tssSet=x,
-                                    tagCountThreshold,
-                                    clustDist)       
-                                }
-                         experimentName@tsrData <- bplapply(1:iend, FUN)                         
-                         if (writeTable=="TRUE") {
-                             for (i in 1:iend) {
+              message("... determineTSR ...")
+              if (tsrSetType=="replicates") {
+                  if (tssSet=="all") {
+                      iend <- length(experimentName@tssCountData)
+                      if (n.cores > 1) {
+                          multicoreParam <- MulticoreParam(workers=n.cores)
+                          FUN  <- function(x) {
+                                     detTSR(experimentName=experimentName,
+                                     tsrSetType="replicates",
+                                     tssSet=x,
+                                     tagCountThreshold,
+                                     clustDist)
+                                 }
+                          experimentName@tsrData <- bplapply(1:iend, FUN)
+                          if (writeTable=="TRUE") {
+                              for (i in 1:iend) {
+                                   writeTSR(experimentName = experimentName,
+                                   tsrSetType="replicates",
+                                   tsrSet=i,
+                                   fileType="tab")
+                               }
+                           }
+                      }
+                      else {
+                          for (i in 1:iend) {
+                              experimentName@tsrData[[i]] <-
+                                  detTSR(experimentName = experimentName,
+                                         tsrSetType="replicates",
+                                         tssSet=i,
+                                         tagCountThreshold,
+                                         clustDist)
+                              if (writeTable=="TRUE") {
                                   writeTSR(experimentName = experimentName,
-                                  tsrSetType="replicates",
+                                           tsrSetType="replicates",
+                                           tsrSet=i,
+                                           fileType="tab")
+                              }
+                          }
+                      }
+                  }
+                  else {
+                      i <- as.numeric(tssSet)
+                      if (i>length(experimentName@tssCountData)) {
+                          stop("The value selected for tssSet",
+                               "exceeds the number of slots in tssCountData.")
+                      }
+                      experimentName@tsrData[[i]] <-
+                          detTSR(experimentName = experimentName,
+                                 tsrSetType="replicates",
+                                 tssSet=i,
+                                 tagCountThreshold,
+                                 clustDist)
+                      if (writeTable=="TRUE") {
+                          writeTSR(experimentName = experimentName,
+                                   tsrSetType="replicates",
+                                   tsrSet=i,
+                                   fileType="tab")
+                      }
+                  }
+              }
+
+              else if (tsrSetType=="merged") {
+                  if (tssSet=="all") {
+                      iend <- length(experimentName@tssCountDataMerged)
+                      if (n.cores > 1) {
+                          multicoreParam <- MulticoreParam(workers=n.cores)
+                          FUN  <- function(x) {
+                                     detTSR(experimentName=experimentName,
+                                     tsrSetType="merged",
+                                     tssSet=x,
+                                     tagCountThreshold,
+                                     clustDist)
+                                     }
+                          experimentName@tsrDataMerged <- bplapply(1:iend, FUN)
+                          if (writeTable=="TRUE") {
+                              for (i in 1:iend) {
+                                  writeTSR(experimentName =
+                                  experimentName,
+                                  tsrSetType="merged",
                                   tsrSet=i,
                                   fileType="tab")
                               }
                           }
-                     }
-                     else {
-                         for (i in 1:iend) {
-                             experimentName@tsrData[[i]] <-
-                                 detTSR(experimentName = experimentName,
-                                        tsrSetType="replicates",
-                                        tssSet=i,
-                                        tagCountThreshold,
-                                        clustDist)
-                             if (writeTable=="TRUE") {
-                                 writeTSR(experimentName = experimentName,
-                                          tsrSetType="replicates",
-                                          tsrSet=i,
-                                          fileType="tab")
-                             }
-                         }
-                     }
-             }
-                 else {
-                     i <- as.numeric(tssSet)
-                     if (i>length(experimentName@tssCountData)) {
-                         stop("The value selected for tssSet",
-                              "exceeds the number of slots in tssCountData.")
-                     }
-                     experimentName@tsrData[[i]] <-
-                         detTSR(experimentName = experimentName,
-                                tsrSetType="replicates",
-                                tssSet=i,
-                                tagCountThreshold,
-                                clustDist)
-                     if (writeTable=="TRUE") {
-                         writeTSR(experimentName = experimentName,
-                                  tsrSetType="replicates",
-                                  tsrSet=i,
-                                  fileType="tab")
-                     }
-                 }
-         }
-
-           else if (tsrSetType=="merged") {
-                 if (tssSet=="all") {
-                     iend <- length(experimentName@tssCountDataMerged)
-                     if (parallel==TRUE) {
-                         multicoreParam <- MulticoreParam(workers=n.cores)
-                         FUN  <- function(x) {
-                                    detTSR(experimentName=experimentName,
-                                    tsrSetType="replicates",
-                                    tssSet=x,
-                                    tagCountThreshold,
-                                    clustDist)       
-                                    }
-                         experimentName@tsrDataMerged <- bplapply(1:iend, FUN)
-                         if (writeTable=="TRUE") {
-                             for (i in 1:iend) {
-                                 writeTSR(experimentName =
-                                 experimentName,
+                      }
+                      else {
+                          for (i in 1:iend) {
+                              experimentName@tsrDataMerged[[i]] <-
+                                  detTSR(experimentName = experimentName,
+                                         tsrSetType="merged",
+                                         tssSet=i,
+                                         tagCountThreshold,
+                                         clustDist)
+                              if (writeTable=="TRUE") {
+                                  writeTSR(experimentName = experimentName,
+                                           tsrSetType="merged",
+                                           tsrSet=i,
+                                           fileType="tab")
+                              }
+                          }
+                      }
+                  }
+                  else {
+                      i <- as.numeric(tssSet)
+                      if (i>length(experimentName@tssCountDataMerged)) {
+                          stop("The value selected for tssSet exceeds",
+                               "the number of slots in tssCountDataMerged.")
+                      }
+                      experimentName@tsrDataMerged[[i]] <-
+                          detTSR(experimentName = experimentName,
                                  tsrSetType="merged",
-                                 tsrSet=i,
-                                 fileType="tab")
-                             }
-                         }
-                     }
-                     else {
-                         for (i in 1:iend) {
-                             experimentName@tsrDataMerged[[i]] <-
-                                 detTSR(experimentName = experimentName,
-                                        tsrSetType="merged",
-                                        tssSet=i,
-                                        tagCountThreshold,
-                                        clustDist)
-                             if (writeTable=="TRUE") {
-                                 writeTSR(experimentName = experimentName,
-                                          tsrSetType="merged",
-                                          tsrSet=i,
-                                          fileType="tab")
-                             }
-                         }
-                     }
-                 }
-                 else {
-                     i <- as.numeric(tssSet)
-                     if (i>length(experimentName@tssCountDataMerged)) {
-                         stop("The value selected for tssSet exceeds",
-                              "the number of slots in tssCountDataMerged.")
-                     }
-                     experimentName@tsrDataMerged[[i]] <-
-                         detTSR(experimentName = experimentName,
-                                tsrSetType="merged",
-                                tssSet=i,
-                                tagCountThreshold,
-                                clustDist)
-                     if (writeTable=="TRUE") {
-                         writeTSR(experimentName = experimentName,
-                                  tsrSetType="merged",
-                                  tsrSet=i,
-                                  fileType="tab")
-                     }
-                 }
-             }
+                                 tssSet=i,
+                                 tagCountThreshold,
+                                 clustDist)
+                      if (writeTable=="TRUE") {
+                          writeTSR(experimentName = experimentName,
+                                   tsrSetType="merged",
+                                   tsrSet=i,
+                                   fileType="tab")
+                      }
+                  }
+              }
 
-             else {
-                 stop("Error: argument tsrSetType should be",
-                      "either \"replicates\" or \"merged\".")
-             }
-             cat("---------------------------------------------------------\n")
-             assign(object.name, experimentName, envir = parent.frame())
-             message(" Done.\n")
+              else {
+                  stop("Error: argument tsrSetType should be",
+                       "either \"replicates\" or \"merged\".")
+              }
+              cat("---------------------------------------------------------\n")
+              assign(object.name, experimentName, envir = parent.frame())
+              message(" Done.\n")
           }
           )

@@ -11,7 +11,7 @@
 #' @param species - 'character' the species identifier in AnnotationHub
 #' (e.g. 'human')
 #' @param annotID - 'character' the AnnotationHub identifier to be retrieved
-#' 
+#'
 #' @return fills the slot \emph{@@annotation} in the \emph{tssObject}
 #' with an AnnotationHub record. The record retrieved must be an object
 #' of class \linkS4class{GRanges}.
@@ -25,12 +25,11 @@
 #'
 #' @export
 
-setGeneric(
-    name="importAnnotationHub",
-    def=function(experimentName, provider, annotType, species, annotID) {
-        standardGeneric("importAnnotationHub")
-    }
-    )
+
+setGeneric("importAnnotationHub",
+    function(experimentName, provider, annotType, species, annotID)
+    standardGeneric("importAnnotationHub")
+)
 
 setMethod("importAnnotationHub",
           signature(experimentName="tssObject", provider="character",
@@ -52,9 +51,9 @@ setMethod("importAnnotationHub",
               else {
                   annot.object -> experimentName@annotation
               }
-              cat("Done. Annotation data has been attached to",
+              cat("Done. Annotation data have been attached to",
                   "tssObject\nobject \"", object.name, "\".\n")
-              cat("-------------------------------------------------------\n")
+              cat("---------------------------------------------------------\n")
               assign(object.name, experimentName, parent.frame())
               message(" Done.\n")
           }
