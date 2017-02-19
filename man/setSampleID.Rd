@@ -41,4 +41,3 @@ replicate.IDs=c(1,1,2,2))
 #experiments 1 & 2 and 3 & 4 are replicates of samples 1 and 2, respectively
 
 }
-

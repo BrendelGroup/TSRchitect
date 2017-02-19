@@ -50,4 +50,3 @@ n.cores=1, tsrSetType="replicates", tssSet="1", tagCountThreshold=25,
 clustDist=20, writeTable=FALSE)
 
 }
-

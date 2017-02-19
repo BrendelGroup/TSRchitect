@@ -42,4 +42,3 @@ addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged",
 tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
 
 }
-

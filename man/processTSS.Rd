@@ -43,4 +43,3 @@ processTSS(experimentName=tssObjectExample, parallel=FALSE, n.cores=1,
 tssSet="all", writeTable=FALSE)
 
 }
-
