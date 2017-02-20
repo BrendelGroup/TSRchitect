@@ -23,3 +23,4 @@ S4 constructor function for \emph{tssObject}
 new.tssObj <- tssObject(title="Example")
 
 }
+

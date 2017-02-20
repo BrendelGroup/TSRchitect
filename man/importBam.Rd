@@ -39,3 +39,4 @@ extdata.dir <- system.file("extdata", package="TSRchitect")
 importBam(experimentName=tssObjectExample, expDir=extdata.dir)
 
 }
+

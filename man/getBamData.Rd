@@ -27,3 +27,4 @@ example.bamData
 
 }
 \keyword{methods}
+
