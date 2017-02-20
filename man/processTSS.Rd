@@ -4,16 +4,14 @@
 \alias{processTSS}
 \title{\strong{processTSS}}
 \usage{
-processTSS(experimentName, parallel, n.cores, tssSet, writeTable)
+processTSS(experimentName, n.cores, tssSet, writeTable)
 }
 \arguments{
 \item{experimentName}{an S4 object of class \emph{tssObject} containing
 information in slot \emph{@tssTagData}}
 
-\item{parallel}{if TRUE, the job will be run in parallel (logical)}
-
 \item{n.cores}{the number of cores to be used for this job.
-Ignored if 'parallel=FALSE' (numeric)}
+n.cores=1 means serial execution of function calls (numeric)}
 
 \item{tssSet}{default is "all"; to select a single \emph{tssSet},
 specify it (as character)}
@@ -39,8 +37,8 @@ the vignette (/inst/doc/TSRchitect.Rmd).
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",
 package="TSRchitect"))
-processTSS(experimentName=tssObjectExample, parallel=FALSE, n.cores=1,
-tssSet="all", writeTable=FALSE)
+processTSS(experimentName=tssObjectExample, n.cores=1, tssSet="all",
+writeTable=FALSE)
 
 }
 

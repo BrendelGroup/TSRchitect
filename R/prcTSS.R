@@ -21,12 +21,11 @@
 #'
 #' @importFrom gtools mixedsort
 
-setGeneric(
-           name="prcTSS",
-           def=function(experimentName, tssSet, writeTable) {
-               standardGeneric("prcTSS")
-    }
-    )
+
+setGeneric("prcTSS",
+    function(experimentName, tssSet, writeTable)
+    standardGeneric("prcTSS")
+)
 
 setMethod("prcTSS",
           signature(experimentName="tssObject", "numeric", "logical"),
@@ -53,7 +52,7 @@ setMethod("prcTSS",
               cat("\n... the TSS expression matrix for dataset ", tssSet,
                   " has been successfully added to\ntssObject object \"",
                   object.name, "\"\n")
-              cat("---------------------------------------------------------_\n")
+              cat("---------------------------------------------------------\n")
               return(tss.df)
           }
           )

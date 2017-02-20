@@ -1,34 +1,34 @@
 #' @title \strong{bamToTSS}
 #' @description \code{bamToTSS} extracts TSS information from each
 #' attached .bam file in a tssObject object
-#' 
+#'
 #' @param experimentName an S4 object of class tssObject with bam files loaded
-#' 
+#'
 #' @return creates a list of TSSs in class \linkS4class{GRanges} for each
 #' .bam file contained within \emph{experimentName} and places them in
 #' the \emph{tssObject}.
-#' 
+#'
 #' @importFrom GenomicRanges granges GRanges GRangesList
 #' @importFrom BiocGenerics start end
 #' @importFrom GenomeInfoDb sortSeqlevels
 #' @importFrom IRanges IRanges
-#' 
+#' @importFrom methods as
+#'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
 #' bamToTSS(experimentName=tssObjectExample)
-#' 
+#'
 #' @note An example similar to the one provided can be
 #' found in the vignette (/inst/doc/TSRchitect.Rmd).
-#' 
+#'
 #' @export
 
-setGeneric(
-           name="bamToTSS",
-           def=function(experimentName) {
-               standardGeneric("bamToTSS")
-    }
-    )
+
+setGeneric("bamToTSS",
+    function(experimentName)
+    standardGeneric("bamToTSS")
+)
 
 setMethod("bamToTSS",
           signature(experimentName="tssObject"),
@@ -41,7 +41,7 @@ setMethod("bamToTSS",
                        "Please load alignment files to your tssObject.")
               }
               else {
-                  cat("\nBeginning .bam read alignment", 
+                  cat("\nBeginning .bam read alignment",
                       "to TSS data conversion ...\n\n")
               }
 
@@ -80,8 +80,8 @@ setMethod("bamToTSS",
               cat("Done. TSS data from ", bam.len, " separate bam files" ,
                   "have been successfully added to the \ntssObject \"",
                   object.name, "\".\n\n")
-              cat("-------------------------------------------------------\n")
+              cat("---------------------------------------------------------\n")
               assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
           }
-          )
+)

@@ -42,7 +42,9 @@ setClass(Class="tssObject",
 #' objects in the workspace. Set to NA by default.
 #'
 #' @return a new \emph{tssObject} is returned to the user's workspace.
-#' 
+#'
+#' @importFrom methods new
+#'
 #' @examples
 #' new.tssObj <- tssObject(title="Example")
 #'
@@ -63,4 +65,3 @@ tssObject <- function(title=NA, bamData=NA) {
     message("\nA new tssObject has been created in your workspace.\n")
     return(new.tssObj)
 }
-                      

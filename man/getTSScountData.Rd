@@ -20,7 +20,7 @@ the contents of the selected slot (either "tssCountData" or
 "tssCountDataMerged" are returned)
 }
 \description{
-an accessor function that retrieves the contents of 
+an accessor function that retrieves the contents of
 a specified slot "tssCountData"/"tssCountDataMerged" from a
 given \emph{tssObject}
 }

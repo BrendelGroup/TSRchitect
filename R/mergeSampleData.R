@@ -1,31 +1,30 @@
 #' @title \strong{mergeSampleData}
 #' @description \code{mergeSampleData} combines samples from multiple TSS
 #' experiments into a single \linkS4class{GRanges} object
-#' 
+#'
 #' @param experimentName an S4 object of class \emph{tssObject} that contains
 #' information about the experiment.
-#' 
+#'
 #' @return tssCountData datasets will be merged (according to the
 #' \emph{sampleIDs}) and assigned to your \emph{tssObject}.
-#' 
+#'
 #' @importFrom GenomicRanges as.data.frame
 #' @importFrom gtools mixedorder
-#' 
+#'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
 #' mergeSampleData(experimentName=tssObjectExample)
-#' 
+#'
 #' @note An example similar to the one provided can be found in
 #' the vignette (/inst/doc/TSRchitect.Rmd).
 #' @export
 
-setGeneric(
-    name="mergeSampleData",
-    def=function(experimentName) {
-        standardGeneric("mergeSampleData")
-    }
-    )
+
+setGeneric("mergeSampleData",
+    function(experimentName)
+    standardGeneric("mergeSampleData")
+)
 
 setMethod("mergeSampleData",
           signature(experimentName="tssObject"),
@@ -71,9 +70,9 @@ setMethod("mergeSampleData",
               }
 
 # The following few lines merge the merged tssCountData into the last
-# experimentName@tssCountDataMerged slot, representing the entire 
+# experimentName@tssCountDataMerged slot, representing the entire
 # collection of TSS tag counts in the experiment
- 
+
               data.frame() -> my.df
               for (i in seq_along(uni.ids)) {
                   rbind(my.df, exp.list[[i]]) -> my.df
@@ -83,9 +82,9 @@ setMethod("mergeSampleData",
               my.df -> exp.list[[i+1]]
 
               experimentName@tssCountDataMerged <- exp.list
-              cat("\n... the TSS expression data has been successfully merged",
+              cat("\n... the TSS expression data have been successfully merged",
                     "and added to\ntssObject object \"", object.name, "\"\n")
-              cat("--------------------------------------------------------\n")
+              cat("---------------------------------------------------------\n")
               assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
           }

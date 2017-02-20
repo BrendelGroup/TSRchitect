@@ -1,7 +1,7 @@
 #' @title \strong{bamToTSS}
 #' @description \code{bamToTSS} Sets names and replicate information
 #' for experimental samples in a \emph{tssObject} S4 object.
-#' 
+#'
 #' @param experimentName an S4 object of class \emph{tssObject} that
 #' contains information about the experiment.
 #' @param sample.names unique labels of class character for each TSS sample
@@ -10,10 +10,10 @@
 #' replicates. As with \emph{sample.names}, note that \code{importBam} imports
 #' bam data in ascending alphanumeric order, so replicate.IDs must be arranged
 #' in this order also so that they directly correspond to the intended file.
-#' 
+#'
 #' @return names and replicate information for experimental samples assigned
 #' to your \emph{tssObject} object.
-#' 
+#'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
@@ -21,21 +21,20 @@
 #' sample.names=c("sample1-rep1","sample1-rep2","sample2-rep1","sample2-rep2"),
 #' replicate.IDs=c(1,1,2,2))
 #' #experiments 1 & 2 and 3 & 4 are replicates of samples 1 and 2, respectively
-#' 
+#'
 #' @note
 #' Please note that \code{importBam} attaches .bam data in ascending
 #' alphanumeric order, so \emph{sample.names} must be arranged in such
 #' a way that they directly correspond to the intended file.
 #' This order can be specified using \code{\link{getFileNames}}
-#' 
+#'
 #' @export
 
-setGeneric(
-    name="setSampleID",
-    def=function(experimentName, sample.names, replicate.IDs) {
-        standardGeneric("setSampleID")
-    }
-    )
+
+setGeneric("setSampleID",
+    function(experimentName, sample.names, replicate.IDs)
+    standardGeneric("setSampleID")
+)
 
 setMethod("setSampleID",
           signature(experimentName="tssObject", sample.names="character",
@@ -65,7 +64,7 @@ setMethod("setSampleID",
               cat("\nNames and replicate IDs were successfully assigned",
                   "to tssObject\nobject \"", object.name, "\".\n\n")
 
-              cat("-----------------------------------------------------\n")
+              cat("---------------------------------------------------------\n")
               assign(object.name, experimentName, parent.frame())
               message(" Done.\n")
           }

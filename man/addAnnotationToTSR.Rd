@@ -55,7 +55,7 @@ in the vignette (/inst/doc/TSRchitect.Rmd)
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",
-package="TSRchitect"))   
+package="TSRchitect"))
 addAnnotationToTSR(experimentName=tssObjectExample, tsrSetType="merged",
 tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript",
 featureColumnID="ID", writeTable=FALSE)

@@ -13,8 +13,8 @@ getFileNames(experimentName)
 the contents of slot "fileNames" are returned
 }
 \description{
-an accessor function that retrieves the contents of slot "fileNames"
-from a given \emph{tssObject}
+an accessor function that retrieves the contents of slot
+"fileNames" from a given \emph{tssObject}
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",

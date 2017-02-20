@@ -15,8 +15,8 @@ Options are "replicates" or "merged". (character)}
 
 \item{tsrSet}{number of the dataset to be processed (numeric).}
 
-\item{fileType}{the format of the file to be written. 
-Possible choices are "tab" for tab-delimited output and 
+\item{fileType}{the format of the file to be written.
+Possible choices are "tab" for tab-delimited output and
 "bed" for BED format (character).}
 }
 \value{
@@ -29,7 +29,8 @@ from a specified data set to a file in either tab or BED formats
 }
 \note{
 The .bed file written adheres to the standard six-column BED format,
-while "tab" format is identical to that of the data.frames containing TSR data.
+while "tab" format is identical to that of the data.frames containing TSR
+data.
 
 For more information on the BED format, please visit
 https://genome.ucsc.edu/FAQ/FAQformat#format1
