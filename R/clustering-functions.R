@@ -1,18 +1,24 @@
-#' tssChr (internal function)
-#' Retreives tss data from a given experiment by sequence.
-#' @param tssObj an object of class GRanges containing data from a slot of tssTagData
+#' @title tssChr
+#' @description Retrieves tss data from a given experiment by sequence.
+#'
+#' @param tssObj an object of class \linkS4class{GRanges} containing data
+#' from a slot of \emph{tssTagData}
 #' @param seqName the name of the sequence to select
-#' @return a list object containing TSS data for a single sequence (plus and minus strands)
-#' @importFrom BiocGenerics strand start
+#'
+#' @keywords internal
+#'
+#' @return generates a list containing TSS data for a single sequence
+#' (plus and minus strands)
+#'
+#' @importFrom BiocGenerics strand start unique
 #' @importFrom GenomeInfoDb seqnames
-#' @export
+#' @importFrom methods new
 
-setGeneric(
-           name="tssChr",
-           def=function(tssObj, seqName) {
-               standardGeneric("tssChr")
-    }
-    )
+
+setGeneric("tssChr",
+           function(tssObj, seqName)
+           standardGeneric("tssChr")
+)
 
 setMethod("tssChr",
           signature(tssObj="GRanges", seqName="character"),
@@ -39,27 +45,33 @@ setMethod("tssChr",
           }
           )
 
-###############################################################################################
 
-#' acquireTSS
-#' Retrieves all tss data from a given TSS experiment.
-#' @param experimentName an object of class tssObject containing the tss data
+################################################################################
+#' @title acquireTSS
+#' @description Retrieves all tss data from a given TSS experiment.
+#'
+#' @param experimentName an S4 object of class tssObject
+#' containing the tss data
 #' @param tssSet the slot number of the tss data to be clustered
+#'
+#' @keywords internal
+#'
 #' @return a list object containing TSS data from the entire dataset
+#'
+#' @importFrom BiocGenerics unique
 #' @importFrom gtools mixedsort
-#' @export
 
-setGeneric(
-           name="acquireTSS",
-           def=function(experimentName, tssSet) {
-               standardGeneric("acquireTSS")
-    }
-    )
+
+setGeneric("acquireTSS",
+    function(experimentName, tssSet)
+    standardGeneric("acquireTSS")
+)
 
 setMethod("acquireTSS",
           signature(experimentName="tssObject", tssSet="numeric"),
           function(experimentName, tssSet) {
-              cat("\nAcquiring TSS data from sample tssSet = ", tssSet, " ...\n")
+              cat("\nAcquiring TSS data from sample tssSet = ",
+                  tssSet, " ...\n")
               tss.obj <- experimentName@tssTagData[[tssSet]]
               uni.seq <- as.character(unique(seqnames(tss.obj)))
               uni.seq <- mixedsort(uni.seq)
@@ -75,21 +87,27 @@ setMethod("acquireTSS",
               names(tss.list) <- uni.seq
               newtime <- Sys.time()
               elapsedtime <- newtime - oldtime
-              cat("Done with sample tssSet = ", tssSet, " after time: ",print(elapsedtime),".\n\n")
+              cat("Done with sample tssSet = ", tssSet,
+                  " after time: ",print(elapsedtime),".\n\n")
               return(tss.list)
          }
          )
 
-###############################################################################################
+
+################################################################################
 #' tagCountTSS
-#' Returns a matrix [a, h] where a = the number of unique TSSs and h = the # of tags observed at that position
+#' @description Returns a matrix [a, h] where a = the number of unique TSSs
+#' and h = the # of tags observed at that position
+#'
+#' @importFrom BiocGenerics unique
 #' @importFrom gtools mixedsort
 #' @importFrom utils write.table
-#' 
-#' @export
+#'
+#' @keywords internal
+
 
 tagCountTSS <- function(x, outfname="TSS.txt", writeDF=FALSE) {
-        n.seq <- length(names(x)) # how many sequences are there in the TSS list?
+        n.seq <- length(names(x)) # how many sequences are in the TSS list?
         uni.seq <- unique(names(x))
         uni.seq <- mixedsort(uni.seq)
 
@@ -97,13 +115,14 @@ tagCountTSS <- function(x, outfname="TSS.txt", writeDF=FALSE) {
         for (i in 1:n.seq) {
 #VB Note: Print a progress note on every 20th sequence; 20 should be a parameter
             if (i%%20 == 0) {
-                cat("... tagCountTSS running with sequence ", i, " of ", n.seq, " for TSS set ", outfname, "\n")
+                cat("... tagCountTSS running with sequence ", i,
+                    " of ", n.seq, " for TSS set ", outfname, "\n")
             }
             uni.seq[i] -> this.seq
 
             #starting with the plus strand:
             tss.vec <- x[[i]]$plus
-            if (length(tss.vec) > 3) {	# ... no point continuing when there are almost no TSS tags
+            if (length(tss.vec) > 3) {	#stop if there are nearly no tags
                 my.TSSs <- unique(tss.vec)
                 my.matrix.p <- matrix(NA, nrow=(length(my.TSSs)), ncol=4)
 
@@ -123,12 +142,14 @@ tagCountTSS <- function(x, outfname="TSS.txt", writeDF=FALSE) {
                 }
                 k + 1 -> k
                 c(this.seq, this.TSS, "+", n.TSSs) -> my.matrix.p[k,]
-                my.matrix <- rbind(my.matrix,my.matrix.p)	#adding the plus strand matrix of this.seq to the overall matrix
+# ... adding the plus strand matrix of this.seq to the overall matrix:
+                my.matrix <- rbind(my.matrix,my.matrix.p)
             }
 
             #now for the minus strand:
             tss.vec <- x[[i]]$minus
-            if (length(tss.vec) > 3) {	# ... no point continuing when there are almost no TSS tags
+            if (length(tss.vec) > 3) {
+# ... no point continuing when there are almost no TSS tags
                 my.TSSs <- unique(tss.vec)
                 my.matrix.m <- matrix(NA, nrow=(length(my.TSSs)), ncol=4)
 
@@ -148,7 +169,8 @@ tagCountTSS <- function(x, outfname="TSS.txt", writeDF=FALSE) {
                 }
                 k + 1 -> k
                 c(this.seq, this.TSS, "-", n.TSSs) -> my.matrix.m[k,]
-                my.matrix <- rbind(my.matrix,my.matrix.m)	#adding the minus strand matrix of this.seq to the overall matrix
+# ... adding the minus strand matrix of this.seq to the overall matrix:
+                my.matrix <- rbind(my.matrix,my.matrix.m)
             }
         }
         colnames(my.matrix) <- c("seq","TSS","strand","nTSSs")
@@ -159,19 +181,25 @@ tagCountTSS <- function(x, outfname="TSS.txt", writeDF=FALSE) {
         my.df$nTSSs <- as.numeric(as.character(my.df$nTSSs))
 
         if (writeDF==TRUE) {
-            write.table(my.df, outfname, quote=FALSE, col.names=TRUE, row.names=FALSE, sep="\t")
-            message("\nThe TSS dataset has been written to file ", outfname, "\nin your working directory.")
+            write.table(my.df, outfname, quote=FALSE, col.names=TRUE,
+			row.names=FALSE, sep="\t")
+            message("\nThe TSS dataset has been written to file ", outfname,
+		    "\nin your working directory.")
         }
 
         return(my.df)
         }
 
 
-##############################################################################################
-#' tsrCluster
-#' Partitions, then clusters tss data by sequence. (Internal function)
-#' returns a list of TSRs from the data.frame generated by tagCountTSS()
-#' @export
+################################################################################
+#' @title tsrCluster
+#' @description Partitions, then clusters tss data by sequence.
+#'
+#' @keywords internal
+#'
+#' @return A list of TSRs from the data frame generated by
+#' \code{\link{tagCountTSS}}
+
 
 tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
      tss.df <- x
@@ -181,7 +209,7 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
 
      for (l in 1:n.seq) { #by sequence
          subset(tss.df, seq==uni.seq[l]) -> this.tss
-         subset(this.tss, nTSSs>=minNbrTSSs) -> sTSS
+         subset(this.tss, this.tss$nTSSs>=minNbrTSSs) -> sTSS
 
          #... clustering TSS on the plus strand:
 

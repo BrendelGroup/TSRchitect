@@ -8,28 +8,38 @@ addTagCountsToTSR(experimentName, tsrSetType, tsrSet = 1,
   tagCountThreshold = 1, writeTable = TRUE)
 }
 \arguments{
-\item{experimentName}{a S4 object of class \emph{tssObject} containing information in slot \emph{@tssTagData}}
+\item{experimentName}{a S4 object of class \emph{tssObject} containing
+information in slot \emph{@tssTagData}}
 
-\item{tsrSetType}{specifies the set to be written to file. Options are "replicates" or "merged". (character)}
+\item{tsrSetType}{specifies the set to be written to file.
+Options are "replicates" or "merged". (character)}
 
-\item{tsrSet}{number of the dataset to be processed, where 1 corresponds to the first slot, and so on. (numeric)}
+\item{tsrSet}{number of the dataset to be processed, where 1 corresponds
+to the first slot, and so on. (numeric)}
 
-\item{tagCountThreshold}{number of TSSs required at a given position (numeric)}
+\item{tagCountThreshold}{number of TSSs required at a given position
+(numeric)}
 
-\item{writeTable}{specifies whether the output should be written to a table. (logical)}
+\item{writeTable}{specifies whether the output should be written to
+a table. (logical)}
 }
 \value{
-a matrix of tag counts (where the number of columns will equal to the number of replicates in the sample) is appended to the data frame of the selected set of identified TSRs.
+a matrix of tag counts (where the number of columns will equal
+the number of replicates in the sample) is appended to the data frame
+of the selected set of identified TSRs.
 }
 \description{
-\code{addTagCountsToTSR} adds a matrix of tag counts to a set of identified TSRs
+\code{addTagCountsToTSR} adds a matrix of tag counts to a set
+of identified TSRs
 }
 \note{
-An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+An example similar to the one provided can be found in
+the vignette (/inst/doc/TSRchitect.Rmd)
 }
 \examples{
-load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))   
-addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged", tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
+load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
+addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged",
+tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
 
 }
 

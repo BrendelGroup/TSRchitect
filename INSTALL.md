@@ -15,12 +15,12 @@ Typical preliminary steps to install or updated these packages are as follows
 
 ```{r eval=FALSE}
 #installing CRAN packages
-install.packages("doParallel")
+install.packages(c("gtools","knitr"))
 ```
 
 ```{r eval=FALSE}
 source("http://bioconductor.org/biocLite.R")
-biocLite(c("BiocGenerics", "BiocParallel", "ENCODExplorer", "GenomicAlignments", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools", "rtracklayer"))
+biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel", "ENCODExplorer", "GenomicAlignments", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools", "rtracklayer"))
 ```
 
 ## Obtaining TSRchitect

@@ -1,5 +1,8 @@
-#' An internal function that extracts the values from the output returned from tsrCluster
-#' @export
+#' @title countsToVector
+#' @description An internal function that extracts the values
+#' from the output returned from tsrCluster
+#'
+#' @keywords internal
 
 countsToVector <- function(x) {
     coord.vec <- x[1,]
@@ -17,8 +20,13 @@ countsToVector <- function(x) {
     return(rep.vec)
 }
 
-#' An internal function that caculates the total number of counts associated with a given TSR
-#' @export
+#' @title tsrCounts
+#' @description An internal function that caculates the total number of
+#' counts associated with a given TSR
+#'
+#' @keywords internal
+#'
+#' @return Returns the number of TSS tags associated with a TSR
 
 tsrCounts <- function(x) {
     count.vec <- x[2,]
@@ -26,8 +34,13 @@ tsrCounts <- function(x) {
     return(my.sum)
 }
 
-#' An internal function that caculates the width of a given TSR from the output of tsrCluster
-#' @export
+#' @title tsrWidth
+#' @description An internal function that caculates the width
+#' of a given TSR from the output of tsrCluster
+#'
+#' @keywords internal
+#'
+#' @return Returns a width value (in bp) for a given TSR
 
 tsrWidth <- function(x) {
     coord.vec <- x[1,]
@@ -37,8 +50,13 @@ tsrWidth <- function(x) {
     return(my.width)
 }
 
-#' An internal function that caculates the shape index (SI) of a given TSR from the output of tsrCluster
-#' @export
+#' @title shapeIndex
+#' @description An internal function that caculates the shape index (SI)
+#' of a given TSR from the output of tsrCluster
+#'
+#' @keywords internal
+#'
+#' @return Calculates the shape index (SI) for a given TSR
 
 shapeIndex <- function(x) {
         total.size <- length(x)

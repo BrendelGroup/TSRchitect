@@ -7,28 +7,38 @@
 writeTSR(experimentName, tsrSetType, tsrSet = 1, fileType = "tab")
 }
 \arguments{
-\item{experimentName}{an S4 object of class \emph{tssObject} containing information in slot \emph{@tssTagData}}
+\item{experimentName}{an S4 object of class \emph{tssObject} containing
+information in slot \emph{@tssTagData}}
 
-\item{tsrSetType}{specifies the set to be written to file. Options are "replicates" or "merged". (character)}
+\item{tsrSetType}{specifies the set to be written to file.
+Options are "replicates" or "merged". (character)}
 
 \item{tsrSet}{number of the dataset to be processed (numeric).}
 
-\item{fileType}{the format of the file to be written. Possible choices are "tab" for tab-delimited output,"bed" for BED format (character).}
+\item{fileType}{the format of the file to be written.
+Possible choices are "tab" for tab-delimited output and
+"bed" for BED format (character).}
 }
 \value{
-A table containing the specified TSR data set is be written to your working directory.
+A table containing the specified TSR data set that
+is to be written to your working directory.
 }
 \description{
-\code{writeTSR} writes identified TSRs from a specified data set to a file in either tab or BED formats
+\code{writeTSR} writes identified TSRs
+from a specified data set to a file in either tab or BED formats
 }
 \note{
-The .bed file written adheres to the standard six-column BED format, while "tab" format is identical to that of the data.frames containing TSR data.
+The .bed file written adheres to the standard six-column BED format,
+while "tab" format is identical to that of the data.frames containing TSR
+data.
 
-For more information on the BED format, please visit https://genome.ucsc.edu/FAQ/FAQformat#format1
+For more information on the BED format, please visit
+https://genome.ucsc.edu/FAQ/FAQformat#format1
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
-writeTSR(experimentName=tssObjectExample, tsrSetType="replicates", tsrSet=1, fileType="tab")
+writeTSR(experimentName=tssObjectExample, tsrSetType="replicates",
+tsrSet=1, fileType="tab")
 
 }
 

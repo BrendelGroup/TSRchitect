@@ -2,38 +2,50 @@
 % Please edit documentation in R/determineTSR.R
 \name{determineTSR}
 \alias{determineTSR}
-\title{\emph{determineTSR}}
+\title{\strong{determineTSR}}
 \usage{
-determineTSR(experimentName, parallel, tsrSetType, tssSet, tagCountThreshold,
+determineTSR(experimentName, n.cores, tsrSetType, tssSet, tagCountThreshold,
   clustDist, writeTable = FALSE)
 }
 \arguments{
-\item{experimentName}{an object of class \emph{tssObject} containing information in slot \emph{@tssTagData}}
+\item{experimentName}{an object of class \emph{tssObject}
+containing information in slot \emph{@tssTagData}}
 
-\item{parallel}{if TRUE, the analysis is run in parallel (logical)}
+\item{n.cores}{the number of cores to be used for this job.
+ncores=1 means serial execution of function calls (numeric)}
 
-\item{tsrSetType}{specifies the set to be clustered. Options are "replicates" or "merged". (character)}
+\item{tsrSetType}{specifies the set to be clustered.
+Options are "replicates" or "merged". (character)}
 
-\item{tssSet}{default is "all"; if a single TSS dataset is desired, specify tssSet number (character)}
+\item{tssSet}{default is "all"; if a single TSS dataset is desired,
+specify tssSet number (character)}
 
-\item{tagCountThreshold}{the number of TSSs required at a given position for it to be considered in TSR identification. (numeric)}
+\item{tagCountThreshold}{the number of TSSs required at a given position
+for it to be considered in TSR identification. (numeric)}
 
-\item{clustDist}{the maximum distance of TSSs between two TSRs in base pairs. (numeric)}
+\item{clustDist}{the maximum distance of TSSs between two
+TSRs in base pairs. (numeric)}
 
-\item{writeTable}{specifies whether the output should be written to a table. (logical)}
+\item{writeTable}{specifies whether the output should
+be written to a table. (logical)}
 }
 \value{
-creates a list of \linkS4class{GenomicRanges}-containing TSR positions in slot \emph{@tsrData} on the \emph{tssObject} object
+creates a list of \linkS4class{GenomicRanges}-containing
+TSR positions in slot \emph{@tsrData} on the \emph{tssObject} object
 }
 \description{
-\code{determineTSR} Identifies TSRs from entire TSS datasets as specified.
+\code{determineTSR} Identifies TSRs from
+entire TSS datasets as specified.
 }
 \note{
-An example similar to this one can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd)
+An example similar to this one can be found in the vignette
+(/inst/doc/TSRchitect.Rmd)
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
-determineTSR(experimentName=tssObjectExample, parallel=FALSE, tsrSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20, writeTable=FALSE)
+determineTSR(experimentName=tssObjectExample, n.cores=1,
+tsrSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20,
+writeTable=FALSE)
 
 }
 

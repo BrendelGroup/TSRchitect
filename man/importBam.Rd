@@ -2,29 +2,41 @@
 % Please edit documentation in R/importBam.R
 \name{importBam}
 \alias{importBam}
-\title{\emph{importBam}}
+\title{\strong{importBam}}
 \usage{
-importBam(experimentName)
+importBam(experimentName, expDir)
 }
 \arguments{
-\item{experimentName}{an S4 object of class \emph{tssObject} that contains information about the experiment}
+\item{experimentName}{an S4 object of class \emph{tssObject} that
+contains information about the experiment}
+
+\item{expDir}{path to the directory containing the alignment files in .bam
+format (character).
+Note that all the paths to all files in \emph{expDir} with the extension
+.bam in \emph{expDir} will be imported with this function.}
 }
 \value{
-\emph{importBam} fills the slot \emph{@bamData} on the \emph{tssObject} with \linkS4class{GAlignments} objects from the \bold{GenomicAlignments} package, one for each attached .bam file on the \emph{@fileNames} slot.
+\emph{importBam} fills the slot \emph{bamData} on the
+\emph{tssObject} with \linkS4class{GAlignments} objects from the
+\bold{GenomicAlignments} package, one for each attached .bam file
+on the \emph{fileNames} slot.
 }
 \description{
-\code{importBam} processes .bam files as specified by \code{\link{initializeExp}}.
+\code{importBam} processes alignment files in .bam format
+from the local directory supplied.
 }
 \note{
-An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
+An example similar to the one provided can be found in
+the vignette (/inst/doc/TSRchitect.Rmd).
 
-Files will be imported in the order that they appear on the \emph{@fileNames} slot, which is in ascending alphanumeric order.
+All .bam files found in \emph{expDir} will be
+retrieved and written in ascending alphanumeric order to the
+\emph{@fileNames} slot on the \emph{tssObject} that is created.
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 extdata.dir <- system.file("extdata", package="TSRchitect")
-tssObjectExample@fileNames <- dir(extdata.dir, pattern="\\\\.bam$", full.names=TRUE)
-importBam(experimentName=tssObjectExample)
+importBam(experimentName=tssObjectExample, expDir=extdata.dir)
 
 }
 

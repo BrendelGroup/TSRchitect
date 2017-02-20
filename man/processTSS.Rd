@@ -4,31 +4,41 @@
 \alias{processTSS}
 \title{\strong{processTSS}}
 \usage{
-processTSS(experimentName, parallel, tssSet, writeTable = FALSE)
+processTSS(experimentName, n.cores, tssSet, writeTable)
 }
 \arguments{
-\item{experimentName}{an S4 object of class \emph{tssObject} containing information in slot \emph{@tssTagData}}
+\item{experimentName}{an S4 object of class \emph{tssObject} containing
+information in slot \emph{@tssTagData}}
 
-\item{parallel}{whether to run in parallel or not (logical)}
+\item{n.cores}{the number of cores to be used for this job.
+n.cores=1 means serial execution of function calls (numeric)}
 
-\item{tssSet}{default is "all"; for specific use, specify \emph{tssSet} number (as character)}
+\item{tssSet}{default is "all"; to select a single \emph{tssSet},
+specify it (as character)}
 
-\item{writeTable}{specifies whether the output should be written to a table. (logical)}
+\item{writeTable}{specifies whether the output should be written
+to a file. (logical)}
 }
 \value{
-Creates a list of \linkS4class{GenomicRanges} containing TSS positions in slot \emph{tssTagData} on the \emph{tssObject}.
+Creates a list of \linkS4class{GenomicRanges} containing TSS
+positions in slot \emph{tssTagData} on the \emph{tssObject}.
 }
 \description{
-\code{processTSS} calulates the number of observed reads at a given TSS coordinate across an entire dataset.
+\code{processTSS} calulates the number of observed reads
+at a given TSS coordinate across an entire dataset.
 }
 \note{
-Note that the \emph{tssSet} parameter must be of class \emph{character}, even when selecting an individual dataset.
+Note that the \emph{tssSet} parameter must be of class
+\emph{character}, even when selecting an individual dataset.
 
-An example similar to the one provided can be found in \emph{Example 1} from the vignette (/inst/doc/TSRchitect.Rmd).
+An example similar to the one provided can be found in
+the vignette (/inst/doc/TSRchitect.Rmd).
 }
 \examples{
-load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
-processTSS(experimentName=tssObjectExample, parallel=FALSE, tssSet="all", writeTable=FALSE)
+load(system.file("extdata", "tssObjectExample.RData",
+package="TSRchitect"))
+processTSS(experimentName=tssObjectExample, n.cores=1, tssSet="all",
+writeTable=FALSE)
 
 }
 
