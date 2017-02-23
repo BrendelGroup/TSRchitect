@@ -28,8 +28,7 @@
 #' to a tab-delimited file. Defaults to TRUE.
 #`
 #' @return addAnnotationToTSR adds feature annotation to the (merged)
-#' \emph{@@tsrData} data frame and returns the updated \emph{tssObject}
-#' to the workspace.
+#' \emph{@@tsrData} data frame and returns the updated \emph{tssObject}.
 #'
 #' @importFrom BiocGenerics start end
 #' @importFrom GenomicRanges GRanges findOverlaps promoters
@@ -176,10 +175,9 @@ setMethod("addAnnotationToTSR",
                   tsr.df -> experimentName@tsrDataMerged[[tsrSet]]
               }
 
-              cat("Done. GeneIDs have been associated with adjacent TSRs\n",
-                  "and the data frame has been re-assigned to its slot.\n")
+              cat("Done. GeneIDs have been associated with adjacent TSRs.\n")
               cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
+              return( experimentName)
           }
           )

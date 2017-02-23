@@ -6,7 +6,7 @@
 #'
 #' @return creates a list of TSSs in class \linkS4class{GRanges} for each
 #' .bam file contained within \emph{experimentName} and places them in
-#' the \emph{tssObject}.
+#' the returned \emph{tssObject}.
 #'
 #' @importFrom GenomicRanges granges GRanges GRangesList
 #' @importFrom BiocGenerics start end
@@ -81,7 +81,7 @@ setMethod("bamToTSS",
                   "have been successfully added to the \ntssObject \"",
                   object.name, "\".\n\n")
               cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
+              return(experimentName)
           }
 )

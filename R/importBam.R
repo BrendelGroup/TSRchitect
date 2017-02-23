@@ -9,7 +9,7 @@
 #' Note that all the paths to all files in \emph{expDir} with the extension
 #' .bam in \emph{expDir} will be imported with this function.
 #'
-#' @return \emph{importBam} fills the slot \emph{bamData} on the
+#' @return \emph{importBam} fills the slot \emph{bamData} on the returned
 #' \emph{tssObject} with \linkS4class{GAlignments} objects from the
 #' \bold{GenomicAlignments} package, one for each attached .bam file
 #' on the \emph{fileNames} slot.
@@ -89,7 +89,7 @@ setMethod("importBam",
                   " bam files have been attached to tssObject\nobject \"",
                   object.name, "\".\n")
               cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, parent.frame())
               message(" Done.\n")
+              return(experimentName)
           }
           )

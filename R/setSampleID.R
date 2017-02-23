@@ -11,8 +11,8 @@
 #' bam data in ascending alphanumeric order, so replicate.IDs must be arranged
 #' in this order also so that they directly correspond to the intended file.
 #'
-#' @return names and replicate information for experimental samples assigned
-#' to your \emph{tssObject} object.
+#' @return names and replicate information for experimental samples added
+#' to the returned \emph{tssObject} object.
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
@@ -61,11 +61,11 @@ setMethod("setSampleID",
               rep.list <- vector(mode="list", length=exp.len)
               experimentName@tsrData <- rep.list
 
-              cat("\nNames and replicate IDs were successfully assigned",
+              cat("\nNames and replicate IDs were successfully added",
                   "to tssObject\nobject \"", object.name, "\".\n\n")
 
               cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, parent.frame())
               message(" Done.\n")
+              return(experimentName)
           }
           )
