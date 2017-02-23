@@ -5,8 +5,9 @@
 #' @param experimentName an S4 object of class \emph{tssObject} that contains
 #' information about the experiment.
 #'
-#' @return tssCountData datasets will be merged (according to the
-#' \emph{sampleIDs}) and assigned to your \emph{tssObject}.
+#' @return tssCountData datasets are merged (according to the
+#' \emph{sampleIDs}) and put in the tssCountDataMerged slot in the returned
+#' \emph{tssObject}.
 #'
 #' @importFrom GenomicRanges as.data.frame
 #' @importFrom gtools mixedorder
@@ -85,7 +86,7 @@ setMethod("mergeSampleData",
               cat("\n... the TSS expression data have been successfully merged",
                     "and added to\ntssObject object \"", object.name, "\"\n")
               cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
+              return(experimentName)
           }
           )

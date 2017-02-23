@@ -10,8 +10,7 @@
 #' @param isPairedEnd specifies whether the TSS profiling experiment is
 #' paired-end (if TRUE) or single-end (if FALSE) (logical)
 #'
-#' @return Creates a new \emph{tssObject} with the name \emph{experimentName}
-#' that is written to the user's working environment.
+#' @return a new \emph{tssObject} with name \emph{experimentName}
 #'
 #' @importFrom methods new
 #'
@@ -42,7 +41,7 @@ setMethod("initializeExp",
               cat("\nThe tssObject object \"", experimentName,
                   "\" has been initialized in your workspace.\n")
               cat("---------------------------------------------------------\n")
-              assign(experimentName, tssObj, parent.frame())
               message(" Done.\n")
+              return(tssObj)
           }
           )
