@@ -10,9 +10,9 @@
 #' @param annotFile - a path (full or relative) to the annotation
 #' file to be imported.
 #'
-#' @return fills the slot \emph{@@annotation} in the \emph{tssObject}
-#' with a \linkS4class{GRanges} object contining a parsed annotation
-#' file of the selected type.
+#' @return fills the slot \emph{@@annotation} in the returned
+#' \emph{tssObject} with a \linkS4class{GRanges} object contining a
+#' parsed annotation file of the selected type.
 #'
 #' @importFrom GenomicRanges GRanges
 #' @importFrom rtracklayer import.bed import.gff import.gff3
@@ -62,7 +62,7 @@ setMethod("importAnnotationExternal",
               cat("Done. Annotation data have been attached to",
                   "tssObject\nobject \"", object.name, "\".\n")
               cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, parent.frame())
               message(" Done.\n")
+              return(experimentName)
           }
           )
