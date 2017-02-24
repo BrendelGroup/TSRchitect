@@ -37,7 +37,7 @@ setMethod("importAnnotationHub",
                     annotID="character"),
           function(experimentName, provider, annotType, species,
                    annotID) {
-              object.name <- deparse(substitute(experimentName))
+
               message("... importAnnotationHub ...")
               AnnotationHub() -> hub
               query(hub, c(provider, annotType, species))
@@ -52,7 +52,7 @@ setMethod("importAnnotationHub",
                   annot.object -> experimentName@annotation
               }
               cat("Done. Annotation data have been attached to",
-                  "tssObject\nobject \"", object.name, "\".\n")
+                  "the tssObject.\n")
               cat("---------------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)

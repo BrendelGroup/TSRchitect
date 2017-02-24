@@ -30,7 +30,6 @@ setGeneric("mergeSampleData",
 setMethod("mergeSampleData",
           signature(experimentName="tssObject"),
           function(experimentName) {
-              object.name <- deparse(substitute(experimentName))
 
               message("... mergeSampleData ...")
               if (length(experimentName@tssCountData)==0) {
@@ -84,7 +83,7 @@ setMethod("mergeSampleData",
 
               experimentName@tssCountDataMerged <- exp.list
               cat("\n... the TSS expression data have been successfully merged",
-                    "and added to\ntssObject object \"", object.name, "\"\n")
+                    "\nand added to the tssObject object.\n")
               cat("---------------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)

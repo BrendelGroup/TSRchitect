@@ -33,7 +33,6 @@ setGeneric("bamToTSS",
 setMethod("bamToTSS",
           signature(experimentName="tssObject"),
           function(experimentName) {
-              object.name <- deparse(substitute(experimentName))
 
               message("... bamToTSS ...")
               if (length(experimentName@bamData) == 0) {
@@ -78,10 +77,9 @@ setMethod("bamToTSS",
               experimentName@tssTagData <- GR.list
               experimentName@tssCountData <- vector(mode="list", length=bam.len)
               cat("Done. TSS data from ", bam.len, " separate bam files" ,
-                  "have been successfully added to the \ntssObject \"",
-                  object.name, "\".\n\n")
+                  "have been successfully\nadded to the tssObject.\n\n")
               cat("---------------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
           }
-)
+          )

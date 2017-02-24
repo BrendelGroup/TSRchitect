@@ -99,7 +99,11 @@ if (inputType=="bam") {
                          BPPARAM = MulticoreParam(), param=my.param)
               tssObj@bamData <- bams.GA
               cat("Done. Alignment data from ", n.bams,
+<<<<<<< HEAD
+                  " bam files have been attached to the tssObject.\n")
+=======
                   " bam files have been attached to tssObject.\n")
+>>>>>>> 7b41aea37ec0bd1844c567ba38f7db1d2878f3ee
               cat("---------------------------------------------------------\n")
 }
 if (inputType=="bed") {
@@ -126,7 +130,11 @@ stop("\nNot yet supported.  Visit again soon.\n\n")
               tssObj@tsrData <- rep.list
 
               cat("\nNames and replicate IDs were successfully added",
+<<<<<<< HEAD
+                  "to the tssObject.\n\n")
+=======
                   "to tssObject.\n\n")
+>>>>>>> 7b41aea37ec0bd1844c567ba38f7db1d2878f3ee
               cat("---------------------------------------------------------\n")
               message(" Done.\n")
               return(tssObj)

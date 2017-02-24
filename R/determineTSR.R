@@ -47,7 +47,6 @@ setMethod("determineTSR",
 
           function(experimentName, n.cores=1, tsrSetType, tssSet="all",
                    tagCountThreshold=1, clustDist=20, writeTable=FALSE) {
-              object.name <- deparse(substitute(experimentName))
 
               message("... determineTSR ...")
               if (tsrSetType=="replicates") {

@@ -64,7 +64,6 @@ setMethod("addAnnotationToTSR",
                    downstreamDist=200, feature="gene", featureColumnID="ID",
                    writeTable=TRUE) {
 
-              object.name <- deparse(substitute(experimentName))
               message("... addAnnotationToTSR ...")
               if (tsrSetType=="replicates") {
                   if (tsrSet>length(experimentName@tsrData)) {

@@ -46,7 +46,7 @@ setMethod("importAnnotationExternal",
                     annotFile="character"),
           function(experimentName, fileType=c("bed","gff","gff3"),
                    annotFile) {
-              object.name <- deparse(substitute(experimentName))
+
               message("... importAnnotationExternal ...")
               fileType <- match.arg(fileType, c("bed","gff", "gff3"),
                                     several.ok=FALSE)
@@ -60,7 +60,7 @@ setMethod("importAnnotationExternal",
                   import.gff3(annotFile) -> experimentName@annotation
                   }
               cat("Done. Annotation data have been attached to",
-                  "tssObject\nobject \"", object.name, "\".\n")
+                  "the tssObject.\n")
               cat("---------------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
