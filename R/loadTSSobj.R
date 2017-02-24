@@ -2,7 +2,7 @@
 #' @description \code{loadTSSobj} processes alignment files in .bam format
 #' from the local directory supplied.
 #'
-#' @param expTitle a descriptive title for the experiment (character).
+#' @param experimentTitle a descriptive title for the experiment (character).
 #' @param inputDir path to the directory containing the alignment files (in
 #' either .bam or .bed format, depending on your selection) (character).
 #' Note that all the paths to all files in \emph{inputDir} with the extension
@@ -14,10 +14,10 @@
 #' @param sampleNames unique labels of class character for each TSS sample
 #' within the experiment (character).
 #' @param replicateIDs identifiers indicating which samples are biological
-#' replicates. As with \emph{sample.names}, note that \code{importBam} imports
-#' bam data in ascending alphanumeric order, so replicateIDs must be arranged
-#' in this order also so that they directly correspond to the intended file
-#' (numeric).
+#' replicates. Note that \code{loadTSSobj} imports
+#' alignment data in ascending alphanumeric order, so the arguments to
+#' replicateIDs must be arranged in this order also so that they directly
+#' correspond to the intended file (numeric).
 #'
 #' @return \emph{loadTSSobj} fills the slot \emph{bamData} on the returned
 #' \emph{tssObject} with \linkS4class{GAlignments} objects from the
@@ -32,8 +32,8 @@
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' extdata.dir <- system.file("extdata", package="TSRchitect")
 #' test.Obj <- loadTSSobj(experimentTitle="Code example", inputDir=extdata.dir,
-#' inputType="bam", isPairedEnd=TRUE, sample.names=c("sample1-rep1",
-#' "sample1-rep2", "sample2-rep1","sample2-rep2"), replicate.IDs=c(1,1,2,2))
+#' inputType="bam", isPairedEnd=TRUE, sampleNames=c("sample1-rep1",
+#' "sample1-rep2", "sample2-rep1","sample2-rep2"), replicateIDs=c(1,1,2,2))
 #'
 #' @note An example similar to the one provided can be found in
 #' the vignette (/inst/doc/TSRchitect.Rmd).
