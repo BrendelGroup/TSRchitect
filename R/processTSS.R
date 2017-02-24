@@ -39,7 +39,6 @@ setMethod("processTSS",
           signature("tssObject", "numeric", "character", "logical"),
 
           function(experimentName, n.cores=1, tssSet="all", writeTable=FALSE) {
-              object.name <- deparse(substitute(experimentName))
 
               message("... processTSS ...")
               if (tssSet=="all") {

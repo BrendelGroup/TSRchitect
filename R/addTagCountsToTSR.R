@@ -42,7 +42,6 @@ setMethod("addTagCountsToTSR",
 
           function(experimentName, tsrSetType, tsrSet, tagCountThreshold,
                    writeTable=TRUE) {
-              object.name <- deparse(substitute(experimentName))
 
               message("... addTagCountsToTSR ...")
               if (tsrSetType=="replicates") {
