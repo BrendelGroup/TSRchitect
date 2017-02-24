@@ -28,8 +28,7 @@
 #' to a tab-delimited file. Defaults to TRUE.
 #`
 #' @return addAnnotationToTSR adds feature annotation to the (merged)
-#' \emph{@@tsrData} data frame and returns the updated \emph{tssObject}
-#' to the workspace.
+#' \emph{@@tsrData} data frame and returns the updated \emph{tssObject}.
 #'
 #' @importFrom BiocGenerics start end
 #' @importFrom GenomicRanges GRanges findOverlaps promoters
@@ -39,9 +38,9 @@
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
-#' addAnnotationToTSR(experimentName=tssObjectExample, tsrSetType="merged",
-#' tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript",
-#' featureColumnID="ID", writeTable=FALSE)
+#' tssObjectExample <- addAnnotationToTSR(experimentName=tssObjectExample,
+#' tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200,
+#' feature="transcript", featureColumnID="ID", writeTable=FALSE)
 #' #if the object attached to @@annotation is a gff/gff3 file
 #'
 #' @note An example similar to the this one can be found
@@ -65,7 +64,6 @@ setMethod("addAnnotationToTSR",
                    downstreamDist=200, feature="gene", featureColumnID="ID",
                    writeTable=TRUE) {
 
-              object.name <- deparse(substitute(experimentName))
               message("... addAnnotationToTSR ...")
               if (tsrSetType=="replicates") {
                   if (tsrSet>length(experimentName@tsrData)) {
@@ -176,10 +174,9 @@ setMethod("addAnnotationToTSR",
                   tsr.df -> experimentName@tsrDataMerged[[tsrSet]]
               }
 
-              cat("Done. GeneIDs have been associated with adjacent TSRs\n",
-                  "and the data frame has been re-assigned to its slot.\n")
+              cat("Done. GeneIDs have been associated with adjacent TSRs.\n")
               cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
+              return( experimentName)
           }
           )

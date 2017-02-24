@@ -22,7 +22,7 @@ to be imported. Using 'gff' will find annotations in both gff or gff3 formats}
 \item{annotID}{- 'character' the AnnotationHub identifier to be retrieved}
 }
 \value{
-fills the slot \emph{@annotation} in the \emph{tssObject}
+fills the slot \emph{@annotation} in the returned \emph{tssObject}
 with an AnnotationHub record. The record retrieved must be an object
 of class \linkS4class{GRanges}.
 }
