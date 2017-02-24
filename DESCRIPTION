@@ -1,6 +1,6 @@
 Package: TSRchitect
 Version: 0.99.2
-Date: 2017-02-20
+Date: 2017-02-24
 Title: Promoter identification from large-scale TSS profiling data
 Description: In recent years, large-scale transcriptional sequence data has
     yielded considerable insights into the nature of gene expression and regulation
@@ -47,6 +47,6 @@ Suggests:
 biocViews: Clustering, FunctionalGenomics, GeneExpression,
     GeneRegulation, GenomeAnnotation, Sequencing, Transcription
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 5.0.1
 NeedsCompilation: no
 Packaged: 2017-01-18 15:20:28 UTC; rtraborn

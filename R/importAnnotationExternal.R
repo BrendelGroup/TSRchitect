@@ -21,8 +21,8 @@
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' extdata.dir <- system.file("extdata", package="TSRchitect")
 #' annotation <- dir(extdata.dir, pattern="\\.gff3$", full.names=TRUE)
-#' importAnnotationExternal(experimentName=tssObjectExample, fileType="gff3",
-#' annotFile=annotation)
+#' tssObjectExample <- importAnnotationExternal(experimentName=tssObjectExample,
+#' fileType="gff3", annotFile=annotation)
 #'
 #' @note \code{importAnnotationExternal} makes use of three functions from the
 #' \emph{rtracklayer} package: \code{\link[rtracklayer]{import.bed}},

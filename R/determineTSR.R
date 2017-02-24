@@ -25,7 +25,7 @@
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
-#' determineTSR(experimentName=tssObjectExample, n.cores=1,
+#' tssObjectExample <- determineTSR(experimentName=tssObjectExample, n.cores=1,
 #' tsrSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20,
 #' writeTable=FALSE)
 #'

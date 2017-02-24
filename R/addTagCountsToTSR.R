@@ -21,8 +21,8 @@
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
-#' addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged",
-#' tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
+#' tssObjectExample <- addTagCountsToTSR(experimentName=tssObjectExample,
+#' tsrSetType="merged", tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
 #'
 #' @note An example similar to the one provided can be found in
 #' the vignette (/inst/doc/TSRchitect.Rmd)

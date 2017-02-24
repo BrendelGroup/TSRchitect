@@ -2,12 +2,22 @@
 #' @description \code{loadTSSobj} processes alignment files in .bam format
 #' from the local directory supplied.
 #'
-#' @param experimentName an S4 object of class \emph{tssObject} that
-#' contains information about the experiment
-#' @param inputDir path to the directory containing the alignment files in .bam
-#' format (character).
+#' @param experimentTitle a descriptive title for the experiment (character).
+#' @param inputDir path to the directory containing the alignment files (in
+#' either .bam or .bed format, depending on your selection) (character).
 #' Note that all the paths to all files in \emph{inputDir} with the extension
 #' .bam in \emph{inputDir} will be imported with this function.
+#' @param inputType specifies the format of the TSS dataset to be imported.
+#' Either "bam" or "bed" are currently accepted. (character)
+#' @param isPairedEnd specifies whether the TSS profiling experiment is
+#' paired-end (if TRUE) or single-end (if FALSE) (logical)
+#' @param sampleNames unique labels of class character for each TSS sample
+#' within the experiment (character).
+#' @param replicateIDs identifiers indicating which samples are biological
+#' replicates. Note that \code{loadTSSobj} imports
+#' alignment data in ascending alphanumeric order, so the arguments to
+#' replicateIDs must be arranged in this order also so that they directly
+#' correspond to the intended file (numeric).
 #'
 #' @return \emph{loadTSSobj} fills the slot \emph{bamData} on the returned
 #' \emph{tssObject} with \linkS4class{GAlignments} objects from the
@@ -21,7 +31,9 @@
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' extdata.dir <- system.file("extdata", package="TSRchitect")
-#' loadTSSobj(experimentName=tssObjectExample, inputDir=extdata.dir)
+#' test.Obj <- loadTSSobj(experimentTitle="Code example", inputDir=extdata.dir,
+#' inputType="bam", isPairedEnd=TRUE, sampleNames=c("sample1-rep1",
+#' "sample1-rep2", "sample2-rep1","sample2-rep2"), replicateIDs=c(1,1,2,2))
 #'
 #' @note An example similar to the one provided can be found in
 #' the vignette (/inst/doc/TSRchitect.Rmd).
@@ -99,11 +111,7 @@ if (inputType=="bam") {
                          BPPARAM = MulticoreParam(), param=my.param)
               tssObj@bamData <- bams.GA
               cat("Done. Alignment data from ", n.bams,
-<<<<<<< HEAD
                   " bam files have been attached to the tssObject.\n")
-=======
-                  " bam files have been attached to tssObject.\n")
->>>>>>> 7b41aea37ec0bd1844c567ba38f7db1d2878f3ee
               cat("---------------------------------------------------------\n")
 }
 if (inputType=="bed") {
@@ -130,11 +138,7 @@ stop("\nNot yet supported.  Visit again soon.\n\n")
               tssObj@tsrData <- rep.list
 
               cat("\nNames and replicate IDs were successfully added",
-<<<<<<< HEAD
                   "to the tssObject.\n\n")
-=======
-                  "to tssObject.\n\n")
->>>>>>> 7b41aea37ec0bd1844c567ba38f7db1d2878f3ee
               cat("---------------------------------------------------------\n")
               message(" Done.\n")
               return(tssObj)
