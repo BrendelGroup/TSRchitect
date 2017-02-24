@@ -17,7 +17,7 @@
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
-#' bamToTSS(experimentName=tssObjectExample)
+#' tssObjectExample <- bamToTSS(experimentName=tssObjectExample)
 #'
 #' @note An example similar to the one provided can be
 #' found in the vignette (/inst/doc/TSRchitect.Rmd).

@@ -16,7 +16,7 @@ Note that all the paths to all files in \emph{expDir} with the extension
 .bam in \emph{expDir} will be imported with this function.}
 }
 \value{
-\emph{importBam} fills the slot \emph{bamData} on the
+\emph{importBam} fills the slot \emph{bamData} on the returned
 \emph{tssObject} with \linkS4class{GAlignments} objects from the
 \bold{GenomicAlignments} package, one for each attached .bam file
 on the \emph{fileNames} slot.

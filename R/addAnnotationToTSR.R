@@ -38,9 +38,9 @@
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
-#' addAnnotationToTSR(experimentName=tssObjectExample, tsrSetType="merged",
-#' tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript",
-#' featureColumnID="ID", writeTable=FALSE)
+#' tssObjectExample <- addAnnotationToTSR(experimentName=tssObjectExample,
+#' tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200,
+#' feature="transcript", featureColumnID="ID", writeTable=FALSE)
 #' #if the object attached to @@annotation is a gff/gff3 file
 #'
 #' @note An example similar to the this one can be found

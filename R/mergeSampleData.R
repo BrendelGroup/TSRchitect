@@ -15,7 +15,7 @@
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
-#' mergeSampleData(experimentName=tssObjectExample)
+#' tssObjectExample <- mergeSampleData(experimentName=tssObjectExample)
 #'
 #' @note An example similar to the one provided can be found in
 #' the vignette (/inst/doc/TSRchitect.Rmd).

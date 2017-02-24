@@ -19,8 +19,8 @@ bam data in ascending alphanumeric order, so replicate.IDs must be arranged
 in this order also so that they directly correspond to the intended file.}
 }
 \value{
-names and replicate information for experimental samples assigned
-to your \emph{tssObject} object.
+names and replicate information for experimental samples added
+to the returned \emph{tssObject} object.
 }
 \description{
 \code{bamToTSS} Sets names and replicate information
