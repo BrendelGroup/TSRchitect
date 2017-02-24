@@ -12,7 +12,7 @@
 #' (e.g. 'human')
 #' @param annotID - 'character' the AnnotationHub identifier to be retrieved
 #'
-#' @return fills the slot \emph{@@annotation} in the \emph{tssObject}
+#' @return fills the slot \emph{@@annotation} in the returned \emph{tssObject}
 #' with an AnnotationHub record. The record retrieved must be an object
 #' of class \linkS4class{GRanges}.
 #'
@@ -37,7 +37,7 @@ setMethod("importAnnotationHub",
                     annotID="character"),
           function(experimentName, provider, annotType, species,
                    annotID) {
-              object.name <- deparse(substitute(experimentName))
+
               message("... importAnnotationHub ...")
               AnnotationHub() -> hub
               query(hub, c(provider, annotType, species))
@@ -52,9 +52,9 @@ setMethod("importAnnotationHub",
                   annot.object -> experimentName@annotation
               }
               cat("Done. Annotation data have been attached to",
-                  "tssObject\nobject \"", object.name, "\".\n")
+                  "the tssObject.\n")
               cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, parent.frame())
               message(" Done.\n")
+              return(experimentName)
           }
           )

@@ -20,7 +20,8 @@
 #' @importFrom BiocParallel bplapply MulticoreParam
 #'
 #' @return creates a list of \linkS4class{GenomicRanges}-containing
-#' TSR positions in slot \emph{@@tsrData} on the \emph{tssObject} object
+#' TSR positions in slot \emph{@@tsrData} of the returned \emph{tssObject}
+#' object
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
@@ -46,7 +47,6 @@ setMethod("determineTSR",
 
           function(experimentName, n.cores=1, tsrSetType, tssSet="all",
                    tagCountThreshold=1, clustDist=20, writeTable=FALSE) {
-              object.name <- deparse(substitute(experimentName))
 
               message("... determineTSR ...")
               if (tsrSetType=="replicates") {
@@ -175,7 +175,7 @@ setMethod("determineTSR",
                        "either \"replicates\" or \"merged\".")
               }
               cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
+              return(experimentName)
           }
           )

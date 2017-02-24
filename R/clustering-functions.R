@@ -216,7 +216,7 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
          subset(sTSS, strand=="+") -> sTSS.p
          as.matrix(sTSS.p) -> sTSS.p
          nrow(sTSS.p) -> my.len
-         if (my.len == 0) { # ... assign an empty list to tss.list.p
+         if (my.len == 0) { # ... create an empty list tss.list.p
              vector(mode="list") -> tss.list.p
          }
          else if (my.len == 1) {
@@ -276,7 +276,7 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
          subset(sTSS, strand=="-") -> sTSS.m
          as.matrix(sTSS.m) -> sTSS.m
          nrow(sTSS.m) -> my.len
-         if (my.len == 0) { # ... assign an empty list to tss.list.m
+         if (my.len == 0) { # ... create an empty list tss.list.m
              vector(mode="list") -> tss.list.m
          }
          else if (my.len == 1) {

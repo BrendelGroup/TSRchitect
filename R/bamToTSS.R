@@ -6,7 +6,7 @@
 #'
 #' @return creates a list of TSSs in class \linkS4class{GRanges} for each
 #' .bam file contained within \emph{experimentName} and places them in
-#' the \emph{tssObject}.
+#' the returned \emph{tssObject}.
 #'
 #' @importFrom GenomicRanges granges GRanges GRangesList
 #' @importFrom BiocGenerics start end
@@ -33,7 +33,6 @@ setGeneric("bamToTSS",
 setMethod("bamToTSS",
           signature(experimentName="tssObject"),
           function(experimentName) {
-              object.name <- deparse(substitute(experimentName))
 
               message("... bamToTSS ...")
               if (length(experimentName@bamData) == 0) {
@@ -78,10 +77,9 @@ setMethod("bamToTSS",
               experimentName@tssTagData <- GR.list
               experimentName@tssCountData <- vector(mode="list", length=bam.len)
               cat("Done. TSS data from ", bam.len, " separate bam files" ,
-                  "have been successfully added to the \ntssObject \"",
-                  object.name, "\".\n\n")
+                  "have been successfully\nadded to the tssObject.\n\n")
               cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
+              return(experimentName)
           }
-)
+          )
