@@ -5,8 +5,9 @@
 #' @param experimentName an S4 object of class \emph{tssObject} that contains
 #' information about the experiment.
 #'
-#' @return tssCountData datasets will be merged (according to the
-#' \emph{sampleIDs}) and assigned to your \emph{tssObject}.
+#' @return tssCountData datasets are merged (according to the
+#' \emph{sampleIDs}) and put in the tssCountDataMerged slot in the returned
+#' \emph{tssObject}.
 #'
 #' @importFrom GenomicRanges as.data.frame
 #' @importFrom gtools mixedorder
@@ -14,7 +15,7 @@
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
-#' mergeSampleData(experimentName=tssObjectExample)
+#' tssObjectExample <- mergeSampleData(experimentName=tssObjectExample)
 #'
 #' @note An example similar to the one provided can be found in
 #' the vignette (/inst/doc/TSRchitect.Rmd).
@@ -29,7 +30,6 @@ setGeneric("mergeSampleData",
 setMethod("mergeSampleData",
           signature(experimentName="tssObject"),
           function(experimentName) {
-              object.name <- deparse(substitute(experimentName))
 
               message("... mergeSampleData ...")
               if (length(experimentName@tssCountData)==0) {
@@ -83,9 +83,9 @@ setMethod("mergeSampleData",
 
               experimentName@tssCountDataMerged <- exp.list
               cat("\n... the TSS expression data have been successfully merged",
-                    "and added to\ntssObject object \"", object.name, "\"\n")
+                    "\nand added to the tssObject object.\n")
               cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
+              return(experimentName)
           }
           )
