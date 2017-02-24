@@ -24,3 +24,4 @@ on the user's system.
 myPath <- TSRchitectUsersGuide(view=FALSE)
 
 }
+
