@@ -21,7 +21,7 @@ to a file. (logical)}
 }
 \value{
 Creates a list of \linkS4class{GenomicRanges} containing TSS
-positions in slot \emph{tssTagData} on the \emph{tssObject}.
+positions in slot \emph{tssTagData} of the returned \emph{tssObject}.
 }
 \description{
 \code{processTSS} calulates the number of observed reads
@@ -37,8 +37,8 @@ the vignette (/inst/doc/TSRchitect.Rmd).
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",
 package="TSRchitect"))
-processTSS(experimentName=tssObjectExample, n.cores=1, tssSet="all",
-writeTable=FALSE)
+tssObjectExample <- processTSS(experimentName=tssObjectExample, n.cores=1,
+tssSet="all", writeTable=FALSE)
 
 }
 

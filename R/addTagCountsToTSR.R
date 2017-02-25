@@ -15,14 +15,14 @@
 #'
 #' @return a matrix of tag counts (where the number of columns will equal
 #' the number of replicates in the sample) is appended to the data frame
-#' of the selected set of identified TSRs.
+#' of the selected set of identified TSRs in the returned \emph{tssObject}
 #'
 #' @importFrom utils write.table
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
-#' addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged",
-#' tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
+#' tssObjectExample <- addTagCountsToTSR(experimentName=tssObjectExample,
+#' tsrSetType="merged", tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
 #'
 #' @note An example similar to the one provided can be found in
 #' the vignette (/inst/doc/TSRchitect.Rmd)
@@ -42,7 +42,6 @@ setMethod("addTagCountsToTSR",
 
           function(experimentName, tsrSetType, tsrSet, tagCountThreshold,
                    writeTable=TRUE) {
-              object.name <- deparse(substitute(experimentName))
 
               message("... addTagCountsToTSR ...")
               if (tsrSetType=="replicates") {
@@ -176,7 +175,7 @@ setMethod("addTagCountsToTSR",
               }
 
               cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, envir = parent.frame())
               message(" Done.\n")
+              return(experimentName)
           }
           )

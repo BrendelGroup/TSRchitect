@@ -17,9 +17,9 @@ Must be one of: "bed", "gff" or "gff3".}
 file to be imported.}
 }
 \value{
-fills the slot \emph{@annotation} in the \emph{tssObject}
-with a \linkS4class{GRanges} object contining a parsed annotation
-file of the selected type.
+fills the slot \emph{@annotation} in the returned
+\emph{tssObject} with a \linkS4class{GRanges} object contining a
+parsed annotation file of the selected type.
 }
 \description{
 \code{importAnnotationExternal} imports an
@@ -42,8 +42,8 @@ refer to \code{importAnnotationHub}
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 extdata.dir <- system.file("extdata", package="TSRchitect")
 annotation <- dir(extdata.dir, pattern="\\\\.gff3$", full.names=TRUE)
-importAnnotationExternal(experimentName=tssObjectExample, fileType="gff3",
-annotFile=annotation)
+tssObjectExample <- importAnnotationExternal(experimentName=tssObjectExample,
+fileType="gff3", annotFile=annotation)
 
 }
 

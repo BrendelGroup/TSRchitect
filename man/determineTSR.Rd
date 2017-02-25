@@ -31,7 +31,8 @@ be written to a table. (logical)}
 }
 \value{
 creates a list of \linkS4class{GenomicRanges}-containing
-TSR positions in slot \emph{@tsrData} on the \emph{tssObject} object
+TSR positions in slot \emph{@tsrData} of the returned \emph{tssObject}
+object
 }
 \description{
 \code{determineTSR} Identifies TSRs from
@@ -43,7 +44,7 @@ An example similar to this one can be found in the vignette
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
-determineTSR(experimentName=tssObjectExample, n.cores=1,
+tssObjectExample <- determineTSR(experimentName=tssObjectExample, n.cores=1,
 tsrSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20,
 writeTable=FALSE)
 

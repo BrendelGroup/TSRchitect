@@ -1,6 +1,8 @@
 setClass(Class="tssObject",
          representation(
              title = "character",
+             inputDir = "character",
+             inputType = "character",
              fileNames = "character",
              dataType = "character",
              sampleNames = "character",
@@ -17,6 +19,8 @@ setClass(Class="tssObject",
              ),
          prototype(
              title = NA_character_,
+             inputDir = NA_character_,
+             inputType = NA_character_,
              fileNames = NA_character_,
              dataType = NA_character_,
              sampleNames = NA_character_,
