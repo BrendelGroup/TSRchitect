@@ -8,11 +8,11 @@
 #' .bam file contained within \emph{experimentName} and places them in
 #' the returned \emph{tssObject}.
 #'
+#' @import BiocGenerics
+#' @import methods
 #' @importFrom GenomicRanges granges GRanges GRangesList
-#' @importFrom BiocGenerics start end
 #' @importFrom GenomeInfoDb sortSeqlevels
 #' @importFrom IRanges IRanges
-#' @importFrom methods as
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",

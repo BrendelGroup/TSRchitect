@@ -10,9 +10,10 @@
 #' @return generates a list containing TSS data for a single sequence
 #' (plus and minus strands)
 #'
-#' @importFrom BiocGenerics strand start unique
+#' @import BiocGenerics
+#' @import methods
 #' @importFrom GenomeInfoDb seqnames
-#' @importFrom methods new
+
 
 
 setGeneric("tssChr",
@@ -58,7 +59,7 @@ setMethod("tssChr",
 #'
 #' @return a list object containing TSS data from the entire dataset
 #'
-#' @importFrom BiocGenerics unique
+#' @import BiocGenerics
 #' @importFrom gtools mixedsort
 
 
@@ -99,7 +100,7 @@ setMethod("acquireTSS",
 #' @description Returns a matrix [a, h] where a = the number of unique TSSs
 #' and h = the # of tags observed at that position
 #'
-#' @importFrom BiocGenerics unique
+#' @import BiocGenerics
 #' @importFrom gtools mixedsort
 #' @importFrom utils write.table
 #'
