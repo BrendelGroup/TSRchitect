@@ -48,8 +48,7 @@ setMethod("importAnnotationExternal",
                    annotFile) {
 
               message("... importAnnotationExternal ...")
-              fileType <- match.arg(fileType, c("bed","gff", "gff3"),
-                                    several.ok=FALSE)
+              fileType <- match.arg(fileType, several.ok=FALSE)
               if (fileType=="bed") {
                   import.bed(annotFile) -> experimentName@annotation
                   }
