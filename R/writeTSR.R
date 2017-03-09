@@ -15,6 +15,8 @@
 #' @return A table containing the specified TSR data set that
 #' is to be written to your working directory.
 #'
+#' @importFrom GenomicRanges makeGRangesFromDataFrame
+#' @importFrom rtracklayer export.bed
 #' @importFrom utils write.table
 #'
 #' @examples
@@ -123,11 +125,20 @@ setMethod("writeTSR",
                   colnames(bed.df) <- c("chrom", "start", "end",
                                       "name", "score", "strand")
                   bed.df$start <- bed.df$start - 1
-                  write.table(bed.df, file=outfname, col.names=FALSE,
-                  row.names=FALSE, sep="\t", quote=FALSE)
+#                  write.table(bed.df, file=outfname, col.names=FALSE,
+#                              row.names=FALSE, sep="\t", quote=FALSE)
+                  bed.gr <- makeGRangesFromDataFrame(bed.df,
+                                           keep.extra.columns=TRUE,
+                                           ignore.strand=TRUE,
+                                           seqinfo=NULL,
+                                           seqnames.field="seq",
+                                           start.field="start",
+                                           end.field.="end",
+                                           strand.field="strand")
+                  export.bed(bed.gr, con=outfname)
               }
 
-              cat("---------------------------------------------------------\n")
+              message("---------------------------------------------------------\n")
               message(" Done.\n")
           }
           )
