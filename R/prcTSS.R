@@ -42,13 +42,9 @@ setMethod("prcTSS",
               outfname <- paste("TSSset-", tssSet, sep="")
               outfname <- paste(outfname, "txt", sep=".")
 
-              if (writeTable=="TRUE") {
-                  tss.df <- tagCountTSS(tss, outfname = outfname, writeDF=TRUE)
-              }
-              else {
-                  tss.df <- tagCountTSS(tss, outfname = outfname, writeDF=FALSE)
-              }
-
+              tss.df <- tagCountTSS(tss, outfname = outfname,
+                                    writeDF = writeTable)  
+              
               message("\n... the TSS expression matrix for dataset ", tssSet,
                   " has been successfully added to\ntssObject object \"",
                   object.name, "\"\n")
