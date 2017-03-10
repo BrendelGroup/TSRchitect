@@ -138,9 +138,8 @@ setMethod("addAnnotationToTSR",
 #-  a potential promoter region.
               regionOfInterest <- promoters(annot.gr, upstream=upstreamDist,
                                             downstream=downstreamDist)
-
-              idvec <- sprintf("regionOfInterest$%s",featureColumnID)
-              ID.vec <- eval(parse(text=idvec))
+              ID.vec <- S4Vectors::mcols(regionOfInterest)[featureColumnID]
+              ID.vec <- as.character(ID.vec$ID)
               overlapHitList <- findOverlaps(tsr.gr, regionOfInterest)
 #  ... overlapHitList is a hit list that indicates the overlaps
 #  between tsr.gr entries and regionOfInterest entries:
