@@ -40,7 +40,7 @@ setMethod("bamToTSS",
                        "Please load alignment files to your tssObject.")
               }
               else {
-                  cat("\nBeginning .bam read alignment",
+                  message("\nBeginning .bam read alignment",
                       "to TSS data conversion ...\n\n")
               }
 
@@ -48,7 +48,7 @@ setMethod("bamToTSS",
               bam.vec <- vector(mode="list", length=bam.len)
 
               for (i in 1:bam.len) {
-                  cat("Retrieving data from bam file #", i, "...\n\n")
+                  message("Retrieving data from bam file #", i, "...\n\n")
                   experimentName@bamData[[i]] -> bam.data
                   as(bam.data,"data.frame") -> bam.df
                   bam.df[bam.df$strand=="+",] -> df.plus
@@ -76,9 +76,9 @@ setMethod("bamToTSS",
               GR.list <- GRangesList(bam.vec)
               experimentName@tssTagData <- GR.list
               experimentName@tssCountData <- vector(mode="list", length=bam.len)
-              cat("Done. TSS data from ", bam.len, " separate bam files" ,
+              message("Done. TSS data from ", bam.len, " separate bam files" ,
                   "have been successfully\nadded to the tssObject.\n\n")
-              cat("---------------------------------------------------------\n")
+              message("---------------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
           }

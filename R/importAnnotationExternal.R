@@ -58,9 +58,9 @@ setMethod("importAnnotationExternal",
               if (fileType=="gff3") {
                   import.gff3(annotFile) -> experimentName@annotation
                   }
-              cat("Done. Annotation data have been attached to",
+              message("Done. Annotation data have been attached to",
                   "the tssObject.\n")
-              cat("---------------------------------------------------------\n")
+              message("-----------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
           }

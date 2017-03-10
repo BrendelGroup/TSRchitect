@@ -71,7 +71,7 @@ setGeneric("acquireTSS",
 setMethod("acquireTSS",
           signature(experimentName="tssObject", tssSet="numeric"),
           function(experimentName, tssSet) {
-              cat("\nAcquiring TSS data from sample tssSet = ",
+              message("\nAcquiring TSS data from sample tssSet = ",
                   tssSet, " ...\n")
               tss.obj <- experimentName@tssTagData[[tssSet]]
               uni.seq <- as.character(unique(seqnames(tss.obj)))
@@ -88,8 +88,8 @@ setMethod("acquireTSS",
               names(tss.list) <- uni.seq
               newtime <- Sys.time()
               elapsedtime <- newtime - oldtime
-              cat("Done with sample tssSet = ", tssSet,
-                  " after time: ",print(elapsedtime),".\n\n")
+              message("Done with sample tssSet = ", tssSet,
+                  " after time: ", print(elapsedtime),".\n\n")
               return(tss.list)
          }
          )
@@ -116,7 +116,7 @@ tagCountTSS <- function(x, outfname="TSS.txt", writeDF=FALSE) {
         for (i in 1:n.seq) {
 #VB Note: Print a progress note on every 20th sequence; 20 should be a parameter
             if (i%%20 == 0) {
-                cat("... tagCountTSS running with sequence ", i,
+                message("... tagCountTSS running with sequence ", i,
                     " of ", n.seq, " for TSS set ", outfname, "\n")
             }
             uni.seq[i] -> this.seq

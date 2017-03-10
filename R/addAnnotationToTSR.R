@@ -173,8 +173,9 @@ setMethod("addAnnotationToTSR",
                   tsr.df -> experimentName@tsrDataMerged[[tsrSet]]
               }
 
-              cat("Done. GeneIDs have been associated with adjacent TSRs.\n")
-              cat("---------------------------------------------------------\n")
+              message("Done. GeneIDs have been associated with adjacent",
+                      " TSRs.\n")
+              message("-----------------------------------------------------\n")
               message(" Done.\n")
               return( experimentName)
           }

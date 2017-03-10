@@ -49,10 +49,10 @@ setMethod("prcTSS",
                   tss.df <- tagCountTSS(tss, outfname = outfname, writeDF=FALSE)
               }
 
-              cat("\n... the TSS expression matrix for dataset ", tssSet,
+              message("\n... the TSS expression matrix for dataset ", tssSet,
                   " has been successfully added to\ntssObject object \"",
                   object.name, "\"\n")
-              cat("---------------------------------------------------------\n")
+              message("---------------------------------------------------------\n")
               return(tss.df)
           }
           )
