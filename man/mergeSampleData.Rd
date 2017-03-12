@@ -11,8 +11,9 @@ mergeSampleData(experimentName)
 information about the experiment.}
 }
 \value{
-tssCountData datasets will be merged (according to the
-\emph{sampleIDs}) and assigned to your \emph{tssObject}.
+tssCountData datasets are merged (according to the
+\emph{sampleIDs}) and put in the tssCountDataMerged slot in the returned
+\emph{tssObject}.
 }
 \description{
 \code{mergeSampleData} combines samples from multiple TSS
@@ -28,4 +29,3 @@ package="TSRchitect"))
 mergeSampleData(experimentName=tssObjectExample)
 
 }
-

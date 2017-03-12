@@ -26,7 +26,7 @@ a table. (logical)}
 \value{
 a matrix of tag counts (where the number of columns will equal
 the number of replicates in the sample) is appended to the data frame
-of the selected set of identified TSRs.
+of the selected set of identified TSRs in the returned \emph{tssObject}
 }
 \description{
 \code{addTagCountsToTSR} adds a matrix of tag counts to a set
@@ -42,4 +42,3 @@ addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged",
 tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
 
 }
-
