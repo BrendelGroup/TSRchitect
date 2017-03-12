@@ -86,7 +86,7 @@ if (inputType=="bam") {
                               isFirstMateRead=TRUE, hasUnmappedMate=FALSE,
                               isUnmappedQuery=FALSE,
                               isSecondaryAlignment=FALSE) -> bamFlags
-                  cat("\nTSS data were specified to be paired-end",
+                  message("\nTSS data were specified to be paired-end",
                       "read alignments.")
                   c("rname","flag","strand","pos","qwidth","mapq",
                     "cigar","isize") -> myFields
@@ -95,7 +95,7 @@ if (inputType=="bam") {
                   message("\nImporting single-end reads ...\n")
                   scanBamFlag(isPaired=FALSE, isUnmappedQuery=FALSE,
                               isSecondaryAlignment=FALSE) -> bamFlags
-                  cat("\nTSS data were specified to be",
+                  message("\nTSS data were specified to be",
                       "single-end read alignments.\n")
                   c("rname","flag","strand","pos",
                     "qwidth","mapq","cigar") -> myFields
@@ -106,13 +106,13 @@ if (inputType=="bam") {
               bv_obj <- BamViews(bam.paths)
               bv_files <- dimnames(bv_obj)[[2]]
               n.bams <- length(bv_files)
-              cat("\nBeginning import of ", n.bams, " bam files ...\n")
+              message("\nBeginning import of ", n.bams, " bam files ...\n")
               bams.GA <- bplapply(bam.paths, readGAlignments,
                          BPPARAM = MulticoreParam(), param=my.param)
               tssObj@bamData <- bams.GA
-              cat("Done. Alignment data from ", n.bams,
+              message("Done. Alignment data from ", n.bams,
                   " bam files have been attached to the tssObject.\n")
-              cat("---------------------------------------------------------\n")
+              message("-----------------------------------------------------\n")
 }
 if (inputType=="bed") {
 stop("\nNot yet supported.  Visit again soon.\n\n")
@@ -137,9 +137,9 @@ stop("\nNot yet supported.  Visit again soon.\n\n")
               rep.list <- vector(mode="list", length=exp.len)
               tssObj@tsrData <- rep.list
 
-              cat("\nNames and replicate IDs were successfully added",
+              message("\nNames and replicate IDs were successfully added",
                   "to the tssObject.\n\n")
-              cat("---------------------------------------------------------\n")
+              message("---------------------------------------------------------\n")
               message(" Done.\n")
               return(tssObj)
           }

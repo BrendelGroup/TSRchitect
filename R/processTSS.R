@@ -70,7 +70,7 @@ setMethod("processTSS",
                                                              tssSet = i,
                                                              writeTable)
               }
-              cat("---------------------------------------------------------\n")
+              message("---------------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
           }

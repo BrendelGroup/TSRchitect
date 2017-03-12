@@ -31,6 +31,7 @@ setMethod("prcTSS",
           signature(experimentName="tssObject", "numeric", "logical"),
 
           function(experimentName, tssSet, writeTable) {
+              object.name <- deparse(substitute(experimentName))
 
               if (tssSet>length(experimentName@replicateIDs)) {
                   stop("The value selected exceeds the toal number of samples.")
@@ -41,16 +42,13 @@ setMethod("prcTSS",
               outfname <- paste("TSSset-", tssSet, sep="")
               outfname <- paste(outfname, "txt", sep=".")
 
-              if (writeTable=="TRUE") {
-                  tss.df <- tagCountTSS(tss, outfname = outfname, writeDF=TRUE)
-              }
-              else {
-                  tss.df <- tagCountTSS(tss, outfname = outfname, writeDF=FALSE)
-              }
-
-              cat("\n... the TSS expression matrix for dataset ", tssSet,
-                  " has been successfully\nadded to the tssObject.\n")
-              cat("---------------------------------------------------------\n")
+              tss.df <- tagCountTSS(tss, outfname = outfname,
+                                    writeDF = writeTable)  
+              
+              message("\n... the TSS expression matrix for dataset ", tssSet,
+                  " has been successfully added to\ntssObject object \"",
+                  object.name, "\"\n")
+              message("---------------------------------------------------------\n")
               return(tss.df)
           }
           )

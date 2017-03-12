@@ -51,9 +51,9 @@ setMethod("importAnnotationHub",
               else {
                   annot.object -> experimentName@annotation
               }
-              cat("Done. Annotation data have been attached to",
+              message("Done. Annotation data have been attached to",
                   "the tssObject.\n")
-              cat("---------------------------------------------------------\n")
+              message("---------------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
           }

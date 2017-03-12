@@ -30,7 +30,7 @@
 #' @return addAnnotationToTSR adds feature annotation to the (merged)
 #' \emph{@@tsrData} data frame and returns the updated \emph{tssObject}.
 #'
-#' @importFrom BiocGenerics start end
+#' @import BiocGenerics
 #' @importFrom GenomicRanges GRanges findOverlaps promoters
 #' @importFrom IRanges IRanges
 #' @importFrom utils write.table
@@ -138,9 +138,8 @@ setMethod("addAnnotationToTSR",
 #-  a potential promoter region.
               regionOfInterest <- promoters(annot.gr, upstream=upstreamDist,
                                             downstream=downstreamDist)
-
-              idvec <- sprintf("regionOfInterest$%s",featureColumnID)
-              ID.vec <- eval(parse(text=idvec))
+              ID.vec <- S4Vectors::mcols(regionOfInterest)[featureColumnID]
+              ID.vec <- as.character(ID.vec$ID)
               overlapHitList <- findOverlaps(tsr.gr, regionOfInterest)
 #  ... overlapHitList is a hit list that indicates the overlaps
 #  between tsr.gr entries and regionOfInterest entries:
@@ -174,8 +173,9 @@ setMethod("addAnnotationToTSR",
                   tsr.df -> experimentName@tsrDataMerged[[tsrSet]]
               }
 
-              cat("Done. GeneIDs have been associated with adjacent TSRs.\n")
-              cat("---------------------------------------------------------\n")
+              message("Done. GeneIDs have been associated with adjacent",
+                      " TSRs.\n")
+              message("-----------------------------------------------------\n")
               message(" Done.\n")
               return( experimentName)
           }

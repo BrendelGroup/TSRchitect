@@ -174,7 +174,7 @@ setMethod("addTagCountsToTSR",
                   currentTSRset -> experimentName@tsrDataMerged[[tsrSet]]
               }
 
-              cat("---------------------------------------------------------\n")
+              message("---------------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
           }

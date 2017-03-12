@@ -174,7 +174,7 @@ setMethod("determineTSR",
                   stop("Error: argument tsrSetType should be",
                        "either \"replicates\" or \"merged\".")
               }
-              cat("---------------------------------------------------------\n")
+              message("---------------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
           }
