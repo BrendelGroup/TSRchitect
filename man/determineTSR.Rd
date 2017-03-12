@@ -31,7 +31,8 @@ be written to a table. (logical)}
 }
 \value{
 creates a list of \linkS4class{GenomicRanges}-containing
-TSR positions in slot \emph{@tsrData} on the \emph{tssObject} object
+TSR positions in slot \emph{@tsrData} of the returned \emph{tssObject}
+object
 }
 \description{
 \code{determineTSR} Identifies TSRs from
@@ -48,4 +49,3 @@ tsrSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20,
 writeTable=FALSE)
 
 }
-

@@ -12,7 +12,7 @@ bamToTSS(experimentName)
 \value{
 creates a list of TSSs in class \linkS4class{GRanges} for each
 .bam file contained within \emph{experimentName} and places them in
-the \emph{tssObject}.
+the returned \emph{tssObject}.
 }
 \description{
 \code{bamToTSS} extracts TSS information from each
@@ -28,4 +28,3 @@ package="TSRchitect"))
 bamToTSS(experimentName=tssObjectExample)
 
 }
-

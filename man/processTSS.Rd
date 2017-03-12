@@ -21,7 +21,7 @@ to a file. (logical)}
 }
 \value{
 Creates a list of \linkS4class{GenomicRanges} containing TSS
-positions in slot \emph{tssTagData} on the \emph{tssObject}.
+positions in slot \emph{tssTagData} of the returned \emph{tssObject}.
 }
 \description{
 \code{processTSS} calulates the number of observed reads
@@ -41,4 +41,3 @@ processTSS(experimentName=tssObjectExample, n.cores=1, tssSet="all",
 writeTable=FALSE)
 
 }
-
