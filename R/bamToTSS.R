@@ -41,7 +41,7 @@ setMethod("bamToTSS",
               }
               else {
                   message("\nBeginning .bam read alignment",
-                      "to TSS data conversion ...\n\n")
+                      " to TSS data conversion ...\n\n")
               }
 
               bam.len <- length(experimentName@bamData)
