@@ -87,7 +87,7 @@ if (inputType=="bam") {
                               isUnmappedQuery=FALSE,
                               isSecondaryAlignment=FALSE) -> bamFlags
                   message("\nTSS data were specified to be paired-end",
-                      "read alignments.")
+                      " read alignments.")
                   c("rname","flag","strand","pos","qwidth","mapq",
                     "cigar","isize") -> myFields
               }
@@ -96,7 +96,7 @@ if (inputType=="bam") {
                   scanBamFlag(isPaired=FALSE, isUnmappedQuery=FALSE,
                               isSecondaryAlignment=FALSE) -> bamFlags
                   message("\nTSS data were specified to be",
-                      "single-end read alignments.\n")
+                      " single-end read alignments.\n")
                   c("rname","flag","strand","pos",
                     "qwidth","mapq","cigar") -> myFields
               }
@@ -138,7 +138,7 @@ stop("\nNot yet supported.  Visit again soon.\n\n")
               tssObj@tsrData <- rep.list
 
               message("\nNames and replicate IDs were successfully added",
-                  "to the tssObject.\n\n")
+                  " to the tssObject.\n\n")
               message("---------------------------------------------------------\n")
               message(" Done.\n")
               return(tssObj)
