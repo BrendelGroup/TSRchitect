@@ -125,15 +125,11 @@ setMethod("writeTSR",
                   colnames(bed.df) <- c("chrom", "start", "end",
                                       "name", "score", "strand")
                   bed.df$start <- bed.df$start - 1
-#                  write.table(bed.df, file=outfname, col.names=FALSE,
-#                              row.names=FALSE, sep="\t", quote=FALSE)
                   bed.gr <- makeGRangesFromDataFrame(bed.df,
                                            keep.extra.columns=TRUE,
-                                           ignore.strand=TRUE,
-                                           seqinfo=NULL,
-                                           seqnames.field="seq",
+                                           ignore.strand=FALSE,
                                            start.field="start",
-                                           end.field.="end",
+                                           end.field="end",
                                            strand.field="strand")
                   export.bed(bed.gr, con=outfname)
               }
