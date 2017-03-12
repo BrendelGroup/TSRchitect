@@ -37,18 +37,15 @@ setMethod("prcTSS",
                   stop("The value selected exceeds the toal number of samples.")
               }
 
-              tss <- acquireTSS(experimentName, tssSet)
-
               outfname <- paste("TSSset-", tssSet, sep="")
               outfname <- paste(outfname, "txt", sep=".")
 
-              tss.df <- tagCountTSS(tss, outfname = outfname,
-                                    writeDF = writeTable)  
-              
+              tss.df <- tagCountTSS(experimentName@tssTagData[[tssSet]],
+                                    outfname = outfname, writeDF=writeTable)
+
               message("\n... the TSS expression matrix for dataset ", tssSet,
-                  " has been successfully added to\ntssObject object \"",
-                  object.name, "\"\n")
-              message("---------------------------------------------------------\n")
+                  " has been successfully\nadded to the tssObject.\n")
+              message("-----------------------------------------------------\n")
               return(tss.df)
           }
           )

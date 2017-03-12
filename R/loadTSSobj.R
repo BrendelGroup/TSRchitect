@@ -139,7 +139,7 @@ stop("\nNot yet supported.  Visit again soon.\n\n")
 
               message("\nNames and replicate IDs were successfully added",
                   " to the tssObject.\n\n")
-              message("---------------------------------------------------------\n")
+              message("-----------------------------------------------------\n")
               message(" Done.\n")
               return(tssObj)
           }
