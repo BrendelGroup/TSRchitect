@@ -17,9 +17,9 @@ Must be one of: "bed", "gff" or "gff3".}
 file to be imported.}
 }
 \value{
-fills the slot \emph{@annotation} in the \emph{tssObject}
-with a \linkS4class{GRanges} object contining a parsed annotation
-file of the selected type.
+fills the slot \emph{@annotation} in the returned
+\emph{tssObject} with a \linkS4class{GRanges} object contining a
+parsed annotation file of the selected type.
 }
 \description{
 \code{importAnnotationExternal} imports an
@@ -46,4 +46,3 @@ importAnnotationExternal(experimentName=tssObjectExample, fileType="gff3",
 annotFile=annotation)
 
 }
-

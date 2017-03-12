@@ -17,11 +17,9 @@ Your choice for \emph{experimentName} must lack spaces.}
 paired-end (if TRUE) or single-end (if FALSE) (logical)}
 }
 \value{
-Creates a new \emph{tssObject} with the name \emph{experimentName}
-that is written to the user's working environment.
+a new \emph{tssObject} with name \emph{experimentName}
 }
 \description{
 \code{initializeExp} creates an initialized tssObject
 in the user's workspace
 }
-

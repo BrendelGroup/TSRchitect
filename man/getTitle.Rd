@@ -24,4 +24,3 @@ example.title
 
 }
 \keyword{methods}
-
