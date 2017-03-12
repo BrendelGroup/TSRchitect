@@ -30,15 +30,19 @@ setMethod("tssChr",
               if (is.na(match_string)) {
                   stop("The sequence you selected doesn't exist.")
               }
-              this.seq <- uni.seq[uni.seq==seqName]
-              #message("\n Extracting tss data from ", this.seq, ".")
-              tss.total <- tssObj[seqnames(tssObj)==this.seq,]
+               this.grList <- S4Vectors::split(tssObj, seqnames(tssObj))
+              #print(this.grList) 
+              tss.total <- this.grList[[seqName]]
+              #print(tss.total)
+              # splitting on strand (note that '*' values are ignored)
+              tss.grList <- S4Vectors::split(tss.total, strand(tss.total))
+              #print(tss.grList)
               # starting with the TSSs on the plus strand
-              tss.plus <- tss.total[as.character(strand(tss.total))=="+",]
+              tss.plus <- tss.grList$"+"
               tss.plus.vec <- start(tss.plus)
               seq.list$plus <- tss.plus.vec
               # now for the TSSs on the minus strand
-              tss.minus <- tss.total[as.character(strand(tss.total))=="-",]
+              tss.minus <- tss.grList$"-"
               tss.minus.vec <- start(tss.minus)
               seq.list$minus <- tss.minus.vec
               tss.total <- NULL
