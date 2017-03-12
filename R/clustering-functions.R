@@ -10,9 +10,10 @@
 #' @return generates a list containing TSS data for a single sequence
 #' (plus and minus strands)
 #'
-#' @importFrom BiocGenerics strand start unique
+#' @import BiocGenerics
+#' @import methods
 #' @importFrom GenomeInfoDb seqnames
-#' @importFrom methods new
+
 
 
 setGeneric("tssChr",
@@ -29,15 +30,19 @@ setMethod("tssChr",
               if (is.na(match_string)) {
                   stop("The sequence you selected doesn't exist.")
               }
-              this.seq <- uni.seq[uni.seq==seqName]
-              #message("\n Extracting tss data from ", this.seq, ".")
-              tss.total <- tssObj[seqnames(tssObj)==this.seq,]
+               this.grList <- S4Vectors::split(tssObj, seqnames(tssObj))
+              #print(this.grList) 
+              tss.total <- this.grList[[seqName]]
+              #print(tss.total)
+              # splitting on strand (note that '*' values are ignored)
+              tss.grList <- S4Vectors::split(tss.total, strand(tss.total))
+              #print(tss.grList)
               # starting with the TSSs on the plus strand
-              tss.plus <- tss.total[as.character(strand(tss.total))=="+",]
+              tss.plus <- tss.grList$"+"
               tss.plus.vec <- start(tss.plus)
               seq.list$plus <- tss.plus.vec
               # now for the TSSs on the minus strand
-              tss.minus <- tss.total[as.character(strand(tss.total))=="-",]
+              tss.minus <- tss.grList$"-"
               tss.minus.vec <- start(tss.minus)
               seq.list$minus <- tss.minus.vec
               tss.total <- NULL
@@ -58,7 +63,7 @@ setMethod("tssChr",
 #'
 #' @return a list object containing TSS data from the entire dataset
 #'
-#' @importFrom BiocGenerics unique
+#' @import BiocGenerics
 #' @importFrom gtools mixedsort
 
 
@@ -70,7 +75,7 @@ setGeneric("acquireTSS",
 setMethod("acquireTSS",
           signature(experimentName="tssObject", tssSet="numeric"),
           function(experimentName, tssSet) {
-              cat("\nAcquiring TSS data from sample tssSet = ",
+              message("\nAcquiring TSS data from sample tssSet = ",
                   tssSet, " ...\n")
               tss.obj <- experimentName@tssTagData[[tssSet]]
               uni.seq <- as.character(unique(seqnames(tss.obj)))
@@ -87,8 +92,8 @@ setMethod("acquireTSS",
               names(tss.list) <- uni.seq
               newtime <- Sys.time()
               elapsedtime <- newtime - oldtime
-              cat("Done with sample tssSet = ", tssSet,
-                  " after time: ",print(elapsedtime),".\n\n")
+              message("Done with sample tssSet = ", tssSet,
+                  " after time: ", print(elapsedtime),".\n\n")
               return(tss.list)
          }
          )
@@ -99,7 +104,7 @@ setMethod("acquireTSS",
 #' @description Returns a matrix [a, h] where a = the number of unique TSSs
 #' and h = the # of tags observed at that position
 #'
-#' @importFrom BiocGenerics unique
+#' @import BiocGenerics
 #' @importFrom gtools mixedsort
 #' @importFrom utils write.table
 #'
@@ -115,7 +120,7 @@ tagCountTSS <- function(x, outfname="TSS.txt", writeDF=FALSE) {
         for (i in 1:n.seq) {
 #VB Note: Print a progress note on every 20th sequence; 20 should be a parameter
             if (i%%20 == 0) {
-                cat("... tagCountTSS running with sequence ", i,
+                message("... tagCountTSS running with sequence ", i,
                     " of ", n.seq, " for TSS set ", outfname, "\n")
             }
             uni.seq[i] -> this.seq
@@ -216,7 +221,7 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
          subset(sTSS, strand=="+") -> sTSS.p
          as.matrix(sTSS.p) -> sTSS.p
          nrow(sTSS.p) -> my.len
-         if (my.len == 0) { # ... create an empty list tss.list.p
+         if (my.len == 0) { # ... assign an empty list to tss.list.p
              vector(mode="list") -> tss.list.p
          }
          else if (my.len == 1) {
@@ -276,7 +281,7 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
          subset(sTSS, strand=="-") -> sTSS.m
          as.matrix(sTSS.m) -> sTSS.m
          nrow(sTSS.m) -> my.len
-         if (my.len == 0) { # ... create an empty list tss.list.m
+         if (my.len == 0) { # ... assign an empty list to tss.list.m
              vector(mode="list") -> tss.list.m
          }
          else if (my.len == 1) {
