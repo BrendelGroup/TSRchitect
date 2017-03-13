@@ -5,15 +5,17 @@
 #' @keywords internal
 
 countsToVector <- function(x) {
-    coord.vec <- x[1,]
-    count.vec <- x[2,]
+    #coord.vec <- x[1,]
+    #count.vec <- x[2,]
     rep.vec  <- vector(mode="numeric", length=0)
 
-    for (i in 1:length(count.vec)) {
-        count.vec[i] -> this.count
-        coord.vec[i] -> this.coord
-        rep(this.coord, this.count) -> this.vec
-        c(rep.vec, this.vec) -> rep.vec
+    for (i in 1:length(x[1,])) {
+        this.vec <- rep(x[1,i], x[2,i])
+        rep.vec <- c(rep.vec, this.vec)
+        #this.count <- count.vec[i]
+        #this.coord <- coord.vec[i]
+        #this.vec <- rep(this.coord, this.count)
+        rep.vec <- c(rep.vec, this.vec)
         }
 
     names(rep.vec) <- NULL

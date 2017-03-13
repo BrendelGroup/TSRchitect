@@ -19,8 +19,8 @@
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
-#' processTSS(experimentName=tssObjectExample, n.cores=1, tssSet="all",
-#' writeTable=FALSE)
+#' tssObjectExample <- processTSS(experimentName=tssObjectExample, n.cores=1,
+#' tssSet="all", writeTable=FALSE)
 #'
 #' @note Note that the \emph{tssSet} parameter must be of class
 #' \emph{character}, even when selecting an individual dataset.
@@ -70,7 +70,7 @@ setMethod("processTSS",
                                                              tssSet = i,
                                                              writeTable)
               }
-              cat("---------------------------------------------------------\n")
+              message("---------------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
           }

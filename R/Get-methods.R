@@ -179,8 +179,7 @@ setMethod("getTSScountData",
                     slot = "numeric"),
           function (experimentName, slotType = c("replicates", "merged"),
                     slot) {
-              fileType <- match.arg(slotType, c("replicates","merged"),
-                                    several.ok=FALSE)
+              fileType <- match.arg(slotType, several.ok=FALSE)
               if (slotType=="replicates") {
                   n.tss.counts  <- length(experimentName@tssCountData)
                   if (slot > n.tss.counts) {
@@ -239,8 +238,7 @@ setMethod("getTSRdata",
                     slot = "numeric"),
           function (experimentName, slotType = c("replicates", "merged"),
                     slot) {
-                    fileType <- match.arg(slotType, c("replicates","merged"),
-                                    several.ok=FALSE)
+                    fileType <- match.arg(slotType, several.ok=FALSE)
                     if (slotType=="replicates") {
                         n.tsrs  <- length(experimentName@tsrData)
                         if (slot > n.tsrs) {

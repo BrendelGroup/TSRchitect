@@ -42,7 +42,8 @@ refer to \code{importAnnotationHub}
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 extdata.dir <- system.file("extdata", package="TSRchitect")
 annotation <- dir(extdata.dir, pattern="\\\\.gff3$", full.names=TRUE)
-importAnnotationExternal(experimentName=tssObjectExample, fileType="gff3",
-annotFile=annotation)
+tssObjectExample <- importAnnotationExternal(experimentName=tssObjectExample,
+fileType="gff3", annotFile=annotation)
 
 }
+

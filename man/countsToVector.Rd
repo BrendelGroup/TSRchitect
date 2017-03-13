@@ -11,3 +11,4 @@ An internal function that extracts the values
 from the output returned from tsrCluster
 }
 \keyword{internal}
+

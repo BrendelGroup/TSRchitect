@@ -25,6 +25,7 @@ found in the vignette (/inst/doc/TSRchitect.Rmd).
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",
 package="TSRchitect"))
-bamToTSS(experimentName=tssObjectExample)
+tssObjectExample <- bamToTSS(experimentName=tssObjectExample)
 
 }
+

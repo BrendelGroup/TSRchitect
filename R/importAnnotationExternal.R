@@ -21,8 +21,8 @@
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' extdata.dir <- system.file("extdata", package="TSRchitect")
 #' annotation <- dir(extdata.dir, pattern="\\.gff3$", full.names=TRUE)
-#' importAnnotationExternal(experimentName=tssObjectExample, fileType="gff3",
-#' annotFile=annotation)
+#' tssObjectExample <- importAnnotationExternal(experimentName=tssObjectExample,
+#' fileType="gff3", annotFile=annotation)
 #'
 #' @note \code{importAnnotationExternal} makes use of three functions from the
 #' \emph{rtracklayer} package: \code{\link[rtracklayer]{import.bed}},
@@ -48,20 +48,19 @@ setMethod("importAnnotationExternal",
                    annotFile) {
 
               message("... importAnnotationExternal ...")
-              fileType <- match.arg(fileType, c("bed","gff", "gff3"),
-                                    several.ok=FALSE)
+              fileType <- match.arg(fileType, several.ok=FALSE)
               if (fileType=="bed") {
-                  import.bed(annotFile) -> experimentName@annotation
+                  experimentName@annotation <- import.bed(annotFile)
                   }
               if (fileType=="gff") {
-                  import.gff(annotFile) -> experimentName@annotation
+                  experimentName@annotation <- import.gff(annotFile)
                   }
               if (fileType=="gff3") {
-                  import.gff3(annotFile) -> experimentName@annotation
+                  experimentName@annotation <- import.gff3(annotFile)
                   }
-              cat("Done. Annotation data have been attached to",
-                  "the tssObject.\n")
-              cat("---------------------------------------------------------\n")
+              message("Done. Annotation data have been attached to",
+                  " the tssObject.\n")
+              message("-----------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
           }

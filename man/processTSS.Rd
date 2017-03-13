@@ -37,7 +37,8 @@ the vignette (/inst/doc/TSRchitect.Rmd).
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",
 package="TSRchitect"))
-processTSS(experimentName=tssObjectExample, n.cores=1, tssSet="all",
-writeTable=FALSE)
+tssObjectExample <- processTSS(experimentName=tssObjectExample, n.cores=1,
+tssSet="all", writeTable=FALSE)
 
 }
+

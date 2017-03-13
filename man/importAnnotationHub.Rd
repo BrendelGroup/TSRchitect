@@ -37,3 +37,4 @@ the vignette (/inst/doc/TSRchitect.Rmd)
 Please consult the available records in AnnotationHub
 beforehand using \code{\link[AnnotationHub]{AnnotationHub}}
 }
+

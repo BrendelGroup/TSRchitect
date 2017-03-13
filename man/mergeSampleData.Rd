@@ -26,6 +26,7 @@ the vignette (/inst/doc/TSRchitect.Rmd).
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",
 package="TSRchitect"))
-mergeSampleData(experimentName=tssObjectExample)
+tssObjectExample <- mergeSampleData(experimentName=tssObjectExample)
 
 }
+

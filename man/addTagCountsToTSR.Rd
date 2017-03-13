@@ -38,7 +38,8 @@ the vignette (/inst/doc/TSRchitect.Rmd)
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
-addTagCountsToTSR(experimentName=tssObjectExample, tsrSetType="merged",
-tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
+tssObjectExample <- addTagCountsToTSR(experimentName=tssObjectExample,
+tsrSetType="merged", tsrSet=1, tagCountThreshold=25, writeTable=FALSE)
 
 }
+

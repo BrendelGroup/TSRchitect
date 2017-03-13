@@ -30,7 +30,7 @@
 #' @return addAnnotationToTSR adds feature annotation to the (merged)
 #' \emph{@@tsrData} data frame and returns the updated \emph{tssObject}.
 #'
-#' @importFrom BiocGenerics start end
+#' @import BiocGenerics
 #' @importFrom GenomicRanges GRanges findOverlaps promoters
 #' @importFrom IRanges IRanges
 #' @importFrom utils write.table
@@ -38,9 +38,9 @@
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
-#' addAnnotationToTSR(experimentName=tssObjectExample, tsrSetType="merged",
-#' tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript",
-#' featureColumnID="ID", writeTable=FALSE)
+#' tssObjectExample <- addAnnotationToTSR(experimentName=tssObjectExample,
+#' tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200,
+#' feature="transcript", featureColumnID="ID", writeTable=FALSE)
 #' #if the object attached to @@annotation is a gff/gff3 file
 #'
 #' @note An example similar to the this one can be found
@@ -138,9 +138,8 @@ setMethod("addAnnotationToTSR",
 #-  a potential promoter region.
               regionOfInterest <- promoters(annot.gr, upstream=upstreamDist,
                                             downstream=downstreamDist)
-
-              idvec <- sprintf("regionOfInterest$%s",featureColumnID)
-              ID.vec <- eval(parse(text=idvec))
+              ID.vec <- S4Vectors::mcols(regionOfInterest)[featureColumnID]
+              ID.vec <- as.character(ID.vec$ID)
               overlapHitList <- findOverlaps(tsr.gr, regionOfInterest)
 #  ... overlapHitList is a hit list that indicates the overlaps
 #  between tsr.gr entries and regionOfInterest entries:
@@ -168,14 +167,15 @@ setMethod("addAnnotationToTSR",
               }
               #Update the record:
               if (tsrSetType=="replicates") {
-                  tsr.df -> experimentName@tsrData[[tsrSet]]
+                  experimentName@tsrData[[tsrSet]] <- tsr.df
               }
               else {
-                  tsr.df -> experimentName@tsrDataMerged[[tsrSet]]
+                  experimentName@tsrDataMerged[[tsrSet]] <- tsr.df
               }
 
-              cat("Done. GeneIDs have been associated with adjacent TSRs.\n")
-              cat("---------------------------------------------------------\n")
+              message("Done. GeneIDs have been associated with adjacent",
+                      " TSRs.\n")
+              message("-----------------------------------------------------\n")
               message(" Done.\n")
               return( experimentName)
           }

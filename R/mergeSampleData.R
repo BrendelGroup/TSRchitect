@@ -15,7 +15,7 @@
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
-#' mergeSampleData(experimentName=tssObjectExample)
+#' tssObjectExample <- mergeSampleData(experimentName=tssObjectExample)
 #'
 #' @note An example similar to the one provided can be found in
 #' the vignette (/inst/doc/TSRchitect.Rmd).
@@ -58,33 +58,33 @@ setMethod("mergeSampleData",
               exp.list <- vector(mode="list")
 
               for (i in seq_along(uni.ids)) {
-                  data.frame() -> my.df
-                  which(rep.ids==i) -> my.ind
-                  exp.data[my.ind] -> replicate.set
+                  my.df <- data.frame()
+                  my.ind <- which(rep.ids==i)
+                  replicate.set <- exp.data[my.ind]
                   for (j in 1:length(replicate.set)) {
-                      rbind(my.df, replicate.set[[j]]) -> my.df
+                      my.df <- rbind(my.df, replicate.set[[j]])
                   }
                   my.df <- my.df[with(my.df, order(seq, TSS)),]
                   my.df <- my.df[with(my.df, mixedorder(seq)),]
-                  my.df -> exp.list[[i]]
+                  exp.list[[i]] <- my.df
               }
 
 # The following few lines merge the merged tssCountData into the last
 # experimentName@tssCountDataMerged slot, representing the entire
 # collection of TSS tag counts in the experiment
 
-              data.frame() -> my.df
+              my.df <- data.frame()
               for (i in seq_along(uni.ids)) {
-                  rbind(my.df, exp.list[[i]]) -> my.df
+                  my.df <- rbind(my.df, exp.list[[i]])
               }
               my.df <- my.df[with(my.df, order(seq, TSS)),]
               my.df <- my.df[with(my.df, mixedorder(seq)),]
-              my.df -> exp.list[[i+1]]
+              exp.list[[i+1]] <- my.df
 
               experimentName@tssCountDataMerged <- exp.list
-              cat("\n... the TSS expression data have been successfully merged",
+              message("\n... the TSS expression data have been successfully merged",
                     "\nand added to the tssObject object.\n")
-              cat("---------------------------------------------------------\n")
+              message("---------------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
           }

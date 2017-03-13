@@ -56,7 +56,7 @@ setMethod("detTSR",
                                      minDist=clustDist)
               tsr.DF <- tsrToDF(tsr.list)
 
-              cat("---------------------------------------------------------\n")
+              message("---------------------------------------------------------\n")
               message(" Done.\n")
               return(tsr.DF)
           }

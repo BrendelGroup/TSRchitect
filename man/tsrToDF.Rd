@@ -27,3 +27,4 @@ that converts a \emph{tsrCluster()}-generated list of TSR data to
 a data frame.
 }
 \keyword{internal}
+
