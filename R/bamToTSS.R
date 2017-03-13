@@ -77,8 +77,8 @@ setMethod("bamToTSS",
               experimentName@tssTagData <- GR.list
               experimentName@tssCountData <- vector(mode="list", length=bam.len)
               message("Done. TSS data from ", bam.len, " separate bam files" ,
-                  "have been successfully\nadded to the tssObject.\n\n")
-              message("---------------------------------------------------------\n")
+                  " have been successfully\nadded to the tssObject.\n\n")
+              message("----------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
           }

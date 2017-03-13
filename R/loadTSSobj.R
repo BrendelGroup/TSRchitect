@@ -128,7 +128,7 @@ stop("\nNot yet supported.  Visit again soon.\n\n")
               }
               unique(sampleNames) -> s.uni
               if (length(s.uni)<length(sampleNames)) {
-                  stop("\nEach sample name must have a unique name.")
+                  stop("\nEach sample name must be unique.")
               }
 
               tssObj@sampleNames <- sampleNames
