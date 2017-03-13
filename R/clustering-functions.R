@@ -29,22 +29,22 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
             my.TSSs <- unique(tss.vec)
             my.matrix.p <- matrix(NA, nrow=(length(my.TSSs)), ncol=4)
 
-            tss.vec[1] -> this.TSS
-            1 -> n.TSSs
-            0 -> k
+            this.TSS <- tss.vec[1]
+            n.TSSs <- 1
+            k <- 0
             for (j in 2:length(tss.vec)) {
                 if (tss.vec[j] == this.TSS) {
-                    n.TSSs + 1 -> n.TSSs
+                    n.TSSs <- n.TSSs + 1
                 }
                 else {
-                    k + 1 -> k
-                    c(this.seq, this.TSS, "+", n.TSSs) -> my.matrix.p[k,]
-                    tss.vec[j] -> this.TSS
-                    1 -> n.TSSs
+                    k <- k + 1
+                    my.matrix.p[k,] <- c(this.seq, this.TSS, "+", n.TSSs)
+                    this.TSS <- tss.vec[j]
+                    n.TSSs <- 1
                 }
             }
-            k + 1 -> k
-            c(this.seq, this.TSS, "+", n.TSSs) -> my.matrix.p[k,]
+            k <- k + 1
+            my.matrix.p[k,] <- c(this.seq, this.TSS, "+", n.TSSs)
 # ... adding the plus strand matrix of this.seq to the overall matrix:
             my.matrix <- rbind(my.matrix,my.matrix.p)
         }
@@ -56,22 +56,22 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
             my.TSSs <- unique(tss.vec)
             my.matrix.m <- matrix(NA, nrow=(length(my.TSSs)), ncol=4)
 
-            tss.vec[1] -> this.TSS
-            1 -> n.TSSs
-            0 -> k
+            this.TSS <- tss.vec[1]
+            n.TSSs <- 1
+            k <- 0
             for (j in 2:length(tss.vec)) {
                 if (tss.vec[j] == this.TSS) {
-                    n.TSSs + 1 -> n.TSSs
+                    n.TSSs <- n.TSSs + 1
                 }
                 else {
-                    k + 1 -> k
-                    c(this.seq, this.TSS, "-", n.TSSs) -> my.matrix.m[k,]
-                    tss.vec[j] -> this.TSS
-                    1 -> n.TSSs
+                    k <- k + 1
+                    my.matrix.m[k,] <- c(this.seq, this.TSS, "-", n.TSSs)
+                    this.TSS <- tss.vec[j]
+                    n.TSSs <- 1
                 }
             }
-            k + 1 -> k
-            c(this.seq, this.TSS, "-", n.TSSs) -> my.matrix.m[k,]
+            k <- k + 1
+            my.matrix.m[k,] <- c(this.seq, this.TSS, "-", n.TSSs)
 # ... adding the minus strand matrix of this.seq to the overall matrix:
             my.matrix <- rbind(my.matrix,my.matrix.m)
         }
@@ -111,57 +111,57 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
     overall.list <- vector(mode="list", length=n.seq)
 
     for (l in 1:n.seq) { #by sequence
-        subset(tss.df, seq==uni.seq[l]) -> this.tss
-        subset(this.tss, this.tss$nTSSs>=minNbrTSSs) -> sTSS
+        this.tss <- subset(tss.df, seq==uni.seq[l])
+        sTSS <- subset(this.tss, this.tss$nTSSs>=minNbrTSSs)
 
         #... clustering TSS on the plus strand:
 
-        subset(sTSS, strand=="+") -> sTSS.p
-        as.matrix(sTSS.p) -> sTSS.p
-        nrow(sTSS.p) -> my.len
+        sTSS.p <- subset(sTSS, strand=="+")
+        sTSS.p <- as.matrix(sTSS.p)
+        my.len <- nrow(sTSS.p)
         if (my.len == 0) { # ... create an empty list tss.list.p
-            vector(mode="list") -> tss.list.p
+            tss.list.p <- vector(mode="list")
         }
         else if (my.len == 1) {
-            vector(mode="list") -> tss.list.p
-            as.numeric(sTSS.p[1,2]) -> my.tss
-            as.numeric(sTSS.p[1,4]) -> my.count
-            rbind(my.tss, my.count) -> combined.tss
-            c("coordinate","count") -> rownames(combined.tss)
-            (1:ncol(combined.tss)) -> colnames(combined.tss)
-            combined.tss -> tss.list.p[[1]]
+            tss.list.p <- vector(mode="list")
+            my.tss <- as.numeric(sTSS.p[1,2])
+            my.count <- as.numeric(sTSS.p[1,4])
+            combined.tss <- rbind(my.tss, my.count)
+            rownames(combined.tss) <- c("coordinate","count")
+            (colnames(combined.tss) <- 1:ncol(combined.tss))
+            tss.list.p[[1]] <- combined.tss
         }
         else {
-            vector(mode="list") -> tss.list.p
-            as.numeric(sTSS.p[1,2]) -> my.tss
-            as.numeric(sTSS.p[1,4]) -> my.count
-            0 -> j
+            tss.list.p <- vector(mode="list")
+            my.tss <- as.numeric(sTSS.p[1,2])
+            my.count <- as.numeric(sTSS.p[1,4])
+            j <- 0
             for (i in 1:(my.len-1)) {
-                as.numeric(sTSS.p[i,2]) -> tss.1
-                as.numeric(sTSS.p[i,4]) -> tss.1.count
-                as.numeric(sTSS.p[i+1,2]) -> tss.2
-                as.numeric(sTSS.p[i+1,4]) -> tss.2.count
-                abs(tss.2-tss.1) -> tss.dist
+                tss.1 <- as.numeric(sTSS.p[i,2])
+                tss.1.count <- as.numeric(sTSS.p[i,4])
+                tss.2 <- as.numeric(sTSS.p[i+1,2])
+                tss.2.count <- as.numeric(sTSS.p[i+1,4])
+                tss.dist <- abs(tss.2-tss.1)
                 if (tss.dist < minDist) {
-                    c(my.tss,tss.2) -> my.tss
-                    c(my.count, tss.2.count) -> my.count
+                    my.tss <- c(my.tss,tss.2)
+                    my.count <- c(my.count, tss.2.count)
                     if (i == my.len-1) {	# wrapping up the last TSR
-                        j + 1 -> j
-                        rbind(my.tss, my.count) -> combined.tss
-                        c("coordinate","count") -> rownames(combined.tss)
-                        (1:ncol(combined.tss)) -> colnames(combined.tss)
-                        combined.tss -> tss.list.p[[j]]
+                        j <- j + 1
+                        combined.tss <- rbind(my.tss, my.count)
+                        rownames(combined.tss) <- c("coordinate","count")
+                        (colnames(combined.tss) <- 1:ncol(combined.tss))
+                        tss.list.p[[j]] <- combined.tss
                     }
                     next
                 }
                 else {
-                    j + 1 -> j
-                    rbind(my.tss, my.count) -> combined.tss
-                    c("coordinate","count") -> rownames(combined.tss)
-                    (1:ncol(combined.tss)) -> colnames(combined.tss)
-                    combined.tss -> tss.list.p[[j]]
-                    tss.2 -> my.tss
-                    tss.2.count -> my.count
+                    j <- j + 1
+                    combined.tss <- rbind(my.tss, my.count)
+                    rownames(combined.tss) <- c("coordinate","count")
+                    (colnames(combined.tss) <- 1:ncol(combined.tss))
+                    tss.list.p[[j]] <- combined.tss
+                    my.tss <- tss.2
+                    my.count <- tss.2.count
                 }
             }
         }
@@ -169,72 +169,72 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
             names.len <- length(tss.list.p)
             names.vec <- vector(mode="character",length=names.len)
             for (k in 1:names.len) {
-                paste("tsr", k, sep="") -> names.vec[k]
+                names.vec[k] <- paste("tsr", k, sep="")
             }
-            names.vec -> names(tss.list.p)
+            names(tss.list.p) <- names.vec
         }
 
         #... clustering TSS on the minus strand:
 
-        subset(sTSS, strand=="-") -> sTSS.m
-        as.matrix(sTSS.m) -> sTSS.m
-        nrow(sTSS.m) -> my.len
+        sTSS.m <- subset(sTSS, strand=="-")
+        sTSS.m <- as.matrix(sTSS.m)
+        my.len <- nrow(sTSS.m)
         if (my.len == 0) { # ... create an empty list tss.list.m
-            vector(mode="list") -> tss.list.m
+            tss.list.m <- vector(mode="list")
         }
         else if (my.len == 1) {
-            vector(mode="list") -> tss.list.m
-            as.numeric(sTSS.m[1,2]) -> my.tss
-            as.numeric(sTSS.m[1,4]) -> my.count
-            rbind(my.tss, my.count) -> combined.tss
-            c("coordinate","count") -> rownames(combined.tss)
-            (1:ncol(combined.tss)) -> colnames(combined.tss)
-            combined.tss -> tss.list.m[[1]]
+            tss.list.m <- vector(mode="list")
+            my.tss <- as.numeric(sTSS.m[1,2])
+            my.count <- as.numeric(sTSS.m[1,4])
+            combined.tss <- rbind(my.tss, my.count)
+            rownames(combined.tss) <- c("coordinate","count")
+            (colnames(combined.tss) <- 1:ncol(combined.tss))
+            tss.list.m[[1]] <- combined.tss
         }
         else {
-            vector(mode="list") -> tss.list.m
-            as.numeric(sTSS.m[1,2]) -> my.tss
-            as.numeric(sTSS.m[1,4]) -> my.count
-            0 -> j
+            tss.list.m <- vector(mode="list")
+            my.tss <- as.numeric(sTSS.m[1,2])
+            my.count <- as.numeric(sTSS.m[1,4])
+            j <- 0
             for (i in 1:(my.len-1)) {
-                as.numeric(sTSS.m[i,2]) -> tss.1
-                as.numeric(sTSS.m[i,4]) -> tss.1.count
-                as.numeric(sTSS.m[i+1,2]) -> tss.2
-                as.numeric(sTSS.m[i+1,4]) -> tss.2.count
-                abs(tss.2-tss.1) -> tss.dist
+                tss.1 <- as.numeric(sTSS.m[i,2])
+                tss.1.count <- as.numeric(sTSS.m[i,4])
+                tss.2 <- as.numeric(sTSS.m[i+1,2])
+                tss.2.count <- as.numeric(sTSS.m[i+1,4])
+                tss.dist <- abs(tss.2-tss.1)
                 if (tss.dist < minDist) {
-                    c(my.tss,tss.2) -> my.tss
-                    c(my.count, tss.2.count) -> my.count
+                    my.tss <- c(my.tss,tss.2)
+                    my.count <- c(my.count, tss.2.count)
                     if (i == my.len-1) {	# wrapping up the last TSR
-                        j + 1 -> j
-                        rbind(my.tss, my.count) -> combined.tss
-                        c("coordinate","count") -> rownames(combined.tss)
-                        (1:ncol(combined.tss)) -> colnames(combined.tss)
-                        combined.tss -> tss.list.m[[j]]
+                        j <- j + 1
+                        combined.tss <- rbind(my.tss, my.count)
+                        rownames(combined.tss) <- c("coordinate","count")
+                        (colnames(combined.tss) <- 1:ncol(combined.tss))
+                        tss.list.m[[j]] <- combined.tss
                     }
                     next
                 }
                 else {
-                    j + 1 -> j
-                    rbind(my.tss, my.count) -> combined.tss
-                    c("coordinate","count") -> rownames(combined.tss)
-                    (1:ncol(combined.tss)) -> colnames(combined.tss)
-                    combined.tss -> tss.list.m[[j]]
-                    tss.2 -> my.tss
-                    tss.2.count -> my.count
+                    j <- j + 1
+                    combined.tss <- rbind(my.tss, my.count)
+                    rownames(combined.tss) <- c("coordinate","count")
+                    (colnames(combined.tss) <- 1:ncol(combined.tss))
+                    tss.list.m[[j]] <- combined.tss
+                    my.tss <- tss.2
+                    my.count <- tss.2.count
                 }
             }
         }
         if (my.len > 0) {
-            length(tss.list.m) -> names.len
-            vector(mode="character",length=names.len) -> names.vec
+            names.len <- length(tss.list.m)
+            names.vec <- vector(mode="character",length=names.len)
             for (k in 1:names.len) {
-                paste("tsr", k, sep="") -> names.vec[k]
+                names.vec[k] <- paste("tsr", k, sep="")
             }
-            names.vec -> names(tss.list.m)
+            names(tss.list.m) <- names.vec
         }
-        list(plus=tss.list.p, minus=tss.list.m) -> tss.list
-        tss.list -> overall.list[[l]]
+        tss.list <- list(plus=tss.list.p, minus=tss.list.m)
+        overall.list[[l]] <- tss.list
 
     }	#end of by sequence for-loop
 
