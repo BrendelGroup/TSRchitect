@@ -176,65 +176,6 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
 
         #... clustering TSS on the minus strand:
 
-         subset(sTSS, strand=="-") -> sTSS.m
-         as.matrix(sTSS.m) -> sTSS.m
-         nrow(sTSS.m) -> my.len
-         if (my.len == 0) { # ... assign an empty list to tss.list.m
-             vector(mode="list") -> tss.list.m
-         }
-         else if (my.len == 1) {
-             vector(mode="list") -> tss.list.m
-             as.numeric(sTSS.m[1,2]) -> my.tss
-             as.numeric(sTSS.m[1,4]) -> my.count
-             rbind(my.tss, my.count) -> combined.tss
-             c("coordinate","count") -> rownames(combined.tss)
-             (1:ncol(combined.tss)) -> colnames(combined.tss)
-             combined.tss -> tss.list.m[[1]]
-         }
-         else {
-             vector(mode="list") -> tss.list.m
-             as.numeric(sTSS.m[1,2]) -> my.tss
-             as.numeric(sTSS.m[1,4]) -> my.count
-             0 -> j
-             for (i in 1:(my.len-1)) {
-                 as.numeric(sTSS.m[i,2]) -> tss.1
-                 as.numeric(sTSS.m[i,4]) -> tss.1.count
-                 as.numeric(sTSS.m[i+1,2]) -> tss.2
-                 as.numeric(sTSS.m[i+1,4]) -> tss.2.count
-                 abs(tss.2-tss.1) -> tss.dist
-                 if (tss.dist < minDist) {
-                     c(my.tss,tss.2) -> my.tss
-                     c(my.count, tss.2.count) -> my.count
-                     if (i == my.len-1) {	# wrapping up the last TSR
-                         j + 1 -> j
-                         rbind(my.tss, my.count) -> combined.tss
-                         c("coordinate","count") -> rownames(combined.tss)
-                         (1:ncol(combined.tss)) -> colnames(combined.tss)
-                         combined.tss -> tss.list.m[[j]]
-                     }
-                     next
-                 }
-                 else {
-                     j + 1 -> j
-                     rbind(my.tss, my.count) -> combined.tss
-                     c("coordinate","count") -> rownames(combined.tss)
-                     (1:ncol(combined.tss)) -> colnames(combined.tss)
-                     combined.tss -> tss.list.m[[j]]
-                     tss.2 -> my.tss
-                     tss.2.count -> my.count
-                 }
-             }
-         }
-         if (my.len > 0) {
-             length(tss.list.m) -> names.len
-             vector(mode="character",length=names.len) -> names.vec
-             for (k in 1:names.len) {
-                 paste("tsr", k, sep="") -> names.vec[k]
-             }
-             names.vec -> names(tss.list.m)
-         }
-        list(plus=tss.list.p, minus=tss.list.m) -> tss.list
-        tss.list -> overall.list[[l]]
         subset(sTSS, strand=="-") -> sTSS.m
         as.matrix(sTSS.m) -> sTSS.m
         nrow(sTSS.m) -> my.len
@@ -294,6 +235,7 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
         }
         list(plus=tss.list.p, minus=tss.list.m) -> tss.list
         tss.list -> overall.list[[l]]
+
     }	#end of by sequence for-loop
 
     names(overall.list) <- uni.seq
