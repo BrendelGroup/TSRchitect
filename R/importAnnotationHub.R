@@ -39,7 +39,7 @@ setMethod("importAnnotationHub",
                    annotID) {
 
               message("... importAnnotationHub ...")
-              AnnotationHub() -> hub
+              hub <- AnnotationHub()
               query(hub, c(provider, annotType, species))
               message("\nRetrieving selected record from AnnotationHub record ",
                       annotID, ".\n")
@@ -49,10 +49,10 @@ setMethod("importAnnotationHub",
                        " a GRanges object. Please select another.")
               }
               else {
-                  annot.object -> experimentName@annotation
+                  experimentName@annotation <- annot.object
               }
               message("Done. Annotation data have been attached to",
-                  "the tssObject.\n")
+                  " the tssObject.\n")
               message("---------------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)

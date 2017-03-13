@@ -87,7 +87,7 @@ setMethod("addTagCountsToTSR",
 
 #Now  we determine the TSS tag counts within the
 #current  TSR set for each of the samples ...
-              tsr.df -> currentTSRset
+              currentTSRset <- tsr.df
 
 #  ... going over each sample (index j):
               for (j in 1:length(experimentName@tssCountData)) {
@@ -95,7 +95,7 @@ setMethod("addTagCountsToTSR",
   # ... samples with replicateID equal to zero are ignored
                      next
                  }
-                 experimentName@tssCountData[[j]] -> this.tssSet
+                 this.tssSet <- experimentName@tssCountData[[j]]
 #...  we are discarding counts below the tag count threshold tagCountThreshold:
                  this.tssSet <-
                            this.tssSet[this.tssSet$nTSSs >= tagCountThreshold, ]
@@ -106,15 +106,15 @@ setMethod("addTagCountsToTSR",
 #...  now considering each current TSR in turn (index k):
                      lasttsrseq <- "null"
                      for (k in 1:nrow(currentTSRset)) {
-                         currentTSRset[k,] -> this.tsr
+                         this.tsr <- currentTSRset[k,]
 
                          if (this.tsr$seq != lasttsrseq) {
 #...  nothing to be counted if the current TSS seq does not
 #  match the current TSR seq:
                              that.tssSet <- this.tssSet[this.tssSet$seq
                                              == this.tsr$seq, ]
-                             1 -> lbeg
-                             0 -> count
+                             lbeg <- 1
+                             count <- 0
                              lasttsrseq <- this.tsr$seq
                          }
                          if (nrow(that.tssSet) == 0) {
@@ -124,21 +124,21 @@ setMethod("addTagCountsToTSR",
 #...  going over the TSS tags (index l) from sample j in order
 #  (first plus, then minus strand, position increasing)
                          for (l in lbeg:nrow(that.tssSet)) {
-                            that.tssSet[l,] -> this.tss
+                            this.tss <- that.tssSet[l,]
 #  ... otherwise, we see how a given sample TSS position fits
 #  into the current TSRs:
                             if (this.tsr$strand == this.tss$strand) {
                                if (this.tsr$start  <= this.tss$TSS   &&
                                    this.tss$TSS <= this.tsr$end) {
-                                  count + this.tss$nTSSs -> count
+                                  count <- count + this.tss$nTSSs
                                   if (l == nrow(that.tssSet)) {
                                       countv[k] <- count
                                   }
                                }
                                else if (this.tss$TSS  > this.tsr$start) {
                                   countv[k] <- count
-                                  l -> lbeg
-                                  0 -> count
+                                  lbeg <- l
+                                  count <- 0
                                   break
                                }
                             }
@@ -147,8 +147,8 @@ setMethod("addTagCountsToTSR",
                                 if (this.tsr$strand == "+") {
 #  ... need to go to next TSR
                                     countv[k] <- count
-                                    l -> lbeg
-                                    0  -> count
+                                    lbeg <- l
+                                    count <- 0
                                     break
                                 }
                             }
@@ -168,10 +168,10 @@ setMethod("addTagCountsToTSR",
               }
               #Update the record:
               if (tsrSetType=="replicates") {
-                  currentTSRset -> experimentName@tsrData[[tsrSet]]
+                  experimentName@tsrData[[tsrSet]] <- currentTSRset
               }
               else {
-                  currentTSRset -> experimentName@tsrDataMerged[[tsrSet]]
+                  experimentName@tsrDataMerged[[tsrSet]] <- currentTSRset
               }
 
               message("---------------------------------------------------------\n")

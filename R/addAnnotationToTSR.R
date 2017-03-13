@@ -167,10 +167,10 @@ setMethod("addAnnotationToTSR",
               }
               #Update the record:
               if (tsrSetType=="replicates") {
-                  tsr.df -> experimentName@tsrData[[tsrSet]]
+                  experimentName@tsrData[[tsrSet]] <- tsr.df
               }
               else {
-                  tsr.df -> experimentName@tsrDataMerged[[tsrSet]]
+                  experimentName@tsrDataMerged[[tsrSet]] <- tsr.df
               }
 
               message("Done. GeneIDs have been associated with adjacent",

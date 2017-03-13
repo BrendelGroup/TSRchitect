@@ -18,7 +18,7 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
     for (i in 1:n.seq) {
 #VB Note: Print a progress note on every 20th sequence; 20 should be a parameter
         if (i%%20 == 0) {
-            cat("... tagCountTSS running with sequence ", i,
+            message("... tagCountTSS running with sequence ", i,
                 " of ", n.seq, " for TSS set ", outfname, "\n")
         }
         this.seq <- as.character(x[[i]]@seqnames@values[1])

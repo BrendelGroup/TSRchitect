@@ -50,16 +50,16 @@ setMethod("importAnnotationExternal",
               message("... importAnnotationExternal ...")
               fileType <- match.arg(fileType, several.ok=FALSE)
               if (fileType=="bed") {
-                  import.bed(annotFile) -> experimentName@annotation
+                  experimentName@annotation <- import.bed(annotFile)
                   }
               if (fileType=="gff") {
-                  import.gff(annotFile) -> experimentName@annotation
+                  experimentName@annotation <- import.gff(annotFile)
                   }
               if (fileType=="gff3") {
-                  import.gff3(annotFile) -> experimentName@annotation
+                  experimentName@annotation <- import.gff3(annotFile)
                   }
               message("Done. Annotation data have been attached to",
-                  "the tssObject.\n")
+                  " the tssObject.\n")
               message("-----------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)

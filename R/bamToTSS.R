@@ -49,10 +49,10 @@ setMethod("bamToTSS",
 
               for (i in 1:bam.len) {
                   message("Retrieving data from bam file #", i, "...\n\n")
-                  experimentName@bamData[[i]] -> bam.data
-                  as(bam.data,"data.frame") -> bam.df
-                  bam.df[bam.df$strand=="+",] -> df.plus
-                  bam.df[bam.df$strand=="-",] -> df.minus
+                  bam.data <- experimentName@bamData[[i]]
+                  bam.df <- as(bam.data,"data.frame")
+                  df.plus <- bam.df[bam.df$strand=="+",]
+                  df.minus <- bam.df[bam.df$strand=="-",]
                         gr1 <- GRanges(seqnames=df.plus$seqnames,
                                       ranges = IRanges(
                                           start=df.plus$start,
@@ -67,10 +67,10 @@ setMethod("bamToTSS",
                                            ),
                                        strand=df.minus$strand
                                        )
-                        c(gr1,gr2) -> gr.combined
-                        sortSeqlevels(gr.combined) -> gr.combined
-                        sort(gr.combined) -> gr.combined
-                        gr.combined -> bam.vec[[i]]
+                        gr.combined <- c(gr1,gr2)
+                        gr.combined <- sortSeqlevels(gr.combined)
+                        gr.combined <- sort(gr.combined)
+                        bam.vec[[i]] <- gr.combined
               }
 
               GR.list <- GRangesList(bam.vec)

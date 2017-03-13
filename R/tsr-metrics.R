@@ -10,12 +10,12 @@ countsToVector <- function(x) {
     rep.vec  <- vector(mode="numeric", length=0)
 
     for (i in 1:length(x[1,])) {
-        rep(x[1,i], x[2,i]) -> this.vec
-        c(rep.vec, this.vec) -> rep.vec
-        #count.vec[i] -> this.count
-        #coord.vec[i] -> this.coord
-        #rep(this.coord, this.count) -> this.vec
-        c(rep.vec, this.vec) -> rep.vec
+        this.vec <- rep(x[1,i], x[2,i])
+        rep.vec <- c(rep.vec, this.vec)
+        #this.count <- count.vec[i]
+        #this.coord <- coord.vec[i]
+        #this.vec <- rep(this.coord, this.count)
+        rep.vec <- c(rep.vec, this.vec)
         }
 
     names(rep.vec) <- NULL
