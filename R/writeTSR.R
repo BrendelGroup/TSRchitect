@@ -124,7 +124,7 @@ setMethod("writeTSR",
                              "shapeIndex", "strand")]
                   colnames(bed.df) <- c("chrom", "start", "end",
                                       "name", "score", "strand")
-                  bed.df$start <- bed.df$start - 1
+                  bed.df$start <- bed.df$start
                   bed.gr <- makeGRangesFromDataFrame(bed.df,
                                            keep.extra.columns=TRUE,
                                            ignore.strand=FALSE,
