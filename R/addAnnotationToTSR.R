@@ -124,10 +124,14 @@ setMethod("addAnnotationToTSR",
               }
 
               # ... creating a GRanges object from the data frame tsr.df:
-              tsr.gr <- GRanges(seqnames=tsr.df$seq,
-                                ranges = IRanges(start=tsr.df$start,
-                                    end=tsr.df$end),
-                                strand=tsr.df$strand)
+              tsr.gr <- makeGRangesFromDataFrame(tsr.df,
+                                                 keep.extra.columns=FALSE,
+                                                 ignore.strand=FALSE,
+                                                 seqnames.field="seq",
+                                                 start.field="start",
+                                                 end.field="end",
+                                                 strand.field="strand",
+                                                 )
 
 #  ... defining the regions of interest for annotation.
 #  Typically this would be the predicted promoter regions based on
