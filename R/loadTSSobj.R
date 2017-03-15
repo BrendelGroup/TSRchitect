@@ -88,7 +88,7 @@ if (inputType=="bam") {
                               isSecondaryAlignment=FALSE)
                   message("\nTSS data were specified to be paired-end",
                       " read alignments.")
-                  myFields <- c("rname","flag","strand","pos","qwidth","mapq",
+                  myFields <- c("rname","flag","pos","qwidth","mapq",
                     "cigar","isize")
               }
               else {
@@ -98,7 +98,7 @@ if (inputType=="bam") {
                                          isSecondaryAlignment=FALSE)
                   message("\nTSS data were specified to be",
                       " single-end read alignments.\n")
-                  myFields <- c("rname","flag","strand","pos",
+                  myFields <- c("rname","flag","pos",
                     "qwidth","mapq","cigar")
               }
 
