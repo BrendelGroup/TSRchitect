@@ -94,6 +94,7 @@ setMethod("determineTSR",
               }
 
               else if (tsrSetType=="merged") {
+                  iend <- length(experimentName@tssCountDataMerged)
                   if (tssSet=="all") {
                       iend <- length(experimentName@tssCountDataMerged)
                           multicoreParam <- MulticoreParam(workers=n.cores)
