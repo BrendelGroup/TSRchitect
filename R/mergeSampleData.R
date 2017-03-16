@@ -9,6 +9,7 @@
 #' \emph{sampleIDs}) and put in the tssCountDataMerged slot in the returned
 #' \emph{tssObject}.
 #'
+#' @importFrom BiocGenerics do.call
 #' @importFrom GenomicRanges as.data.frame
 #' @importFrom gtools mixedorder
 #'
@@ -56,27 +57,38 @@ setMethod("mergeSampleData",
 # ignores samples with replicateID equal to zero
               exp.data <- experimentName@tssCountData
               exp.list <- vector(mode="list")
+              sub.list <- vector(mode="list")
+              
+#              for (i in seq_along(uni.ids)) {
+#                  my.df <- data.frame()
+#                  my.ind <- which(rep.ids==i)
 
-              for (i in seq_along(uni.ids)) {
-                  my.df <- data.frame()
-                  my.ind <- which(rep.ids==i)
-                  replicate.set <- exp.data[my.ind]
-                  for (j in 1:length(replicate.set)) {
-                      my.df <- rbind(my.df, replicate.set[[j]])
-                  }
-                  my.df <- my.df[with(my.df, order(seq, TSS)),]
-                  my.df <- my.df[with(my.df, mixedorder(seq)),]
-                  exp.list[[i]] <- my.df
-              }
+#                  for (j in 1:length(replicate.set)) {
+#                      my.df <- rbind(my.df, replicate.set[[j]])
+#                  }
+#                  my.df <- my.df[with(my.df, order(seq, TSS)),]
+#                  my.df <- my.df[with(my.df, mixedorder(seq)),]
+#                  exp.list[[i]] <- my.df
+#              }
+
+              df.ind <- lapply(seq_along(uni.ids),
+                               function(i, uni.ids) {
+                                   which(rep.ids==i)
+                               })
+              df.sub <- lapply(seq_along(df.ind),
+                              function(i) {
+                                  this.df <- exp.data[df.ind[[i]]]
+#                                  sub.list[[i]] <- apply(this.df, 2, sort) #take another look at this
+                              })
+              for (i in seq_along(df.ind)) {
+                  exp.list[[i]] <- do.call(rbind, df.sub[[i]])
+                                       }
 
 # The following few lines merge the merged tssCountData into the last
 # experimentName@tssCountDataMerged slot, representing the entire
 # collection of TSS tag counts in the experiment
 
-              my.df <- data.frame()
-              for (i in seq_along(uni.ids)) {
-                  my.df <- rbind(my.df, exp.list[[i]])
-              }
+              my.df <- do.call(rbind, exp.list)
               my.df <- my.df[with(my.df, order(seq, TSS)),]
               my.df <- my.df[with(my.df, mixedorder(seq)),]
               exp.list[[i+1]] <- my.df
