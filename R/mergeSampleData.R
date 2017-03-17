@@ -9,7 +9,6 @@
 #' \emph{sampleIDs}) and put in the tssCountDataMerged slot in the returned
 #' \emph{tssObject}.
 #'
-#' @importFrom BiocGenerics do.call
 #' @importFrom GenomicRanges as.data.frame
 #' @importFrom gtools mixedorder
 #'
@@ -54,6 +53,7 @@ setMethod("mergeSampleData",
               rep.ids <- experimentName@replicateIDs
               uni.ids <- unique(rep.ids)
               uni.ids <- uni.ids[uni.ids > 0]
+              uni.slots <- length(uni.ids)
 # ignores samples with replicateID equal to zero
               exp.data <- experimentName@tssCountData
               exp.list <- vector(mode="list")
@@ -66,8 +66,8 @@ setMethod("mergeSampleData",
               df.sub <- lapply(seq_along(df.ind),
                               function(i) {
                                   this.df <- exp.data[df.ind[[i]]]
-                                  my.df <- my.df[with(my.df, order(seq, TSS)),]
-                                  my.df <- my.df[with(my.df, mixedorder(seq)),]
+                                  #this.df <- this.df[with(this.df, order(seq, TSS)),]
+                                  #this.df <- this.df[with(this.df, mixedorder(seq)),]
                               })
               for (i in seq_along(df.ind)) {
                   exp.list[[i]] <- do.call(rbind, df.sub[[i]])
@@ -77,7 +77,7 @@ setMethod("mergeSampleData",
 # experimentName@tssCountDataMerged slot, representing the entire
 # collection of TSS tag counts in the experiment
 
-              n.slots <- uni.rep + 1
+              n.slots <- length(uni.ids) + 1
               my.df <- do.call(rbind, exp.list)
               my.df <- my.df[with(my.df, order(seq, TSS)),]
               my.df <- my.df[with(my.df, mixedorder(seq)),]
