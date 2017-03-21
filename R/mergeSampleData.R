@@ -74,7 +74,6 @@ setMethod("mergeSampleData",
 # experimentName@tssCountDataMerged slot, representing the entire
 # collection of TSS tag counts in the experiment
 
-              print("made it here")
               n.slots <- length(uni.ids) + 1
               my.df <- as.data.frame(do.call(rbind, exp.list))
               print(str(my.df))
