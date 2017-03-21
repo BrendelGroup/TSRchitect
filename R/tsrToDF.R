@@ -25,15 +25,15 @@ tsrToDF <- function(x) {
     seq.vec <- names(x)
     final.matrix <- matrix(NA, nrow=1, ncol=7)
 
-    for (j in 1:len.list) { ## replace this loop with do.call(rbind,)
-        my.list.p <- vector(mode="list", length=2)
-        my.list.m <- vector(mode="list", length=2)
-        this.seq <- as.character(seq.vec[j])
-        this.seq.list <- x[[j]]
+     for (j in 1:len.list) { ## replace this loop with do.call(rbind,) #make sure you look at the imput of tsrCluster
+         my.list.p <- vector(mode="list", length=2)
+         my.list.m <- vector(mode="list", length=2)
+         this.seq <- as.character(seq.vec[j])
+         this.seq.list <- x[[j]]
 
-        this.p <- this.seq.list$plus
-        my.strand <- c("+")
-        plus.matrix <- matrix(NA, nrow=length(this.p), ncol=7) #rather than matrix, comput the columns in vectorized fashion
+          this.p <- this.seq.list$plus
+         my.strand <- c("+")
+         plus.matrix <- matrix(NA, nrow=length(this.p), ncol=7) #rather than matrix, compute the columns in vectorized fashion
         if (length(this.p) > 0 ) { # ensures there are + strand TSRs to process
            for (i in 1:max(1,length(this.p))) { #this is probaly vectorizable using vapply() #this data 
                my.tsr <- this.p[[i]] 

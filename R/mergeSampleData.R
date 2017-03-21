@@ -57,30 +57,29 @@ setMethod("mergeSampleData",
 # ignores samples with replicateID equal to zero
               exp.data <- experimentName@tssCountData
               exp.list <- vector(mode="list")
-              sub.list <- vector(mode="list")
-              
+              exp.sort <- lapply(exp.data,
+                              function(df) {
+                                  df[order(df$seq, df$TSS),]
+                              })
               df.ind <- lapply(seq_along(uni.ids),
                                function(i, uni.ids) {
                                    which(rep.ids==i)
                                })
-              df.sub <- lapply(seq_along(df.ind),
-                              function(i) {
-                                  this.df <- exp.data[df.ind[[i]]]
-                                  #this.df <- this.df[with(this.df, order(seq, TSS)),]
-                                  #this.df <- this.df[with(this.df, mixedorder(seq)),]
-                              })
               for (i in seq_along(df.ind)) {
-                  exp.list[[i]] <- do.call(rbind, df.sub[[i]])
-                                       }
+                  new.list <- exp.sort[df.ind[[i]]]
+                  exp.list[[i]] <- do.call(rbind, new.list)
+              }
 
 # The following few lines merge the merged tssCountData into the last
 # experimentName@tssCountDataMerged slot, representing the entire
 # collection of TSS tag counts in the experiment
 
+              print("made it here")
               n.slots <- length(uni.ids) + 1
-              my.df <- do.call(rbind, exp.list)
-              my.df <- my.df[with(my.df, order(seq, TSS)),]
-              my.df <- my.df[with(my.df, mixedorder(seq)),]
+              my.df <- as.data.frame(do.call(rbind, exp.list))
+              print(str(my.df))
+              my.df <- my.df[order(my.df$seq, my.df$TSS),]
+              #my.df <- my.df[with(my.df, mixedorder(seq)),]
               exp.list[[n.slots]] <- my.df
 
               experimentName@tssCountDataMerged <- exp.list
