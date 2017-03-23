@@ -78,7 +78,7 @@ setMethod("mergeSampleData",
               my.df <- as.data.frame(do.call(rbind, exp.list))
               print(str(my.df))
               my.df <- my.df[order(my.df$seq, my.df$TSS),]
-              #my.df <- my.df[with(my.df, mixedorder(seq)),]
+              my.df <- my.df[mixedorder(my.df$seq),]
               exp.list[[n.slots]] <- my.df
 
               experimentName@tssCountDataMerged <- exp.list
