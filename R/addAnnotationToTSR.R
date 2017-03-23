@@ -161,11 +161,10 @@ setMethod("addAnnotationToTSR",
               ID.vec[overlap.df$subjectHits]
               rownames(tsr.df) <- paste(tsr.df$seq, tsr.df$start, tsr.df$end,
                                         tsr.df$strand, sep=".")
-#adding  the promoterIDs to the rows of the tsr data frame
-
-              if (writeTable=="TRUE") {
+#writing the table to a file if writeTable=TRUE 
+              if (writeTable==TRUE) {
                   write.table(tsr.df, file=outfname, col.names=NA,
-                              row.names=TRUE,  sep="\t", quote=FALSE)
+                              row.names=TRUE, sep="\t", quote=FALSE)
                   message("\nThe updated TSR data have been written to ",
                           "file ", outfname, " in your working directory.")
               }
