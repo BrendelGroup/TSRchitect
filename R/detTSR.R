@@ -28,7 +28,7 @@ setMethod("detTSR",
           function(experimentName, tsrSetType, tssSet,
                    tagCountThreshold=1, clustDist) {
 
-              message("... detTSR ...")
+#             message("... detTSR ...")
               if (tsrSetType=="replicates") {
                   if (tssSet>length(experimentName@tssCountData)) {
                       stop("The value selected for tssSet exceeds ",
@@ -56,8 +56,8 @@ setMethod("detTSR",
                                      minDist=clustDist)
               tsr.DF <- tsrToDF(tsr.list)
 
-              message("---------------------------------------------------------\n")
-              message(" Done.\n")
+#             message("---------------------------------------------------------\n")
+#             message(" Done.\n")
               return(tsr.DF)
           }
           )

@@ -4,9 +4,9 @@
 #'
 #' @param experimentName an S4 object of class tssObject with bam files loaded
 #'
-#' @return creates a list of TSSs in class \linkS4class{GRanges} for each
-#' .bam file contained within \emph{experimentName} and places them in
-#' the returned \emph{tssObject}.
+#' @return produces a \linkS4class{GRangesList} containing separate
+#' \linkS4class{GRanges} objects for each .bam file contained within
+#' \emph{experimentName}, placing them them in the returned \emph{tssObject}.
 #'
 #' @import BiocGenerics
 #' @import methods
@@ -46,27 +46,30 @@ setMethod("bamToTSS",
 
               bam.len <- length(experimentName@bamData)
               bam.vec <- vector(mode="list", length=bam.len)
-
+              
+              bam.df <- lapply(experimentName@bamData, as.data.frame)
+              bam.gr <- lapply(bam.df, makeGRangesFromDataFrame, keep.extra.columns=FALSE)
+              
               for (i in 1:bam.len) {
                   message("Retrieving data from bam file #", i, "...\n\n")
-                  bam.data <- experimentName@bamData[[i]]
-                  bam.df <- as(bam.data,"data.frame")
-                  df.plus <- bam.df[bam.df$strand=="+",]
-                  df.minus <- bam.df[bam.df$strand=="-",]
-                        gr1 <- GRanges(seqnames=df.plus$seqnames,
-                                      ranges = IRanges(
-                                          start=df.plus$start,
-                                          end=df.plus$start
-                                          ),
-                                      strand=df.plus$strand
-                                      )
-                        gr2 <- GRanges(seqnames=df.minus$seqnames,
-                                       ranges = IRanges(
-                                           start=df.minus$end,
-                                           end=df.minus$end
-                                           ),
-                                       strand=df.minus$strand
-                                       )
+                  this.gr <- bam.gr[[i]]
+                  gr.list <- S4Vectors::split(this.gr, strand(this.gr))
+                  gr.plus <- gr.list$'+'
+                  gr.minus <- gr.list$'-'
+                  gr1 <- GRanges(seqnames=seqnames(gr.plus),
+                                 ranges=IRanges(
+                                     start=start(gr.plus),
+                                     end=start(gr.plus)
+                                     ),
+                                 strand=strand(gr.plus)
+                                 )
+                  gr2 <- GRanges(seqnames=seqnames(gr.minus),
+                                 ranges=IRanges(
+                                     start=end(gr.minus),
+                                     end=end(gr.minus)
+                                     ),
+                                 strand=strand(gr.minus)
+                                 )
                         gr.combined <- c(gr1,gr2)
                         gr.combined <- sortSeqlevels(gr.combined)
                         gr.combined <- sort(gr.combined)

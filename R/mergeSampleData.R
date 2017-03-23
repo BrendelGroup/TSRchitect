@@ -58,28 +58,28 @@ setMethod("mergeSampleData",
               exp.list <- vector(mode="list")
 
               for (i in seq_along(uni.ids)) {
-                  my.df <- data.frame()
-                  my.ind <- which(rep.ids==i)
-                  replicate.set <- exp.data[my.ind]
+                  data.frame() -> my.df
+                  which(rep.ids==i) -> my.ind
+                  exp.data[my.ind] -> replicate.set
                   for (j in 1:length(replicate.set)) {
-                      my.df <- rbind(my.df, replicate.set[[j]])
+                      rbind(my.df, replicate.set[[j]]) -> my.df
                   }
                   my.df <- my.df[with(my.df, order(seq, TSS)),]
                   my.df <- my.df[with(my.df, mixedorder(seq)),]
-                  exp.list[[i]] <- my.df
+                  my.df -> exp.list[[i]]
               }
 
 # The following few lines merge the merged tssCountData into the last
 # experimentName@tssCountDataMerged slot, representing the entire
 # collection of TSS tag counts in the experiment
 
-              my.df <- data.frame()
+              data.frame() -> my.df
               for (i in seq_along(uni.ids)) {
-                  my.df <- rbind(my.df, exp.list[[i]])
+                  rbind(my.df, exp.list[[i]]) -> my.df
               }
               my.df <- my.df[with(my.df, order(seq, TSS)),]
               my.df <- my.df[with(my.df, mixedorder(seq)),]
-              exp.list[[i+1]] <- my.df
+              my.df -> exp.list[[i+1]]
 
               experimentName@tssCountDataMerged <- exp.list
               message("\n... the TSS expression data have been successfully merged",

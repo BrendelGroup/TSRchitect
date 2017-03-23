@@ -124,10 +124,14 @@ setMethod("addAnnotationToTSR",
               }
 
               # ... creating a GRanges object from the data frame tsr.df:
-              tsr.gr <- GRanges(seqnames=tsr.df$seq,
-                                ranges = IRanges(start=tsr.df$start,
-                                    end=tsr.df$end),
-                                strand=tsr.df$strand)
+              tsr.gr <- makeGRangesFromDataFrame(tsr.df,
+                                                 keep.extra.columns=FALSE,
+                                                 ignore.strand=FALSE,
+                                                 seqnames.field="seq",
+                                                 start.field="start",
+                                                 end.field="end",
+                                                 strand.field="strand",
+                                                 )
 
 #  ... defining the regions of interest for annotation.
 #  Typically this would be the predicted promoter regions based on
@@ -157,11 +161,10 @@ setMethod("addAnnotationToTSR",
               ID.vec[overlap.df$subjectHits]
               rownames(tsr.df) <- paste(tsr.df$seq, tsr.df$start, tsr.df$end,
                                         tsr.df$strand, sep=".")
-#adding  the promoterIDs to the rows of the tsr data frame
-
-              if (writeTable=="TRUE") {
+#writing the table to a file if writeTable=TRUE 
+              if (writeTable==TRUE) {
                   write.table(tsr.df, file=outfname, col.names=NA,
-                              row.names=TRUE,  sep="\t", quote=FALSE)
+                              row.names=TRUE, sep="\t", quote=FALSE)
                   message("\nThe updated TSR data have been written to ",
                           "file ", outfname, " in your working directory.")
               }
