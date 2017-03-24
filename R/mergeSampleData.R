@@ -60,6 +60,7 @@ setMethod("mergeSampleData",
               exp.sort <- lapply(exp.data,
                               function(df) {
                                   df[order(df$seq, df$TSS),]
+                                  #df[mixedorder(df$seq),]
                               })
               df.ind <- lapply(seq_along(uni.ids),
                                function(i, uni.ids) {
@@ -67,7 +68,9 @@ setMethod("mergeSampleData",
                                })
               for (i in seq_along(df.ind)) {
                   new.list <- exp.sort[df.ind[[i]]]
-                  exp.list[[i]] <- do.call(rbind, new.list)
+                  this.df <- do.call(rbind, new.list)
+                  this.df <- this.df[order(this.df$seq, this.df$TSS),]
+                  exp.list[[i]] <- this.df
               }
 
 # The following few lines merge the merged tssCountData into the last
@@ -76,9 +79,8 @@ setMethod("mergeSampleData",
 
               n.slots <- length(uni.ids) + 1
               my.df <- as.data.frame(do.call(rbind, exp.list))
-              print(str(my.df))
               my.df <- my.df[order(my.df$seq, my.df$TSS),]
-              my.df <- my.df[mixedorder(my.df$seq),]
+              #my.df <- my.df[mixedorder(my.df$seq),]
               exp.list[[n.slots]] <- my.df
 
               experimentName@tssCountDataMerged <- exp.list
