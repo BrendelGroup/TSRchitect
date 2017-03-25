@@ -63,7 +63,7 @@ setMethod("mergeSampleData",
                                   #df[mixedorder(df$seq),]
                               })
               df.ind <- lapply(seq_along(uni.ids),
-                               function(i, uni.ids) {
+                               function(i) {
                                    which(rep.ids==i)
                                })
               for (i in seq_along(df.ind)) {
