@@ -92,7 +92,6 @@ setMethod("determineTSR",
                       }
                   }
               }
-
               else if (tsrSetType=="merged") {
                   iend <- length(experimentName@tssCountDataMerged)
                   if (tssSet=="all") {
@@ -116,23 +115,6 @@ setMethod("determineTSR",
                               }
                           }
                   }
-                    else {
-                          for (i in 1:iend) {
-                              experimentName@tsrDataMerged[[i]] <-
-                                  detTSR(experimentName = experimentName,
-                                         tsrSetType="merged",
-                                         tssSet=i,
-                                         tagCountThreshold,
-                                         clustDist)
-                              if (writeTable==TRUE) {
-                                  writeTSR(experimentName = experimentName,
-                                           tsrSetType="merged",
-                                           tsrSet=i,
-                                           fileType="tab")
-                              }
-                          }
-                      }
-              }
                  else {
                       i <- as.numeric(tssSet)
                       if (i>length(experimentName@tssCountDataMerged)) {
@@ -152,6 +134,7 @@ setMethod("determineTSR",
                                    fileType="tab")
                       }
                   }
+              }
               message("-----------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
