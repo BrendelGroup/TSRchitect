@@ -128,14 +128,14 @@ setMethod("addTagCountsToTSR",
 #  ... otherwise, we see how a given sample TSS position fits
 #  into the current TSRs:
                             if (this.tsr$strand == this.tss$strand) {
-                               if (this.tsr$start  <= this.tss$TSS   &&
-                                   this.tss$TSS <= this.tsr$end) {
+                               if (as.numeric(this.tsr$start)  <= this.tss$TSS   &&
+                                   this.tss$TSS <= as.numeric(this.tsr$end)) {
                                   count <- count + this.tss$nTSSs
                                   if (l == nrow(that.tssSet)) {
                                       countv[k] <- count
                                   }
                                }
-                               else if (this.tss$TSS  > this.tsr$start) {
+                               else if (this.tss$TSS  > as.numeric(this.tsr$start)) {
                                   countv[k] <- count
                                   lbeg <- l
                                   count <- 0
