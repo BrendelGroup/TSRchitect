@@ -119,12 +119,14 @@ setMethod("writeTSR",
               }
               else {
                   tsr.df$ID <- paste(tsr.df$seq, tsr.df$start, tsr.df$end,
-                               tsr.df$strand, sep=".")
+                                     tsr.df$strand, sep=".")
                   bed.df <- tsr.df[, c("seq", "start", "end", "ID",
                              "shapeIndex", "strand")]
                   colnames(bed.df) <- c("chrom", "start", "end",
                                       "name", "score", "strand")
-                  bed.df$start <- bed.df$start
+                  bed.df$start <- as.numeric(as.character(bed.df$start))
+                  bed.df$end  <- as.numeric(as.character(bed.df$end))
+                  my.score <- as.numeric(as.character(bed.df$score))
                   bed.gr <- makeGRangesFromDataFrame(bed.df,
                                            keep.extra.columns=TRUE,
                                            ignore.strand=FALSE,

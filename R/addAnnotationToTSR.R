@@ -76,6 +76,8 @@ setMethod("addAnnotationToTSR",
                           " has been written to file ", outfname,
                           "\nin your working directory.")
                   tsr.df <- experimentName@tsrData[[tsrSet]]
+                  tsr.df$start <- as.numeric(as.character(tsr.df$start))
+                  tsr.df$end <- as.numeric(as.character(tsr.df$end))
               }
               else if (tsrSetType=="merged") {
                   if (length(experimentName@tsrDataMerged)<1) {
@@ -100,6 +102,8 @@ setMethod("addAnnotationToTSR",
                               "\nin your working directory.")
                   }
                   tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
+                  tsr.df$start <- as.numeric(as.character(tsr.df$start))
+                  tsr.df$end <- as.numeric(as.character(tsr.df$end))
               }
               else {
                   stop("Error: argument tsrSetType to addAnnotationToTSR()",
