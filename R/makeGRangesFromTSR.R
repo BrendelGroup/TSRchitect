@@ -9,8 +9,9 @@
 #' Options are "replicates" or "merged". (character)
 #' @param tsrSet number of the dataset to be processed (numeric).
 #'
-#' @return A table containing the specified TSR data set that
-#' is to be written to your working directory.
+#' @return An object of class \emph{GRanges} containing the specified TSR
+#' data set. Headers include 'seqnames', 'ranges' (including start and end),
+#' 'strand', 'name' (TSR ID) and 'score' (Shape Index/SI) value
 #'
 #' @importFrom GenomicRanges makeGRangesFromDataFrame
 #'
