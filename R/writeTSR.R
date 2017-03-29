@@ -48,7 +48,7 @@ setMethod("writeTSR",
               if (tsrSetType=="replicates") {
                   if (tsrSet>length(experimentName@tsrData)) {
                       stop("The value selected for tsrSet exceeds the",
-                           "number of slots in tsrData.")
+                           " number of slots in tsrData.")
                   }
                   outfname <- paste("TSRset-", tsrSet, sep="")
                   if (fileType == "tab") {
@@ -59,7 +59,7 @@ setMethod("writeTSR",
                   }
                   else {
                       stop("Unknown fileType selected for writeTSR.",
-                           "Please check.")
+                           " Please check.")
                   }
                   message("\nThe TSR set for TSS dataset ", tsrSet,
                           " has been written to file ",
@@ -69,11 +69,11 @@ setMethod("writeTSR",
               else if (tsrSetType=="merged") {
                   if (length(experimentName@tsrDataMerged)<1) {
                       stop("The @tsrDataMerged slot is currently empty.",
-                            "Please complete the merger before continuing.")
+                            " Please complete the merger before continuing.")
                   }
                   if (tsrSet>length(experimentName@tsrDataMerged)) {
                       stop("The value selected for tsrSet exceeds the",
-                            "number of slots in tsrDataMerged.")
+                            " number of slots in tsrDataMerged.")
                   }
                   if (tsrSet<length(experimentName@tssCountDataMerged)) {
                       outfname <- paste("TSRsetMerged-", tsrSet, sep="")
@@ -85,7 +85,7 @@ setMethod("writeTSR",
                       }
                       else {
                           stop("Unknown fileType selected for writeTSR.",
-                               "Please check.")
+                               " Please check.")
                       }
                       message("\nThe merged TSR set for TSS dataset ", tsrSet,
                       " has been written to file ", outfname,
