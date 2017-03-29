@@ -127,6 +127,7 @@ setMethod("writeTSR",
                   bed.df$start <- as.numeric(as.character(bed.df$start))
                   bed.df$end  <- as.numeric(as.character(bed.df$end))
                   my.score <- as.numeric(as.character(bed.df$score))
+                  bed.df$score <- round(my.score, digits=2)
                   bed.gr <- makeGRangesFromDataFrame(bed.df,
                                            keep.extra.columns=TRUE,
                                            ignore.strand=FALSE,
