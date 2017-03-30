@@ -71,7 +71,7 @@ setMethod("makeGRangesFromTSR",
                                       "name", "score", "strand")
               bed.df$start <- as.numeric(as.character(bed.df$start))
               bed.df$end  <- as.numeric(as.character(bed.df$end))
-              my.score <- as.numeric(as.character(bed.df$score))
+              bed.df$score <- my.score <- as.numeric(as.character(bed.df$score))
               bed.gr <- makeGRangesFromDataFrame(bed.df,
                                    keep.extra.columns=TRUE,
                                    ignore.strand=FALSE,
@@ -80,7 +80,7 @@ setMethod("makeGRangesFromTSR",
                                    strand.field="strand")
               return(bed.gr)
 
-              message("---------------------------------------------------------\n")
+              message("-------------------------------------------------------\n")
               message(" Done.\n")
           }
           )
