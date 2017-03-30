@@ -4,7 +4,7 @@
 \alias{tsrToDF}
 \title{\emph{tsrToDF()}}
 \usage{
-tsrToDF(x)
+tsrToDF(clstOut)
 }
 \arguments{
 \item{x}{A list with TSR data as returned by tsrCluster()}
