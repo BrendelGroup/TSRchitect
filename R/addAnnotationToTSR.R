@@ -104,6 +104,7 @@ setMethod("addAnnotationToTSR",
                   tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
                   tsr.df$start <- as.numeric(as.character(tsr.df$start))
                   tsr.df$end <- as.numeric(as.character(tsr.df$end))
+                  save(tsr.df, file="tsrDF_test.RData")
               }
               else {
                   stop("Error: argument tsrSetType to addAnnotationToTSR()",
@@ -147,7 +148,8 @@ setMethod("addAnnotationToTSR",
               regionOfInterest <- promoters(annot.gr, upstream=upstreamDist,
                                             downstream=downstreamDist)
               ID.vec <- S4Vectors::mcols(regionOfInterest)[featureColumnID]
-              ID.vec <- as.character(ID.vec$ID)
+              ID.vec <- ID.vec[featureColumnID]
+              ID.vec <- as.character(unlist(ID.vec))
               overlapHitList <- findOverlaps(tsr.gr, regionOfInterest)
 #  ... overlapHitList is a hit list that indicates the overlaps
 #  between tsr.gr entries and regionOfInterest entries:
