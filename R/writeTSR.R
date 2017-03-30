@@ -15,14 +15,13 @@
 #' @return A table containing the specified TSR data set that
 #' is to be written to your working directory.
 #'
-#' @importFrom GenomicRanges makeGRangesFromDataFrame
+#' @import     BiocGenerics
 #' @importFrom rtracklayer export.bed
-#' @importFrom utils write.table
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' writeTSR(experimentName=tssObjectExample, tsrSetType="replicates",
-#' tsrSet=1, fileType="tab")
+#'          tsrSet=1, fileType="tab")
 #'
 #' @note The .bed file written adheres to the standard six-column BED format,
 #' while "tab" format is identical to that of the data.frames containing TSR
@@ -99,8 +98,8 @@ setMethod("writeTSR",
                           outfname <- "TSRsetCombined.bed"
                       }
                       else {
-                          stop("Unknown fileType selected for writeTSR.
-                          Please check.")
+                          stop("Unknown fileType selected for writeTSR.",
+                               " Please check.")
                       }
                       message("\nThe combined TSR set derived from all samples",
                               " has been written to file ", outfname,
@@ -110,7 +109,7 @@ setMethod("writeTSR",
               }
               else {
                   stop("Error: argument tsrSetType to writeTSR() should be",
-                       "either \"replicates\" or \"merged\".")
+                       " either \"replicates\" or \"merged\".")
               }
 
               if (fileType == "tab") {
@@ -118,23 +117,15 @@ setMethod("writeTSR",
                   row.names=FALSE, sep="\t", quote=FALSE)
               }
               else {
-                  tsr.df$ID <- paste(tsr.df$seq, tsr.df$start, tsr.df$end,
-                                     tsr.df$strand, sep=".")
+                  tsr.df$ID <- paste(tsr.df$seq, as.numeric(as.character(tsr.df$start)),
+                                    as.numeric(as.character(tsr.df$end)),
+                                    tsr.df$strand, sep=".")
                   bed.df <- tsr.df[, c("seq", "start", "end", "ID",
                              "shapeIndex", "strand")]
+                  bed.df$shapeIndex <- as.numeric(as.character(bed.df$shapeIndex))
                   colnames(bed.df) <- c("chrom", "start", "end",
                                       "name", "score", "strand")
-                  bed.df$start <- as.numeric(as.character(bed.df$start))
-                  bed.df$end  <- as.numeric(as.character(bed.df$end))
-                  my.score <- as.numeric(as.character(bed.df$score))
-                  bed.df$score <- round(my.score, digits=2)
-                  bed.gr <- makeGRangesFromDataFrame(bed.df,
-                                           keep.extra.columns=TRUE,
-                                           ignore.strand=FALSE,
-                                           start.field="start",
-                                           end.field="end",
-                                           strand.field="strand")
-                  export.bed(bed.gr, con=outfname)
+                  export.bed(bed.df,con=outfname)
               }
 
               message("---------------------------------------------------------\n")
