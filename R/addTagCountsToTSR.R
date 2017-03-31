@@ -51,9 +51,6 @@ setMethod("addTagCountsToTSR",
                   }
                   outfname <- paste("TSRset-", tsrSet, sep="")
                   outfname <- paste(outfname, "txt", sep=".")
-                  message("\nThe TSR set for TSS dataset ", tsrSet,
-                          " has been written to file ", outfname,
-                          "\nin your working directory.")
                   tsr.df <- experimentName@tsrData[[tsrSet]]
               }
               else if (tsrSetType=="merged") {

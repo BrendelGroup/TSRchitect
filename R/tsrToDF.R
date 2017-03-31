@@ -71,9 +71,6 @@ tsrToDF <- function(clstOut) {
     my.df <- do.call(rbind, this.list)
     my.df <- as.data.frame(my.df)
     my.df <- data.frame(seq, my.df)
-    #my.df$start <- as.numeric(as.character(my.df$start))
-    #my.df$end <- as.numeric(as.character(my.df$end))
-                     
     colnames(my.df) <- c("seq", "start","end", "strand", "nTSSs", "tsrWidth", "shapeIndex")
     return(my.df)
 }
