@@ -56,14 +56,18 @@ tsrToDF <- function(clstOut) {
                     chrToDF  <- function(x) {
                         my.list <- vector(mode="list")
                         list.p <- x$plus
+			if (length(list.p)) {
+                          my.list$plus <- df.fun.p(list.p)
+			}
                         list.m <- x$minus
-                        my.list$plus <- df.fun.p(list.p)
-                        my.list$minus <- df.fun.m(list.m)
+			if (length(list.m)) {
+                          my.list$minus <- df.fun.m(list.m)
+			}
                         my.out <- do.call(rbind, my.list)
                         return(my.out)
                     }
                     
-    options(warn=-1)
+#   options(warn=-1)
     names.list <- lapply(clstOut, function(x) sapply(x, length))
     my.sum <- lapply(names.list, sum)
     seq <- as.data.frame(rep(names(my.sum), my.sum))
@@ -74,5 +78,3 @@ tsrToDF <- function(clstOut) {
     colnames(my.df) <- c("seq", "start","end", "strand", "nTSSs", "tsrWidth", "shapeIndex")
     return(my.df)
 }
-
-

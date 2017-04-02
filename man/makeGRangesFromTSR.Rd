@@ -34,4 +34,3 @@ makeGRangesFromTSR(experimentName=tssObjectExample, tsrSetType="replicates",
 tsrSet=1)
 
 }
-

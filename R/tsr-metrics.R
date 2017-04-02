@@ -3,6 +3,7 @@
 #' from the output returned from tsrCluster
 #'
 #' @keywords internal
+#' @export
 
 countsToVector <- function(x) {
     #coord.vec <- x[1,]
@@ -15,7 +16,7 @@ countsToVector <- function(x) {
         #this.count <- count.vec[i]
         #this.coord <- coord.vec[i]
         #this.vec <- rep(this.coord, this.count)
-        rep.vec <- c(rep.vec, this.vec)
+#       rep.vec <- c(rep.vec, this.vec)
         }
 
     names(rep.vec) <- NULL
@@ -29,6 +30,7 @@ countsToVector <- function(x) {
 #' @keywords internal
 #'
 #' @return Returns the number of TSS tags associated with a TSR
+#' @export
 
 tsrCounts <- function(x) {
     count.vec <- x[2,]

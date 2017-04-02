@@ -39,4 +39,3 @@ createSumarizedExperiment(tssObjectExample, tsrSetType="merged", tsrSet=1,
 samplePrefix=c("sample1","sample2"))
 
 }
-

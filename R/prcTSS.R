@@ -19,7 +19,6 @@
 #' corresponding to the sequence identifier, position, tag count, and strand,
 #' respectively.
 #'
-#' @importFrom gtools mixedsort
 
 
 setGeneric("prcTSS",
