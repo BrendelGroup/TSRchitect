@@ -67,7 +67,7 @@ tsrToDF <- function(clstOut) {
                         return(my.out)
                     }
                     
-#   options(warn=-1)
+    options(warn=-1)
     names.list <- lapply(clstOut, function(x) sapply(x, length))
     my.sum <- lapply(names.list, sum)
     seq <- as.data.frame(rep(names(my.sum), my.sum))

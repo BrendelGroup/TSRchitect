@@ -10,6 +10,7 @@
 #' \emph{tssObject}.
 #'
 #' @importFrom GenomicRanges as.data.frame
+#' @importFrom gtools mixedorder
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
@@ -59,6 +60,7 @@ setMethod("mergeSampleData",
               exp.sort <- lapply(exp.data,
                               function(df) {
                                   df[order(df$seq, df$TSS),]
+                                  df[mixedorder(df$seq),]
                               })
               df.ind <- lapply(seq_along(uni.ids),
                                function(i) {
@@ -78,6 +80,7 @@ setMethod("mergeSampleData",
               n.slots <- length(uni.ids) + 1
               my.df <- as.data.frame(do.call(rbind, exp.list))
               my.df <- my.df[order(my.df$seq, my.df$TSS),]
+              my.df <- my.df[mixedorder(my.df$seq),]
               exp.list[[n.slots]] <- my.df
 
               experimentName@tssCountDataMerged <- exp.list
