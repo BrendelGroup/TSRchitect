@@ -14,4 +14,3 @@ An internal function that caculates the width
 of a given TSR from the output of tsrCluster
 }
 \keyword{internal}
-

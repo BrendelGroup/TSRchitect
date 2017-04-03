@@ -9,10 +9,11 @@
 #' @param tagCountThreshold - number of TSSs required at a given position
 #' @param clustDist - maximum distance of TSSs between two TSRs (in base pairs)
 #'
-#' @keywords internal
+#  @keywords internal
 #'
 #' @return creates a list of GenomicRanges containing TSR positions in slot
 #' 'tsrData' on your tssObject object
+#' @export
 
 
 setGeneric("detTSR",
@@ -28,7 +29,7 @@ setMethod("detTSR",
           function(experimentName, tsrSetType, tssSet,
                    tagCountThreshold=1, clustDist) {
 
-#             message("... detTSR ...")
+              message("... detTSR ...")
               if (tsrSetType=="replicates") {
                   if (tssSet>length(experimentName@tssCountData)) {
                       stop("The value selected for tssSet exceeds ",
@@ -56,8 +57,8 @@ setMethod("detTSR",
                                      minDist=clustDist)
               tsr.DF <- tsrToDF(tsr.list)
 
-#             message("---------------------------------------------------------\n")
-#             message(" Done.\n")
+              message("---------------------------------------------------------\n")
+              message(" Done.\n")
               return(tsr.DF)
           }
           )

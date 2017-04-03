@@ -11,4 +11,3 @@ Returns a matrix [a, h] where a = the number of unique TSSs
 and h = the # of tags observed at that position
 }
 \keyword{internal}
-

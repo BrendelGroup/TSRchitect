@@ -14,4 +14,3 @@ An internal function that caculates the total number of
 counts associated with a given TSR
 }
 \keyword{internal}
-

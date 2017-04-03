@@ -46,4 +46,3 @@ tssObjectExample <- importAnnotationExternal(experimentName=tssObjectExample,
 fileType="gff3", annotFile=annotation)
 
 }
-

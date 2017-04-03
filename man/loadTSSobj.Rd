@@ -56,4 +56,3 @@ inputType="bam", isPairedEnd=TRUE, sampleNames=c("sample1-rep1",
 "sample1-rep2", "sample2-rep1","sample2-rep2"), replicateIDs=c(1,1,2,2))
 
 }
-

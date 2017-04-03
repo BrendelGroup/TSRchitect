@@ -28,4 +28,3 @@ package="TSRchitect"))
 tssObjectExample <- bamToTSS(experimentName=tssObjectExample)
 
 }
-

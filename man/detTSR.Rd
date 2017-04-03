@@ -28,5 +28,3 @@ creates a list of GenomicRanges containing TSR positions in slot
 detTSR
 Finds TSRs from a given sequence (Internal function)
 }
-\keyword{internal}
-

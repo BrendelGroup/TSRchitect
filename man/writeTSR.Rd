@@ -41,4 +41,3 @@ writeTSR(experimentName=tssObjectExample, tsrSetType="replicates",
          tsrSet=1, fileType="tab")
 
 }
-

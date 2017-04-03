@@ -29,4 +29,3 @@ package="TSRchitect"))
 tssObjectExample <- mergeSampleData(experimentName=tssObjectExample)
 
 }
-
