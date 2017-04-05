@@ -53,9 +53,8 @@ setMethod("detTSR",
                        "either \"replicates\" or \"merged\".")
               }
 
-              tsr.list <- tsrCluster(tss.df, minNbrTSSs=tagCountThreshold,
+              tsr.DF <- tsrCluster(tss.df, minNbrTSSs=tagCountThreshold,
                                      minDist=clustDist)
-              tsr.DF <- tsrToDF(tsr.list)
 
               message("---------------------------------------------------------\n")
               message(" Done.\n")

@@ -117,11 +117,12 @@ setMethod("writeTSR",
                   row.names=FALSE, sep="\t", quote=FALSE)
               }
               else {
-                  tsr.df$ID <- paste(tsr.df$seq, as.numeric(as.character(tsr.df$start)),
+                  tsr.df$ID <- paste(tsr.df$seq,
+                                    as.numeric(as.character(tsr.df$start)),
                                     as.numeric(as.character(tsr.df$end)),
                                     tsr.df$strand, sep=".")
                   bed.df <- tsr.df[, c("seq", "start", "end", "ID",
-                             "shapeIndex", "strand")]
+                                       "shapeIndex", "strand")]
                   bed.df$shapeIndex <- as.numeric(as.character(bed.df$shapeIndex))
                   colnames(bed.df) <- c("chrom", "start", "end",
                                       "name", "score", "strand")
