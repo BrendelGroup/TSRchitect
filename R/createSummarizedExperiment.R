@@ -12,9 +12,9 @@
 #' @param tsrSet number of the dataset to be processed (numeric).
 #' @param samplePrefix the prefix (or prefixes) that match the sample
 #' identifiers in the tsrData column. (character)
-#'
-#' @return A table containing the specified TSR data set that
-#' is to be written to your working directory.
+
+#' @return a summarizedExperiment object from the specified TSR data set
+#' that is to be written to your working directory.
 #'
 #' @import     BiocGenerics
 #' @importFrom S4Vectors DataFrame
@@ -116,7 +116,7 @@ setMethod("createSummarizedExperiment",
               my.cnames <- my.names[this.ind]
               n.len <- length(my.cnames)
               colData <- DataFrame(Treatment=my.cnames,
-                                       row.names=my.cnames)
+                                  row.names=my.cnames)
               my.gr <- makeGRangesFromDataFrame(my.tsrs,
                              seqnames.field="seq",                                                
                              keep.extra.columns=FALSE,
@@ -125,7 +125,7 @@ setMethod("createSummarizedExperiment",
                              end.field="end",
                              strand.field="strand")
               my.se <- SummarizedExperiment(assays=list(counts=my.ma),
-                                                rowRanges=my.gr,
+                                            rowRanges=my.gr,
                                             colData=colData)
               return(my.se)    
               

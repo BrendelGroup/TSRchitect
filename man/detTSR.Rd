@@ -2,8 +2,7 @@
 % Please edit documentation in R/detTSR.R
 \name{detTSR}
 \alias{detTSR}
-\title{detTSR
-Finds TSRs from a given sequence (Internal function)}
+\title{detTSR}
 \usage{
 detTSR(experimentName, tsrSetType, tssSet = 1, tagCountThreshold, clustDist)
 }
@@ -11,8 +10,8 @@ detTSR(experimentName, tsrSetType, tssSet = 1, tagCountThreshold, clustDist)
 \item{experimentName}{- a S4 object of class tssObject containing
 information in slot tssTagData}
 
-\item{tsrSetType}{- specifies the set to be clustered.
-Options are "replicates" or "merged".}
+\item{tsrSetType}{- specifies the set to be clustered. Options are
+"replicates" or "merged"}
 
 \item{tssSet}{- number of the dataset to be analyzed}
 
@@ -21,10 +20,12 @@ Options are "replicates" or "merged".}
 \item{clustDist}{- maximum distance of TSSs between two TSRs (in base pairs)}
 }
 \value{
-creates a list of GenomicRanges containing TSR positions in slot
-'tsrData' on your tssObject object
+via the user-level function determineTSR, creates a list of
+GenomicRanges objects containing TSR positions in slot 'tsrData' on
+the tssObject object
 }
 \description{
-detTSR
-Finds TSRs from a given sequence (Internal function)
+An internal function, which is invoked using the user-level
+function determineTSR that identifies TSRs from the selected tssSet 
+(Internal function)
 }

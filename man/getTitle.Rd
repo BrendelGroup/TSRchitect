@@ -10,7 +10,8 @@ getTitle(experimentName)
 \item{experimentName}{n S4 object of class \emph{tssObject}}
 }
 \value{
-the contents of slot "title" are returned
+the contents of slot "title" are returned, which are of class
+"character"
 }
 \description{
 an accessor function that retrieves the contents of slot "title"

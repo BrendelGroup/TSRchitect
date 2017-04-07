@@ -6,8 +6,13 @@
 \usage{
 countsToVector(x)
 }
+\value{
+a data frame containing the coordinates tag counts for each
+unique TSS.
+}
 \description{
-An internal function that extracts the values
-from the output returned from tsrCluster
+An internal function that is utilized during tsrCluster.
+countsToVector is invoked by the internal function clusterTSR during
+the TSR identification process.
 }
 \keyword{internal}

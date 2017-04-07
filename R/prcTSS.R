@@ -1,7 +1,8 @@
 #' @title \emph{prcTSS()}
 #'
-#' @description An internal function that Creates an expression matrix for
-#' all TSSs within a given TSS experiment (in slot tssTagData)
+#' @description An internal function, invoked via processTSS, that creates an
+#' expression matrix for all TSSs within a given TSS experiment (in slot
+#' tssTagData)
 #'
 #' @param experimentName - a S4 object of class tssObject containing
 #' information in slot tssTagData
