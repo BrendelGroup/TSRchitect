@@ -19,7 +19,10 @@ A data frame of TSRs with variables\cr
 }
 }
 \description{
-Partitions, then clusters TSS data by sequence to create
-a data frame of identified TSR positions and other associated metrics.
+an internal function that partitions, then clusters TSS data by
+sequence to create a data frame containing the coordinates of identified TSRs
+and other associated metrics, including the count (nTSSs), TSR width and Shape
+Index (SI). tsrCluster is an internal function that is invoked via detTSR(),
+which in turn is called by the user-level function determineTSR().
 }
 \keyword{internal}

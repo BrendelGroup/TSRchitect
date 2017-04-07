@@ -1,13 +1,15 @@
 ################################################################################
 #' tagCountTSS
-#' @description Returns a matrix [a, h] where a = the number of unique TSSs
-#' and h = the # of tags observed at that position
+#' @description an internal function that eturns a matrix [a, h] where a = the
+#' number of unique TSSs and h = the # of tags observed at that position
 #'
 #' @import BiocGenerics
 #' @import GenomicRanges
 #' @importFrom utils write.table
 #'
 #' @keywords internal
+#' @return a matrix [a, h] containing the number of unique TSSs (a) and their
+#' abundances (h).
 
 
 tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
@@ -96,9 +98,12 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
 
 ################################################################################
 #' @title tsrCluster
-#' @description Partitions, then clusters TSS data by sequence to create
-#' a data frame of identified TSR positions and other associated metrics.
-#'
+#' @description an internal function that partitions, then clusters TSS data by
+#' sequence to create a data frame containing the coordinates of identified TSRs
+#' and other associated metrics, including the count (nTSSs), TSR width and Shape
+#' Index (SI). tsrCluster is an internal function that is invoked via detTSR(),
+#' which in turn is called by the user-level function determineTSR().
+#' 
 #' @keywords internal
 #'
 #' @importFrom gtools mixedsort

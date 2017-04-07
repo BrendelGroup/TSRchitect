@@ -21,8 +21,8 @@ information in slot \emph{@tssTagData}}
 identifiers in the tsrData column. (character)}
 }
 \value{
-A table containing the specified TSR data set that
-is to be written to your working directory.
+a summarizedExperiment object from the specified TSR data set
+that is to be written to your working directory.
 }
 \description{
 \code{createSummarizedExperiment} creates and reutrns

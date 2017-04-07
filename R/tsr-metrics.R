@@ -1,22 +1,19 @@
 #' @title countsToVector
-#' @description An internal function that extracts the values
-#' from the output returned from tsrCluster
+#' @description An internal function that is utilized during tsrCluster.
+#' countsToVector is invoked by the internal function clusterTSR during
+#' the TSR identification process.
 #'
 #' @keywords internal
+#' @return a data frame containing the coordinates tag counts for each
+#' unique TSS.
 #' @export
 
 countsToVector <- function(x) {
-    #coord.vec <- x[1,]
-    #count.vec <- x[2,]
     rep.vec  <- vector(mode="numeric", length=0)
 
     for (i in 1:length(x[1,])) {
         this.vec <- rep(x[1,i], x[2,i])
         rep.vec <- c(rep.vec, this.vec)
-        #this.count <- count.vec[i]
-        #this.coord <- coord.vec[i]
-        #this.vec <- rep(this.coord, this.count)
-#       rep.vec <- c(rep.vec, this.vec)
         }
 
     names(rep.vec) <- NULL

@@ -25,7 +25,8 @@ corresponding to the sequence identifier, position, tag count, and strand,
 respectively.
 }
 \description{
-An internal function that Creates an expression matrix for
-all TSSs within a given TSS experiment (in slot tssTagData)
+An internal function, invoked via processTSS, that creates an
+expression matrix for all TSSs within a given TSS experiment (in slot
+tssTagData)
 }
 \keyword{internal}

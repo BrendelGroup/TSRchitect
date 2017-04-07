@@ -4,7 +4,8 @@
 #'
 #' @param experimentName n S4 object of class \emph{tssObject}
 #'
-#' @return the contents of slot "title" are returned
+#' @return the contents of slot "title" are returned, which are of class
+#' "character"
 #'
 #' @keywords methods
 #'
@@ -36,7 +37,8 @@ setMethod("getTitle",
 #'
 #' @param experimentName an S4 object of class \emph{tssObject}
 #'
-#' @return the contents of slot "fileNames" are returned
+#' @return the contents of slot "fileNames" are returned, which are
+#' a vector of class "character"
 #'
 #' @keywords methods
 #'

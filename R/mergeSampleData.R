@@ -84,9 +84,9 @@ setMethod("mergeSampleData",
               exp.list[[n.slots]] <- my.df
 
               experimentName@tssCountDataMerged <- exp.list
-              message("\n... the TSS expression data have been successfully merged",
+              message("\n... the TSS expression data have been merged",
                     "\nand added to the tssObject object.\n")
-              message("---------------------------------------------------------\n")
+              message("------------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
           }
