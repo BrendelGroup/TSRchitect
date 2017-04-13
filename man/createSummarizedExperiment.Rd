@@ -35,7 +35,7 @@ https://bioconductor.org/packages/release/bioc/vignettes/SummarizedExperiment/in
 }
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
-createSumarizedExperiment(tssObjectExample, tsrSetType="merged", tsrSet=1,
+createSummarizedExperiment(tssObjectExample, tsrSetType="merged", tsrSet=1,
 samplePrefix=c("sample1","sample2"))
 
 }
