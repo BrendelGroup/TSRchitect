@@ -22,7 +22,7 @@
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
-#' createSumarizedExperiment(tssObjectExample, tsrSetType="merged", tsrSet=1,
+#' createSummarizedExperiment(tssObjectExample, tsrSetType="merged", tsrSet=1,
 #' samplePrefix=c("sample1","sample2"))
 #'
 #' @note For more information on the SummarizedExperiment class, please visit
