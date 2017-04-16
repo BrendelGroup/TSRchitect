@@ -260,8 +260,10 @@ tssArrayProperties <- function(tssArray, seqName, strand) {
 #' @return Calculates the shape index (SI) for a given TSR
 
 TSRshapeIndex <- function(tssArray) {
-    tagcount <- sum(tssArray[2,])
-    v <- apply(tssArray, 2,
+	tssArray <- t(tssArray)
+ 	tssArray <- data.matrix(aggregate(tssArray[,2] ~ tssArray[,1], tssArray, sum))
+    tagcount <- sum(tssArray[,2])
+    v <- apply(tssArray, 1,
                function(c) {p <- c[2]/tagcount;
                             return(p * log2(p))
                            }
