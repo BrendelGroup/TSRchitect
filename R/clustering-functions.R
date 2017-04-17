@@ -1,15 +1,22 @@
 ################################################################################
 #' tagCountTSS
 #' @description an internal function that returns a matrix [a, h] where a = the
-#' number of unique TSSs and h = the # of tags observed at that position
+#' number of unique TSSs and h = the # of tags observed at that position.
+#' tagCountTSS is invoked via prcTSS.
 #'
 #' @import BiocGenerics
 #' @import GenomicRanges
 #' @importFrom utils write.table
 #'
+#' @param y a data frame containing the contents of a single slot of tssTagData.
+#' @param outfname the prefix of the file name of TSS information to be written.
+#' (character)
+#' @param writeDF if TRUE, the tag count information is written to a file in the
+#' workding directory (logical)
+#'
 #' @keywords internal
-#' @return a matrix [a, h] containing the number of unique TSSs (a) and their
-#' abundances (h).
+#' @return a matrix [a, h] containing the number of unique TSSs (a) and
+#' their corresponding abundances (h) is returned.
 
 
 tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
@@ -107,6 +114,14 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
 #' @keywords internal
 #'
 #' @importFrom gtools mixedsort
+#'
+#' @param x a data frame containing a single slot from either tssCountData or
+#' tssCountDataMerged, depending on its invocation by parent function
+#' determineTSR()
+#' @param minNbrTSSs the minimum number of tags at a given TSS position
+#' for a TSS to be included in clustering. (numeric)
+#' @param minDist the maximum distance of TSSs between two TSRs in base pairs.
+#' (numeric)
 #'
 #' @return A data frame of TSRs with variables\cr
 #' \enumerate{
@@ -256,7 +271,15 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
 #'
 #' @keywords internal
 #'
-#' @return A vector describing the TSR
+#' @param tssArray an object containing TSS coordinates and their
+#' abundances. (data.frame)
+#' @param seqName the name of the chromosome or scaffold. (character)
+#' @param strand the strand that the TSR tags are located. (character)
+#'
+#' @return A vector containing information about the TSR.
+#' The returned vector is as follows:
+#' seqName (character), TSR start (numeric), TSR end (numeric),
+#' number of TSSs (numeric), TSR width (numeric) Shape Index (numeric)
 
 tssArrayProperties <- function(tssArray, seqName, strand) {
     my.range <- range(tssArray[,1])
@@ -269,11 +292,16 @@ tssArrayProperties <- function(tssArray, seqName, strand) {
 
 #' @title TSRshapeIndex
 #' @description An internal function that caculates the shape index (SI)
-#' of a given TSR from the output of tsrCluster
+#' of a given TSR from the output of tsrCluster.
+#' TSRshapeIndex is invoked via tssArrayProperties().
 #'
 #' @keywords internal
 #'
-#' @return Calculates the shape index (SI) for a given TSR
+#' @param tssArray an object containing TSS coordinates and their
+#' abundances. (data.frame)
+#'
+#' @return Returns a  numeric vector of length 1 containing the Shape Index (SI)
+#' value for the selected TSR.
 
 TSRshapeIndex <- function(tssArray) {
     tagcount <- sum(tssArray[,2])
