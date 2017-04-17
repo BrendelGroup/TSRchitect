@@ -104,7 +104,6 @@ setMethod("addAnnotationToTSR",
                   tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
                   tsr.df$start <- as.numeric(as.character(tsr.df$start))
                   tsr.df$end <- as.numeric(as.character(tsr.df$end))
-                  save(tsr.df, file="tsrDF_test.RData")
               }
               else {
                   stop("Error: argument tsrSetType to addAnnotationToTSR()",

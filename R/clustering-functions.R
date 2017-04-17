@@ -1,6 +1,6 @@
 ################################################################################
 #' tagCountTSS
-#' @description an internal function that eturns a matrix [a, h] where a = the
+#' @description an internal function that returns a matrix [a, h] where a = the
 #' number of unique TSSs and h = the # of tags observed at that position
 #'
 #' @import BiocGenerics
@@ -27,7 +27,7 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
 
         #starting with the plus strand:
         tss.vec <- start(x[[i]][strand(x[[i]]) == "+"])
-        if (length(tss.vec) > 3) {	#stop if there are nearly no tags
+        if (length(tss.vec) > 3) {        #stop if there are nearly no tags
             my.TSSs <- unique(tss.vec)
             my.matrix.p <- matrix(NA, nrow=(length(my.TSSs)), ncol=4)
 
@@ -124,7 +124,6 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
     tss.df <- x
     uni.seq <- unique(tss.df[,1])
     n.seq <- length(uni.seq)
-    overall.list <- vector(mode="list", length=n.seq)
     tss.df.total <- data.frame(seq=NA, start=NA, end=NA, strand=NA,
                                nTSSs=NA, tsrWidth=NA, shapeIndex=NA)
     TSS.df <- data.frame(seq=NA, start=NA, end=NA, strand=NA,
@@ -141,27 +140,19 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
         my.len <- nrow(sTSS.p)
         TSS.df.p <- data.frame(seq=NA, start=NA, end=NA, strand=NA,
                                nTSSs=NA, tsrWidth=NA, shapeIndex=NA)
-        #colnames(TSS.df.p) <- c("seq", "start", "end", "strand", "nTSSs",
-                                #"tsrWidth", "shapeIndex")
-        if (my.len == 0) { # ... create an empty list tss.list.p
-            tss.list.p <- vector(mode="list")
+        if (my.len == 0) {
         }
         else if (my.len == 1) {
-            tss.list.p <- vector(mode="list")
             my.tss <- as.numeric(sTSS.p[1,2])
             my.count <- as.numeric(sTSS.p[1,4])
-            combined.tss <- rbind(my.tss, my.count)
-            rownames(combined.tss) <- c("coordinate","count")
-            colnames(combined.tss) <- 1:ncol(combined.tss)
-            tss.out <- df.fun.p(combined.tss, seq.name)
+            combined.tss <- cbind(my.tss, my.count)
+            tss.out <- tssArrayProperties(combined.tss, seq.name, "+")
             TSS.df.p <- rbind(TSS.df.p, tss.out)
         }
         else {
-
-            #tss.list.p <- vector(mode="list")
             my.tss <- as.numeric(sTSS.p[1,2])
             my.count <- as.numeric(sTSS.p[1,4])
-            j <- 0
+            my.nbrtss <- 1
             for (i in 1:(my.len-1)) {
                 tss.1 <- as.numeric(sTSS.p[i,2])
                 tss.1.count <- as.numeric(sTSS.p[i,4])
@@ -169,27 +160,28 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
                 tss.2.count <- as.numeric(sTSS.p[i+1,4])
                 tss.dist <- abs(tss.2-tss.1)
                 if (tss.dist < minDist) {
-                    my.tss <- c(my.tss,tss.2)
-                    my.count <- c(my.count, tss.2.count)
-                    if (i == my.len-1) {	# wrapping up the last TSR
-                        j <- j + 1
-                        combined.tss <- rbind(my.tss, my.count)
-                        rownames(combined.tss) <- c("coordinate","count")
-                        colnames(combined.tss) <- 1:ncol(combined.tss)
-                        tss.out <- df.fun.p(combined.tss, seq.name)
+                    if (tss.dist == 0) {
+                        my.count[my.nbrtss] <- my.count[my.nbrtss] + tss.2.count
+                    }
+                    else {
+                        my.tss <- rbind(my.tss,tss.2)
+                        my.count <- rbind(my.count, tss.2.count)
+                        my.nbrtss <- my.nbrtss + 1
+                    }
+                    if (i == my.len-1) {        # wrapping up the last TSR
+                        combined.tss <- cbind(my.tss, my.count)
+                        tss.out <- tssArrayProperties(combined.tss, seq.name, "+")
                         TSS.df.p <- rbind(TSS.df.p, tss.out)
                     }
                     next
                 }
                 else {
-                    j <- j + 1
-                    combined.tss <- rbind(my.tss, my.count)
-                    rownames(combined.tss) <- c("coordinate","count")
-                    colnames(combined.tss) <- 1:ncol(combined.tss)
-                    tss.out <- df.fun.p(combined.tss, seq.name)
+                    combined.tss <- cbind(my.tss, my.count)
+                    tss.out <- tssArrayProperties(combined.tss, seq.name, "+")
                     TSS.df.p <- rbind(TSS.df.p, tss.out)
                     my.tss <- tss.2
                     my.count <- tss.2.count
+                    my.nbrtss <- 1
                 }
             }
         }
@@ -201,26 +193,19 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
         my.len <- nrow(sTSS.m)
         TSS.df.m <- data.frame(seq=NA, start=NA, end=NA, strand=NA,
                                nTSSs=NA, tsrWidth=NA, shapeIndex=NA)
-        
-        #colnames(TSS.df.m) <- c("seq", "start", "end", "strand", "nTSSs",
-                                #"tsrWidth", "shapeIndex")
-        if (my.len == 0) { # ... create an empty list tss.list.m
-            #tss.list.m <- vector(mode="list")
+        if (my.len == 0) {
         }
         else if (my.len == 1) {
             my.tss <- as.numeric(sTSS.m[1,2])
             my.count <- as.numeric(sTSS.m[1,4])
-            combined.tss <- rbind(my.tss, my.count)
-            rownames(combined.tss) <- c("coordinate","count")
-            colnames(combined.tss) <- 1:ncol(combined.tss)
-            tss.out <- df.fun.m(combined.tss, seq.name)
+            combined.tss <- cbind(my.tss, my.count)
+            tss.out <- tssArrayProperties(combined.tss, seq.name ,"-")
             TSS.df.m <- rbind(TSS.df.m, tss.out)
         }
         else {
-            tss.list.m <- vector(mode="list")
             my.tss <- as.numeric(sTSS.m[1,2])
             my.count <- as.numeric(sTSS.m[1,4])
-            j <- 0
+            my.nbrtss <- 1
             for (i in 1:(my.len-1)) {
                 tss.1 <- as.numeric(sTSS.m[i,2])
                 tss.1.count <- as.numeric(sTSS.m[i,4])
@@ -228,27 +213,28 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
                 tss.2.count <- as.numeric(sTSS.m[i+1,4])
                 tss.dist <- abs(tss.2-tss.1)
                 if (tss.dist < minDist) {
-                    my.tss <- c(my.tss,tss.2)
-                    my.count <- c(my.count, tss.2.count)
-                    if (i == my.len-1) {	# wrapping up the last TSR
-                        j <- j + 1
-                        combined.tss <- rbind(my.tss, my.count)
-                        rownames(combined.tss) <- c("coordinate","count")
-                        colnames(combined.tss) <- 1:ncol(combined.tss)
-                        tss.out <- df.fun.m(combined.tss, seq.name)
+                    if (tss.dist == 0) {
+                        my.count[my.nbrtss] <- my.count[my.nbrtss] + tss.2.count
+                    }
+                    else {
+                        my.tss <- rbind(my.tss,tss.2)
+                        my.count <- rbind(my.count, tss.2.count)
+                        my.nbrtss <- my.nbrtss + 1
+                    }
+                    if (i == my.len-1) {        # wrapping up the last TSR
+                        combined.tss <- cbind(my.tss, my.count)
+                        tss.out <- tssArrayProperties(combined.tss, seq.name, "-")
                         TSS.df.m <- rbind(TSS.df.m, tss.out)
                     }
                     next
                 }
                 else {
-                    j <- j + 1
-                    combined.tss <- rbind(my.tss, my.count)
-                    rownames(combined.tss) <- c("coordinate","count")
-                    colnames(combined.tss) <- 1:ncol(combined.tss)
-                    tss.out <- df.fun.m(combined.tss, seq.name)
+                    combined.tss <- cbind(my.tss, my.count)
+                    tss.out <- tssArrayProperties(combined.tss, seq.name, "-")
                     TSS.df.m <- rbind(TSS.df.m, tss.out)
                     my.tss <- tss.2
                     my.count <- tss.2.count
+                    my.nbrtss <- 1
                 }
             }
         }
@@ -257,40 +243,45 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
         TSS.df <- rbind(TSS.df.p, TSS.df.m)
         tss.df.total <- rbind(tss.df.total, TSS.df)
 
-    }	#end of by sequence for-loop
+    }        #end of by sequence for-loop
 
     tss.df.total <- tss.df.total[-1,]
-    #tss.df.total$seq <- as.character(tss.df.total$seq)
     return(tss.df.total)
 }
 
 
-df.fun.m <- function(string.in, seqName) {
-                     my.string <- countsToVector(string.in)
-                     my.SI <- round(shapeIndex(my.string), digits=2)
-                     my.vec <- string.in[1,]
-                     my.range <- range(my.vec)
-                     my.width <- (my.range[2]-my.range[1])+1
-                     my.start <- min(my.range)
-                     my.end <- max(my.range)
-                     my.counts <- tsrCounts(string.in)
-                     my.strand <- c("-")
-                     vec.out <- c(seqName, my.start, my.end, my.strand,
-                                  my.counts, my.width, my.SI)
-                     return(vec.out)                          
-                      }
+#' @title tssArrayProperties
+#' @description An internal function that caculates various properties
+#' for a TSR derived in tsrCluster()
+#'
+#' @keywords internal
+#'
+#' @return A vector describing the TSR
 
-df.fun.p <- function(string.in, seqName) {
-                my.string <- countsToVector(string.in)
-                my.SI <- round(shapeIndex(my.string), digits=2)
-                my.vec <- string.in[1,]
-                my.range <- range(my.vec)
-                my.width <- (my.range[2]-my.range[1])+1
-                my.start <- min(my.range)
-                my.end <- max(my.range)
-                my.counts <- tsrCounts(string.in)
-                my.strand <- c("+")
-                vec.out <- c(seqName, my.start, my.end, my.strand,
-                             my.counts, my.width, my.SI)
-                return(vec.out)
-            }
+tssArrayProperties <- function(tssArray, seqName, strand) {
+    my.range <- range(tssArray[,1])
+    my.counts <- sum(tssArray[,2])
+    my.width <- (my.range[2]-my.range[1])+1
+    my.SI <- round(TSRshapeIndex(tssArray), digits=2)
+    return(c(seqName,my.range[1],my.range[2],strand,my.counts,my.width,my.SI))
+}
+
+
+#' @title TSRshapeIndex
+#' @description An internal function that caculates the shape index (SI)
+#' of a given TSR from the output of tsrCluster
+#'
+#' @keywords internal
+#'
+#' @return Calculates the shape index (SI) for a given TSR
+
+TSRshapeIndex <- function(tssArray) {
+    tagcount <- sum(tssArray[,2])
+    v <- apply(tssArray, 1,
+               function(c) {p <- c[2]/tagcount;
+                            return(p * log2(p))
+                           }
+              )
+    SI <- 2 + sum(v)
+    return(SI)
+}

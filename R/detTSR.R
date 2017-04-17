@@ -57,7 +57,7 @@ setMethod("detTSR",
               }
 
               tsr.DF <- tsrCluster(tss.df, minNbrTSSs=tagCountThreshold,
-                                     minDist=clustDist)
+                                   minDist=clustDist)
 
               message("---------------------------------------------------------\n")
               message(" Done.\n")

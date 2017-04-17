@@ -11,7 +11,7 @@ a matrix [a, h] containing the number of unique TSSs (a) and their
 abundances (h).
 }
 \description{
-an internal function that eturns a matrix [a, h] where a = the
+an internal function that returns a matrix [a, h] where a = the
 number of unique TSSs and h = the # of tags observed at that position
 }
 \keyword{internal}
