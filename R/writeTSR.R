@@ -15,14 +15,13 @@
 #' @return A table containing the specified TSR data set that
 #' is to be written to your working directory.
 #'
-#' @importFrom GenomicRanges makeGRangesFromDataFrame
+#' @import     BiocGenerics
 #' @importFrom rtracklayer export.bed
-#' @importFrom utils write.table
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' writeTSR(experimentName=tssObjectExample, tsrSetType="replicates",
-#' tsrSet=1, fileType="tab")
+#'          tsrSet=1, fileType="tab")
 #'
 #' @note The .bed file written adheres to the standard six-column BED format,
 #' while "tab" format is identical to that of the data.frames containing TSR
@@ -48,7 +47,7 @@ setMethod("writeTSR",
               if (tsrSetType=="replicates") {
                   if (tsrSet>length(experimentName@tsrData)) {
                       stop("The value selected for tsrSet exceeds the",
-                           "number of slots in tsrData.")
+                           " number of slots in tsrData.")
                   }
                   outfname <- paste("TSRset-", tsrSet, sep="")
                   if (fileType == "tab") {
@@ -59,7 +58,7 @@ setMethod("writeTSR",
                   }
                   else {
                       stop("Unknown fileType selected for writeTSR.",
-                           "Please check.")
+                           " Please check.")
                   }
                   message("\nThe TSR set for TSS dataset ", tsrSet,
                           " has been written to file ",
@@ -69,11 +68,11 @@ setMethod("writeTSR",
               else if (tsrSetType=="merged") {
                   if (length(experimentName@tsrDataMerged)<1) {
                       stop("The @tsrDataMerged slot is currently empty.",
-                            "Please complete the merger before continuing.")
+                            " Please complete the merger before continuing.")
                   }
                   if (tsrSet>length(experimentName@tsrDataMerged)) {
                       stop("The value selected for tsrSet exceeds the",
-                            "number of slots in tsrDataMerged.")
+                            " number of slots in tsrDataMerged.")
                   }
                   if (tsrSet<length(experimentName@tssCountDataMerged)) {
                       outfname <- paste("TSRsetMerged-", tsrSet, sep="")
@@ -85,7 +84,7 @@ setMethod("writeTSR",
                       }
                       else {
                           stop("Unknown fileType selected for writeTSR.",
-                               "Please check.")
+                               " Please check.")
                       }
                       message("\nThe merged TSR set for TSS dataset ", tsrSet,
                       " has been written to file ", outfname,
@@ -99,8 +98,8 @@ setMethod("writeTSR",
                           outfname <- "TSRsetCombined.bed"
                       }
                       else {
-                          stop("Unknown fileType selected for writeTSR.
-                          Please check.")
+                          stop("Unknown fileType selected for writeTSR.",
+                               " Please check.")
                       }
                       message("\nThe combined TSR set derived from all samples",
                               " has been written to file ", outfname,
@@ -110,7 +109,7 @@ setMethod("writeTSR",
               }
               else {
                   stop("Error: argument tsrSetType to writeTSR() should be",
-                       "either \"replicates\" or \"merged\".")
+                       " either \"replicates\" or \"merged\".")
               }
 
               if (fileType == "tab") {
@@ -118,24 +117,16 @@ setMethod("writeTSR",
                   row.names=FALSE, sep="\t", quote=FALSE)
               }
               else {
-                  tsr.df$ID <- paste(tsr.df$seq, tsr.df$start, tsr.df$end,
-                               tsr.df$strand, sep=".")
+                  tsr.df$ID <- paste(tsr.df$seq,
+                                    as.numeric(as.character(tsr.df$start)),
+                                    as.numeric(as.character(tsr.df$end)),
+                                    tsr.df$strand, sep=".")
                   bed.df <- tsr.df[, c("seq", "start", "end", "ID",
-                             "shapeIndex", "strand")]
+                                       "shapeIndex", "strand")]
+                  bed.df$shapeIndex <- as.numeric(as.character(bed.df$shapeIndex))
                   colnames(bed.df) <- c("chrom", "start", "end",
                                       "name", "score", "strand")
-                  bed.df$start <- bed.df$start - 1
-#                  write.table(bed.df, file=outfname, col.names=FALSE,
-#                              row.names=FALSE, sep="\t", quote=FALSE)
-                  bed.gr <- makeGRangesFromDataFrame(bed.df,
-                                           keep.extra.columns=TRUE,
-                                           ignore.strand=TRUE,
-                                           seqinfo=NULL,
-                                           seqnames.field="seq",
-                                           start.field="start",
-                                           end.field.="end",
-                                           strand.field="strand")
-                  export.bed(bed.gr, con=outfname)
+                  export.bed(bed.df,con=outfname)
               }
 
               message("---------------------------------------------------------\n")

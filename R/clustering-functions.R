@@ -1,345 +1,315 @@
-#' @title tssChr
-#' @description Retrieves tss data from a given experiment by sequence.
-#'
-#' @param tssObj an object of class \linkS4class{GRanges} containing data
-#' from a slot of \emph{tssTagData}
-#' @param seqName the name of the sequence to select
-#'
-#' @keywords internal
-#'
-#' @return generates a list containing TSS data for a single sequence
-#' (plus and minus strands)
-#'
-#' @import BiocGenerics
-#' @import methods
-#' @importFrom GenomeInfoDb seqnames
-
-
-
-setGeneric("tssChr",
-           function(tssObj, seqName)
-           standardGeneric("tssChr")
-)
-
-setMethod("tssChr",
-          signature(tssObj="GRanges", seqName="character"),
-          function(tssObj, seqName) {
-              uni.seq <- as.character(unique(seqnames(tssObj)))
-              seq.list <- new("list", plus=numeric(0), minus=numeric(0))
-              match_string <- match(seqName, uni.seq)
-              if (is.na(match_string)) {
-                  stop("The sequence you selected doesn't exist.")
-              }
-               this.grList <- S4Vectors::split(tssObj, seqnames(tssObj))
-              #print(this.grList) 
-              tss.total <- this.grList[[seqName]]
-              #print(tss.total)
-              # splitting on strand (note that '*' values are ignored)
-              tss.grList <- S4Vectors::split(tss.total, strand(tss.total))
-              #print(tss.grList)
-              # starting with the TSSs on the plus strand
-              tss.plus <- tss.grList$"+"
-              tss.plus.vec <- start(tss.plus)
-              seq.list$plus <- tss.plus.vec
-              # now for the TSSs on the minus strand
-              tss.minus <- tss.grList$"-"
-              tss.minus.vec <- start(tss.minus)
-              seq.list$minus <- tss.minus.vec
-              tss.total <- NULL
-              return(seq.list)
-          }
-          )
-
-
-################################################################################
-#' @title acquireTSS
-#' @description Retrieves all tss data from a given TSS experiment.
-#'
-#' @param experimentName an S4 object of class tssObject
-#' containing the tss data
-#' @param tssSet the slot number of the tss data to be clustered
-#'
-#' @keywords internal
-#'
-#' @return a list object containing TSS data from the entire dataset
-#'
-#' @import BiocGenerics
-#' @importFrom gtools mixedsort
-
-
-setGeneric("acquireTSS",
-    function(experimentName, tssSet)
-    standardGeneric("acquireTSS")
-)
-
-setMethod("acquireTSS",
-          signature(experimentName="tssObject", tssSet="numeric"),
-          function(experimentName, tssSet) {
-              message("\nAcquiring TSS data from sample tssSet = ",
-                  tssSet, " ...\n")
-              tss.obj <- experimentName@tssTagData[[tssSet]]
-              uni.seq <- as.character(unique(seqnames(tss.obj)))
-              uni.seq <- mixedsort(uni.seq)
-              n.seq <- length(uni.seq)
-              tss.list <- new("list")
-              oldtime <- Sys.time()
-
-              for (i in 1:n.seq) {
-                  as.character(uni.seq[i]) -> seqName
-                  tssChr(tssObj=tss.obj, seqName) -> tss.out
-                  tss.out -> tss.list[[seqName]]
-              }
-              names(tss.list) <- uni.seq
-              newtime <- Sys.time()
-              elapsedtime <- newtime - oldtime
-              message("Done with sample tssSet = ", tssSet,
-                  " after time: ", print(elapsedtime),".\n\n")
-              return(tss.list)
-         }
-         )
-
-
 ################################################################################
 #' tagCountTSS
-#' @description Returns a matrix [a, h] where a = the number of unique TSSs
-#' and h = the # of tags observed at that position
+#' @description an internal function that returns a matrix [a, h] where a = the
+#' number of unique TSSs and h = the # of tags observed at that position.
+#' tagCountTSS is invoked via prcTSS.
 #'
 #' @import BiocGenerics
-#' @importFrom gtools mixedsort
+#' @import GenomicRanges
 #' @importFrom utils write.table
 #'
+#' @param y a data frame containing the contents of a single slot of tssTagData.
+#' @param outfname the prefix of the file name of TSS information to be written.
+#' (character)
+#' @param writeDF if TRUE, the tag count information is written to a file in the
+#' workding directory (logical)
+#'
 #' @keywords internal
+#' @return a matrix [a, h] containing the number of unique TSSs (a) and
+#' their corresponding abundances (h) is returned.
 
 
-tagCountTSS <- function(x, outfname="TSS.txt", writeDF=FALSE) {
-        n.seq <- length(names(x)) # how many sequences are in the TSS list?
-        uni.seq <- unique(names(x))
-        uni.seq <- mixedsort(uni.seq)
+tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
+    x <- S4Vectors::split(y,seqnames(y))
+    n.seq <- length(x)
 
-        my.matrix <- NULL
-        for (i in 1:n.seq) {
+    my.matrix <- NULL
+    for (i in 1:n.seq) {
 #VB Note: Print a progress note on every 20th sequence; 20 should be a parameter
-            if (i%%20 == 0) {
-                message("... tagCountTSS running with sequence ", i,
-                    " of ", n.seq, " for TSS set ", outfname, "\n")
-            }
-            uni.seq[i] -> this.seq
+        if (i%%20 == 0) {
+            message("... tagCountTSS running with sequence ", i,
+                " of ", n.seq, " for TSS set ", outfname, "\n")
+        }
+        this.seq <- as.character(x[[i]]@seqnames@values[1])
 
-            #starting with the plus strand:
-            tss.vec <- x[[i]]$plus
-            if (length(tss.vec) > 3) {	#stop if there are nearly no tags
-                my.TSSs <- unique(tss.vec)
-                my.matrix.p <- matrix(NA, nrow=(length(my.TSSs)), ncol=4)
+        #starting with the plus strand:
+        tss.vec <- start(x[[i]][strand(x[[i]]) == "+"])
+        if (length(tss.vec) > 3) {        #stop if there are nearly no tags
+            my.TSSs <- unique(tss.vec)
+            my.matrix.p <- matrix(NA, nrow=(length(my.TSSs)), ncol=4)
 
-                tss.vec[1] -> this.TSS
-                1 -> n.TSSs
-                0 -> k
-                for (j in 2:length(tss.vec)) {
-                    if (tss.vec[j] == this.TSS) {
-                        n.TSSs + 1 -> n.TSSs
-                    }
-                    else {
-                        k + 1 -> k
-                        c(this.seq, this.TSS, "+", n.TSSs) -> my.matrix.p[k,]
-                        tss.vec[j] -> this.TSS
-                        1 -> n.TSSs
-                    }
+            this.TSS <- tss.vec[1]
+            n.TSSs <- 1
+            k <- 0
+            for (j in 2:length(tss.vec)) {
+                if (tss.vec[j] == this.TSS) {
+                    n.TSSs <- n.TSSs + 1
                 }
-                k + 1 -> k
-                c(this.seq, this.TSS, "+", n.TSSs) -> my.matrix.p[k,]
-# ... adding the plus strand matrix of this.seq to the overall matrix:
-                my.matrix <- rbind(my.matrix,my.matrix.p)
+                else {
+                    k <- k + 1
+                    my.matrix.p[k,] <- c(this.seq, this.TSS, "+", n.TSSs)
+                    this.TSS <- tss.vec[j]
+                    n.TSSs <- 1
+                }
             }
+            k <- k + 1
+            my.matrix.p[k,] <- c(this.seq, this.TSS, "+", n.TSSs)
+# ... add the plus strand matrix of this.seq to the overall matrix:
+            my.matrix <- rbind(my.matrix,my.matrix.p)
+        }
 
-            #now for the minus strand:
-            tss.vec <- x[[i]]$minus
-            if (length(tss.vec) > 3) {
+        #now for the minus strand:
+        tss.vec <- start(x[[i]][strand(x[[i]]) == "-"])
+        if (length(tss.vec) > 3) {
 # ... no point continuing when there are almost no TSS tags
-                my.TSSs <- unique(tss.vec)
-                my.matrix.m <- matrix(NA, nrow=(length(my.TSSs)), ncol=4)
+            my.TSSs <- unique(tss.vec)
+            my.matrix.m <- matrix(NA, nrow=(length(my.TSSs)), ncol=4)
 
-                tss.vec[1] -> this.TSS
-                1 -> n.TSSs
-                0 -> k
-                for (j in 2:length(tss.vec)) {
-                    if (tss.vec[j] == this.TSS) {
-                        n.TSSs + 1 -> n.TSSs
-                    }
-                    else {
-                        k + 1 -> k
-                        c(this.seq, this.TSS, "-", n.TSSs) -> my.matrix.m[k,]
-                        tss.vec[j] -> this.TSS
-                        1 -> n.TSSs
-                    }
+            this.TSS <- tss.vec[1]
+            n.TSSs <- 1
+            k <- 0
+            for (j in 2:length(tss.vec)) {
+                if (tss.vec[j] == this.TSS) {
+                    n.TSSs <- n.TSSs + 1
                 }
-                k + 1 -> k
-                c(this.seq, this.TSS, "-", n.TSSs) -> my.matrix.m[k,]
-# ... adding the minus strand matrix of this.seq to the overall matrix:
-                my.matrix <- rbind(my.matrix,my.matrix.m)
+                else {
+                    k <- k + 1
+                    my.matrix.m[k,] <- c(this.seq, this.TSS, "-", n.TSSs)
+                    this.TSS <- tss.vec[j]
+                    n.TSSs <- 1
+                }
             }
+            k <- k + 1
+            my.matrix.m[k,] <- c(this.seq, this.TSS, "-", n.TSSs)
+# ... adding the minus strand matrix of this.seq to the overall matrix:
+            my.matrix <- rbind(my.matrix,my.matrix.m)
         }
-        colnames(my.matrix) <- c("seq","TSS","strand","nTSSs")
-        my.df <- as.data.frame(my.matrix)
-        my.df$seq <- as.character(my.df$seq)
-        my.df$TSS <- as.numeric(as.character(my.df$TSS))
-        my.df$strand <- as.character(my.df$strand)
-        my.df$nTSSs <- as.numeric(as.character(my.df$nTSSs))
+    }
+    colnames(my.matrix) <- c("seq","TSS","strand","nTSSs")
+    my.df <- as.data.frame(my.matrix)
+    my.df$seq <- as.character(my.df$seq)
+    my.df$TSS <- as.numeric(as.character(my.df$TSS))
+    my.df$strand <- as.character(my.df$strand)
+    my.df$nTSSs <- as.numeric(as.character(my.df$nTSSs))
 
-        if (writeDF==TRUE) {
-            write.table(my.df, outfname, quote=FALSE, col.names=TRUE,
-			row.names=FALSE, sep="\t")
-            message("\nThe TSS dataset has been written to file ", outfname,
-		    "\nin your working directory.")
-        }
+    if (writeDF==TRUE) {
+        write.table(my.df, outfname, quote=FALSE, col.names=TRUE,
+                    row.names=FALSE, sep="\t")
+        message("\nThe TSS dataset has been written to file ", outfname,
+                "\nin your working directory.")
+    }
 
-        return(my.df)
-        }
+    return(my.df)
+}
 
 
 ################################################################################
 #' @title tsrCluster
-#' @description Partitions, then clusters tss data by sequence.
+#' @description an internal function that partitions, then clusters TSS data by
+#' sequence to create a data frame containing the coordinates of identified TSRs
+#' and other associated metrics, including the count (nTSSs), TSR width and Shape
+#' Index (SI). tsrCluster is an internal function that is invoked via detTSR(),
+#' which in turn is called by the user-level function determineTSR().
+#' 
+#' @keywords internal
+#'
+#' @importFrom gtools mixedsort
+#'
+#' @param x a data frame containing a single slot from either tssCountData or
+#' tssCountDataMerged, depending on its invocation by parent function
+#' determineTSR()
+#' @param minNbrTSSs the minimum number of tags at a given TSS position
+#' for a TSS to be included in clustering. (numeric)
+#' @param minDist the maximum distance of TSSs between two TSRs in base pairs.
+#' (numeric)
+#'
+#' @return A data frame of TSRs with variables\cr
+#' \enumerate{
+#'         \item seq = sequence identifier (seq)
+#'         \item start = start of TSR (num)
+#'         \item end = end of TSR (num)
+#'         \item strand = + or - (factor)
+#'         \item nTSSs = count of TSSs (num)
+#'         \item tsrWidth = width of TSR (num)
+#'         \item shapeIndex = shape index value of TSR (num)
+#' }
+#' @export
+
+tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
+    tss.df <- x
+    uni.seq <- unique(tss.df[,1])
+    n.seq <- length(uni.seq)
+    tss.df.total <- data.frame(seq=NA, start=NA, end=NA, strand=NA,
+                               nTSSs=NA, tsrWidth=NA, shapeIndex=NA)
+    TSS.df <- data.frame(seq=NA, start=NA, end=NA, strand=NA,
+                               nTSSs=NA, tsrWidth=NA, shapeIndex=NA)
+
+    for (l in 1:n.seq) { #by sequence
+        seq.name <- mixedsort(uni.seq[l], decreasing=FALSE)
+        this.tss <- subset(tss.df, seq==seq.name)
+        sTSS <- subset(this.tss, this.tss$nTSSs>=minNbrTSSs)
+
+        #... clustering TSS on the plus strand:
+        sTSS.p <- subset(sTSS, strand=="+")
+        sTSS.p <- as.matrix(sTSS.p)
+        my.len <- nrow(sTSS.p)
+        TSS.df.p <- data.frame(seq=NA, start=NA, end=NA, strand=NA,
+                               nTSSs=NA, tsrWidth=NA, shapeIndex=NA)
+        if (my.len == 0) {
+        }
+        else if (my.len == 1) {
+            my.tss <- as.numeric(sTSS.p[1,2])
+            my.count <- as.numeric(sTSS.p[1,4])
+            combined.tss <- cbind(my.tss, my.count)
+            tss.out <- tssArrayProperties(combined.tss, seq.name, "+")
+            TSS.df.p <- rbind(TSS.df.p, tss.out)
+        }
+        else {
+            my.tss <- as.numeric(sTSS.p[1,2])
+            my.count <- as.numeric(sTSS.p[1,4])
+            my.nbrtss <- 1
+            for (i in 1:(my.len-1)) {
+                tss.1 <- as.numeric(sTSS.p[i,2])
+                tss.1.count <- as.numeric(sTSS.p[i,4])
+                tss.2 <- as.numeric(sTSS.p[i+1,2])
+                tss.2.count <- as.numeric(sTSS.p[i+1,4])
+                tss.dist <- abs(tss.2-tss.1)
+                if (tss.dist < minDist) {
+                    if (tss.dist == 0) {
+                        my.count[my.nbrtss] <- my.count[my.nbrtss] + tss.2.count
+                    }
+                    else {
+                        my.tss <- rbind(my.tss,tss.2)
+                        my.count <- rbind(my.count, tss.2.count)
+                        my.nbrtss <- my.nbrtss + 1
+                    }
+                    if (i == my.len-1) {        # wrapping up the last TSR
+                        combined.tss <- cbind(my.tss, my.count)
+                        tss.out <- tssArrayProperties(combined.tss, seq.name, "+")
+                        TSS.df.p <- rbind(TSS.df.p, tss.out)
+                    }
+                    next
+                }
+                else {
+                    combined.tss <- cbind(my.tss, my.count)
+                    tss.out <- tssArrayProperties(combined.tss, seq.name, "+")
+                    TSS.df.p <- rbind(TSS.df.p, tss.out)
+                    my.tss <- tss.2
+                    my.count <- tss.2.count
+                    my.nbrtss <- 1
+                }
+            }
+        }
+
+        #... clustering TSS on the minus strand:
+
+        sTSS.m <- subset(sTSS, strand=="-")
+        sTSS.m <- as.matrix(sTSS.m)
+        my.len <- nrow(sTSS.m)
+        TSS.df.m <- data.frame(seq=NA, start=NA, end=NA, strand=NA,
+                               nTSSs=NA, tsrWidth=NA, shapeIndex=NA)
+        if (my.len == 0) {
+        }
+        else if (my.len == 1) {
+            my.tss <- as.numeric(sTSS.m[1,2])
+            my.count <- as.numeric(sTSS.m[1,4])
+            combined.tss <- cbind(my.tss, my.count)
+            tss.out <- tssArrayProperties(combined.tss, seq.name ,"-")
+            TSS.df.m <- rbind(TSS.df.m, tss.out)
+        }
+        else {
+            my.tss <- as.numeric(sTSS.m[1,2])
+            my.count <- as.numeric(sTSS.m[1,4])
+            my.nbrtss <- 1
+            for (i in 1:(my.len-1)) {
+                tss.1 <- as.numeric(sTSS.m[i,2])
+                tss.1.count <- as.numeric(sTSS.m[i,4])
+                tss.2 <- as.numeric(sTSS.m[i+1,2])
+                tss.2.count <- as.numeric(sTSS.m[i+1,4])
+                tss.dist <- abs(tss.2-tss.1)
+                if (tss.dist < minDist) {
+                    if (tss.dist == 0) {
+                        my.count[my.nbrtss] <- my.count[my.nbrtss] + tss.2.count
+                    }
+                    else {
+                        my.tss <- rbind(my.tss,tss.2)
+                        my.count <- rbind(my.count, tss.2.count)
+                        my.nbrtss <- my.nbrtss + 1
+                    }
+                    if (i == my.len-1) {        # wrapping up the last TSR
+                        combined.tss <- cbind(my.tss, my.count)
+                        tss.out <- tssArrayProperties(combined.tss, seq.name, "-")
+                        TSS.df.m <- rbind(TSS.df.m, tss.out)
+                    }
+                    next
+                }
+                else {
+                    combined.tss <- cbind(my.tss, my.count)
+                    tss.out <- tssArrayProperties(combined.tss, seq.name, "-")
+                    TSS.df.m <- rbind(TSS.df.m, tss.out)
+                    my.tss <- tss.2
+                    my.count <- tss.2.count
+                    my.nbrtss <- 1
+                }
+            }
+        }
+        TSS.df.p <- TSS.df.p[-1,]
+        TSS.df.m <- TSS.df.m[-1,]
+        TSS.df <- rbind(TSS.df.p, TSS.df.m)
+        tss.df.total <- rbind(tss.df.total, TSS.df)
+
+    }        #end of by sequence for-loop
+
+    tss.df.total <- tss.df.total[-1,]
+    return(tss.df.total)
+}
+
+
+#' @title tssArrayProperties
+#' @description An internal function that caculates various properties
+#' for a TSR derived in tsrCluster()
 #'
 #' @keywords internal
 #'
-#' @return A list of TSRs from the data frame generated by
-#' \code{\link{tagCountTSS}}
+#' @param tssArray an object containing TSS coordinates and their
+#' abundances. (data.frame)
+#' @param seqName the name of the chromosome or scaffold. (character)
+#' @param strand the strand that the TSR tags are located. (character)
+#'
+#' @return A vector containing information about the TSR.
+#' The returned vector is as follows:
+#' seqName (character), TSR start (numeric), TSR end (numeric),
+#' number of TSSs (numeric), TSR width (numeric) Shape Index (numeric)
+
+tssArrayProperties <- function(tssArray, seqName, strand) {
+    my.range <- range(tssArray[,1])
+    my.counts <- sum(tssArray[,2])
+    my.width <- (my.range[2]-my.range[1])+1
+    my.SI <- round(TSRshapeIndex(tssArray), digits=2)
+    return(c(seqName,my.range[1],my.range[2],strand,my.counts,my.width,my.SI))
+}
 
 
-tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
-     tss.df <- x
-     uni.seq <- unique(tss.df[,1])
-     n.seq <- length(uni.seq)
-     overall.list <- vector(mode="list", length=n.seq)
+#' @title TSRshapeIndex
+#' @description An internal function that caculates the shape index (SI)
+#' of a given TSR from the output of tsrCluster.
+#' TSRshapeIndex is invoked via tssArrayProperties().
+#'
+#' @keywords internal
+#'
+#' @param tssArray an object containing TSS coordinates and their
+#' abundances. (data.frame)
+#'
+#' @return Returns a  numeric vector of length 1 containing the Shape Index (SI)
+#' value for the selected TSR.
 
-     for (l in 1:n.seq) { #by sequence
-         subset(tss.df, seq==uni.seq[l]) -> this.tss
-         subset(this.tss, this.tss$nTSSs>=minNbrTSSs) -> sTSS
-
-         #... clustering TSS on the plus strand:
-
-         subset(sTSS, strand=="+") -> sTSS.p
-         as.matrix(sTSS.p) -> sTSS.p
-         nrow(sTSS.p) -> my.len
-         if (my.len == 0) { # ... assign an empty list to tss.list.p
-             vector(mode="list") -> tss.list.p
-         }
-         else if (my.len == 1) {
-             vector(mode="list") -> tss.list.p
-             as.numeric(sTSS.p[1,2]) -> my.tss
-             as.numeric(sTSS.p[1,4]) -> my.count
-             rbind(my.tss, my.count) -> combined.tss
-             c("coordinate","count") -> rownames(combined.tss)
-             (1:ncol(combined.tss)) -> colnames(combined.tss)
-             combined.tss -> tss.list.p[[1]]
-         }
-         else {
-             vector(mode="list") -> tss.list.p
-             as.numeric(sTSS.p[1,2]) -> my.tss
-             as.numeric(sTSS.p[1,4]) -> my.count
-             0 -> j
-             for (i in 1:(my.len-1)) {
-                 as.numeric(sTSS.p[i,2]) -> tss.1
-                 as.numeric(sTSS.p[i,4]) -> tss.1.count
-                 as.numeric(sTSS.p[i+1,2]) -> tss.2
-                 as.numeric(sTSS.p[i+1,4]) -> tss.2.count
-                 abs(tss.2-tss.1) -> tss.dist
-                 if (tss.dist < minDist) {
-                     c(my.tss,tss.2) -> my.tss
-                     c(my.count, tss.2.count) -> my.count
-                     if (i == my.len-1) {	# wrapping up the last TSR
-                         j + 1 -> j
-                         rbind(my.tss, my.count) -> combined.tss
-                         c("coordinate","count") -> rownames(combined.tss)
-                         (1:ncol(combined.tss)) -> colnames(combined.tss)
-                         combined.tss -> tss.list.p[[j]]
-                     }
-                     next
-                 }
-                 else {
-                     j + 1 -> j
-                     rbind(my.tss, my.count) -> combined.tss
-                     c("coordinate","count") -> rownames(combined.tss)
-                     (1:ncol(combined.tss)) -> colnames(combined.tss)
-                     combined.tss -> tss.list.p[[j]]
-                     tss.2 -> my.tss
-                     tss.2.count -> my.count
-                 }
-             }
-         }
-         if (my.len > 0) {
-             names.len <- length(tss.list.p)
-             names.vec <- vector(mode="character",length=names.len)
-             for (k in 1:names.len) {
-                 paste("tsr", k, sep="") -> names.vec[k]
-             }
-             names.vec -> names(tss.list.p)
-         }
-
-         #... clustering TSS on the minus strand:
-
-         subset(sTSS, strand=="-") -> sTSS.m
-         as.matrix(sTSS.m) -> sTSS.m
-         nrow(sTSS.m) -> my.len
-         if (my.len == 0) { # ... assign an empty list to tss.list.m
-             vector(mode="list") -> tss.list.m
-         }
-         else if (my.len == 1) {
-             vector(mode="list") -> tss.list.m
-             as.numeric(sTSS.m[1,2]) -> my.tss
-             as.numeric(sTSS.m[1,4]) -> my.count
-             rbind(my.tss, my.count) -> combined.tss
-             c("coordinate","count") -> rownames(combined.tss)
-             (1:ncol(combined.tss)) -> colnames(combined.tss)
-             combined.tss -> tss.list.m[[1]]
-         }
-         else {
-             vector(mode="list") -> tss.list.m
-             as.numeric(sTSS.m[1,2]) -> my.tss
-             as.numeric(sTSS.m[1,4]) -> my.count
-             0 -> j
-             for (i in 1:(my.len-1)) {
-                 as.numeric(sTSS.m[i,2]) -> tss.1
-                 as.numeric(sTSS.m[i,4]) -> tss.1.count
-                 as.numeric(sTSS.m[i+1,2]) -> tss.2
-                 as.numeric(sTSS.m[i+1,4]) -> tss.2.count
-                 abs(tss.2-tss.1) -> tss.dist
-                 if (tss.dist < minDist) {
-                     c(my.tss,tss.2) -> my.tss
-                     c(my.count, tss.2.count) -> my.count
-                     if (i == my.len-1) {	# wrapping up the last TSR
-                         j + 1 -> j
-                         rbind(my.tss, my.count) -> combined.tss
-                         c("coordinate","count") -> rownames(combined.tss)
-                         (1:ncol(combined.tss)) -> colnames(combined.tss)
-                         combined.tss -> tss.list.m[[j]]
-                     }
-                     next
-                 }
-                 else {
-                     j + 1 -> j
-                     rbind(my.tss, my.count) -> combined.tss
-                     c("coordinate","count") -> rownames(combined.tss)
-                     (1:ncol(combined.tss)) -> colnames(combined.tss)
-                     combined.tss -> tss.list.m[[j]]
-                     tss.2 -> my.tss
-                     tss.2.count -> my.count
-                 }
-             }
-         }
-         if (my.len > 0) {
-             length(tss.list.m) -> names.len
-             vector(mode="character",length=names.len) -> names.vec
-             for (k in 1:names.len) {
-                 paste("tsr", k, sep="") -> names.vec[k]
-             }
-             names.vec -> names(tss.list.m)
-         }
-         list(plus=tss.list.p, minus=tss.list.m) -> tss.list
-         tss.list -> overall.list[[l]]
-
-     }	#end of by sequence for-loop
-
-     names(overall.list) <- uni.seq
-     return(overall.list)
-     }
+TSRshapeIndex <- function(tssArray) {
+    tagcount <- sum(tssArray[,2])
+    v <- apply(tssArray, 1,
+               function(c) {p <- c[2]/tagcount;
+                            return(p * log2(p))
+                           }
+              )
+    SI <- 2 + sum(v)
+    return(SI)
+}

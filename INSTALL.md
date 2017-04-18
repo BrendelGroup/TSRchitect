@@ -20,7 +20,7 @@ install.packages(c("gtools","knitr"))
 
 ```{r eval=FALSE}
 source("http://bioconductor.org/biocLite.R")
-biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel", "ENCODExplorer", "GenomicAlignments", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools", "rtracklayer"))
+biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel", "ENCODExplorer", "GenomicAlignments", "GenomeInfoDb", "GenomicRanges", "IRanges", "methods", "Rsamtools", "rtracklayer", "S4Vectors", "SummarizedExperiment"))
 ```
 
 ## Obtaining TSRchitect

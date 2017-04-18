@@ -10,9 +10,9 @@ bamToTSS(experimentName)
 \item{experimentName}{an S4 object of class tssObject with bam files loaded}
 }
 \value{
-creates a list of TSSs in class \linkS4class{GRanges} for each
-.bam file contained within \emph{experimentName} and places them in
-the returned \emph{tssObject}.
+produces a \linkS4class{GRangesList} containing separate
+\linkS4class{GRanges} objects for each .bam file contained within
+\emph{experimentName}, placing them them in the returned \emph{tssObject}.
 }
 \description{
 \code{bamToTSS} extracts TSS information from each
@@ -28,4 +28,3 @@ package="TSRchitect"))
 tssObjectExample <- bamToTSS(experimentName=tssObjectExample)
 
 }
-

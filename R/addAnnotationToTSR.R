@@ -76,6 +76,8 @@ setMethod("addAnnotationToTSR",
                           " has been written to file ", outfname,
                           "\nin your working directory.")
                   tsr.df <- experimentName@tsrData[[tsrSet]]
+                  tsr.df$start <- as.numeric(as.character(tsr.df$start))
+                  tsr.df$end <- as.numeric(as.character(tsr.df$end))
               }
               else if (tsrSetType=="merged") {
                   if (length(experimentName@tsrDataMerged)<1) {
@@ -100,6 +102,8 @@ setMethod("addAnnotationToTSR",
                               "\nin your working directory.")
                   }
                   tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
+                  tsr.df$start <- as.numeric(as.character(tsr.df$start))
+                  tsr.df$end <- as.numeric(as.character(tsr.df$end))
               }
               else {
                   stop("Error: argument tsrSetType to addAnnotationToTSR()",
@@ -124,10 +128,14 @@ setMethod("addAnnotationToTSR",
               }
 
               # ... creating a GRanges object from the data frame tsr.df:
-              tsr.gr <- GRanges(seqnames=tsr.df$seq,
-                                ranges = IRanges(start=tsr.df$start,
-                                    end=tsr.df$end),
-                                strand=tsr.df$strand)
+              tsr.gr <- makeGRangesFromDataFrame(tsr.df,
+                                                 keep.extra.columns=FALSE,
+                                                 ignore.strand=FALSE,
+                                                 seqnames.field="seq",
+                                                 start.field="start",
+                                                 end.field="end",
+                                                 strand.field="strand",
+                                                 )
 
 #  ... defining the regions of interest for annotation.
 #  Typically this would be the predicted promoter regions based on
@@ -139,7 +147,8 @@ setMethod("addAnnotationToTSR",
               regionOfInterest <- promoters(annot.gr, upstream=upstreamDist,
                                             downstream=downstreamDist)
               ID.vec <- S4Vectors::mcols(regionOfInterest)[featureColumnID]
-              ID.vec <- as.character(ID.vec$ID)
+              ID.vec <- ID.vec[featureColumnID]
+              ID.vec <- as.character(unlist(ID.vec))
               overlapHitList <- findOverlaps(tsr.gr, regionOfInterest)
 #  ... overlapHitList is a hit list that indicates the overlaps
 #  between tsr.gr entries and regionOfInterest entries:
@@ -157,20 +166,19 @@ setMethod("addAnnotationToTSR",
               ID.vec[overlap.df$subjectHits]
               rownames(tsr.df) <- paste(tsr.df$seq, tsr.df$start, tsr.df$end,
                                         tsr.df$strand, sep=".")
-#adding  the promoterIDs to the rows of the tsr data frame
-
-              if (writeTable=="TRUE") {
+#writing the table to a file if writeTable=TRUE 
+              if (writeTable==TRUE) {
                   write.table(tsr.df, file=outfname, col.names=NA,
-                              row.names=TRUE,  sep="\t", quote=FALSE)
+                              row.names=TRUE, sep="\t", quote=FALSE)
                   message("\nThe updated TSR data have been written to ",
                           "file ", outfname, " in your working directory.")
               }
               #Update the record:
               if (tsrSetType=="replicates") {
-                  tsr.df -> experimentName@tsrData[[tsrSet]]
+                  experimentName@tsrData[[tsrSet]] <- tsr.df
               }
               else {
-                  tsr.df -> experimentName@tsrDataMerged[[tsrSet]]
+                  experimentName@tsrDataMerged[[tsrSet]] <- tsr.df
               }
 
               message("Done. GeneIDs have been associated with adjacent",

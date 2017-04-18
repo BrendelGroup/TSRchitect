@@ -12,7 +12,7 @@ vignette: >
 ## R. Taylor Raborn and Volker P. Brendel
 ## Department of Biology, Indiana University
 
-### February 24, 2017
+### April 6, 2017
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 TSRchitect can handle TSS profiling experiments that contain either single-end or paired-end sequence reads, such as CAGE, RAMPAGE, PEAT and others. TSRchitect is an open-source bioinformatics package that is intended to support large-scale, reproducible analysis of TSS profiling data in a broad array of eukaryotic model systems.
@@ -35,8 +35,8 @@ TSRchitectUsersGuide()
 
 Now that you have loaded TSRchitect, we can proceed with a small example.
 
-First, we will create a tssObject and import our sample bam files (which are found in `extdata/`).
-In doing this, we provide sample names and identify our replicate names using `setSampleID`.
+First, we will create a tssObject using `loadTSSobj` and import our sample bam files (which are found in `extdata/`).
+In doing this, we provide sample names and identify our replicate names using the argument `sampleNames`.
 We do this in the following manner:
 
 ```{r eval=TRUE}
@@ -73,7 +73,7 @@ tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20,
 writeTable=FALSE)
 ```
 
-Next we merge our replicate data (according to the information we provided in `setSampleID`) and identify TSRs on these merged samples. We then use `addTagCountsToTSR` to quantify the number of tags found in each of our 4 datasets.
+Next we merge our replicate data (according to the information we provided in `loadTSSobj`) and identify TSRs on these merged samples. We then use `addTagCountsToTSR` to quantify the number of tags found in each of our 4 datasets.
 
 ```{r eval=TRUE}
 tssObjectExample <- mergeSampleData(experimentName=tssObjectExample)
