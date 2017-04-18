@@ -43,21 +43,12 @@ setMethod("processTSS",
               message("... processTSS ...")
               if (tssSet=="all") {
                   iend <- length(experimentName@tssTagData)
-                  if (n.cores > 1) {
-                      multicoreParam <- MulticoreParam(workers=n.cores)
+                  multicoreParam <- MulticoreParam(workers=n.cores)
                       FUN <- function(x) {
                                 prcTSS(experimentName, tssSet=x,
                                        writeTable=writeTable)
                              }
                       experimentName@tssCountData <- bplapply(1:iend, FUN)
-                      }
-                  else {
-                      for (i in 1:iend) {
-                          experimentName@tssCountData[[i]] <-
-                            prcTSS(experimentName=experimentName, tssSet = i,
-                                   writeTable=TRUE)
-                      }
-                 }
               }
               else {
                   i <- as.numeric(tssSet)
@@ -68,9 +59,9 @@ setMethod("processTSS",
                   experimentName@tssCountData[[i]] <- prcTSS(experimentName =
                                                              experimentName,
                                                              tssSet = i,
-                                                             writeTable)
+                                                             writeTable=writeTable)
               }
-              cat("---------------------------------------------------------\n")
+              message("-----------------------------------------------------\n")
               message(" Done.\n")
               return(experimentName)
           }

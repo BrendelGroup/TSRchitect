@@ -171,7 +171,7 @@ hr {
 
 <h2>First edition 25 January 2017</h2>
 
-<h2>Updated 24 February 2017</h2>
+<h2>Updated 6 April 2017</h2>
 
 <p>TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 In recent years, large-scale TSS profiling data has characterized the landscape of transcription initiation at high resolution, identifying promoter architecture in a number of eukaryotic model systems, including human, mouse, fruit fly and worm.
@@ -398,7 +398,30 @@ dim(combined.tsrs)
 We also notice that there are 5 additional columns in the combined set.
 This is due to us previouly having added tag counts to the combined set of TSRs using `addTagCountsToTSR&#39;, something we did not do in this vignette for the two individual samples.</p>
 
-<p>You now have a complete set of TSS and TSR data attached to your tssObject S4 object, in addition the tables that were already written to your working directory.</p>
+<p>You now have a complete set of TSS and TSR data attached to your <code>tssObject</code> S4 object, in addition the tables that were already written to your working directory.</p>
+
+<p>To better understand our data, let&#39;s explore some of the characteristics of the TSRs we have identified. TSRchitect calculates the Shape Index (SI) of each TSR; the SI provides a quantitative measure of TSR (and thus promoter) shape by representing the entropy of the distribution of TSSs associated with it. An SI of 2 (which is the maximum value possible) will have only a single unique TSS coordinate, whereas a TSR with a negative SI value will have an diversity of mapped 5&#39; ends at distinct TSS positions. We can use SI values to classify TSRs into &#39;peaked&#39; and &#39;broad&#39; classes, having high and low SI values, respectively.</p>
+
+<p>We can visualize the shape distribution of our identified TSRs quite easily using Hadley Wickham&#39;s <code>ggplot2</code> graphics package, as follows. For these plots we filter will out TSRs at lower abundances (100 tags/TSR) to show only the SI values from reasonably well-sampled TSRs.</p>
+
+<pre><code class="r">require(ggplot2)
+HT1080.tsrs.filtered &lt;- HT1080.tsrs[HT1080.tsrs$nTSSs &gt; 100,]
+t &lt;- ggplot(HT1080.tsrs.filtered, aes(shapeIndex))
+t + geom_histogram(bidwith=0.1, fill=&quot;blue2&quot;) /
++ ylab(&quot;Number of Tags per TSR&quot;) + xlab(&quot;Shape Index (SI)&quot;)
+ggsave(file=&quot;HT1080_SI.png)
+</code></pre>
+
+<pre><code class="r">H460.tsrs.filtered &lt;- H460.tsrs[H460.tsrs$nTSSs &gt; 100,]
+p &lt;- ggplot(H460.tsrs.filtered, aes(shapeIndex))
+p + geom_histogram(bidwith=0.1, fill=&quot;darkgreen&quot;) /
++ ylab(&quot;Number of Tags per TSR&quot;) + xlab(&quot;Shape Index (SI)&quot;)
+ggsave(file=&quot;H460_SI.png&quot;)
+</code></pre>
+
+<p>From both histograms we can see that there appears to be a bimodal distribution of TSRs within our samples; the class of &#39;completely peaked&#39; TSRs with an SI value of 2, and another distribution of more broad TSRs with SI values centered just below 0. This is consistent with two major shape classes of TSRs known in metazoans, particularily human and mouse.</p>
+
+<p>Similarly, we could use the same code framework above to plot the distributions of TSR width and/or nTSSs; to do this we would select the appropriate column.</p>
 
 <p>This concludes Example 1. Should we wish to save our tssObject and return to our work later, we simply type the following, which will write an R binary to your working directory.</p>
 

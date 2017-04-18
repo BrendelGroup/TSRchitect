@@ -10,7 +10,8 @@ getFileNames(experimentName)
 \item{experimentName}{an S4 object of class \emph{tssObject}}
 }
 \value{
-the contents of slot "fileNames" are returned
+the contents of slot "fileNames" are returned, which are
+a vector of class "character"
 }
 \description{
 an accessor function that retrieves the contents of slot
@@ -24,4 +25,3 @@ example.file.names
 
 }
 \keyword{methods}
-

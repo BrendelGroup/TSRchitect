@@ -4,7 +4,8 @@
 #'
 #' @param experimentName n S4 object of class \emph{tssObject}
 #'
-#' @return the contents of slot "title" are returned
+#' @return the contents of slot "title" are returned, which are of class
+#' "character"
 #'
 #' @keywords methods
 #'
@@ -36,7 +37,8 @@ setMethod("getTitle",
 #'
 #' @param experimentName an S4 object of class \emph{tssObject}
 #'
-#' @return the contents of slot "fileNames" are returned
+#' @return the contents of slot "fileNames" are returned, which are
+#' a vector of class "character"
 #'
 #' @keywords methods
 #'
@@ -179,8 +181,7 @@ setMethod("getTSScountData",
                     slot = "numeric"),
           function (experimentName, slotType = c("replicates", "merged"),
                     slot) {
-              fileType <- match.arg(slotType, c("replicates","merged"),
-                                    several.ok=FALSE)
+              fileType <- match.arg(slotType, several.ok=FALSE)
               if (slotType=="replicates") {
                   n.tss.counts  <- length(experimentName@tssCountData)
                   if (slot > n.tss.counts) {
@@ -239,8 +240,7 @@ setMethod("getTSRdata",
                     slot = "numeric"),
           function (experimentName, slotType = c("replicates", "merged"),
                     slot) {
-                    fileType <- match.arg(slotType, c("replicates","merged"),
-                                    several.ok=FALSE)
+                    fileType <- match.arg(slotType, several.ok=FALSE)
                     if (slotType=="replicates") {
                         n.tsrs  <- length(experimentName@tsrData)
                         if (slot > n.tsrs) {
