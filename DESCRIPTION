@@ -1,5 +1,5 @@
 Package: TSRchitect
-Version: 0.99.4
+Version: 0.99.5
 Date: 2017-04-19
 Title: Promoter identification from large-scale TSS profiling data
 Description: In recent years, large-scale transcriptional sequence data has
@@ -23,7 +23,7 @@ Author: R. Taylor Raborn [aut, cre, cph]
     Volker P. Brendel [aut, cph]
 Maintainer: R. Taylor Raborn <rtraborn@indiana.edu>
 Depends:
-    R (>= 3.3.0)
+    R (>= 3.4)
 Imports:
     AnnotationHub,
     BiocGenerics,
