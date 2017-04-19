@@ -30,6 +30,8 @@
 #' @return addAnnotationToTSR adds feature annotation to the (merged)
 #' \emph{@@tsrData} data frame and returns the updated \emph{tssObject}.
 #'
+#' @aliases show, addAnnotationToTSR-method
+#'
 #' @import BiocGenerics
 #' @importFrom GenomicRanges GRanges findOverlaps promoters
 #' @importFrom IRanges IRanges

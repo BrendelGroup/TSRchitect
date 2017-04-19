@@ -12,10 +12,12 @@
 #' @param tsrSet number of the dataset to be processed (numeric).
 #' @param samplePrefix the prefix (or prefixes) that match the sample
 #' identifiers in the tsrData column. (character)
-
+#'
 #' @return a summarizedExperiment object from the specified TSR data set
 #' that is to be written to your working directory.
 #'
+#' @aliases show, createSummarizedExperiment-method
+#' 
 #' @import     BiocGenerics
 #' @importFrom S4Vectors DataFrame
 #' @importFrom SummarizedExperiment SummarizedExperiment

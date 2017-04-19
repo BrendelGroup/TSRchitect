@@ -9,6 +9,8 @@
 #' \emph{sampleIDs}) and put in the tssCountDataMerged slot in the returned
 #' \emph{tssObject}.
 #'
+#' @aliases show, mergeSampleData-method
+#'
 #' @importFrom GenomicRanges as.data.frame
 #' @importFrom gtools mixedorder
 #'

@@ -2,6 +2,8 @@
 % Please edit documentation in R/loadTSSobj.R
 \name{loadTSSobj}
 \alias{loadTSSobj}
+\alias{show,}
+\alias{loadTSSobj-method}
 \title{\strong{loadTSSobj}}
 \usage{
 loadTSSobj(experimentTitle, inputDir, inputType, isPairedEnd, sampleNames,

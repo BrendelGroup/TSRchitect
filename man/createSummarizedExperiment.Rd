@@ -2,6 +2,8 @@
 % Please edit documentation in R/createSummarizedExperiment.R
 \name{createSummarizedExperiment}
 \alias{createSummarizedExperiment}
+\alias{show,}
+\alias{createSummarizedExperiment-method}
 \title{\strong{createSummarizedExperiment}}
 \usage{
 createSummarizedExperiment(experimentName, tsrSetType = "merged",

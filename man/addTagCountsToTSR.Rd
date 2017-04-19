@@ -2,6 +2,8 @@
 % Please edit documentation in R/addTagCountsToTSR.R
 \name{addTagCountsToTSR}
 \alias{addTagCountsToTSR}
+\alias{show,}
+\alias{addTagCountsToTSR-method}
 \title{\strong{addTagCountsToTSR}}
 \usage{
 addTagCountsToTSR(experimentName, tsrSetType, tsrSet = 1,

@@ -2,6 +2,8 @@
 % Please edit documentation in R/importAnnotationHub.R
 \name{importAnnotationHub}
 \alias{importAnnotationHub}
+\alias{show,}
+\alias{importAnnotationHub-method}
 \title{\strong{importAnnotationHub}}
 \usage{
 importAnnotationHub(experimentName, provider, annotType, species, annotID)

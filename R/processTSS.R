@@ -16,6 +16,8 @@
 #' @return Creates a list of \linkS4class{GenomicRanges} containing TSS
 #' positions in slot \emph{tssTagData} of the returned \emph{tssObject}.
 #'
+#' @aliases show, processTSS-method
+#'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))

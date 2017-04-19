@@ -2,6 +2,8 @@
 % Please edit documentation in R/makeGRangesFromTSR.R
 \name{makeGRangesFromTSR}
 \alias{makeGRangesFromTSR}
+\alias{show,}
+\alias{makeGRangesFromTSR-method}
 \title{\strong{makeGRangesFromTSR}}
 \usage{
 makeGRangesFromTSR(experimentName, tsrSetType, tsrSet = 1)

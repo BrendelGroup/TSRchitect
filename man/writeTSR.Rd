@@ -2,6 +2,8 @@
 % Please edit documentation in R/writeTSR.R
 \name{writeTSR}
 \alias{writeTSR}
+\alias{show,}
+\alias{writeTSR-method}
 \title{\strong{writeTSR}}
 \usage{
 writeTSR(experimentName, tsrSetType, tsrSet = 1, fileType = "tab")

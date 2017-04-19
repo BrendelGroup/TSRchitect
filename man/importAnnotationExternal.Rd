@@ -2,6 +2,8 @@
 % Please edit documentation in R/importAnnotationExternal.R
 \name{importAnnotationExternal}
 \alias{importAnnotationExternal}
+\alias{show,}
+\alias{importAnnotationExternal-method}
 \title{\strong{importAnnotationExternal}}
 \usage{
 importAnnotationExternal(experimentName, fileType, annotFile)

@@ -23,6 +23,8 @@
 #' TSR positions in slot \emph{@@tsrData} of the returned \emph{tssObject}
 #' object
 #'
+#' @aliases show, determineTSR-method
+#'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' tssObjectExample <- determineTSR(experimentName=tssObjectExample, n.cores=1,

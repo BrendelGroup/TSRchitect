@@ -13,6 +13,8 @@
 #' data set. Headers include 'seqnames', 'ranges' (including start and end),
 #' 'strand', 'name' (TSR ID) and 'score' (Shape Index/SI) value
 #'
+#' @aliases show, makeGRangesFromTSR-method
+#'
 #' @importFrom GenomicRanges makeGRangesFromDataFrame
 #'
 #' @examples

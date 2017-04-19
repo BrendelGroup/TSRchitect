@@ -2,6 +2,8 @@
 % Please edit documentation in R/processTSS.R
 \name{processTSS}
 \alias{processTSS}
+\alias{show,}
+\alias{processTSS-method}
 \title{\strong{processTSS}}
 \usage{
 processTSS(experimentName, n.cores, tssSet, writeTable)

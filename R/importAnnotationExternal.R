@@ -14,6 +14,8 @@
 #' \emph{tssObject} with a \linkS4class{GRanges} object contining a
 #' parsed annotation file of the selected type.
 #'
+#' @aliases show, importAnnotationExternal-method
+#'
 #' @importFrom GenomicRanges GRanges
 #' @importFrom rtracklayer import.bed import.gff import.gff3
 #'

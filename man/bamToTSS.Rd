@@ -2,6 +2,8 @@
 % Please edit documentation in R/bamToTSS.R
 \name{bamToTSS}
 \alias{bamToTSS}
+\alias{show,}
+\alias{bamToTSS-method}
 \title{\strong{bamToTSS}}
 \usage{
 bamToTSS(experimentName)

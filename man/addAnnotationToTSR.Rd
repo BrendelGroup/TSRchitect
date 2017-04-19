@@ -2,6 +2,8 @@
 % Please edit documentation in R/addAnnotationToTSR.R
 \name{addAnnotationToTSR}
 \alias{addAnnotationToTSR}
+\alias{show,}
+\alias{addAnnotationToTSR-method}
 \title{\strong{addAnnotationToTSR}}
 \usage{
 addAnnotationToTSR(experimentName, tsrSetType, tsrSet = 1, upstreamDist,

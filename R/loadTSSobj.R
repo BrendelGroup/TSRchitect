@@ -24,6 +24,8 @@
 #' \bold{GenomicAlignments} package, one for each attached .bam file
 #' on the \emph{fileNames} slot.
 #'
+#' @aliases show, loadTSSobj-method
+#'
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews

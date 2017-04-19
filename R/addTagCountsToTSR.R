@@ -17,6 +17,8 @@
 #' the number of replicates in the sample) is appended to the data frame
 #' of the selected set of identified TSRs in the returned \emph{tssObject}
 #'
+#' @aliases show, addTagCountsToTSR-method
+#' 
 #' @importFrom utils write.table
 #'
 #' @examples

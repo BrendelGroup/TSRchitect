@@ -2,6 +2,8 @@
 % Please edit documentation in R/determineTSR.R
 \name{determineTSR}
 \alias{determineTSR}
+\alias{show,}
+\alias{determineTSR-method}
 \title{\strong{determineTSR}}
 \usage{
 determineTSR(experimentName, n.cores, tsrSetType, tssSet, tagCountThreshold,

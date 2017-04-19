@@ -2,6 +2,8 @@
 % Please edit documentation in R/mergeSampleData.R
 \name{mergeSampleData}
 \alias{mergeSampleData}
+\alias{show,}
+\alias{mergeSampleData-method}
 \title{\strong{mergeSampleData}}
 \usage{
 mergeSampleData(experimentName)

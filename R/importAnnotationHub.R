@@ -16,6 +16,8 @@
 #' with an AnnotationHub record. The record retrieved must be an object
 #' of class \linkS4class{GRanges}.
 #'
+#' @aliases show, importAnnotationHub-method
+#'
 #' @importFrom AnnotationHub AnnotationHub query
 #'
 #' @note An example similar to the one provided can be found in

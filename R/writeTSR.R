@@ -15,6 +15,8 @@
 #' @return A table containing the specified TSR data set that
 #' is to be written to your working directory.
 #'
+#' @aliases show, writeTSR-method
+#'
 #' @import     BiocGenerics
 #' @importFrom rtracklayer export.bed
 #'

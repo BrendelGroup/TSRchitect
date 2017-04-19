@@ -2,6 +2,8 @@
 % Please edit documentation in R/detTSR.R
 \name{detTSR}
 \alias{detTSR}
+\alias{show,}
+\alias{detTSR-method}
 \title{detTSR}
 \usage{
 detTSR(experimentName, tsrSetType, tssSet = 1, tagCountThreshold, clustDist)

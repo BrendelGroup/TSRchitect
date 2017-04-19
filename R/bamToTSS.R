@@ -8,6 +8,8 @@
 #' \linkS4class{GRanges} objects for each .bam file contained within
 #' \emph{experimentName}, placing them them in the returned \emph{tssObject}.
 #'
+#' @aliases show, bamToTSS-method
+#' 
 #' @import BiocGenerics
 #' @import methods
 #' @importFrom GenomicRanges granges GRanges GRangesList

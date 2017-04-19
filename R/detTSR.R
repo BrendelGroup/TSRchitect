@@ -16,6 +16,8 @@
 #' @return via the user-level function determineTSR, creates a list of
 #' GenomicRanges objects containing TSR positions in slot 'tsrData' on
 #' the tssObject object
+#' 
+#' @aliases show, detTSR-method
 #' @export
 
 
