@@ -47,6 +47,7 @@
 #' in the vignette (/inst/doc/TSRchitect.Rmd)
 #'
 #' @export
+#' @rdname addAnnotationToTSR-methods
 
 
 setGeneric("addAnnotationToTSR",
@@ -54,6 +55,8 @@ setGeneric("addAnnotationToTSR",
              downstreamDist, feature, featureColumnID, writeTable=TRUE)
     standardGeneric("addAnnotationToTSR")
 )
+
+#' @rdname addAnnotationToTSR-methods
 
 setMethod("addAnnotationToTSR",
           signature(experimentName="tssObject", "character", "numeric",

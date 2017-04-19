@@ -42,6 +42,7 @@
 #' \emph{@fileNames} slot on the \emph{tssObject} that is created.
 #'
 #' @export
+#' @rdname loadTSSobj-methods
 
 
 setGeneric("loadTSSobj",
@@ -49,6 +50,8 @@ setGeneric("loadTSSobj",
              replicateIDs)
     standardGeneric("loadTSSobj")
 )
+
+#' @rdname loadTSSobj-methods
 
 setMethod("loadTSSobj",
           signature(experimentTitle="character", inputDir="character",

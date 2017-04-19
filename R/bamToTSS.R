@@ -7,7 +7,7 @@
 #' @return produces a \linkS4class{GRangesList} containing separate
 #' \linkS4class{GRanges} objects for each .bam file contained within
 #' \emph{experimentName}, placing them them in the returned \emph{tssObject}.
-#'
+#' 
 #' @import BiocGenerics
 #' @import methods
 #' @importFrom GenomicRanges granges GRanges GRangesList
@@ -23,12 +23,15 @@
 #' found in the vignette (/inst/doc/TSRchitect.Rmd).
 #'
 #' @export
+#' @rdname bamToTSS-methods
 
 
 setGeneric("bamToTSS",
     function(experimentName)
     standardGeneric("bamToTSS")
 )
+
+#' @rdname bamToTSS-methods
 
 setMethod("bamToTSS",
           signature(experimentName="tssObject"),

@@ -24,12 +24,15 @@
 #' beforehand using \code{\link[AnnotationHub]{AnnotationHub}}
 #'
 #' @export
+#' @rdname importAnnotationHub-methods
 
 
 setGeneric("importAnnotationHub",
     function(experimentName, provider, annotType, species, annotID)
     standardGeneric("importAnnotationHub")
 )
+
+#' @rdname importAnnotationHub-methods
 
 setMethod("importAnnotationHub",
           signature(experimentName="tssObject", provider="character",

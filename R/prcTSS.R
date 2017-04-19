@@ -19,8 +19,6 @@
 #' "nTSSs" (num), and "strand" (+ or -),
 #' corresponding to the sequence identifier, position, tag count, and strand,
 #' respectively.
-#'
-
 
 setGeneric("prcTSS",
     function(experimentName, tssSet, writeTable)

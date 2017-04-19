@@ -16,7 +16,9 @@
 #' @return via the user-level function determineTSR, creates a list of
 #' GenomicRanges objects containing TSR positions in slot 'tsrData' on
 #' the tssObject object
+#' 
 #' @export
+#' @rdname detTSR-methods
 
 
 setGeneric("detTSR",
@@ -24,6 +26,8 @@ setGeneric("detTSR",
              clustDist)
     standardGeneric("detTSR")
 )
+
+#' @rdname detTSR-methods
 
 setMethod("detTSR",
           signature(experimentName="tssObject", "character", "numeric",

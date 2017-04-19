@@ -24,12 +24,15 @@
 #' http://web.mit.edu/~r/current/arch/i386_linux26/lib/R/library/GenomicRanges/html/GRanges-class.html
 #'
 #' @export
+#' @rdname makeGRangesFromTSR-methods
 
 
 setGeneric("makeGRangesFromTSR",
     function(experimentName, tsrSetType, tsrSet=1)
     standardGeneric("makeGRangesFromTSR")
 )
+
+#' @rdname makeGRangesFromTSR-methods
 
 setMethod("makeGRangesFromTSR",
           signature(experimentName="tssObject", "character", "numeric"),

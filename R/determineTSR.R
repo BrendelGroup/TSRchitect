@@ -31,15 +31,16 @@
 #'
 #' @note An example similar to this one can be found in the vignette
 #' (/inst/doc/TSRchitect.Rmd)
-
 #' @export
-
+#' @rdname determineTSR-methods
 
 setGeneric("determineTSR",
     function(experimentName, n.cores, tsrSetType, tssSet, tagCountThreshold,
              clustDist, writeTable=FALSE)
     standardGeneric("determineTSR")
 )
+
+#' @rdname determineTSR-methods
 
 setMethod("determineTSR",
           signature(experimentName="tssObject", "numeric", "character",
