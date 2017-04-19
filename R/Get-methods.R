@@ -16,12 +16,15 @@
 #' example.title
 #'
 #' @export
+#' @rdname getTitle-methods
 
 
 setGeneric("getTitle",
     function(experimentName)
     standardGeneric("getTitle")
 )
+
+#' @rdname getTitle-methods
 
 setMethod("getTitle",
            signature(experimentName = "tssObject"),
@@ -49,6 +52,7 @@ setMethod("getTitle",
 #' example.file.names
 #'
 #' @export
+#' @rdname getFileNames-methods
 
 setGeneric(
 name="getFileNames",
@@ -56,6 +60,8 @@ def=function(experimentName){
 	standardGeneric("getFileNames")
 }
 )
+
+#' @rdname getFileNames-methods
 
 setMethod("getFileNames",
 signature(experimentName = "tssObject"),
@@ -84,6 +90,7 @@ function (experimentName){
 #' example.bamData
 #'
 #' @export
+#' @rdname getBamData-methods
 
 setGeneric(
 name="getBamData",
@@ -91,6 +98,8 @@ def=function(experimentName, slot){
 	standardGeneric("getBamData")
 }
 )
+
+#' @rdname getBamData-methods
 
 setMethod("getBamData",
 signature(experimentName = "tssObject", slot = "numeric"),
@@ -123,6 +132,7 @@ function (experimentName, slot){
 #' example.tssTagData
 #'
 #' @export
+#' @rdname getTSStagData-methods
 
 setGeneric(
 name="getTSStagData",
@@ -130,6 +140,8 @@ def=function(experimentName, slot){
 	standardGeneric("getTSStagData")
 }
 )
+
+#' @rdname getTSStagData-methods
 
 setMethod("getTSStagData",
           signature(experimentName = "tssObject", slot = "numeric"),
@@ -168,6 +180,7 @@ setMethod("getTSStagData",
 #' ex.tssCountData
 #'
 #' @export
+#' @rdname getTSScountData-methods
 
 setGeneric(
 name="getTSScountData",
@@ -175,6 +188,8 @@ def=function(experimentName, slotType, slot){
 	standardGeneric("getTSScountData")
 }
 )
+
+#' @rdname getTSScountData-methods
 
 setMethod("getTSScountData",
           signature(experimentName = "tssObject", slotType = "character",
@@ -227,6 +242,7 @@ setMethod("getTSScountData",
 #' ex.tsrData
 #'
 #' @export
+#' @rdname getTSRdata-methods
 
 setGeneric(
 name="getTSRdata",
@@ -234,6 +250,8 @@ def=function(experimentName, slotType, slot){
 	standardGeneric("getTSRdata")
     }
 )
+
+#' @rdname getTSRdata-methods
 
 setMethod("getTSRdata",
           signature(experimentName = "tssObject", slotType = "character",

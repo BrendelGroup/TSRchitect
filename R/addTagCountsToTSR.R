@@ -17,8 +17,6 @@
 #' the number of replicates in the sample) is appended to the data frame
 #' of the selected set of identified TSRs in the returned \emph{tssObject}
 #'
-#' @aliases show, addTagCountsToTSR-method
-#' 
 #' @importFrom utils write.table
 #'
 #' @examples
@@ -30,6 +28,7 @@
 #' the vignette (/inst/doc/TSRchitect.Rmd)
 #'
 #' @export
+#' @rdname addTagCountsToTSR-methods
 
 
 setGeneric("addTagCountsToTSR",
@@ -37,6 +36,8 @@ setGeneric("addTagCountsToTSR",
              writeTable=TRUE)
     standardGeneric("addTagCountsToTSR")
 )
+
+#' @rdname addTagCountsToTSR-methods
 
 setMethod("addTagCountsToTSR",
           signature(experimentName="tssObject", "character", "numeric",

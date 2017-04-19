@@ -17,8 +17,8 @@
 #' GenomicRanges objects containing TSR positions in slot 'tsrData' on
 #' the tssObject object
 #' 
-#' @aliases show, detTSR-method
 #' @export
+#' @rdname detTSR-methods
 
 
 setGeneric("detTSR",
@@ -26,6 +26,8 @@ setGeneric("detTSR",
              clustDist)
     standardGeneric("detTSR")
 )
+
+#' @rdname detTSR-methods
 
 setMethod("detTSR",
           signature(experimentName="tssObject", "character", "numeric",

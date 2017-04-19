@@ -23,8 +23,6 @@
 #' TSR positions in slot \emph{@@tsrData} of the returned \emph{tssObject}
 #' object
 #'
-#' @aliases show, determineTSR-method
-#'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' tssObjectExample <- determineTSR(experimentName=tssObjectExample, n.cores=1,
@@ -33,15 +31,16 @@
 #'
 #' @note An example similar to this one can be found in the vignette
 #' (/inst/doc/TSRchitect.Rmd)
-
 #' @export
-
+#' @rdname determineTSR-methods
 
 setGeneric("determineTSR",
     function(experimentName, n.cores, tsrSetType, tssSet, tagCountThreshold,
              clustDist, writeTable=FALSE)
     standardGeneric("determineTSR")
 )
+
+#' @rdname determineTSR-methods
 
 setMethod("determineTSR",
           signature(experimentName="tssObject", "numeric", "character",

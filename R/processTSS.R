@@ -16,8 +16,6 @@
 #' @return Creates a list of \linkS4class{GenomicRanges} containing TSS
 #' positions in slot \emph{tssTagData} of the returned \emph{tssObject}.
 #'
-#' @aliases show, processTSS-method
-#'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
@@ -30,12 +28,15 @@
 #' the vignette (/inst/doc/TSRchitect.Rmd).
 #'
 #' @export
+#' @rdname processTSS-methods
 
 
 setGeneric("processTSS",
     function(experimentName, n.cores, tssSet, writeTable)
     standardGeneric("processTSS")
 )
+
+#' @rdname processTSS-methods
 
 setMethod("processTSS",
           signature("tssObject", "numeric", "character", "logical"),

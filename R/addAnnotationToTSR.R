@@ -30,8 +30,6 @@
 #' @return addAnnotationToTSR adds feature annotation to the (merged)
 #' \emph{@@tsrData} data frame and returns the updated \emph{tssObject}.
 #'
-#' @aliases show, addAnnotationToTSR-method
-#'
 #' @import BiocGenerics
 #' @importFrom GenomicRanges GRanges findOverlaps promoters
 #' @importFrom IRanges IRanges
@@ -49,6 +47,7 @@
 #' in the vignette (/inst/doc/TSRchitect.Rmd)
 #'
 #' @export
+#' @rdname addAnnotationToTSR-methods
 
 
 setGeneric("addAnnotationToTSR",
@@ -56,6 +55,8 @@ setGeneric("addAnnotationToTSR",
              downstreamDist, feature, featureColumnID, writeTable=TRUE)
     standardGeneric("addAnnotationToTSR")
 )
+
+#' @rdname addAnnotationToTSR-methods
 
 setMethod("addAnnotationToTSR",
           signature(experimentName="tssObject", "character", "numeric",

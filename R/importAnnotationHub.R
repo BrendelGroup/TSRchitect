@@ -16,8 +16,6 @@
 #' with an AnnotationHub record. The record retrieved must be an object
 #' of class \linkS4class{GRanges}.
 #'
-#' @aliases show, importAnnotationHub-method
-#'
 #' @importFrom AnnotationHub AnnotationHub query
 #'
 #' @note An example similar to the one provided can be found in
@@ -26,12 +24,15 @@
 #' beforehand using \code{\link[AnnotationHub]{AnnotationHub}}
 #'
 #' @export
+#' @rdname importAnnotationHub-methods
 
 
 setGeneric("importAnnotationHub",
     function(experimentName, provider, annotType, species, annotID)
     standardGeneric("importAnnotationHub")
 )
+
+#' @rdname importAnnotationHub-methods
 
 setMethod("importAnnotationHub",
           signature(experimentName="tssObject", provider="character",

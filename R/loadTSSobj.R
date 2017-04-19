@@ -24,8 +24,6 @@
 #' \bold{GenomicAlignments} package, one for each attached .bam file
 #' on the \emph{fileNames} slot.
 #'
-#' @aliases show, loadTSSobj-method
-#'
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
@@ -44,6 +42,7 @@
 #' \emph{@fileNames} slot on the \emph{tssObject} that is created.
 #'
 #' @export
+#' @rdname loadTSSobj-methods
 
 
 setGeneric("loadTSSobj",
@@ -51,6 +50,8 @@ setGeneric("loadTSSobj",
              replicateIDs)
     standardGeneric("loadTSSobj")
 )
+
+#' @rdname loadTSSobj-methods
 
 setMethod("loadTSSobj",
           signature(experimentTitle="character", inputDir="character",

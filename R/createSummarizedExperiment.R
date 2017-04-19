@@ -16,8 +16,6 @@
 #' @return a summarizedExperiment object from the specified TSR data set
 #' that is to be written to your working directory.
 #'
-#' @aliases show, createSummarizedExperiment-method
-#' 
 #' @import     BiocGenerics
 #' @importFrom S4Vectors DataFrame
 #' @importFrom SummarizedExperiment SummarizedExperiment
@@ -31,12 +29,15 @@
 #' https://bioconductor.org/packages/release/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html
 #'
 #' @export
+#' @rdname createSummarizedExperiment-methods
 
 
 setGeneric("createSummarizedExperiment",
     function(experimentName, tsrSetType="merged", tsrSet=1, samplePrefix)
     standardGeneric("createSummarizedExperiment")
 )
+
+#' @rdname createSummarizedExperiment-methods
 
 setMethod("createSummarizedExperiment",
           signature("tssObject", "character", "numeric",

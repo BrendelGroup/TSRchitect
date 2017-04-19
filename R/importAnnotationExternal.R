@@ -14,8 +14,6 @@
 #' \emph{tssObject} with a \linkS4class{GRanges} object contining a
 #' parsed annotation file of the selected type.
 #'
-#' @aliases show, importAnnotationExternal-method
-#'
 #' @importFrom GenomicRanges GRanges
 #' @importFrom rtracklayer import.bed import.gff import.gff3
 #'
@@ -36,12 +34,15 @@
 #' refer to \code{importAnnotationHub}
 #'
 #' @export
+#' @rdname importAnnotationExternal-methods
 
 
 setGeneric("importAnnotationExternal",
     function(experimentName, fileType, annotFile)
     standardGeneric("importAnnotationExternal")
 )
+
+#' @rdname importAnnotationExternal-methods
 
 setMethod("importAnnotationExternal",
           signature(experimentName="tssObject", fileType="character",
