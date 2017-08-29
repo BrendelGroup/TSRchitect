@@ -18,7 +18,7 @@ Description: In recent years, large-scale transcriptional sequence data has
     with genes and other genomic features. Three detailed examples of TSRchitect's
     utility are provided in the User's Guide, included with this package.
 Authors@R: c(person("R. Taylor","Raborn",email="rtraborn@indiana.edu",role=c("aut","cre", "cph")),
-             person("Volker","Brendel",email="vbrendel@indiana.edu",role=c("aut","cph"))
+             person("Volker","Brendel",email="vbrendel@indiana.edu",role=c("aut","cph")),
 	     person("Krishnakumar", "Sridharan",email="krishnakumar28@gmail.com",role="ctb"))
 Author: R. Taylor Raborn [aut, cre, cph]
     Volker P. Brendel [aut, cph]
