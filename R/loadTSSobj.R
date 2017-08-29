@@ -27,6 +27,7 @@
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
+#' @importFrom rtracklayer importbed
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
@@ -118,8 +119,24 @@ if (inputType=="bam") {
                   " bam files have been attached to the tssObject.\n")
               message("-----------------------------------------------------\n")
 }
-if (inputType=="bed") {
-stop("\nNot yet supported.  Visit again soon.\n\n")
+              if (inputType=="bed") {
+              tss_files <- list.files(inputDir, pattern="\\.bed$",
+                                      all.files=FALSE, full.names=TRUE)
+              if (length(tss_files) < 1) {
+                  stop("There are no .bed files in the directory you",
+                       "specified, or the directory itself does not exist.",
+                       "\n Please check your input for the argument 'inputDir'.")
+              }
+              tssObj@fileNames <- tss_files
+              bed.paths <- tssObj@fileNames
+              n.beds <- length(tss_files)
+              message("\nBeginning import of ", n.beds, " bed files ...\n")
+              beds.GR <- bplapply(bed.paths, import.bed)
+              #bed.GR
+              tssObj@bedData <- beds.GR
+              message("Done. Alignment data from ", n.beds,
+                  " bed files have been attached to the tssObject.\n")
+              message("-----------------------------------------------------\n")
 }
 
               if (length(sampleNames)!=length(tssObj@fileNames)) {
