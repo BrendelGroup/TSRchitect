@@ -1,11 +1,11 @@
-#' @title \strong{bamToTSS}
-#' @description \code{bamToTSS} extracts TSS information from each
+#' @title \strong{bedToTSS}
+#' @description \code{bedToTSS} extracts TSS information from each
 #' attached .bed file in a tssObject object
 #'
-#' @param experimentName an S4 object of class tssObject with bam files loaded
+#' @param experimentName an S4 object of class tssObject with bed files loaded
 #'
 #' @return produces a \linkS4class{GRangesList} containing separate
-#' \linkS4class{GRanges} objects for each .bam file contained within
+#' \linkS4class{GRanges} objects for each .bed file contained within
 #' \emph{experimentName}, placing them them in the returned \emph{tssObject}.
 #' 
 #' @import BiocGenerics
@@ -14,16 +14,11 @@
 #' @importFrom GenomeInfoDb sortSeqlevels
 #' @importFrom IRanges IRanges
 #'
-#' @examples
-#' load(system.file("extdata", "tssObjectExample.RData",
-#' package="TSRchitect"))
-#' tssObjectExample <- bedToTSS(experimentName=tssObjectExample)
-#'
 #' @note An example similar to the one provided can be
 #' found in the vignette (/inst/doc/TSRchitect.Rmd).
 #'
 #' @export
-#' @rdname bamToTSS-methods
+#' @rdname bedToTSS-methods
 
 
 setGeneric("bedToTSS",
@@ -31,15 +26,15 @@ setGeneric("bedToTSS",
     standardGeneric("bedToTSS")
 )
 
-#' @rdname bamToTSS-methods
+#' @rdname bedToTSS-methods
 
 setMethod("bedToTSS",
           signature(experimentName="tssObject"),
           function(experimentName) {
 
               message("... bedToTSS ...")
-              if (length(experimentName@bamData) == 0) {
-                  stop("@bamData is empty.\n\n",
+              if (length(experimentName@bedData) == 0) {
+                  stop("@bedData is empty.\n\n",
                        "Please load alignment files to your tssObject.")
               }
               else {
