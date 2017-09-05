@@ -27,7 +27,7 @@
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
-#' @importFrom rtracklayer importbed
+#' @importFrom rtracklayer import.bed
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
@@ -127,17 +127,37 @@ if (inputType=="bam") {
                        "specified, or the directory itself does not exist.",
                        "\n Please check your input for the argument 'inputDir'.")
               }
+              if(tssObj@dataType=="pairedEnd") {
+              message("\nImporting paired-end reads ...\n")
               tssObj@fileNames <- tss_files
               bed.paths <- tssObj@fileNames
               n.beds <- length(tss_files)
               message("\nBeginning import of ", n.beds, " bed files ...\n")
-              beds.GR <- bplapply(bed.paths, import.bed)
+              beds.GR <- bplapply(tss_files, import,
+                                  format="bedpe",
+                                  BPPARAM = MulticoreParam()
+                                  )
+              tssObj@bedData <- beds.GR
+              message("Done. Alignment data from ", n.beds,
+                  " bed files have been attached to the tssObject.\n")
+              message("-----------------------------------------------------\n")
+          }
+              if(tssObj@dataType=="singleEnd") {
+              message("\nImporting single-end reads ...\n")
+              tssObj@fileNames <- tss_files
+              bed.paths <- tssObj@fileNames
+              n.beds <- length(tss_files)
+              message("\nBeginning import of ", n.beds, " bed files ...\n")
+              beds.GR <- bplapply(bed.paths, import.bed, 
+                                  BPPARAM = MulticoreParam()
+                                  )
               #bed.GR
               tssObj@bedData <- beds.GR
               message("Done. Alignment data from ", n.beds,
                   " bed files have been attached to the tssObject.\n")
               message("-----------------------------------------------------\n")
-}
+          }
+          }
 
               if (length(sampleNames)!=length(tssObj@fileNames)) {
                   stop("\nNumber of sampleNames must be equal to",
