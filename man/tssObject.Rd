@@ -4,7 +4,7 @@
 \alias{tssObject}
 \title{\strong{tssObject}}
 \usage{
-tssObject(title = NA, bamData = NA)
+tssObject(title = NA, bamData = NA, bedData = NA)
 }
 \arguments{
 \item{title}{'character' A short descriptive title for the

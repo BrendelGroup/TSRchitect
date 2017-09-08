@@ -23,10 +23,9 @@
 #' replicateIDs must be arranged in this order also so that they directly
 #' correspond to the intended file (numeric).
 #'
-#' @return \emph{loadTSSobj} fills the slot \emph{bamData} on the returned
-#' \emph{tssObject} with \linkS4class{GAlignments} objects from the
-#' \bold{GenomicAlignments} package, one for each attached .bam file
-#' on the \emph{fileNames} slot.
+#' @return \emph{loadTSSobj} fills the slot \emph{bamData} and/or \emph{bedData}
+#' on the returned \emph{tssObject} with \linkS4class{GAlignments} objects
+#' (for .bam files), or \linkS4class{GRanges} objects (for .bed files).
 #'
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
@@ -37,14 +36,15 @@
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' extdata.dir <- system.file("extdata", package="TSRchitect")
 #' test.Obj <- loadTSSobj(experimentTitle="Code example", inputDir=extdata.dir,
-#' inputType="bam", isPairedEnd=TRUE, sampleNames=c("sample1-rep1",
-#' "sample1-rep2", "sample2-rep1","sample2-rep2"), replicateIDs=c(1,1,2,2))
+#' isPairedBAM=TRUE, sampleNames=c("sample1-rep1", "sample1-rep2",
+#' "sample2-rep1","sample2-rep2"), replicateIDs=c(1,1,2,2))
 #'
 #' @note An example similar to the one provided can be found in
 #' the vignette (/inst/doc/TSRchitect.Rmd).
-#' @note All .bam files found in \emph{inputDir} will be
+#' @note All files found in \emph{inputDir} will be
 #' retrieved and written in ascending alphanumeric order to the
-#' \emph{@fileNames} slot on the \emph{tssObject} that is created.
+#' \emph{@fileNamesBAM} and/or \emph{@fileNamesBED} slot(s) on
+#' the \emph{tssObject} that is created.
 #'
 #' @export
 #' @rdname loadTSSobj-methods
