@@ -3,21 +3,17 @@
 #' from the local directory supplied.
 #'
 #' @param experimentTitle a descriptive title for the experiment (character).
-#' @param inputDirBAM path to the directory containing the alignment files (in
-#' either .bam format) (character). 
+#' @param inputDir path to the directory containing the alignment files (in
+#' either .bam or .bed formats) (character). 
 #' Note that all the paths to all files in \emph{inputDir} with the extension
-#' .bam in \emph{inputDirBAM} will be imported with this function.
-#' @param inputDirBED path to the directory containing the input files (in
-#' BED format) (character).
-#' Note that all the paths to all files in \emph{inputDir} with the extension
-#' .bed in \emph{inputDirBED} will be imported with this function.
+#' .bam or .bed will be imported with this function.
 #' @param isPairedBAM if the input is in BAM format, specifies whether the
 #'  TSS profiling experiment is paired-end (if TRUE) or single-end
 #'  (if FALSE) (logical)
 #' @param isPairedBED if the input is in BED format, specifies whether the
 #'  TSS profiling experiment is paired-end (if TRUE) or single-end
-#'  (if FALSE) (logical). Note: if TRUE, the input data must be in
-#' bedpe format, as described here:
+#'  (if FALSE). Set to FALSE by default. (logical)
+#' Note: if TRUE, the input data must be in bedpe format, as described here:
 #' http://bedtools.readthedocs.io/en/latest/content/general-usage.html
 #' @param sampleNames unique labels of class character for each TSS sample
 #' within the experiment (character).
@@ -55,8 +51,9 @@
 
 
 setGeneric("loadTSSobj",
-           function(experimentTitle, inputDirBAM, inputDirBED,
-                    isPairedBAM, isPairedBED, sampleNames,
+           function(experimentTitle, inputDir, 
+                    isPairedBAM=FALSE, isPairedBED=FALSE, 
+                    sampleNames,
                     replicateIDs)
     standardGeneric("loadTSSobj")
 )
@@ -64,12 +61,13 @@ setGeneric("loadTSSobj",
 #' @rdname loadTSSobj-methods
 
 setMethod("loadTSSobj", #both BAM and BED files
-          signature(experimentTitle="character", inputDirBAM="ANY",
-                    inputDirBED="ANY", isPairedBAM="ANY",
-                    isPairedBED="ANY", sampleNames="character",
+          signature(experimentTitle="character", inputDir="character",
+                    isPairedBAM="ANY", isPairedBED="ANY",
+                    sampleNames="character",
                     replicateIDs="numeric"),
-          function(experimentTitle, inputDirBAM, inputDirBED=NA,
-                   isPairedBAM, isPairedBED=NA, sampleNames,
+          function(experimentTitle, inputDir, isPairedBAM=FALSE,
+                   isPairedBED=FALSE,
+                   sampleNames,
                    replicateIDs) {
               
               message("... loadTSSobj ...")
@@ -77,21 +75,6 @@ setMethod("loadTSSobj", #both BAM and BED files
 
               tssObj@title <- experimentTitle
 
-              if (is.character(inputDirBAM)) {
-              tssObj@inputDirBAM <- inputDirBAM
-             }
-              if (is.character(inputDirBED)) {
-              tssObj@inputDirBED <- inputDirBED
-            }
-              if ((is.character(inputDirBAM)==FALSE) & (is.character(inputDirBED)==FALSE)) {
-                  stop("No input valide directories have been supplied.")
-              }
-              if ((is.character(inputDirBAM)==TRUE) & (is.logical(isPairedBAM)==FALSE)) {
-                  stop("Arguments for inputDirBAM and isPairedBAM must be supplied.")
-              }
-              if ((is.character(inputDirBED)==TRUE) & (is.logical(isPairedBED)==FALSE)) {
-                  stop("Arguments for inputDirBED and isPairedBED must be supplied.")
-             }
               if (isPairedBAM==TRUE) {
                   tssObj@dataTypeBAM <- c("pairedEnd")
               }
@@ -105,19 +88,14 @@ setMethod("loadTSSobj", #both BAM and BED files
               if (isPairedBED==FALSE) {
                   tssObj@dataTypeBED <- c("singleEnd")
               }
-              if (is.character(inputDirBAM)) {
-                  tss_filesBAM <- list.files(inputDirBAM, pattern="\\.bam$",
-                                          all.files=FALSE, full.names=TRUE)
-                  if (length(tss_filesBAM) < 1) {
-                      stop("There are no .bam files in the directory you",
-                           "specified, or the directory itself does not exist.",
-                           "\n Please check your input for the argument 'inputDirBAM'.")
-                  }
-              tssObj@fileNamesBAM <- tss_filesBAM
+             tss_filesBAM <- list.files(inputDir, pattern="\\.bam$",
+                                        all.files=FALSE, full.names=TRUE)
+             tssObj@fileNamesBAM <- tss_filesBAM
+             if (length(tss_filesBAM) > 0) {
                   if (is.character(tssObj@dataTypeBAM)==FALSE) {
                       stop("The argument 'isPairedBAM' is empty. Please fix.")
                   }
-                  if(tssObj@dataTypeBAM=="pairedEnd") {
+                  if (tssObj@dataTypeBAM=="pairedEnd") {
                       message("\nImporting paired-end reads ...\n")
                       bamFlags <- scanBamFlag(isPaired=TRUE, isProperPair=TRUE,
                                               isFirstMateRead=TRUE, hasUnmappedMate=FALSE,
@@ -152,24 +130,16 @@ setMethod("loadTSSobj", #both BAM and BED files
                   message("-----------------------------------------------------\n")
               }
                   #now for BED files (if present)
-                  if (is.character(inputDirBED)) {
-                  tss_filesBED <- list.files(inputDirBED, pattern="\\.bed$",
-                                      all.files=FALSE, full.names=TRUE)
-                      if (length(tss_filesBED) < 1) {
-                          stop("There are no .bed files in the directory you",
-                               "specified, or the directory itself does not exist.",
-                               "\n Please check your input for the argument 'inputDirBED'.")
-                      }
-                      if (is.character(tssObj@dataTypeBED==FALSE)) {
-                          stop("The argument 'isPairedBAM' is empty. Please fix.")
-                      }
+              tss_filesBED <- list.files(inputDir, pattern="\\.bed$",
+                                         all.files=FALSE, full.names=TRUE)
+              if (length(tss_filesBED) > 1) {
                   if (isPairedBED == TRUE) {
                   message("\nImporting paired-end reads ...\n")
                   tssObj@fileNamesBED <- tss_filesBED
                   bed.paths <- tssObj@fileNamesBED
-                  n.beds <- length(tss_files)
+                  n.beds <- length(tss_filesBED)
                   message("\nBeginning import of ", n.beds, " bed files ...\n")
-                  beds.GR <- bplapply(tss_files, import,
+                  beds.GR <- bplapply(tss_filesBED, import,
                                       format="bedpe",
                                       BPPARAM = MulticoreParam()
                                       )
@@ -180,9 +150,9 @@ setMethod("loadTSSobj", #both BAM and BED files
               }
               if (isPairedBED==FALSE) {
               message("\nImporting single-end reads ...\n")
-              tssObj@fileNamesBED <- tss_files
+              tssObj@fileNamesBED <- tss_filesBED
               bed.paths <- tssObj@fileNamesBED
-              n.beds <- length(tss_files)
+              n.beds <- length(tss_filesBED)
               message("\nBeginning import of ", n.beds, " bed files ...\n")
               beds.GR <- bplapply(bed.paths, import.bed, 
                                   BPPARAM = MulticoreParam()
@@ -191,12 +161,13 @@ setMethod("loadTSSobj", #both BAM and BED files
               message("Done. Alignment data from ", n.beds,
                   " bed files have been attached to the tssObject.\n")
               message("-----------------------------------------------------\n")
-          }
               }
-              if (length(sampleNames)!=(length(tssObj@fileNamesBAM) + length(tssObj@fileNamesBED))) { #accounting for BAM + BED
-                  stop("\nNumber of sampleNames must be equal to",
-                       " number of input files.")
               }
+#              if (length(sampleNames)!=(length(tssObj@fileNamesBAM) + length(tssObj@fileNamesBED))) { #accounting for BAM + BED
+#                  print(length(tssObj@fileNamesBED))
+#                  stop("\nNumber of sampleNames must be equal to",
+#                       " number of input files.")
+#              }
               if (length(sampleNames)!=(length(replicateIDs))) {
                   stop("\nsampleNames and replicateIDs must have",
                        " equal lengths.")
