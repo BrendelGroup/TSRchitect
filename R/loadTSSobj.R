@@ -3,14 +3,22 @@
 #' from the local directory supplied.
 #'
 #' @param experimentTitle a descriptive title for the experiment (character).
-#' @param inputDir path to the directory containing the alignment files (in
-#' either .bam or .bed format, depending on your selection) (character).
+#' @param inputDirBAM path to the directory containing the alignment files (in
+#' either .bam format) (character). 
 #' Note that all the paths to all files in \emph{inputDir} with the extension
-#' .bam in \emph{inputDir} will be imported with this function.
-#' @param inputType specifies the format of the TSS dataset to be imported.
-#' Either "bam" or "bed" are currently accepted. (character)
-#' @param isPairedEnd specifies whether the TSS profiling experiment is
-#' paired-end (if TRUE) or single-end (if FALSE) (logical)
+#' .bam in \emph{inputDirBAM} will be imported with this function.
+#' @param inputDirBED path to the directory containing the input files (in
+#' BED format) (character).
+#' Note that all the paths to all files in \emph{inputDir} with the extension
+#' .bed in \emph{inputDirBED} will be imported with this function.
+#' @param isPairedBAM if the input is in BAM format, specifies whether the
+#'  TSS profiling experiment is paired-end (if TRUE) or single-end
+#'  (if FALSE) (logical)
+#' @param isPairedBED if the input is in BED format, specifies whether the
+#'  TSS profiling experiment is paired-end (if TRUE) or single-end
+#'  (if FALSE) (logical). Note: if TRUE, the input data must be in
+#' bedpe format, as described here:
+#' http://bedtools.readthedocs.io/en/latest/content/general-usage.html
 #' @param sampleNames unique labels of class character for each TSS sample
 #' within the experiment (character).
 #' @param replicateIDs identifiers indicating which samples are biological
@@ -55,108 +63,125 @@ setGeneric("loadTSSobj",
 
 #' @rdname loadTSSobj-methods
 
-setMethod("loadTSSobj",
-          signature(experimentTitle="character", inputDirBAM="character",
-                    inputDirBED="character", isPairedBAM="logical",
-                    isPairedBED="logical", sampleNames="character",
+setMethod("loadTSSobj", #both BAM and BED files
+          signature(experimentTitle="character", inputDirBAM="ANY",
+                    inputDirBED="ANY", isPairedBAM="ANY",
+                    isPairedBED="ANY", sampleNames="character",
                     replicateIDs="numeric"),
-          function(experimentTitle, inputDirBAM, inputDirBED,
-                   isPairedBAM, isPairedBED, sampleNames,
+          function(experimentTitle, inputDirBAM, inputDirBED=NA,
+                   isPairedBAM, isPairedBED=NA, sampleNames,
                    replicateIDs) {
               
               message("... loadTSSobj ...")
               tssObj <- new("tssObject")
 
               tssObj@title <- experimentTitle
-              tssObj.inputDir <- inputDir
-              tssObj.inputType <- inputType
 
-              if (isPairedEndBAM==TRUE) {
+              if (is.character(inputDirBAM)) {
+              tssObj@inputDirBAM <- inputDirBAM
+             }
+              if (is.character(inputDirBED)) {
+              tssObj@inputDirBED <- inputDirBED
+            }
+              if ((is.character(inputDirBAM)==FALSE) & (is.character(inputDirBED)==FALSE)) {
+                  stop("No input valide directories have been supplied.")
+              }
+              if ((is.character(inputDirBAM)==TRUE) & (is.logical(isPairedBAM)==FALSE)) {
+                  stop("Arguments for inputDirBAM and isPairedBAM must be supplied.")
+              }
+              if ((is.character(inputDirBED)==TRUE) & (is.logical(isPairedBED)==FALSE)) {
+                  stop("Arguments for inputDirBED and isPairedBED must be supplied.")
+             }
+              if (isPairedBAM==TRUE) {
                   tssObj@dataTypeBAM <- c("pairedEnd")
               }
-              else {
+              if (isPairedBAM==FALSE) {
                   tssObj@dataTypeBAM <- c("singleEnd")
               }
-
-              if (isPairedEndBED==TRUE) {
+              
+              if (isPairedBED==TRUE) {
                   tssObj@dataTypeBED <- c("pairedEnd")
               }
-              else {
+              if (isPairedBED==FALSE) {
                   tssObj@dataTypeBED <- c("singleEnd")
               }
-
-if (!(is.na(inputDirBAM))) {
-              tss_files <- list.files(inputDir, pattern="\\.bam$",
-                                      all.files=FALSE, full.names=TRUE)
-              if (length(tss_files) < 1) {
-                  stop("There are no .bam files in the directory you",
-                       "specified, or the directory itself does not exist.",
-                       "\n Please check your input for the argument 'inputDirBAM'.")
-              }
-              tssObj@fileNames <- tss_files
-
-              if(tssObj@dataType=="pairedEnd") {
-                  message("\nImporting paired-end reads ...\n")
-                  bamFlags <- scanBamFlag(isPaired=TRUE, isProperPair=TRUE,
-                              isFirstMateRead=TRUE, hasUnmappedMate=FALSE,
-                              isUnmappedQuery=FALSE,
-                              isSecondaryAlignment=FALSE)
+              if (is.character(inputDirBAM)) {
+                  tss_filesBAM <- list.files(inputDirBAM, pattern="\\.bam$",
+                                          all.files=FALSE, full.names=TRUE)
+                  if (length(tss_filesBAM) < 1) {
+                      stop("There are no .bam files in the directory you",
+                           "specified, or the directory itself does not exist.",
+                           "\n Please check your input for the argument 'inputDirBAM'.")
+                  }
+              tssObj@fileNamesBAM <- tss_filesBAM
+                  if (is.character(tssObj@dataTypeBAM)==FALSE) {
+                      stop("The argument 'isPairedBAM' is empty. Please fix.")
+                  }
+                  if(tssObj@dataTypeBAM=="pairedEnd") {
+                      message("\nImporting paired-end reads ...\n")
+                      bamFlags <- scanBamFlag(isPaired=TRUE, isProperPair=TRUE,
+                                              isFirstMateRead=TRUE, hasUnmappedMate=FALSE,
+                                              isUnmappedQuery=FALSE,
+                                              isSecondaryAlignment=FALSE)
                   message("\nTSS data were specified to be paired-end",
                       " read alignments.")
                   myFields <- c("rname","flag","pos","qwidth","mapq",
                     "cigar","isize")
+                  }
+                  if (tssObj@dataTypeBAM=="singleEnd") {
+                      message("\nImporting single-end reads ...\n")
+                      bamFlags <- scanBamFlag(isPaired=FALSE,
+                                              isUnmappedQuery=FALSE,
+                                              isSecondaryAlignment=FALSE)
+                      message("\nTSS data were specified to be",
+                              " single-end read alignments.\n")
+                      myFields <- c("rname","flag","pos",
+                                    "qwidth","mapq","cigar")
+                  }
+                  my.param <- ScanBamParam(flag=bamFlags, what=myFields)
+                  bam.paths <- tssObj@fileNamesBAM
+                  bv_obj <- BamViews(bam.paths)
+                  bv_files <- dimnames(bv_obj)[[2]]
+                  n.bams <- length(bv_files)
+                  message("\nBeginning import of ", n.bams, " bam files ...\n")
+                  bams.GA <- bplapply(bam.paths, readGAlignments,
+                                      BPPARAM = MulticoreParam(), param=my.param)
+                  tssObj@bamData <- bams.GA
+                  message("Done. Alignment data from ", n.bams,
+                          " bam files have been attached to the tssObject.\n")
+                  message("-----------------------------------------------------\n")
               }
-              else {
-                  message("\nImporting single-end reads ...\n")
-                  bamFlags <- scanBamFlag(isPaired=FALSE,
-                                         isUnmappedQuery=FALSE,
-                                         isSecondaryAlignment=FALSE)
-                  message("\nTSS data were specified to be",
-                      " single-end read alignments.\n")
-                  myFields <- c("rname","flag","pos",
-                    "qwidth","mapq","cigar")
-              }
-
-              my.param <- ScanBamParam(flag=bamFlags, what=myFields)
-              bam.paths <- tssObj@fileNames
-              bv_obj <- BamViews(bam.paths)
-              bv_files <- dimnames(bv_obj)[[2]]
-              n.bams <- length(bv_files)
-              message("\nBeginning import of ", n.bams, " bam files ...\n")
-              bams.GA <- bplapply(bam.paths, readGAlignments,
-                         BPPARAM = MulticoreParam(), param=my.param)
-              tssObj@bamData <- bams.GA
-              message("Done. Alignment data from ", n.bams,
-                  " bam files have been attached to the tssObject.\n")
-              message("-----------------------------------------------------\n")
-}
-              if (!(is.na(inputDirBED))) {
-              tss_files <- list.files(inputDir, pattern="\\.bed$",
+                  #now for BED files (if present)
+                  if (is.character(inputDirBED)) {
+                  tss_filesBED <- list.files(inputDirBED, pattern="\\.bed$",
                                       all.files=FALSE, full.names=TRUE)
-              if (length(tss_files) < 1) {
-                  stop("There are no .bed files in the directory you",
-                       "specified, or the directory itself does not exist.",
-                       "\n Please check your input for the argument 'inputDirBED'.")
+                      if (length(tss_filesBED) < 1) {
+                          stop("There are no .bed files in the directory you",
+                               "specified, or the directory itself does not exist.",
+                               "\n Please check your input for the argument 'inputDirBED'.")
+                      }
+                      if (is.character(tssObj@dataTypeBED==FALSE)) {
+                          stop("The argument 'isPairedBAM' is empty. Please fix.")
+                      }
+                  if (isPairedBED == TRUE) {
+                  message("\nImporting paired-end reads ...\n")
+                  tssObj@fileNamesBED <- tss_filesBED
+                  bed.paths <- tssObj@fileNamesBED
+                  n.beds <- length(tss_files)
+                  message("\nBeginning import of ", n.beds, " bed files ...\n")
+                  beds.GR <- bplapply(tss_files, import,
+                                      format="bedpe",
+                                      BPPARAM = MulticoreParam()
+                                      )
+                  tssObj@bedData <- beds.GR
+                  message("Done. Alignment data from ", n.beds,
+                          " bed files have been attached to the tssObject.\n")
+                  message("-----------------------------------------------------\n")
               }
-              if(tssObj@dataType=="pairedEnd") {
-              message("\nImporting paired-end reads ...\n")
-              tssObj@fileNames <- tss_files
-              bed.paths <- tssObj@fileNames
-              n.beds <- length(tss_files)
-              message("\nBeginning import of ", n.beds, " bed files ...\n")
-              beds.GR <- bplapply(tss_files, import,
-                                  format="bedpe",
-                                  BPPARAM = MulticoreParam()
-                                  )
-              tssObj@bedData <- beds.GR
-              message("Done. Alignment data from ", n.beds,
-                  " bed files have been attached to the tssObject.\n")
-              message("-----------------------------------------------------\n")
-          }
-              if(tssObj@dataType=="singleEnd") {
+              if (isPairedBED==FALSE) {
               message("\nImporting single-end reads ...\n")
-              tssObj@fileNames <- tss_files
-              bed.paths <- tssObj@fileNames
+              tssObj@fileNamesBED <- tss_files
+              bed.paths <- tssObj@fileNamesBED
               n.beds <- length(tss_files)
               message("\nBeginning import of ", n.beds, " bed files ...\n")
               beds.GR <- bplapply(bed.paths, import.bed, 
@@ -167,9 +192,8 @@ if (!(is.na(inputDirBAM))) {
                   " bed files have been attached to the tssObject.\n")
               message("-----------------------------------------------------\n")
           }
-          }
-
-              if (length(sampleNames)!=length(tssObj@fileNames)) { #need to account for BAM + BED
+              }
+              if (length(sampleNames)!=(length(tssObj@fileNamesBAM) + length(tssObj@fileNamesBED))) { #accounting for BAM + BED
                   stop("\nNumber of sampleNames must be equal to",
                        " number of input files.")
               }
@@ -181,7 +205,6 @@ if (!(is.na(inputDirBAM))) {
               if (length(s.uni)<length(sampleNames)) {
                   stop("\nEach sample name must be unique.")
               }
-
               tssObj@sampleNames <- sampleNames
               tssObj@replicateIDs <- replicateIDs
               exp.len <- length(replicateIDs)
@@ -193,5 +216,6 @@ if (!(is.na(inputDirBAM))) {
               message("-----------------------------------------------------\n")
               message(" Done.\n")
               return(tssObj)
-          }
+              }
           )
+
