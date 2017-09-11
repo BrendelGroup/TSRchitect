@@ -288,7 +288,7 @@ library(TSRchitect)
 functions are applied, using <code>loadTSSobj</code>. We also need to supply other information about the
 experiment as arguments. This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. </p>
 
-<pre><code class="r">Hs_RAMPAGE &lt;- loadTSSobj(expTitle =&quot;Human RAMPAGE&quot;, inputDirBAM=&quot;HsRAMPAGEbam/&quot;, /
+<pre><code class="r">Hs_RAMPAGE &lt;- loadTSSobj(expTitle =&quot;Human RAMPAGE&quot;, inputDir=&quot;HsRAMPAGEbam/&quot;, /
 isPairedEndBAM=TRUE, sampleNames=c(&quot;H460-rep1&quot;, /
 &quot;H460-rep2&quot;, &quot;HT1080-rep1&quot;, &quot;HT1080-rep2&quot;), replicateIDs=c(1,1,2,2))
 </code></pre>
@@ -481,7 +481,7 @@ These data come from the Megraw Lab at Oregon State University as reported in Mo
 <p>Once download of the file <code>peat.sorted.bam</code> is complete, please move it to subdirectory &ldquo;PEATbam/&rdquo;.
 Since there is only a single experiment, setting the sample IDs is simple:</p>
 
-<pre><code class="r">At_PEAT &lt;- loadTSSobj(expTitle =&quot;Arabidopsis PEAT dataset&quot;, inputDirBAM=&quot;PEATbam&quot;, /
+<pre><code class="r">At_PEAT &lt;- loadTSSobj(expTitle =&quot;Arabidopsis PEAT dataset&quot;, inputDir=&quot;PEATbam&quot;, /
 isPairedBAM=TRUE, sampleNames=c(&quot;experiment1&quot;), replicateIDs=c(1))
 </code></pre>
 
@@ -557,7 +557,7 @@ Please download and uncompress the annoation file [Note: you may ignore this if 
 <p>Now we can set up the tssObject S4 object. Note that we must specify <code>isPairedBAM=FALSE</code> because this is single-end CAGE data.</p>
 
 <pre><code class="r"># initializing the tssObject, setting the sample IDs and importing the CAGE data
-CAGEhuman &lt;- loadTSSobj(expTitle =&quot;Human CAGE&quot;, inputDirBAM=&quot;HsCAGEbam&quot;, /
+CAGEhuman &lt;- loadTSSobj(expTitle =&quot;Human CAGE&quot;, inputDir=&quot;HsCAGEbam&quot;, /
 isPairedBAM=TRUE, sampleNames=c(&quot;A549-rep1&quot;,&quot;A549-rep2&quot;, /
 &quot;MCF7-rep1&quot;,&quot;MCF7-rep2&quot;), replicateIDs=c(1,1,2,2)
 </code></pre>

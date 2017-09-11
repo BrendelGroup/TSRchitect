@@ -97,7 +97,7 @@ experiment as arguments. This will attach GenomicAlignments objects (representin
 
 
 ```{r eval=FALSE}
-Hs_RAMPAGE <- loadTSSobj(expTitle ="Human RAMPAGE", inputDirBAM="HsRAMPAGEbam/", /
+Hs_RAMPAGE <- loadTSSobj(expTitle ="Human RAMPAGE", inputDir="HsRAMPAGEbam/", /
 isPairedEndBAM=TRUE, sampleNames=c("H460-rep1", /
 "H460-rep2", "HT1080-rep1", "HT1080-rep2"), replicateIDs=c(1,1,2,2))
 ```
@@ -311,7 +311,7 @@ Once download of the file `peat.sorted.bam` is complete, please move it to subdi
 Since there is only a single experiment, setting the sample IDs is simple:
 
 ```{r eval=FALSE}
-At_PEAT <- loadTSSobj(expTitle ="Arabidopsis PEAT dataset", inputDirBAM="PEATbam", /
+At_PEAT <- loadTSSobj(expTitle ="Arabidopsis PEAT dataset", inputDir="PEATbam", /
 isPairedBAM=TRUE, sampleNames=c("experiment1"), replicateIDs=c(1))
 ```
 
@@ -395,7 +395,7 @@ Now we can set up the tssObject S4 object. Note that we must specify `isPairedBA
 
 ```{r eval=FALSE}
 # initializing the tssObject, setting the sample IDs and importing the CAGE data
-CAGEhuman <- loadTSSobj(expTitle ="Human CAGE", inputDirBAM="HsCAGEbam", /
+CAGEhuman <- loadTSSobj(expTitle ="Human CAGE", inputDir="HsCAGEbam", /
 isPairedBAM=TRUE, sampleNames=c("A549-rep1","A549-rep2", /
 "MCF7-rep1","MCF7-rep2"), replicateIDs=c(1,1,2,2)
 ```

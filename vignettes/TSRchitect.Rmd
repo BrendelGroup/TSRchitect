@@ -43,7 +43,7 @@ We do this in the following manner:
 extdata.dir <- system.file("extdata", package="TSRchitect") 
 
 tssObjectExample <- loadTSSobj(experimentTitle="Vignette Example",
-inputDirBAM=extdata.dir, isPairedBAM=TRUE,
+inputDir=extdata.dir, isPairedBAM=TRUE,
 sampleNames=c("sample1-rep1", "sample1-rep2","sample2-rep1",
 "sample2-rep2"), replicateIDs=c(1,1,2,2)) #datasets 1-2 and 3-4 are replicates
 ```
