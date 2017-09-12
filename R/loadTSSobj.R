@@ -30,10 +30,9 @@
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
-#' @importFrom rtracklayer import.bed
+#' @importFrom rtracklayer import import.bed
 #'
 #' @examples
-#' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' extdata.dir <- system.file("extdata", package="TSRchitect")
 #' test.Obj <- loadTSSobj(experimentTitle="Code example", inputDir=extdata.dir,
 #' isPairedBAM=TRUE, sampleNames=c("sample1-rep1", "sample1-rep2",

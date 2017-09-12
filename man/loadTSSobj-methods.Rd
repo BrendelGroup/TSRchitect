@@ -60,7 +60,6 @@ retrieved and written in ascending alphanumeric order to the
 the \emph{tssObject} that is created.
 }
 \examples{
-load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 extdata.dir <- system.file("extdata", package="TSRchitect")
 test.Obj <- loadTSSobj(experimentTitle="Code example", inputDir=extdata.dir,
 isPairedBAM=TRUE, sampleNames=c("sample1-rep1", "sample1-rep2",
