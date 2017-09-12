@@ -2,13 +2,15 @@ setClass(Class="tssObject",
          representation(
              title = "character",
              inputDir = "character",
-             inputType = "character",
-             fileNames = "character",
-             dataType = "character",
+             fileNamesBAM = "character",
+             fileNamesBED = "character",
+             dataTypeBAM = "character",
+             dataTypeBED = "character",
              sampleNames = "character",
              replicateIDs = "numeric",
              annotation = "GRanges",
              bamData = "list",
+             bedData = "list",
              tssTagData = "GRangesList",
              tssCountData = "list",
              tssCountDataMerged = "list",
@@ -20,13 +22,15 @@ setClass(Class="tssObject",
          prototype(
              title = NA_character_,
              inputDir = NA_character_,
-             inputType = NA_character_,
-             fileNames = NA_character_,
-             dataType = NA_character_,
+             fileNamesBAM = NA_character_,
+             fileNamesBED = NA_character_,
+             dataTypeBAM = NA_character_,
+             dataTypeBED = NA_character_,
              sampleNames = NA_character_,
              replicateIDs = vector("integer"),
              annotation = GRanges(),
              bamData = list(),
+             bedData = list(),
              tssTagData = GRangesList(),
              tssCountData = list(),
              tssCountDataMerged = list(),
@@ -54,7 +58,7 @@ setClass(Class="tssObject",
 #'
 #' @export
 
-tssObject <- function(title=NA, bamData=NA) {
+tssObject <- function(title=NA, bamData=NA, bedData=NA) {
 
     new.tssObj <- new("tssObject")
 
@@ -64,6 +68,10 @@ tssObject <- function(title=NA, bamData=NA) {
 
     if (!(is.na(bamData))) {
         new.tssObj@bamData <- bamData
+    }
+
+    if (!(is.na(bedData))) {
+        new.tssObj@bedData <- bedData
     }
 
     return(new.tssObj)

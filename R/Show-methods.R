@@ -13,26 +13,31 @@ setMethod("show",
               else {
                   cat("No experiment title has been added.\n\n")
               }
-              if (is.na(object@dataType)==FALSE) {
-                  cat("The TSS data were specified to be \"",
-                      object@dataType, "\"\n")
-              }
-              else {
-                  cat("The TSS data type has not been specified.\n")
-              }
-              if (length(is.na(object@fileNames))>0) {
-                  cat("and originate in the following files:\n")
-                  for (i in 1:length(object@fileNames)) {
-                      cat(paste(object@fileNames[i]), sep="\n")
+              if (length(is.na(object@fileNamesBAM))>0) {
+                  cat("There are ", length(object@fileNamesBAM))
+                  cat(".bam datasets loaded, as follows:\n")
+                  for (i in 1:length(object@fileNamesBAM)) {
+                      cat(paste(object@fileNamesBAM[i]), sep="\n")
                   }
                   cat("\n")
               }
               else {
-                  cat("\nNo *.bam files have been added. \n")
+                  cat("\nNo *.bam datasets have been added. \n")
+              }
+              if (length(is.na(object@fileNamesBED))>0) {
+                  cat("There are ", length(object@fileNamesBED))
+                  cat(".bed datasets loaded, as follows:\n")
+                  for (i in 1:length(object@fileNamesBED)) {
+                      cat(paste(object@fileNamesBED[i]), sep="\n")
+                  }
+                  cat("\n")
+              }
+              else {
+                  cat("\nNo *.bed datasets have been added. \n")
               }
               if (length(is.na(object@sampleNames))>0) {
                   cat("\nThe names of the datasets are:\n")
-                  for (i in 1:length(object@fileNames)) {
+                  for (i in 1:length(object@sampleNames)) {
                       cat(paste(object@sampleNames[i]), sep="\n")
                   }
               }

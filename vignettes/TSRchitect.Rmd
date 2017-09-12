@@ -12,7 +12,7 @@ vignette: >
 ## R. Taylor Raborn and Volker P. Brendel
 ## Department of Biology, Indiana University
 
-### April 6, 2017
+### September 11, 2017
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 TSRchitect can handle TSS profiling experiments that contain either single-end or paired-end sequence reads, such as CAGE, RAMPAGE, PEAT and others. TSRchitect is an open-source bioinformatics package that is intended to support large-scale, reproducible analysis of TSS profiling data in a broad array of eukaryotic model systems.
@@ -35,7 +35,7 @@ TSRchitectUsersGuide()
 
 Now that you have loaded TSRchitect, we can proceed with a small example.
 
-First, we will create a tssObject using `loadTSSobj` and import our sample bam files (which are found in `extdata/`).
+First, we will create a tssObject using `loadTSSobj` and import our sample .bam files (which are found in `extdata/`).
 In doing this, we provide sample names and identify our replicate names using the argument `sampleNames`.
 We do this in the following manner:
 
@@ -43,7 +43,7 @@ We do this in the following manner:
 extdata.dir <- system.file("extdata", package="TSRchitect") 
 
 tssObjectExample <- loadTSSobj(experimentTitle="Vignette Example",
-inputDir=extdata.dir, inputType="bam", isPairedEnd=TRUE,
+inputDir=extdata.dir, isPairedBAM=TRUE,
 sampleNames=c("sample1-rep1", "sample1-rep2","sample2-rep1",
 "sample2-rep2"), replicateIDs=c(1,1,2,2)) #datasets 1-2 and 3-4 are replicates
 ```
@@ -57,7 +57,7 @@ tssObjectExample
 Now that the .bam files have been imported, we need to retrieve TSSs from the BAM records, and calculate the abundance of each tag at a given TSS. We opt to not run these in parallel, and specify this by setting `n.cores = 1`.
 
 ```{r eval=TRUE}
-tssObjectExample <- bamToTSS(experimentName=tssObjectExample)
+tssObjectExample <- inputToTSS(experimentName=tssObjectExample)
 
 tssObjectExample <- processTSS(experimentName=tssObjectExample, n.cores=1,
 tssSet="all", writeTable=FALSE)

@@ -3,3 +3,5 @@
 01-20-2017	Package (version 0.99.0) submitted to Bioconductor for review
 02-24-2017	Revised package (version 0.99.2) submitted to Bioconductor for further review
 04-18-2017	Revised package (version 0.99.2) submitted to Bioconductor for review
+04-19-2017	Package accepted (version 1.0.0) at Bioconductor, included in version 3.5.
+09-11-2017	Support added for the analysis of BED files as input (version 1.0.1)
