@@ -15,7 +15,7 @@ objects (originating from .bam files) in the workspace.
 Set to NA by default.}
 
 \item{bedData}{'list' the name of a list of \linkS4class{GRanges} or
-\linkS4class{pairs} objects (originating from .bed files) in the
+\linkS4class{Pairs} objects (originating from .bed files) in the
 workspace. Set to NA by default.}
 }
 \value{

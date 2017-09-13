@@ -50,12 +50,13 @@ setClass(Class="tssObject",
 #' objects (originating from .bam files) in the workspace. 
 #' Set to NA by default.
 #' @param bedData 'list' the name of a list of \linkS4class{GRanges} or
-#' \linkS4class{pairs} objects (originating from .bed files) in the
+#' \linkS4class{Pairs} objects (originating from .bed files) in the
 #' workspace. Set to NA by default.
 #'
 #' @return a new \emph{tssObject} is returned to the user's workspace.
 #'
 #' @import methods
+#' @importClassesFrom S4Vectors Pairs
 #'
 #' @examples
 #' new.tssObj <- tssObject(title="Example")
