@@ -120,13 +120,13 @@ setMethod("inputToTSS",
                       experimentName@tssCountData <- vector(mode="list", length=combined.len)
                   }
                   else {
-                     GR.list <- GRangesList(bedpe.vec)
+                     GR.list <- GRangesList(bed.vec)
                      experimentName@tssTagData <- GR.list
-                     experimentName@tssCountData <- vector(mode="list", length=bedpe.len)
+                     experimentName@tssCountData <- vector(mode="list", length=bed.len)
                  }
               GR.list <- GRangesList(bed.vec)
               experimentName@tssTagData <- GR.list
-              experimentName@tssCountData <- vector(mode="list", length=bam.len)
+              experimentName@tssCountData <- vector(mode="list", length=bed.len)
               message("Done. TSS data from ", bed.len, " separate bed files" ,
                   " have been successfully\nadded to the tssObject.\n\n")
               message("----------------------------------------------------\n")
