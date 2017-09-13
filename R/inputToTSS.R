@@ -81,7 +81,7 @@ setMethod("inputToTSS",
               message("\nBeginning input to",
                      " to TSS data conversion ...\n\n")
               if (class(experimentName@bedData[[1]])=="GRanges") { #i.e bed single-end
-              bed.len <- length(experimentName@bamData)
+              bed.len <- length(experimentName@bedData)
               bed.vec <- vector(mode="list", length=bed.len)
               bed.gr <- experimentName@bedData
               for (i in 1:bed.len) {
