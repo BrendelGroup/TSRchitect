@@ -47,7 +47,11 @@ setClass(Class="tssObject",
 #' @param title 'character' A short descriptive title for the
 #' experiment. Is set to NA by default.
 #' @param bamData 'list' the name of a list of \linkS4class{GAlignments}
-#' objects in the workspace. Set to NA by default.
+#' objects (originating from .bam files) in the workspace. 
+#' Set to NA by default.
+#' @param bedData 'list' the name of a list of \linkS4class{GRanges} or
+#' \linkS4class{pairs} objects (originating from .bed files) in the
+#' workspace. Set to NA by default.
 #'
 #' @return a new \emph{tssObject} is returned to the user's workspace.
 #'
