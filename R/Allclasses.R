@@ -1,6 +1,8 @@
 setClass(Class="tssObject",
          representation(
              title = "character",
+             inputDir = "character",
+             inputType = "character",
              fileNames = "character",
              dataType = "character",
              sampleNames = "character",
@@ -17,6 +19,8 @@ setClass(Class="tssObject",
              ),
          prototype(
              title = NA_character_,
+             inputDir = NA_character_,
+             inputType = NA_character_,
              fileNames = NA_character_,
              dataType = NA_character_,
              sampleNames = NA_character_,
@@ -43,7 +47,7 @@ setClass(Class="tssObject",
 #'
 #' @return a new \emph{tssObject} is returned to the user's workspace.
 #'
-#' @importFrom methods new
+#' @import methods
 #'
 #' @examples
 #' new.tssObj <- tssObject(title="Example")
@@ -62,6 +66,5 @@ tssObject <- function(title=NA, bamData=NA) {
         new.tssObj@bamData <- bamData
     }
 
-    message("\nA new tssObject has been created in your workspace.\n")
     return(new.tssObj)
 }

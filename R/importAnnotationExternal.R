@@ -10,9 +10,9 @@
 #' @param annotFile - a path (full or relative) to the annotation
 #' file to be imported.
 #'
-#' @return fills the slot \emph{@@annotation} in the \emph{tssObject}
-#' with a \linkS4class{GRanges} object contining a parsed annotation
-#' file of the selected type.
+#' @return fills the slot \emph{@@annotation} in the returned
+#' \emph{tssObject} with a \linkS4class{GRanges} object contining a
+#' parsed annotation file of the selected type.
 #'
 #' @importFrom GenomicRanges GRanges
 #' @importFrom rtracklayer import.bed import.gff import.gff3
@@ -21,8 +21,8 @@
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' extdata.dir <- system.file("extdata", package="TSRchitect")
 #' annotation <- dir(extdata.dir, pattern="\\.gff3$", full.names=TRUE)
-#' importAnnotationExternal(experimentName=tssObjectExample, fileType="gff3",
-#' annotFile=annotation)
+#' tssObjectExample <- importAnnotationExternal(experimentName=tssObjectExample,
+#' fileType="gff3", annotFile=annotation)
 #'
 #' @note \code{importAnnotationExternal} makes use of three functions from the
 #' \emph{rtracklayer} package: \code{\link[rtracklayer]{import.bed}},
@@ -34,6 +34,7 @@
 #' refer to \code{importAnnotationHub}
 #'
 #' @export
+#' @rdname importAnnotationExternal-methods
 
 
 setGeneric("importAnnotationExternal",
@@ -41,28 +42,29 @@ setGeneric("importAnnotationExternal",
     standardGeneric("importAnnotationExternal")
 )
 
+#' @rdname importAnnotationExternal-methods
+
 setMethod("importAnnotationExternal",
           signature(experimentName="tssObject", fileType="character",
                     annotFile="character"),
           function(experimentName, fileType=c("bed","gff","gff3"),
                    annotFile) {
-              object.name <- deparse(substitute(experimentName))
+
               message("... importAnnotationExternal ...")
-              fileType <- match.arg(fileType, c("bed","gff", "gff3"),
-                                    several.ok=FALSE)
+              fileType <- match.arg(fileType, several.ok=FALSE)
               if (fileType=="bed") {
-                  import.bed(annotFile) -> experimentName@annotation
+                  experimentName@annotation <- import.bed(annotFile)
                   }
               if (fileType=="gff") {
-                  import.gff(annotFile) -> experimentName@annotation
+                  experimentName@annotation <- import.gff(annotFile)
                   }
               if (fileType=="gff3") {
-                  import.gff3(annotFile) -> experimentName@annotation
+                  experimentName@annotation <- import.gff3(annotFile)
                   }
-              cat("Done. Annotation data have been attached to",
-                  "tssObject\nobject \"", object.name, "\".\n")
-              cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, parent.frame())
+              message("Done. Annotation data have been attached to",
+                  " the tssObject.\n")
+              message("-----------------------------------------------------\n")
               message(" Done.\n")
+              return(experimentName)
           }
           )

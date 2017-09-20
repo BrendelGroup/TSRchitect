@@ -12,7 +12,7 @@
 #' (e.g. 'human')
 #' @param annotID - 'character' the AnnotationHub identifier to be retrieved
 #'
-#' @return fills the slot \emph{@@annotation} in the \emph{tssObject}
+#' @return fills the slot \emph{@@annotation} in the returned \emph{tssObject}
 #' with an AnnotationHub record. The record retrieved must be an object
 #' of class \linkS4class{GRanges}.
 #'
@@ -24,6 +24,7 @@
 #' beforehand using \code{\link[AnnotationHub]{AnnotationHub}}
 #'
 #' @export
+#' @rdname importAnnotationHub-methods
 
 
 setGeneric("importAnnotationHub",
@@ -31,15 +32,17 @@ setGeneric("importAnnotationHub",
     standardGeneric("importAnnotationHub")
 )
 
+#' @rdname importAnnotationHub-methods
+
 setMethod("importAnnotationHub",
           signature(experimentName="tssObject", provider="character",
                     annotType="character", species="character",
                     annotID="character"),
           function(experimentName, provider, annotType, species,
                    annotID) {
-              object.name <- deparse(substitute(experimentName))
+
               message("... importAnnotationHub ...")
-              AnnotationHub() -> hub
+              hub <- AnnotationHub()
               query(hub, c(provider, annotType, species))
               message("\nRetrieving selected record from AnnotationHub record ",
                       annotID, ".\n")
@@ -49,12 +52,12 @@ setMethod("importAnnotationHub",
                        " a GRanges object. Please select another.")
               }
               else {
-                  annot.object -> experimentName@annotation
+                  experimentName@annotation <- annot.object
               }
-              cat("Done. Annotation data have been attached to",
-                  "tssObject\nobject \"", object.name, "\".\n")
-              cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, parent.frame())
+              message("Done. Annotation data have been attached to",
+                  " the tssObject.\n")
+              message("---------------------------------------------------------\n")
               message(" Done.\n")
+              return(experimentName)
           }
           )

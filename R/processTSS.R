@@ -14,13 +14,13 @@
 #' @importFrom BiocParallel bplapply MulticoreParam
 #'
 #' @return Creates a list of \linkS4class{GenomicRanges} containing TSS
-#' positions in slot \emph{tssTagData} on the \emph{tssObject}.
+#' positions in slot \emph{tssTagData} of the returned \emph{tssObject}.
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
-#' processTSS(experimentName=tssObjectExample, n.cores=1, tssSet="all",
-#' writeTable=FALSE)
+#' tssObjectExample <- processTSS(experimentName=tssObjectExample, n.cores=1,
+#' tssSet="all", writeTable=FALSE)
 #'
 #' @note Note that the \emph{tssSet} parameter must be of class
 #' \emph{character}, even when selecting an individual dataset.
@@ -28,6 +28,7 @@
 #' the vignette (/inst/doc/TSRchitect.Rmd).
 #'
 #' @export
+#' @rdname processTSS-methods
 
 
 setGeneric("processTSS",
@@ -35,43 +36,36 @@ setGeneric("processTSS",
     standardGeneric("processTSS")
 )
 
+#' @rdname processTSS-methods
+
 setMethod("processTSS",
           signature("tssObject", "numeric", "character", "logical"),
 
           function(experimentName, n.cores=1, tssSet="all", writeTable=FALSE) {
-              object.name <- deparse(substitute(experimentName))
 
               message("... processTSS ...")
               if (tssSet=="all") {
                   iend <- length(experimentName@tssTagData)
-                  if (n.cores > 1) {
-                      multicoreParam <- MulticoreParam(workers=n.cores)
-                      FUN  <- function(x) {
-                             prcTSS(experimentName, tssSet=x,
-                             writeTable=writeTable)
+                  multicoreParam <- MulticoreParam(workers=n.cores)
+                      FUN <- function(x) {
+                                prcTSS(experimentName, tssSet=x,
+                                       writeTable=writeTable)
                              }
                       experimentName@tssCountData <- bplapply(1:iend, FUN)
-                      }
-                  else {
-                     for (i in 1:iend) {
-  experimentName@tssCountData[[i]] <- prcTSS(experimentName=experimentName,
-                                            tssSet = i, writeTable=TRUE)
-                      }
-                 }
               }
               else {
                   i <- as.numeric(tssSet)
-                  if (i > length(experimentName@tssCountData)) {
+                  if (i > length(experimentName@tssTagData)) {
                       stop("The value selected for tssSet exceeds",
-                           "the number of slots in tssCountData.")
+                           "the number of slots in tssTagData.")
                   }
                   experimentName@tssCountData[[i]] <- prcTSS(experimentName =
                                                              experimentName,
                                                              tssSet = i,
-                                                             writeTable)
+                                                             writeTable=writeTable)
               }
-              cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, envir = parent.frame())
+              message("-----------------------------------------------------\n")
               message(" Done.\n")
+              return(experimentName)
           }
           )

@@ -28,10 +28,9 @@
 #' to a tab-delimited file. Defaults to TRUE.
 #`
 #' @return addAnnotationToTSR adds feature annotation to the (merged)
-#' \emph{@@tsrData} data frame and returns the updated \emph{tssObject}
-#' to the workspace.
+#' \emph{@@tsrData} data frame and returns the updated \emph{tssObject}.
 #'
-#' @importFrom BiocGenerics start end
+#' @import BiocGenerics
 #' @importFrom GenomicRanges GRanges findOverlaps promoters
 #' @importFrom IRanges IRanges
 #' @importFrom utils write.table
@@ -39,15 +38,16 @@
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
-#' addAnnotationToTSR(experimentName=tssObjectExample, tsrSetType="merged",
-#' tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript",
-#' featureColumnID="ID", writeTable=FALSE)
+#' tssObjectExample <- addAnnotationToTSR(experimentName=tssObjectExample,
+#' tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200,
+#' feature="transcript", featureColumnID="ID", writeTable=FALSE)
 #' #if the object attached to @@annotation is a gff/gff3 file
 #'
 #' @note An example similar to the this one can be found
 #' in the vignette (/inst/doc/TSRchitect.Rmd)
 #'
 #' @export
+#' @rdname addAnnotationToTSR-methods
 
 
 setGeneric("addAnnotationToTSR",
@@ -55,6 +55,8 @@ setGeneric("addAnnotationToTSR",
              downstreamDist, feature, featureColumnID, writeTable=TRUE)
     standardGeneric("addAnnotationToTSR")
 )
+
+#' @rdname addAnnotationToTSR-methods
 
 setMethod("addAnnotationToTSR",
           signature(experimentName="tssObject", "character", "numeric",
@@ -65,7 +67,6 @@ setMethod("addAnnotationToTSR",
                    downstreamDist=200, feature="gene", featureColumnID="ID",
                    writeTable=TRUE) {
 
-              object.name <- deparse(substitute(experimentName))
               message("... addAnnotationToTSR ...")
               if (tsrSetType=="replicates") {
                   if (tsrSet>length(experimentName@tsrData)) {
@@ -78,6 +79,8 @@ setMethod("addAnnotationToTSR",
                           " has been written to file ", outfname,
                           "\nin your working directory.")
                   tsr.df <- experimentName@tsrData[[tsrSet]]
+                  tsr.df$start <- as.numeric(as.character(tsr.df$start))
+                  tsr.df$end <- as.numeric(as.character(tsr.df$end))
               }
               else if (tsrSetType=="merged") {
                   if (length(experimentName@tsrDataMerged)<1) {
@@ -102,6 +105,8 @@ setMethod("addAnnotationToTSR",
                               "\nin your working directory.")
                   }
                   tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
+                  tsr.df$start <- as.numeric(as.character(tsr.df$start))
+                  tsr.df$end <- as.numeric(as.character(tsr.df$end))
               }
               else {
                   stop("Error: argument tsrSetType to addAnnotationToTSR()",
@@ -126,10 +131,14 @@ setMethod("addAnnotationToTSR",
               }
 
               # ... creating a GRanges object from the data frame tsr.df:
-              tsr.gr <- GRanges(seqnames=tsr.df$seq,
-                                ranges = IRanges(start=tsr.df$start,
-                                    end=tsr.df$end),
-                                strand=tsr.df$strand)
+              tsr.gr <- makeGRangesFromDataFrame(tsr.df,
+                                                 keep.extra.columns=FALSE,
+                                                 ignore.strand=FALSE,
+                                                 seqnames.field="seq",
+                                                 start.field="start",
+                                                 end.field="end",
+                                                 strand.field="strand",
+                                                 )
 
 #  ... defining the regions of interest for annotation.
 #  Typically this would be the predicted promoter regions based on
@@ -140,9 +149,9 @@ setMethod("addAnnotationToTSR",
 #-  a potential promoter region.
               regionOfInterest <- promoters(annot.gr, upstream=upstreamDist,
                                             downstream=downstreamDist)
-
-              idvec <- sprintf("regionOfInterest$%s",featureColumnID)
-              ID.vec <- eval(parse(text=idvec))
+              ID.vec <- S4Vectors::mcols(regionOfInterest)[featureColumnID]
+              ID.vec <- ID.vec[featureColumnID]
+              ID.vec <- as.character(unlist(ID.vec))
               overlapHitList <- findOverlaps(tsr.gr, regionOfInterest)
 #  ... overlapHitList is a hit list that indicates the overlaps
 #  between tsr.gr entries and regionOfInterest entries:
@@ -160,26 +169,25 @@ setMethod("addAnnotationToTSR",
               ID.vec[overlap.df$subjectHits]
               rownames(tsr.df) <- paste(tsr.df$seq, tsr.df$start, tsr.df$end,
                                         tsr.df$strand, sep=".")
-#adding  the promoterIDs to the rows of the tsr data frame
-
-              if (writeTable=="TRUE") {
+#writing the table to a file if writeTable=TRUE 
+              if (writeTable==TRUE) {
                   write.table(tsr.df, file=outfname, col.names=NA,
-                              row.names=TRUE,  sep="\t", quote=FALSE)
+                              row.names=TRUE, sep="\t", quote=FALSE)
                   message("\nThe updated TSR data have been written to ",
                           "file ", outfname, " in your working directory.")
               }
               #Update the record:
               if (tsrSetType=="replicates") {
-                  tsr.df -> experimentName@tsrData[[tsrSet]]
+                  experimentName@tsrData[[tsrSet]] <- tsr.df
               }
               else {
-                  tsr.df -> experimentName@tsrDataMerged[[tsrSet]]
+                  experimentName@tsrDataMerged[[tsrSet]] <- tsr.df
               }
 
-              cat("Done. GeneIDs have been associated with adjacent TSRs\n",
-                  "and the data frame has been re-assigned to its slot.\n")
-              cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, envir = parent.frame())
+              message("Done. GeneIDs have been associated with adjacent",
+                      " TSRs.\n")
+              message("-----------------------------------------------------\n")
               message(" Done.\n")
+              return( experimentName)
           }
           )

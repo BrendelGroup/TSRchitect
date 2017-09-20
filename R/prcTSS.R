@@ -1,7 +1,8 @@
 #' @title \emph{prcTSS()}
 #'
-#' @description An internal function that Creates an expression matrix for
-#' all TSSs within a given TSS experiment (in slot tssTagData)
+#' @description An internal function, invoked via processTSS, that creates an
+#' expression matrix for all TSSs within a given TSS experiment (in slot
+#' tssTagData)
 #'
 #' @param experimentName - a S4 object of class tssObject containing
 #' information in slot tssTagData
@@ -18,9 +19,6 @@
 #' "nTSSs" (num), and "strand" (+ or -),
 #' corresponding to the sequence identifier, position, tag count, and strand,
 #' respectively.
-#'
-#' @importFrom gtools mixedsort
-
 
 setGeneric("prcTSS",
     function(experimentName, tssSet, writeTable)
@@ -37,22 +35,15 @@ setMethod("prcTSS",
                   stop("The value selected exceeds the toal number of samples.")
               }
 
-              tss <- acquireTSS(experimentName, tssSet)
-
               outfname <- paste("TSSset-", tssSet, sep="")
               outfname <- paste(outfname, "txt", sep=".")
 
-              if (writeTable=="TRUE") {
-                  tss.df <- tagCountTSS(tss, outfname = outfname, writeDF=TRUE)
-              }
-              else {
-                  tss.df <- tagCountTSS(tss, outfname = outfname, writeDF=FALSE)
-              }
+              tss.df <- tagCountTSS(experimentName@tssTagData[[tssSet]],
+                                    outfname = outfname, writeDF=writeTable)
 
-              cat("\n... the TSS expression matrix for dataset ", tssSet,
-                  " has been successfully added to\ntssObject object \"",
-                  object.name, "\"\n")
-              cat("---------------------------------------------------------\n")
+              message("\n... the TSS expression matrix for dataset ", tssSet,
+                  " has been successfully\nadded to the tssObject.\n")
+              message("-----------------------------------------------------\n")
               return(tss.df)
           }
           )

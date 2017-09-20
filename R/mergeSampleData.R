@@ -5,8 +5,9 @@
 #' @param experimentName an S4 object of class \emph{tssObject} that contains
 #' information about the experiment.
 #'
-#' @return tssCountData datasets will be merged (according to the
-#' \emph{sampleIDs}) and assigned to your \emph{tssObject}.
+#' @return tssCountData datasets are merged (according to the
+#' \emph{sampleIDs}) and put in the tssCountDataMerged slot in the returned
+#' \emph{tssObject}.
 #'
 #' @importFrom GenomicRanges as.data.frame
 #' @importFrom gtools mixedorder
@@ -14,11 +15,12 @@
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
-#' mergeSampleData(experimentName=tssObjectExample)
+#' tssObjectExample <- mergeSampleData(experimentName=tssObjectExample)
 #'
 #' @note An example similar to the one provided can be found in
 #' the vignette (/inst/doc/TSRchitect.Rmd).
 #' @export
+#' @rdname mergeSampleData-methods
 
 
 setGeneric("mergeSampleData",
@@ -26,10 +28,11 @@ setGeneric("mergeSampleData",
     standardGeneric("mergeSampleData")
 )
 
+#' @rdname mergeSampleData-methods
+
 setMethod("mergeSampleData",
           signature(experimentName="tssObject"),
           function(experimentName) {
-              object.name <- deparse(substitute(experimentName))
 
               message("... mergeSampleData ...")
               if (length(experimentName@tssCountData)==0) {
@@ -53,39 +56,41 @@ setMethod("mergeSampleData",
               rep.ids <- experimentName@replicateIDs
               uni.ids <- unique(rep.ids)
               uni.ids <- uni.ids[uni.ids > 0]
+              uni.slots <- length(uni.ids)
 # ignores samples with replicateID equal to zero
               exp.data <- experimentName@tssCountData
               exp.list <- vector(mode="list")
-
-              for (i in seq_along(uni.ids)) {
-                  data.frame() -> my.df
-                  which(rep.ids==i) -> my.ind
-                  exp.data[my.ind] -> replicate.set
-                  for (j in 1:length(replicate.set)) {
-                      rbind(my.df, replicate.set[[j]]) -> my.df
-                  }
-                  my.df <- my.df[with(my.df, order(seq, TSS)),]
-                  my.df <- my.df[with(my.df, mixedorder(seq)),]
-                  my.df -> exp.list[[i]]
+              exp.sort <- lapply(exp.data,
+                              function(df) {
+                                  df[order(df$seq, df$TSS),]
+                                  df[mixedorder(df$seq),]
+                              })
+              df.ind <- lapply(seq_along(uni.ids),
+                               function(i) {
+                                   which(rep.ids==i)
+                               })
+              for (i in seq_along(df.ind)) {
+                  new.list <- exp.sort[df.ind[[i]]]
+                  this.df <- do.call(rbind, new.list)
+                  this.df <- this.df[order(this.df$seq, this.df$TSS),]
+                  exp.list[[i]] <- this.df
               }
 
 # The following few lines merge the merged tssCountData into the last
 # experimentName@tssCountDataMerged slot, representing the entire
 # collection of TSS tag counts in the experiment
 
-              data.frame() -> my.df
-              for (i in seq_along(uni.ids)) {
-                  rbind(my.df, exp.list[[i]]) -> my.df
-              }
-              my.df <- my.df[with(my.df, order(seq, TSS)),]
-              my.df <- my.df[with(my.df, mixedorder(seq)),]
-              my.df -> exp.list[[i+1]]
+              n.slots <- length(uni.ids) + 1
+              my.df <- as.data.frame(do.call(rbind, exp.list))
+              my.df <- my.df[order(my.df$seq, my.df$TSS),]
+              my.df <- my.df[mixedorder(my.df$seq),]
+              exp.list[[n.slots]] <- my.df
 
               experimentName@tssCountDataMerged <- exp.list
-              cat("\n... the TSS expression data have been successfully merged",
-                    "and added to\ntssObject object \"", object.name, "\"\n")
-              cat("---------------------------------------------------------\n")
-              assign(object.name, experimentName, envir = parent.frame())
+              message("\n... the TSS expression data have been merged",
+                    "\nand added to the tssObject object.\n")
+              message("------------------------------------------------------\n")
               message(" Done.\n")
+              return(experimentName)
           }
           )

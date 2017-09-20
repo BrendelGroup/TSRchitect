@@ -20,7 +20,7 @@ setMethod("show",
               else {
                   cat("The TSS data type has not been specified.\n")
               }
-              if (is.na(object@fileNames)==FALSE) {
+              if (length(is.na(object@fileNames))>0) {
                   cat("and originate in the following files:\n")
                   for (i in 1:length(object@fileNames)) {
                       cat(paste(object@fileNames[i]), sep="\n")
@@ -30,7 +30,7 @@ setMethod("show",
               else {
                   cat("\nNo *.bam files have been added. \n")
               }
-              if (is.na(object@sampleNames)==FALSE) {
+              if (length(is.na(object@sampleNames))>0) {
                   cat("\nThe names of the datasets are:\n")
                   for (i in 1:length(object@fileNames)) {
                       cat(paste(object@sampleNames[i]), sep="\n")
@@ -45,7 +45,6 @@ setMethod("show",
                   cat(length(object@tssTagData))
                   cat(" replicate TSS datasets were loaded into the",
                       "tssObject")
-                  cat(object.name)
                   cat(".\n")
               }
               else {
@@ -56,7 +55,6 @@ setMethod("show",
                   cat("\n")
                   cat("Replicate datasets have been merged on the",
                       "tssObject")
-                  cat(object.name)
                   cat(".\n")
               }
               else {

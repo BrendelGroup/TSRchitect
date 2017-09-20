@@ -1,18 +1,24 @@
 #' detTSR
-#' Finds TSRs from a given sequence (Internal function)
+#' @description An internal function, which is invoked using the user-level
+#' function determineTSR that identifies TSRs from the selected tssSet 
+#' (Internal function)
 #'
 #' @param experimentName - a S4 object of class tssObject containing
 #' information in slot tssTagData
-#' @param tsrSetType - specifies the set to be clustered.
-#' Options are "replicates" or "merged".
+#' @param tsrSetType - specifies the set to be clustered. Options are
+#' "replicates" or "merged"
 #' @param tssSet - number of the dataset to be analyzed
 #' @param tagCountThreshold - number of TSSs required at a given position
 #' @param clustDist - maximum distance of TSSs between two TSRs (in base pairs)
 #'
-#' @keywords internal
+#  @keywords internal
 #'
-#' @return creates a list of GenomicRanges containing TSR positions in slot
-#' 'tsrData' on your tssObject object
+#' @return via the user-level function determineTSR, creates a list of
+#' GenomicRanges objects containing TSR positions in slot 'tsrData' on
+#' the tssObject object
+#' 
+#' @export
+#' @rdname detTSR-methods
 
 
 setGeneric("detTSR",
@@ -20,6 +26,8 @@ setGeneric("detTSR",
              clustDist)
     standardGeneric("detTSR")
 )
+
+#' @rdname detTSR-methods
 
 setMethod("detTSR",
           signature(experimentName="tssObject", "character", "numeric",
@@ -52,11 +60,10 @@ setMethod("detTSR",
                        "either \"replicates\" or \"merged\".")
               }
 
-              tsr.list <- tsrCluster(tss.df, minNbrTSSs=tagCountThreshold,
-                                     minDist=clustDist)
-              tsr.DF <- tsrToDF(tsr.list)
+              tsr.DF <- tsrCluster(tss.df, minNbrTSSs=tagCountThreshold,
+                                   minDist=clustDist)
 
-              cat("---------------------------------------------------------\n")
+              message("---------------------------------------------------------\n")
               message(" Done.\n")
               return(tsr.DF)
           }

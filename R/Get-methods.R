@@ -4,7 +4,8 @@
 #'
 #' @param experimentName n S4 object of class \emph{tssObject}
 #'
-#' @return the contents of slot "title" are returned
+#' @return the contents of slot "title" are returned, which are of class
+#' "character"
 #'
 #' @keywords methods
 #'
@@ -15,12 +16,15 @@
 #' example.title
 #'
 #' @export
+#' @rdname getTitle-methods
 
 
 setGeneric("getTitle",
     function(experimentName)
     standardGeneric("getTitle")
 )
+
+#' @rdname getTitle-methods
 
 setMethod("getTitle",
            signature(experimentName = "tssObject"),
@@ -36,7 +40,8 @@ setMethod("getTitle",
 #'
 #' @param experimentName an S4 object of class \emph{tssObject}
 #'
-#' @return the contents of slot "fileNames" are returned
+#' @return the contents of slot "fileNames" are returned, which are
+#' a vector of class "character"
 #'
 #' @keywords methods
 #'
@@ -47,6 +52,7 @@ setMethod("getTitle",
 #' example.file.names
 #'
 #' @export
+#' @rdname getFileNames-methods
 
 setGeneric(
 name="getFileNames",
@@ -54,6 +60,8 @@ def=function(experimentName){
 	standardGeneric("getFileNames")
 }
 )
+
+#' @rdname getFileNames-methods
 
 setMethod("getFileNames",
 signature(experimentName = "tssObject"),
@@ -82,6 +90,7 @@ function (experimentName){
 #' example.bamData
 #'
 #' @export
+#' @rdname getBamData-methods
 
 setGeneric(
 name="getBamData",
@@ -89,6 +98,8 @@ def=function(experimentName, slot){
 	standardGeneric("getBamData")
 }
 )
+
+#' @rdname getBamData-methods
 
 setMethod("getBamData",
 signature(experimentName = "tssObject", slot = "numeric"),
@@ -121,6 +132,7 @@ function (experimentName, slot){
 #' example.tssTagData
 #'
 #' @export
+#' @rdname getTSStagData-methods
 
 setGeneric(
 name="getTSStagData",
@@ -128,6 +140,8 @@ def=function(experimentName, slot){
 	standardGeneric("getTSStagData")
 }
 )
+
+#' @rdname getTSStagData-methods
 
 setMethod("getTSStagData",
           signature(experimentName = "tssObject", slot = "numeric"),
@@ -166,6 +180,7 @@ setMethod("getTSStagData",
 #' ex.tssCountData
 #'
 #' @export
+#' @rdname getTSScountData-methods
 
 setGeneric(
 name="getTSScountData",
@@ -174,13 +189,14 @@ def=function(experimentName, slotType, slot){
 }
 )
 
+#' @rdname getTSScountData-methods
+
 setMethod("getTSScountData",
           signature(experimentName = "tssObject", slotType = "character",
                     slot = "numeric"),
           function (experimentName, slotType = c("replicates", "merged"),
                     slot) {
-              fileType <- match.arg(slotType, c("replicates","merged"),
-                                    several.ok=FALSE)
+              fileType <- match.arg(slotType, several.ok=FALSE)
               if (slotType=="replicates") {
                   n.tss.counts  <- length(experimentName@tssCountData)
                   if (slot > n.tss.counts) {
@@ -226,6 +242,7 @@ setMethod("getTSScountData",
 #' ex.tsrData
 #'
 #' @export
+#' @rdname getTSRdata-methods
 
 setGeneric(
 name="getTSRdata",
@@ -234,13 +251,14 @@ def=function(experimentName, slotType, slot){
     }
 )
 
+#' @rdname getTSRdata-methods
+
 setMethod("getTSRdata",
           signature(experimentName = "tssObject", slotType = "character",
                     slot = "numeric"),
           function (experimentName, slotType = c("replicates", "merged"),
                     slot) {
-                    fileType <- match.arg(slotType, c("replicates","merged"),
-                                    several.ok=FALSE)
+                    fileType <- match.arg(slotType, several.ok=FALSE)
                     if (slotType=="replicates") {
                         n.tsrs  <- length(experimentName@tsrData)
                         if (slot > n.tsrs) {
