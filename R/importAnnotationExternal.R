@@ -34,12 +34,15 @@
 #' refer to \code{importAnnotationHub}
 #'
 #' @export
+#' @rdname importAnnotationExternal-methods
 
 
 setGeneric("importAnnotationExternal",
     function(experimentName, fileType, annotFile)
     standardGeneric("importAnnotationExternal")
 )
+
+#' @rdname importAnnotationExternal-methods
 
 setMethod("importAnnotationExternal",
           signature(experimentName="tssObject", fileType="character",

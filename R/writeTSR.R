@@ -30,12 +30,15 @@
 #' https://genome.ucsc.edu/FAQ/FAQformat#format1
 #'
 #' @export
+#' @rdname writeTSR-methods
 
 
 setGeneric("writeTSR",
     function(experimentName, tsrSetType, tsrSet=1, fileType="tab")
     standardGeneric("writeTSR")
 )
+
+#' @rdname writeTSR-methods
 
 setMethod("writeTSR",
           signature(experimentName="tssObject", "character", "numeric",

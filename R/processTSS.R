@@ -28,12 +28,15 @@
 #' the vignette (/inst/doc/TSRchitect.Rmd).
 #'
 #' @export
+#' @rdname processTSS-methods
 
 
 setGeneric("processTSS",
     function(experimentName, n.cores, tssSet, writeTable)
     standardGeneric("processTSS")
 )
+
+#' @rdname processTSS-methods
 
 setMethod("processTSS",
           signature("tssObject", "numeric", "character", "logical"),

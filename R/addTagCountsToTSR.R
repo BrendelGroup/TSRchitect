@@ -28,6 +28,7 @@
 #' the vignette (/inst/doc/TSRchitect.Rmd)
 #'
 #' @export
+#' @rdname addTagCountsToTSR-methods
 
 
 setGeneric("addTagCountsToTSR",
@@ -35,6 +36,8 @@ setGeneric("addTagCountsToTSR",
              writeTable=TRUE)
     standardGeneric("addTagCountsToTSR")
 )
+
+#' @rdname addTagCountsToTSR-methods
 
 setMethod("addTagCountsToTSR",
           signature(experimentName="tssObject", "character", "numeric",

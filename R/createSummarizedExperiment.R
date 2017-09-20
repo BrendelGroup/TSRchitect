@@ -12,7 +12,7 @@
 #' @param tsrSet number of the dataset to be processed (numeric).
 #' @param samplePrefix the prefix (or prefixes) that match the sample
 #' identifiers in the tsrData column. (character)
-
+#'
 #' @return a summarizedExperiment object from the specified TSR data set
 #' that is to be written to your working directory.
 #'
@@ -29,12 +29,15 @@
 #' https://bioconductor.org/packages/release/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html
 #'
 #' @export
+#' @rdname createSummarizedExperiment-methods
 
 
 setGeneric("createSummarizedExperiment",
     function(experimentName, tsrSetType="merged", tsrSet=1, samplePrefix)
     standardGeneric("createSummarizedExperiment")
 )
+
+#' @rdname createSummarizedExperiment-methods
 
 setMethod("createSummarizedExperiment",
           signature("tssObject", "character", "numeric",

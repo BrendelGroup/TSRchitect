@@ -20,12 +20,15 @@
 #' @note An example similar to the one provided can be found in
 #' the vignette (/inst/doc/TSRchitect.Rmd).
 #' @export
+#' @rdname mergeSampleData-methods
 
 
 setGeneric("mergeSampleData",
     function(experimentName)
     standardGeneric("mergeSampleData")
 )
+
+#' @rdname mergeSampleData-methods
 
 setMethod("mergeSampleData",
           signature(experimentName="tssObject"),
