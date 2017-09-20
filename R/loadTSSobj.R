@@ -1,6 +1,6 @@
 #' @title \strong{loadTSSobj}
-#' @description \code{loadTSSobj} processes alignment files in .bam format
-#' from the local directory supplied.
+#' @description \code{loadTSSobj} processes alignment files in .bam or .bed
+#' formats from the local directory supplied.
 #'
 #' @param experimentTitle a descriptive title for the experiment (character).
 #' @param inputDir path to the directory containing the alignment files (in
@@ -131,7 +131,7 @@ setMethod("loadTSSobj", #both BAM and BED files
                   #now for BED files (if present)
               tss_filesBED <- list.files(inputDir, pattern="\\.bed$",
                                          all.files=FALSE, full.names=TRUE)
-              if (length(tss_filesBED) > 1) {
+              if (length(tss_filesBED) > 0) {
                   if (isPairedBED == TRUE) {
                   message("\nImporting paired-end reads ...\n")
                   tssObj@fileNamesBED <- tss_filesBED
