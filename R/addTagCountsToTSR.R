@@ -100,7 +100,7 @@ setMethod("addTagCountsToTSR",
                  this.tssSet <-
                            this.tssSet[this.tssSet$nTSSs >= tagCountThreshold, ]
                  countv <- numeric(nrow(currentTSRset))
-                 if (nrow(this.tssSet) > 0) {
+                 if (nrow(this.tssSet) > 0  && nrow(currentTSRset) > 0) {
   # ... the following only makes sense if this.tssSet is non-empty
 
 #...  now considering each current TSR in turn (index k):
