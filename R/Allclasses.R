@@ -55,7 +55,6 @@ setClass(Class="tssObject",
 #'
 #' @return a new \emph{tssObject} is returned to the user's workspace.
 #'
-#' @import methods
 #' @importClassesFrom S4Vectors Pairs
 #'
 #' @examples

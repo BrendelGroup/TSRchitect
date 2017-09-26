@@ -9,7 +9,6 @@
 #' \emph{experimentName}, placing them them in the returned \emph{tssObject}.
 #' 
 #' @import BiocGenerics
-#' @import methods
 #' @importFrom GenomicRanges granges GRanges GRangesList
 #' @importFrom GenomeInfoDb sortSeqlevels
 #' @importFrom IRanges IRanges
