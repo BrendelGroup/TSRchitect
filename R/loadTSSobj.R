@@ -30,6 +30,7 @@
 #' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
+#' @importFrom methods new
 #' @importFrom rtracklayer import import.bed
 #'
 #' @examples
