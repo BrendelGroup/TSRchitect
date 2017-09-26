@@ -1,6 +1,6 @@
 Package: TSRchitect
-Version: 1.0.1
-Date: 2017-09-11
+Version: 1.1.0
+Date: 2017-09-26
 Title: Promoter identification from large-scale TSS profiling data
 Description: In recent years, large-scale transcriptional sequence data has
     yielded considerable insights into the nature of gene expression and regulation
@@ -35,7 +35,6 @@ Imports:
     GenomicRanges,
     gtools,
     IRanges,
-    methods,
     Rsamtools (>= 1.14.3),
     rtracklayer,
     S4Vectors,
@@ -54,4 +53,3 @@ biocViews: Clustering, FunctionalGenomics, GeneExpression,
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2017-01-18 15:20:28 UTC; rtraborn

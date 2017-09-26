@@ -47,8 +47,8 @@ on the returned \emph{tssObject} with \linkS4class{GAlignments} objects
 (for .bam files), or \linkS4class{GRanges} objects (for .bed files).
 }
 \description{
-\code{loadTSSobj} processes alignment files in .bam format
-from the local directory supplied.
+\code{loadTSSobj} processes alignment files in .bam or .bed
+formats from the local directory supplied.
 }
 \note{
 An example similar to the one provided can be found in
