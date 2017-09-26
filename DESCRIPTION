@@ -35,6 +35,7 @@ Imports:
     GenomicRanges,
     gtools,
     IRanges,
+    methods,
     Rsamtools (>= 1.14.3),
     rtracklayer,
     S4Vectors,
