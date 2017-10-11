@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>TSRchitect User&#39;s Guide</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h1>TSRchitect User&#39;s Guide</h1>
+
+<h2>R. Taylor Raborn and Volker P. Brendel</h2>
+
+<h2>Department of Biology, Indiana University</h2>
+
+<h2>First edition 25 January 2017</h2>
+
+<h2>Updated 6 April 2017</h2>
+
+<p>TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
+In recent years, large-scale TSS profiling data has characterized the landscape of transcription initiation at high resolution, identifying promoter architecture in a number of eukaryotic model systems, including human, mouse, fruit fly and worm.
+TSRchitect can handle TSS profiling experiments that contain either single-end or paired-end sequence reads.</p>
+
+<p>Examples of TSS profiling data types that TSRchitect is capable of handling are:</p>
+
+<ul>
+<li>CAGE (Cap Analysis of Gene Expression) [Single-end]</li>
+<li>PEAT (Paired-end Analysis of Transcription) [Paired-end]</li>
+<li>RAMPAGE (RNA Annotation and Mapping of Promoters for Analysis of Gene Expression) [Paired-end]</li>
+<li>CapSeq [Single-end]</li>
+<li>TSS-seq [Single-end]</li>
+</ul>
+
+<p>TSRchitect provides the capability to efficiently identify putative promoters&mdash;which we call transcription start regions (TSRs)&mdash;from TSS profiling experiments.
+TSRchitect can accomodate multipel datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calcualtes a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width and the Shape Index (SI).
+Finally, TSRchitect&#39;s output is compatible with popular differential expression software such as <a href="https://bioconductor.org/packages/release/bioc/html/edgeR.html">edgeR</a>, assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another. In addition to this vignette, the TSRchitect Reference Manual is available as part of the package&#39;s online documentation.</p>
+
+<h2>Getting started</h2>
+
+<p>In your current directory, create subdirectories as follows on the command line.</p>
+
+<pre><code class="bash">mkdir downloads
+cd downloads
+mkdir HsRAMPAGEbam
+</code></pre>
+
+<p>Now that this is complete, we proceed with the first of the three examples contained in this vignette.</p>
+
+<h2>Example 1: Identifying promoters from RAMPAGE data derived from two human cell lines.</h2>
+
+<p>RAMPAGE is a TSS profiling method that identifies promoters at large-scale using a cap-based library construction method that is adapted for paired-end sequencing. Developed recently by Batut and Gingeras (2013), it has become a popular method for promoter identification and is currently part of the data compredium in the latest edition of the ENCODE project.</p>
+
+<p>In this example we will process RAMPAGE data derived from two immortalized human cell lines with TSRchitect. The experiments selected for this vignette are part of the ENCODE project and are publically available online at the <a href="https://www.encodeproject.org/matrix/?type=Experiment">ENCODE Experiment matrix</a>. The two samples come from HT1080 cells, which is a well-characterized fibrosarcoma cell line, and NCI-H460 cells, which are derived from a large cell lung carcinoma in a male patient. </p>
+
+<p>To begin, we must first download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) to our local system. To accomplish this we will utilize the &ldquo;ENCODExplorer&rdquo; package, which is part of the Bioconductor suite. More information on ENCODExplorer package can be found at the following link: <a href="https://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html">https://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html</a>.</p>
+
+<p>Now we can proceed (in the R console) with downloading the data:</p>
+
+<pre><code class="r">#Downloading the files:
+library(ENCODExplorer)
+data(encode_df, package=&quot;ENCODExplorer&quot;)
+datasets &lt;- fuzzySearch(searchTerm=c(&quot;ENCFF214GWH&quot;, &quot;ENCFF265SGZ&quot;, &quot;ENCFF242UWH&quot;, &quot;ENCFF348EKW&quot;), database=encode_df, filterVector=c(&quot;file_accession&quot;), multipleTerm=TRUE)
+downloadEncode(datasets, df=encode_df, format=&quot;bam&quot;)
+</code></pre>
+
+<p>Once the above steps are complete, we will move the files into the subdirectory <code>downloads/</code> to keep a record of data provenance.
+To use TSRchitect in this example, we coveniently use symbolic links to give more intuitive names to the datasets (as well as ordering them in proper order; see below):</p>
+
+<pre><code class="bash">#The following are to be executed in your shell terminal:
+mv *.bam downloads
+cd downloads
+cd HsRAMPAGEbam
+ln -s ../downloads/ENCFF214GWH.bam H460-rep1.bam
+ln -s ../downloads/ENCFF265SGZ.bam H460-rep2.bam
+ln -s ../downloads/ENCFF242UWH.bam HT1080-rep1.bam
+ln -s ../downloads/ENCFF348EKW.bam HT1080-rep2.bam
+cd ..
+</code></pre>
+
+<p>We&#39;ll also need to download a human gene annotation, which will be important a little later.</p>
+
+<p>Please download and uncompress the annotation file and move it into the downloads/ folder.</p>
+
+<p>The file is found here:
+<a href="ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz">ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz</a></p>
+
+<p>Now that we have our input and annotation files prepared, we can load TSRchitect into our R workspace:</p>
+
+<pre><code class="r">#loading TSRchitect
+library(TSRchitect)
+</code></pre>
+
+<p>Next we&#39;ll initialize our dedicated S4 object&mdash;called the tssObject&mdash;on which TSRchitect&#39;s
+functions are applied, using <code>loadTSSobj</code>. We also need to supply other information about the
+experiment as arguments. This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. </p>
+
+<pre><code class="r">Hs_RAMPAGE &lt;- loadTSSobj(expTitle =&quot;Human RAMPAGE&quot;, inputDir=&quot;HsRAMPAGEbam/&quot;, /
+isPairedEndBAM=TRUE, sampleNames=c(&quot;H460-rep1&quot;, /
+&quot;H460-rep2&quot;, &quot;HT1080-rep1&quot;, &quot;HT1080-rep2&quot;), replicateIDs=c(1,1,2,2))
+</code></pre>
+
+<p>Next we need to provide the sample names and specify which samples are biological replicates.
+In this case we are working with 4 total datasets and 2 samples in duplicate. Please note that, because the alignments on our <code>bamData</code> slot are organized in ascending alphabetical order (as are the file names on the <code>fileNames</code> slot), we must provide our identifiers in <code>sampleNames</code> and <code>replicateIDs</code> to directly correspond to this.
+To check this on the tssObject <a href="http://adv-r.had.co.nz/S4.html">S4 object</a> you have created, simply check the list of .bam files as follows using one of TSRchitect&#39;s accessor methods.</p>
+
+<pre><code class="r">#obtaining a list of bam files loaded to the tssObject S4 object
+getFileNames(experimentName=Hs_RAMPAGE)
+</code></pre>
+
+<p>Now that the alignment files have been imported and attached to our tssObject S4 object, we continue by computing the TSSs from the alignment (in this case .bam) files.</p>
+
+<pre><code class="r">Hs_RAMPAGE &lt;- inputToTSS(experimentName=Hs_RAMPAGE)
+</code></pre>
+
+<p>Next we will calculate the abundance of each tag in our TSS datasets. TSRchitect provides the option to run this function in parallel, so for this example we chose to run this on 4 cores. Please adjust this as your compute resource permits.</p>
+
+<pre><code class="r">Hs_RAMPAGE &lt;- processTSS(experimentName=Hs_RAMPAGE, n.cores=4, tssSet=&quot;all&quot;, writeTable=TRUE)
+</code></pre>
+
+<p>Since we specified &#39;writeTable=TRUE&#39;, files (entitled &ldquo;TSSset-1.txt&rdquo; to &ldquo;TSSset-4.txt&rdquo;) containing TSS abundance will be written into your working directory. 
+Now that we have calculated the abundance for each TSS in the previous step we can calculate TSRs (promoters) on each of the 4 separate datasets using the function <code>determineTSR</code>.
+We select a <code>tagCount</code> threshold of 25 tags in order for a TSS to be considered.
+The option <code>clustDist</code> is critical for the identification of TSRs and refers to the minimum distance between distinct TSRs (in other words, adjacent TSSs seperated by more than <code>clustDist</code> nucleotides will be in different TSRs).
+As with the previous step, we select &#39;writeTable=TRUE&#39;, and therefore we will find the output files (&ldquo;TSRset-1&rdquo; to &ldquo;TSRset-4&rdquo;) written to the working directory. As for <code>processTSS</code>, we can run this function in parallel. We have specified 4 cores. </p>
+
+<pre><code class="r">Hs_RAMPAGE &lt;- determineTSR(experimentName=Hs_RAMPAGE, n.cores=4, /
+tsrSetType=&quot;replicates&quot;, tssSet=&quot;all&quot;, tagCountThreshold=25, clustDist=20, /
+writeTable=TRUE)
+</code></pre>
+
+<p>To calculate TSRs from each sample (as opposed to each replicate) we need to combine our replicate data. This will be done using the identifiers we specified on our tssObject S4 object using <code>loadTSSobj</code>.</p>
+
+<pre><code class="r">Hs_RAMPAGE &lt;- mergeSampleData(experimentName=Hs_RAMPAGE)
+</code></pre>
+
+<p>Having combined the TSS abundance of replicate data into samples, we next proceed with identifying TSRs for the two samples individually.
+We specify this with &#39;tsrSetType=&ldquo;merged&rdquo;&#39;.</p>
+
+<pre><code class="r">#Generating the TSRs for the merged datasets:
+Hs_RAMPAGE &lt;- determineTSR(experimentName=Hs_RAMPAGE, n.cores=4, tsrSetType=&quot;merged&quot; /
+tssSet=&quot;all&quot;, tagCountThreshold=40, clustDist=20, writeTable=TRUE)
+</code></pre>
+
+<p>Now calculating the number of tags from each experiment within the combined set of TSRs:</p>
+
+<pre><code class="r">Hs_RAMPAGE &lt;- addTagCountsToTSR(experimentName=Hs_RAMPAGE, tsrSetType=&quot;merged&quot;, /
+tsrSet=3, tagCountThreshold=40, writeTable=TRUE)
+</code></pre>
+
+<h3>Associating identified TSRs with gene annotations</h3>
+
+<p>Now that identifying TSRs are complete, an obvious and biologically useful step is to determine which TSRs are adjacent to annotated genes, and to retrieve the appropriate gene IDs. Before doing this, it is imperative to select an annotation file that was generated for the assembly to which the reads were aligned. For this example we will retrieve the appropriate annotation files from the Bioconductor package <code>AnnotationHub</code>.</p>
+
+<p>Please install <code>AnnotationHub</code> if you haven&#39;t already done so.</p>
+
+<pre><code class="r">source(&quot;https://bioconductor.org/biocLite.R&quot;) 
+biocLite(&quot;AnnotationHub&quot;)
+</code></pre>
+
+<p>In our case we need to download the <a href="https://www.gencodegenes.org/">Gencode</a> annotation.
+We do this in the following manner:</p>
+
+<pre><code class="r">library(AnnotationHub)
+hub &lt;- AnnotationHub()
+query(hub, c(&quot;gencode&quot;, &quot;gff&quot;, &quot;human&quot;))
+</code></pre>
+
+<p>This reveals nine gff3 annotations from Gencode that we can choose from.
+We will select the full annotation, which has the identifier &ldquo;AH49555&rdquo;.</p>
+
+<pre><code>AnnotationHub with 9 records
+# snapshotDate(): 2017-01-05
+# $dataprovider: Gencode
+# $species: Homo sapiens
+# $rdataclass: GRanges
+# additional mcols(): taxonomyid, genome, description,
+#   coordinate_1_based, maintainer, rdatadateadded, preparerclass, tags,
+#   sourceurl, sourcetype
+# retrieve records with, e.g., &#39;object[[&quot;AH49554&quot;]]&#39;
+
+            title                                                   
+  AH49554 | gencode.v23.2wayconspseudos.gff3.gz                     
+  AH49555 | gencode.v23.annotation.gff3.gz                          
+  AH49556 | gencode.v23.basic.annotation.gff3.gz                    
+  AH49557 | gencode.v23.chr_patch_hapl_scaff.annotation.gff3.gz     
+  AH49558 | gencode.v23.chr_patch_hapl_scaff.basic.annotation.gff3.gz
+  AH49559 | gencode.v23.long_noncoding_RNAs.gff3.gz                 
+  AH49560 | gencode.v23.polyAs.gff3.gz                              
+  AH49561 | gencode.v23.primary_assembly.annotation.gff3.gz         
+  AH49562 | gencode.v23.tRNAs.gff3.gz
+
+</code></pre>
+
+<p>Using TSRchitect, We can use the function <code>importAnnotationHub</code> to import our desired annotated record and attach it our <code>tssObject</code>.
+We accomplish this as follows:</p>
+
+<pre><code class="r">Hs_RAMPAGE &lt;- importAnnotationHub(experimentName=Hs_RAMPAGE, provider=&quot;gencode&quot;, /
+annotType=&quot;gff3&quot;, species=&quot;human&quot;, ID=&quot;AH49555&quot;)
+</code></pre>
+
+<p>Next, we associate the gene annotation to the TSRs within our two merged samples.
+We selected the feature &#39;transcript&#39; from the Gencode annotation. </p>
+
+<pre><code class="r">Hs_RAMPAGE &lt;- addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType=&quot;merged&quot;, /
+tsrSet=1, upstreamDist=1000, downstreamDist=200, feature=&quot;transcript&quot;, /
+featureColumnID=&quot;ID&quot;, writeTable=TRUE)
+
+Hs_RAMPAGE &lt;- addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType=&quot;merged&quot;, /
+tsrSet=2, upstreamDist=1000, downstreamDist=200, feature=&quot;transcript&quot;, /
+featureColumnID=&quot;ID&quot;, writeTable=TRUE)
+</code></pre>
+
+<p>Finally, we will repeat the two commands above, instead associating the gene annotation to the &ldquo;combined&rdquo; set of TSRs, which is found in the 3rd position on the <code>tsrDataMerged</code> slot.</p>
+
+<pre><code class="r">Hs_RAMPAGE &lt;- addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType=&quot;merged&quot;, /
+tsrSet=3, upstreamDist=1000, downstreamDist=200, feature=&quot;transcript&quot;, /
+featureColumnID=&quot;ID&quot;, writeTable=TRUE)
+</code></pre>
+
+<p>Let&#39;s briefly look at the sets of TSRchitect-identified TSRs.</p>
+
+<p>Using the accessor methods we applied in earlier examples, let&#39;s take a quick glance at our set of identified TSRs.</p>
+
+<pre><code class="r">HT1080.tsrs &lt;- getTSRdata(Hs_RAMPAGE, slotType=&quot;merged&quot;, slot=1)
+dim(HT1080.tsrs)
+</code></pre>
+
+<pre><code class="r">H460.tsrs &lt;- getTSRdata(Hs_RAMPAGE, slotType=&quot;merged&quot;, slot=2)
+dim(H460)
+</code></pre>
+
+<pre><code class="r">combined.tsrs &lt;- getTSRdata(Hs_RAMPAGE, slotType=&quot;merged&quot;, slot=3)
+dim(combined.tsrs)
+</code></pre>
+
+<p>Let&#39;s look at some of the tsrs we identified on our &#39;combined&#39; set.</p>
+
+<pre><code class="r">head(combined.tsrs)
+</code></pre>
+
+<p>We see that there are 22750 TSRs identified in the combined set, and 15904 and 18040 TSRs in the H460 and HT1080 samples, respectively.
+We also notice that there are 5 additional columns in the combined set.
+This is due to us previouly having added tag counts to the combined set of TSRs using addTagCountsToTSR&#39;, something we did not do in this vignette for the two individual samples.</p>
+
+<p>You now have a complete set of TSS and TSR data attached to your <code>tssObject</code> S4 object, in addition the tables that were already written to your working directory.</p>
+
+<p>To better understand our data, let&#39;s explore some of the characteristics of the TSRs we have identified. TSRchitect calculates the Shape Index (SI) of each TSR; the SI provides a quantitative measure of TSR (and thus promoter) shape by representing the entropy of the distribution of TSSs associated with it. An SI of 2 (which is the maximum value possible) will have only a single unique TSS coordinate, whereas a TSR with a negative SI value will have an diversity of mapped 5&#39; ends at distinct TSS positions. We can use SI values to classify TSRs into &#39;peaked&#39; and &#39;broad&#39; classes, having high and low SI values, respectively.</p>
+
+<p>We can visualize the shape distribution of our identified TSRs quite easily using Hadley Wickham&#39;s <code>ggplot2</code> graphics package, as follows. For these plots we filter will out TSRs at lower abundances (100 tags/TSR) to show only the SI values from reasonably well-sampled TSRs.</p>
+
+<pre><code class="r">require(ggplot2)
+HT1080.tsrs.filtered &lt;- HT1080.tsrs[HT1080.tsrs$nTSSs &gt; 100,]
+t &lt;- ggplot(HT1080.tsrs.filtered, aes(shapeIndex))
+t + geom_histogram(bidwith=0.1, fill=&quot;blue2&quot;) /
++ ylab(&quot;Number of Tags per TSR&quot;) + xlab(&quot;Shape Index (SI)&quot;)
+ggsave(file=&quot;HT1080_SI.png)
+</code></pre>
+
+<pre><code class="r">H460.tsrs.filtered &lt;- H460.tsrs[H460.tsrs$nTSSs &gt; 100,]
+p &lt;- ggplot(H460.tsrs.filtered, aes(shapeIndex))
+p + geom_histogram(bidwith=0.1, fill=&quot;darkgreen&quot;) /
++ ylab(&quot;Number of Tags per TSR&quot;) + xlab(&quot;Shape Index (SI)&quot;)
+ggsave(file=&quot;H460_SI.png&quot;)
+</code></pre>
+
+<p>From both histograms we can see that there appears to be a bimodal distribution of TSRs within our samples; the class of &#39;completely peaked&#39; TSRs with an SI value of 2, and another distribution of more broad TSRs with SI values centered just below 0. This is consistent with two major shape classes of TSRs known in metazoans, particularily human and mouse.</p>
+
+<p>Similarly, we could use the same code framework above to plot the distributions of TSR width and/or nTSSs; to do this we would select the appropriate column.</p>
+
+<p>This concludes Example 1. Should we wish to save our tssObject and return to our work later, we simply type the following, which will write an R binary to your working directory.</p>
+
+<pre><code class="r">save(Hs_RAMPAGE, file=&quot;Hs_RAMPAGE.RData&quot;)
+</code></pre>
+
+<p><strong>Important note</strong>: before you continue with another example, please move the output files generated in your working directory to a separate, dedicated folder.
+Otherwise some or all of the files you generate in subsequent examples will be overwritten.</p>
+
+<h2>Example 2: Identifying promoters in the model plant A. thaliana using a PEAT dataset.</h2>
+
+<p>For our second example will process TSS profiling data from Arabidopsis root tissue.
+These data come from the Megraw Lab at Oregon State University as reported in Morton et al., 2014. <a href="http://www.plantcell.org/content/26/7/2746">Link to paper:</a></p>
+
+<p>As with the previous example, we first must download the raw data. In this case we have only a single alignment file to retrieve, which is found here: <a href="https://drive.google.com/open?id=0B5WxM8Ere19uZmlHM1F3ZS1iWWc">https://drive.google.com/open?id=0B5WxM8Ere19uZmlHM1F3ZS1iWWc</a>.</p>
+
+<p>The annotation file is available from the TAIR10 database: <a href="ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff">ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff</a>. Please move it into the downloads/ folder you have created.</p>
+
+<p>Once download of the file <code>peat.sorted.bam</code> is complete, please move it to subdirectory &ldquo;PEATbam/&rdquo;.
+Since there is only a single experiment, setting the sample IDs is simple:</p>
+
+<pre><code class="r">At_PEAT &lt;- loadTSSobj(expTitle =&quot;Arabidopsis PEAT dataset&quot;, inputDir=&quot;PEATbam&quot;, /
+isPairedBAM=TRUE, sampleNames=c(&quot;experiment1&quot;), replicateIDs=c(1))
+</code></pre>
+
+<p>Now we convert the alignment data (in this case, in .bam format) into TSS coordinates:</p>
+
+<pre><code class="r">At_PEAT &lt;- bamToTSS(At_PEAT)
+</code></pre>
+
+<p>As in the previous example, now we can calculate the tag abundance at each location using <code>processTSS</code> and the identify TSRs within the sample using <code>determineTSR</code>. Note that we do not need to use <code>mergeSampleData</code> because there is only a single sample. As there is only a single sample we set <code>n.cores=1</code>.</p>
+
+<pre><code class="r">At_PEAT &lt;- processTSS(experimentName=At_PEAT, n.cores=1, tssSet=&quot;all&quot;, writeTable=TRUE)
+
+At_PEAT &lt;- determineTSR(experimentName=At_PEAT, n.cores=1, tsrSetType=&quot;replicates&quot;, /
+tssSet=&quot;all&quot;, tagCountThreshold=25, clustDist=20, writeTable=TRUE)
+</code></pre>
+
+<h3>Associating identified TSRs with gene annotations</h3>
+
+<p>We continue by associating our newly-identified TSRs with genes from the TAIR10 annotation. Note that we use different parameters for upstreamDist and downstreamDist than we did in Example 1. This is due to the high degree of compactness in the A. thaliana genome.</p>
+
+<pre><code class="r">At_PEAT &lt;- importAnnotationExternal(experimentName=At_PEAT, fileType=&quot;gff3&quot;, /
+annotFile=&quot;downloads/TAIR10_GFF3_genes.gff&quot;)
+
+At_PEAT &lt;- addAnnotationToTSR(experimentName=At_PEAT, tsrSetType=&quot;replicates&quot;, tsrSet=1, /
+upstreamDist=500, downstreamDist=200, feature=&quot;gene&quot;, featureColumnID=&quot;ID&quot;, writeTable=TRUE)
+</code></pre>
+
+<p>Now we have a complete set of TSRs on our tssObj object. Let&#39;s take a look at them using one of our accessor methods.</p>
+
+<pre><code class="r">At.tsrs &lt;- getTSRdata(AtPEAT, setType=&quot;replicates&quot;, set=1)
+dim(At.tsrs)
+head(At.tsrs)
+</code></pre>
+
+<p>We can optionally save the tssObject as we have previously.</p>
+
+<pre><code class="r">save(At_PEAT, file=&quot;At_PEAT_vignette.RData&quot;)
+</code></pre>
+
+<h2>Example 3: Analysis of CAGE datasets from the ENCODE project</h2>
+
+<p>As we stated in the introduction of this vignette, TSRchitect is capable of handling diverse forms of TSS profiling data. In the first two examples, we analyze two distinct paired-end datasets: RAMPAGE and PEAT, respectively. In this example we will process data from CAGE, which is the most widely-used TSS profiling method to date.
+We will analyze CAGE data generated in two well-characterized immortalized cell lines, MCF-7 and A549. MCF-7 cells are derived from a breast cancer tumor, and A549 originates from an adenocarinoma isolated from lung tissue. Both datasets are part of the ENCODE project, and therefore we can make use of the ENCODExplorer package that we originally introduced in Example 1.</p>
+
+<pre><code class="r">#Downloading the files:
+library(ENCODExplorer)
+data(encode_df, package=&quot;ENCODExplorer&quot;)
+cage_data &lt;- fuzzySearch(searchTerm=c(&quot;ENCFF552BXH&quot;,&quot;ENCFF288VTZ&quot;,&quot;ENCFF265RSX&quot;, /
+&quot;ENCFF944PCJ&quot;), database=encode_df, /
+filterVector=c(&quot;file_accession&quot;), multipleTerm=TRUE)
+downloadEncode(cage_data, df=encode_df, format=&quot;bam&quot;)
+</code></pre>
+
+<p>Now that the files have been downloaded, we will create symbolic links with the appropriate sample names. Please run the following commands from a linux command line:</p>
+
+<pre><code class="bash">mkdir downloads # ignore if the directory already exists
+mv *.bam downloads
+mkdir HsCAGEbam
+cd HsCAGEbam
+ln -s ../downloads/ENCFF265RSX.bam A549-rep1.bam
+ln -s ../downloads/ENCFF944PCJ.bam A549-rep2.bam
+ln -s ../downloads/ENCFF552BXH.bam MCF7-rep1.bam
+ln -s ../downloads/ENCFF288VTZ.bam MCF7-rep2.bam
+cd ..
+</code></pre>
+
+<p>As in Example 1, we also need to download a human gene annotation.
+Please download and uncompress the annoation file [Note: you may ignore this if you have already downloaded the file from Example 1].</p>
+
+<p>The annotation file is found at the following location:
+<a href="ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz">ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz</a>. Please move it into the downloads/ directory if it does not already exist there.</p>
+
+<p>Now we can set up the tssObject S4 object. Note that we must specify <code>isPairedBAM=FALSE</code> because this is single-end CAGE data.</p>
+
+<pre><code class="r"># initializing the tssObject, setting the sample IDs and importing the CAGE data
+CAGEhuman &lt;- loadTSSobj(expTitle =&quot;Human CAGE&quot;, inputDir=&quot;HsCAGEbam&quot;, /
+isPairedBAM=TRUE, sampleNames=c(&quot;A549-rep1&quot;,&quot;A549-rep2&quot;, /
+&quot;MCF7-rep1&quot;,&quot;MCF7-rep2&quot;), replicateIDs=c(1,1,2,2)
+</code></pre>
+
+<p>As before, it is vital to provide arguments to <code>sampleNames</code> and <code>replicateIDs</code> in the order of the files on the <code>fileNames</code> slot to they exactly correspond to the alignment files (in this case .bam) that we imported.</p>
+
+<p>As in the prior two examples, we then extract TSS information from the attached alignment data (which was placed on slot <code>@bamData</code>):</p>
+
+<pre><code class="r">#Converting the alignment data into TSS information and attaching it to the tssObject:
+CAGEhuman &lt;- inputToTSS(experimentName=CAGEhuman)
+</code></pre>
+
+<p>Next we must calculate the CAGE tag abundance at each TSS position, followed by identification of TSRs within our 4 replicate datasets. As in the first example, we choose to run <code>processTSS</code> and <code>determineTSR</code> in parallel on 4 cores. Please adjust this parameter as needed.</p>
+
+<pre><code class="r">#Constructing the tag count per TSS data matrix:
+CAGEhuman &lt;- processTSS(experimentName=CAGEhuman, n.cores=4, tssSet=&quot;all&quot;, /
+writeTable=TRUE)
+</code></pre>
+
+<pre><code class="r">#Finding TSRs for the replicate datasets:
+CAGEhuman &lt;- determineTSR(experimentName=CAGEhuman, n.cores=4, /
+tsrSetType=&quot;replicates&quot;, tssSet=&quot;all&quot;, tagCountThreshold=25, /
+clustDist=20, writeTable=TRUE)
+</code></pre>
+
+<p>Now we merge data from replicates into their two corresponding samples.</p>
+
+<pre><code class="r">#Merging TSS data from the replicates:
+CAGEhuman &lt;- mergeSampleData(experimentName=CAGEhuman) 
+</code></pre>
+
+<p>Once this is complete, we can complete TSR identification on the merged samples.</p>
+
+<pre><code class="r">#Finding TSRs for the merged samples and adding tag counts:
+CAGEhuman &lt;- determineTSR(experimentName=CAGEhuman, n.cores=4, tsrSetType=&quot;merged&quot;, /
+tssSet=&quot;all&quot;, tagCountThreshold=40, clustDist=20, writeTable=TRUE)
+
+CAGEhuman &lt;- addTagCountsToTSR(experimentName=CAGEhuman, tsrSetType=&quot;merged&quot;, /
+tsrSet=3, tagCountThreshold=40, writeTable=TRUE)
+</code></pre>
+
+<p>Now we need to import the annotation file and attach it to our tssObj S4 object. To do this, we will to use the same record (Gencode v. 23) that we referred to in Example 1.</p>
+
+<pre><code class="r">CAGEhuman &lt;- importAnnotationHub(experimentName=CAGEhuman, provider=&quot;gencode&quot;, /
+annotType=&quot;gff3&quot;, species=&quot;human&quot;, ID=&quot;AH49555&quot;)
+</code></pre>
+
+<p>Next we associate the gene annotation to the TSRs within our two merged samples i) MCF7 cells and ii) A549 cells.
+As we did in Example 1, we select the feature &#39;transcript&#39; from the Gencode annotation.</p>
+
+<pre><code class="r">CAGEhuman &lt;- addAnnotationToTSR(experimentName=CAGEhuman, tsrSetType=&quot;merged&quot;, tsrSet=1,/
+upstreamDist=1000, downstreamDist=200, feature=&quot;transcript&quot;, featureColumnID=&quot;ID&quot;, /
+writeTable=TRUE) #A549 cells
+
+CAGEhuman &lt;- addAnnotationToTSR(experimentName=CAGEhuman, tsrSetType=&quot;merged&quot;, tsrSet=2, /
+upstreamDist=1000, downstreamDist=200, feature=&quot;transcript&quot;, featureColumnID=&quot;ID&quot;, /
+writeTable=TRUE) #MCF7 cells
+</code></pre>
+
+<p>Associating the selected annotation features with the TSRs on the &#39;combined&#39; slot:</p>
+
+<pre><code class="r">CAGEhuman &lt;- addAnnotationToTSR(experimentName=CAGEhuman, tsrSetType=&quot;merged&quot;, tsrSet=3,/
+upstreamDist=1000, downstreamDist=200, feature=&quot;transcript&quot;, featureColumnID=&quot;ID&quot;,/
+writeTable=TRUE)
+</code></pre>
+
+<p>Using the accessor methods we applied in earlier examples, let&#39;s take a quick glance at our set of identified TSRs.</p>
+
+<pre><code class="r">getTSRdata(CAGEhuman, setType=&quot;merged&quot;, slot=1) -&gt; MCF7.tsrs
+
+dim(MCF7.tsrs)
+</code></pre>
+
+<pre><code class="r">getTSRdata(CAGEhuman, setType=&quot;merged&quot;, slot=2) -&gt; A549.tsrs
+
+dim(A549.tsrs)
+</code></pre>
+
+<pre><code class="r">getTSRdata(CAGEhuman, setType=&quot;merged&quot;, slot=3) -&gt; CAGEhuman.tsrs
+
+dim(CAGEhuman.tsrs)
+</code></pre>
+
+<p>Let&#39;s look at some of the tsrs we identified on our &#39;combined&#39; set.</p>
+
+<pre><code class="r">head(CAGEhuman.tsrs)
+</code></pre>
+
+<p>We can optionally save the tssObject for future use:</p>
+
+<pre><code class="r">save(CAGEhuman, file=&quot;CAGEhuman-vignette.RData&quot;)
+</code></pre>
+
+</body>
+
+</html>

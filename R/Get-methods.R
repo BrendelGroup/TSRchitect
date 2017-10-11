@@ -66,7 +66,15 @@ def=function(experimentName){
 setMethod("getFileNames",
 signature(experimentName = "tssObject"),
 function (experimentName){
-    my.files <- experimentName@fileNames
+        my.files <- vector(mode="character")
+    if (exists(experimentName@fileNamesBAM[[1]])) {
+        my.files1 <- experimentName@fileNamesBAM
+        my.files <- c(my.files, my.files1)
+    }
+    if (exists(experimentName@fileNamesBED[[1]])) {
+        my.files1 <- experimentName@fileNamesBED
+        my.files <- c(my.files, my.files1)
+    }
     return(my.files)
 }
 )

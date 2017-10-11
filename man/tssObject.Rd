@@ -4,14 +4,19 @@
 \alias{tssObject}
 \title{\strong{tssObject}}
 \usage{
-tssObject(title = NA, bamData = NA)
+tssObject(title = NA, bamData = NA, bedData = NA)
 }
 \arguments{
 \item{title}{'character' A short descriptive title for the
 experiment. Is set to NA by default.}
 
 \item{bamData}{'list' the name of a list of \linkS4class{GAlignments}
-objects in the workspace. Set to NA by default.}
+objects (originating from .bam files) in the workspace. 
+Set to NA by default.}
+
+\item{bedData}{'list' the name of a list of \linkS4class{GRanges} or
+\linkS4class{Pairs} objects (originating from .bed files) in the
+workspace. Set to NA by default.}
 }
 \value{
 a new \emph{tssObject} is returned to the user's workspace.
