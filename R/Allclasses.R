@@ -74,5 +74,9 @@ tssObject <- function(title=NA, bamData=NA, bedData=NA) {
         new.tssObj@bamData <- bamData
     }
 
+    if (!(is.na(bedData))) {
+        new.tssObj@bedData <- bedData
+    }
+
     return(new.tssObj)
 }
