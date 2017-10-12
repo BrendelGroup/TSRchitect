@@ -3,29 +3,34 @@
 \docType{methods}
 \name{loadTSSobj}
 \alias{loadTSSobj}
-\alias{loadTSSobj,character,character,character,logical,character,numeric-method}
+\alias{loadTSSobj,character,character,ANY,ANY,character,numeric-method}
 \title{\strong{loadTSSobj}}
 \usage{
-loadTSSobj(experimentTitle, inputDir, inputType, isPairedEnd, sampleNames,
+loadTSSobj(experimentTitle, inputDir, isPairedBAM = FALSE,
+  isPairedBED = FALSE, sampleNames, replicateIDs)
+
+
+  \S4method{loadTSSobj}{character,character,ANY,ANY,character,numeric}(experimentTitle,
+  inputDir, isPairedBAM = FALSE, isPairedBED = FALSE, sampleNames,
   replicateIDs)
-
-
-  \S4method{loadTSSobj}{character,character,character,logical,character,numeric}(experimentTitle,
-  inputDir, inputType, isPairedEnd, sampleNames, replicateIDs)
 }
 \arguments{
 \item{experimentTitle}{a descriptive title for the experiment (character).}
 
 \item{inputDir}{path to the directory containing the alignment files (in
-either .bam or .bed format, depending on your selection) (character).
+either .bam or .bed formats) (character). 
 Note that all the paths to all files in \emph{inputDir} with the extension
-.bam in \emph{inputDir} will be imported with this function.}
+.bam or .bed will be imported with this function.}
 
-\item{inputType}{specifies the format of the TSS dataset to be imported.
-Either "bam" or "bed" are currently accepted. (character)}
+\item{isPairedBAM}{if the input is in BAM format, specifies whether the
+TSS profiling experiment is paired-end (if TRUE) or single-end
+(if FALSE) (logical)}
 
-\item{isPairedEnd}{specifies whether the TSS profiling experiment is
-paired-end (if TRUE) or single-end (if FALSE) (logical)}
+\item{isPairedBED}{if the input is in BED format, specifies whether the
+ TSS profiling experiment is paired-end (if TRUE) or single-end
+ (if FALSE). Set to FALSE by default. (logical)
+Note: if TRUE, the input data must be in bedpe format, as described here:
+http://bedtools.readthedocs.io/en/latest/content/general-usage.html}
 
 \item{sampleNames}{unique labels of class character for each TSS sample
 within the experiment (character).}
@@ -37,28 +42,27 @@ replicateIDs must be arranged in this order also so that they directly
 correspond to the intended file (numeric).}
 }
 \value{
-\emph{loadTSSobj} fills the slot \emph{bamData} on the returned
-\emph{tssObject} with \linkS4class{GAlignments} objects from the
-\bold{GenomicAlignments} package, one for each attached .bam file
-on the \emph{fileNames} slot.
+\emph{loadTSSobj} fills the slot \emph{bamData} and/or \emph{bedData}
+on the returned \emph{tssObject} with \linkS4class{GAlignments} objects
+(for .bam files), or \linkS4class{GRanges} objects (for .bed files).
 }
 \description{
-\code{loadTSSobj} processes alignment files in .bam format
-from the local directory supplied.
+\code{loadTSSobj} processes alignment files in .bam or .bed
+formats from the local directory supplied.
 }
 \note{
 An example similar to the one provided can be found in
 the vignette (/inst/doc/TSRchitect.Rmd).
 
-All .bam files found in \emph{inputDir} will be
+All files found in \emph{inputDir} will be
 retrieved and written in ascending alphanumeric order to the
-\emph{@fileNames} slot on the \emph{tssObject} that is created.
+\emph{@fileNamesBAM} and/or \emph{@fileNamesBED} slot(s) on
+the \emph{tssObject} that is created.
 }
 \examples{
-load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 extdata.dir <- system.file("extdata", package="TSRchitect")
 test.Obj <- loadTSSobj(experimentTitle="Code example", inputDir=extdata.dir,
-inputType="bam", isPairedEnd=TRUE, sampleNames=c("sample1-rep1",
-"sample1-rep2", "sample2-rep1","sample2-rep2"), replicateIDs=c(1,1,2,2))
+isPairedBAM=TRUE, sampleNames=c("sample1-rep1", "sample1-rep2",
+"sample2-rep1","sample2-rep2"), replicateIDs=c(1,1,2,2))
 
 }

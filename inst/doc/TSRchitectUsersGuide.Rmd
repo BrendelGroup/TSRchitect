@@ -98,7 +98,7 @@ experiment as arguments. This will attach GenomicAlignments objects (representin
 
 ```{r eval=FALSE}
 Hs_RAMPAGE <- loadTSSobj(expTitle ="Human RAMPAGE", inputDir="HsRAMPAGEbam/", /
-inputType="bam", isPairedEnd=TRUE, sampleNames=c("H460-rep1", /
+isPairedEndBAM=TRUE, sampleNames=c("H460-rep1", /
 "H460-rep2", "HT1080-rep1", "HT1080-rep2"), replicateIDs=c(1,1,2,2))
 ```
 
@@ -114,7 +114,7 @@ getFileNames(experimentName=Hs_RAMPAGE)
 Now that the alignment files have been imported and attached to our tssObject S4 object, we continue by computing the TSSs from the alignment (in this case .bam) files.
 
 ```{r eval=FALSE}
-Hs_RAMPAGE <- bamToTSS(experimentName=Hs_RAMPAGE)
+Hs_RAMPAGE <- inputToTSS(experimentName=Hs_RAMPAGE)
 ```
 
 Next we will calculate the abundance of each tag in our TSS datasets. TSRchitect provides the option to run this function in parallel, so for this example we chose to run this on 4 cores. Please adjust this as your compute resource permits.
@@ -312,7 +312,7 @@ Since there is only a single experiment, setting the sample IDs is simple:
 
 ```{r eval=FALSE}
 At_PEAT <- loadTSSobj(expTitle ="Arabidopsis PEAT dataset", inputDir="PEATbam", /
-inputType="bam", isPairedEnd=TRUE, sampleNames=c("experiment1"), replicateIDs=c(1))
+isPairedBAM=TRUE, sampleNames=c("experiment1"), replicateIDs=c(1))
 ```
 
 Now we convert the alignment data (in this case, in .bam format) into TSS coordinates:
@@ -391,12 +391,12 @@ Please download and uncompress the annoation file [Note: you may ignore this if 
 The annotation file is found at the following location:
 ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz. Please move it into the downloads/ directory if it does not already exist there.
 
-Now we can set up the tssObject S4 object. Note that we must specify `isPairedEnd=FALSE` because this is single-end CAGE data.
+Now we can set up the tssObject S4 object. Note that we must specify `isPairedBAM=FALSE` because this is single-end CAGE data.
 
 ```{r eval=FALSE}
 # initializing the tssObject, setting the sample IDs and importing the CAGE data
 CAGEhuman <- loadTSSobj(expTitle ="Human CAGE", inputDir="HsCAGEbam", /
-inputType="bam", isPairedEnd=TRUE, sampleNames=c("A549-rep1","A549-rep2", /
+isPairedBAM=TRUE, sampleNames=c("A549-rep1","A549-rep2", /
 "MCF7-rep1","MCF7-rep2"), replicateIDs=c(1,1,2,2)
 ```
 
@@ -406,7 +406,7 @@ As in the prior two examples, we then extract TSS information from the attached 
 
 ```{r eval=FALSE}
 #Converting the alignment data into TSS information and attaching it to the tssObject:
-CAGEhuman <- bamToTSS(experimentName=CAGEhuman)
+CAGEhuman <- inputToTSS(experimentName=CAGEhuman)
 ```
 
 Next we must calculate the CAGE tag abundance at each TSS position, followed by identification of TSRs within our 4 replicate datasets. As in the first example, we choose to run `processTSS` and `determineTSR` in parallel on 4 cores. Please adjust this parameter as needed.
