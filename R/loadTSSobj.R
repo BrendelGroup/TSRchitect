@@ -189,3 +189,4 @@ setMethod("loadTSSobj", #both BAM and BED files
               return(tssObj)
               }
           )
+
