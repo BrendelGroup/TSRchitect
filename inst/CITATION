@@ -1,0 +1,17 @@
+citHeader("To cite TSRchitect in publications use:")
+
+citEntry(entry = "manual",
+  title        = "{TSRchitect}: Promoter identification from large-scale TSS profiling data.",
+  author       = personList(as.person("R. Taylor Raborn"),
+                   as.person("Krishnakumar Sridharan"),
+                   as.person("Volker P. Brendel")),
+  year         = "2017",
+  version      = "1.2.0"
+  url          = "https://doi.org/doi:10.18129/B9.bioc.TSRchitect",
+  doi          = "10.18129/B9.bioc.TSRchitect"
+
+  textVersion  =
+  paste("R. Taylor Raborn, Krishnakumar Sridharan and Volker P. Brendel (2017).",
+        "TSRchitect: Promoter identification from large-scale TSS profiling data.",
+        "URL https://doi.org/doi:10.18129/B9.bioc.TSRchitect.")
+)
