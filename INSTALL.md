@@ -30,6 +30,7 @@ __TSRchitect__ is available as a
 Once the prerequisites have been installed, _TSRchitect_ can be installed directly from [_Bioconductor_] as follows:
 
 ```{r eval=FALSE}
+source("http://bioconductor.org/biocLite.R")
 biocLite("TSRchitect")
 ```
 
