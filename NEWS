@@ -5,3 +5,4 @@
 04-18-2017	Revised package (version 0.99.2) submitted to Bioconductor for review
 04-19-2017	Package accepted (version 1.0.0) at Bioconductor, included in version 3.5.
 09-26-2017	Support added for the analysis of ESTs/cDNAs; BED files can now be provided as input (version 1.2.0)
+10-17-2017	Minor changes in documentation to better reflect updates in v. 1.2 (version 1.2.1).
