@@ -24,12 +24,18 @@ biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel", "ENCODExplorer", "Ge
 ```
 
 ## Obtaining TSRchitect
-Eventually, __TSRchitect__ will also be available as a
+__TSRchitect__ is available as a
 [_Bioconductor_](http://bioconductor.org/) package.
 
-For now (and in general, for the latest development version), you can install
-__TSRchitect__ as follows (again, use root privileges on the install command for
-system-wide installation):
+Once the prerequisites have been installed, _TSRchitect_ can be installed directly from [_Bioconductor_] as follows:
+
+```{r eval=FALSE}
+biocLite("TSRchitect")
+```
+
+Optionally (and in general, for the latest development version), you can install
+__TSRchitect__ directly from our group's GitHub repository as follows (again,
+use root privileges on the install command for system-wide installation):
 
 This repository contains two branches. The branch 'master' is our stable, submitted Bioconductor version, whereas our 'devel' branch contains recent development and additional files that are not found in the branch master.
 
