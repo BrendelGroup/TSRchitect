@@ -20,26 +20,20 @@ for a TSS to be included in clustering. (numeric)}
 \value{
 A data frame of TSRs with variables\cr
 \enumerate{
-        \item seq       = sequence identifier (seq)
-        \item start     = start of TSR (num)
-        \item end       = end of TSR (num)
-        \item strand    = + or - (factor)
-        \item nTSSs     = count of TSSs (num)
-        \item nTAGs     = count of tags (num)
-        \item tsrPeak   = maximum tag count fraction for all TSS positions
-                          in the TSR (num)
-        \item tsrWdth   = width of TSR (num)
-        \item tsrTrq    = TSR torque; measure of TSR balance (num)
-        \item tsrSI     = shape index value of TSR (num)
-        \item tsrMSI    = modified shape index value of TSR (num)
+        \item seq = sequence identifier (seq)
+        \item start = start of TSR (num)
+        \item end = end of TSR (num)
+        \item strand = + or - (factor)
+        \item nTSSs = count of TSSs (num)
+        \item tsrWidth = width of TSR (num)
+        \item shapeIndex = shape index value of TSR (num)
 }
 }
 \description{
 an internal function that partitions, then clusters TSS data by
 sequence to create a data frame containing the coordinates of identified TSRs
-and other associated metrics, including the site and tag counts (nTSSs, nTAGs),
-TSR width and (modified) Shape Index (SI, mSI). tsrCluster is an internal
-function that is invoked via detTSR(), which in turn is called by the
-user-level function determineTSR().
+and other associated metrics, including the count (nTSSs), TSR width and Shape
+Index (SI). tsrCluster is an internal function that is invoked via detTSR(),
+which in turn is called by the user-level function determineTSR().
 }
 \keyword{internal}
