@@ -56,7 +56,7 @@ setMethod("processTSS",
               else {
                   i <- as.numeric(tssSet)
                   if (i > length(experimentName@tssTagData)) {
-                      stop("The value selected for tssSet exceeds",
+                      stop("The value selected for tssSet exceeds ",
                            "the number of slots in tssTagData.")
                   }
                   experimentName@tssCountData[[i]] <- prcTSS(experimentName =
