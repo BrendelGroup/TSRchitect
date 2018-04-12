@@ -20,8 +20,8 @@ the TSSs positions and their abundance to your workspace}
 in the tssObject \emph{experimentName} with a matrix of unique TSS positions
 (rows) and observed tag counts in each position for data set tssSet;
 precisely, each entry of the matrix consists of "seq" (chr), "TSS" (num),
-"nTSSs" (num), and "strand" (+ or -),
-corresponding to the sequence identifier, position, tag count, and strand,
+"nTAGs" (num), and "strand" (+ or -), corresponding to the sequence
+identifier, position, tag count, and strand,
 respectively.
 }
 \description{

@@ -39,21 +39,21 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
             my.matrix.p <- matrix(NA, nrow=(length(my.TSSs)), ncol=4)
 
             this.TSS <- tss.vec[1]
-            n.TSSs <- 1
+            n.TAGs <- 1
             k <- 0
             for (j in 2:length(tss.vec)) {
                 if (tss.vec[j] == this.TSS) {
-                    n.TSSs <- n.TSSs + 1
+                    n.TAGs <- n.TAGs + 1
                 }
                 else {
                     k <- k + 1
-                    my.matrix.p[k,] <- c(this.seq, this.TSS, "+", n.TSSs)
+                    my.matrix.p[k,] <- c(this.seq, this.TSS, "+", n.TAGs)
                     this.TSS <- tss.vec[j]
-                    n.TSSs <- 1
+                    n.TAGs <- 1
                 }
             }
             k <- k + 1
-            my.matrix.p[k,] <- c(this.seq, this.TSS, "+", n.TSSs)
+            my.matrix.p[k,] <- c(this.seq, this.TSS, "+", n.TAGs)
 # ... add the plus strand matrix of this.seq to the overall matrix:
             my.matrix <- rbind(my.matrix,my.matrix.p)
         }
@@ -66,31 +66,31 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
             my.matrix.m <- matrix(NA, nrow=(length(my.TSSs)), ncol=4)
 
             this.TSS <- tss.vec[1]
-            n.TSSs <- 1
+            n.TAGs <- 1
             k <- 0
             for (j in 2:length(tss.vec)) {
                 if (tss.vec[j] == this.TSS) {
-                    n.TSSs <- n.TSSs + 1
+                    n.TAGs <- n.TAGs + 1
                 }
                 else {
                     k <- k + 1
-                    my.matrix.m[k,] <- c(this.seq, this.TSS, "-", n.TSSs)
+                    my.matrix.m[k,] <- c(this.seq, this.TSS, "-", n.TAGs)
                     this.TSS <- tss.vec[j]
-                    n.TSSs <- 1
+                    n.TAGs <- 1
                 }
             }
             k <- k + 1
-            my.matrix.m[k,] <- c(this.seq, this.TSS, "-", n.TSSs)
+            my.matrix.m[k,] <- c(this.seq, this.TSS, "-", n.TAGs)
 # ... adding the minus strand matrix of this.seq to the overall matrix:
             my.matrix <- rbind(my.matrix,my.matrix.m)
         }
     }
-    colnames(my.matrix) <- c("seq","TSS","strand","nTSSs")
+    colnames(my.matrix) <- c("seq","TSS","strand","nTAGs")
     my.df <- as.data.frame(my.matrix)
     my.df$seq <- as.character(my.df$seq)
     my.df$TSS <- as.numeric(as.character(my.df$TSS))
     my.df$strand <- as.character(my.df$strand)
-    my.df$nTSSs <- as.numeric(as.character(my.df$nTSSs))
+    my.df$nTAGs <- as.numeric(as.character(my.df$nTAGs))
 
     if (writeDF==TRUE) {
         write.table(my.df, outfname, quote=FALSE, col.names=TRUE,
@@ -119,7 +119,7 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
 #' @param x a data frame containing a single slot from either tssCountData or
 #' tssCountDataMerged, depending on its invocation by parent function
 #' determineTSR()
-#' @param minNbrTSSs the minimum number of tags at a given TSS position
+#' @param minNbrTAGs the minimum number of tags at a given TSS position
 #' for a TSS to be included in clustering. (numeric)
 #' @param minDist the maximum distance of TSSs between two TSRs in base pairs.
 #' (numeric)
@@ -141,7 +141,7 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
 #' }
 #' @export
 
-tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
+tsrCluster <- function(x, minNbrTAGs=3, minDist=20) {
     tss.df <- x
     uni.seq <- unique(tss.df[,1])
     n.seq <- length(uni.seq)
@@ -153,7 +153,7 @@ tsrCluster <- function(x, minNbrTSSs=3, minDist=20) {
     for (l in 1:n.seq) { #by sequence
         seq.name <- mixedsort(uni.seq[l], decreasing=FALSE)
         this.tss <- subset(tss.df, seq==seq.name)
-        sTSS <- subset(this.tss, this.tss$nTSSs>=minNbrTSSs)
+        sTSS <- subset(this.tss, this.tss$nTAGs>=minNbrTAGs)
 
         #... clustering TSS on the plus strand:
         sTSS.p <- subset(sTSS, strand=="+")
