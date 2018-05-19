@@ -41,5 +41,5 @@ An example similar to the one provided can be found in
 the vignette (/inst/doc/TSRchitect.Rmd)
 
 Please consult the available records in AnnotationHub
-beforehand using \code{\link[AnnotationHub]{AnnotationHub}}
+beforehand using \code{\link[AnnotationHub]{AnnotationHub-class}}
 }

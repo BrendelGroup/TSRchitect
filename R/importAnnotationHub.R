@@ -21,7 +21,7 @@
 #' @note An example similar to the one provided can be found in
 #' the vignette (/inst/doc/TSRchitect.Rmd)
 #' @note Please consult the available records in AnnotationHub
-#' beforehand using \code{\link[AnnotationHub]{AnnotationHub}}
+#' beforehand using \code{\link[AnnotationHub]{AnnotationHub-class}}
 #'
 #' @export
 #' @rdname importAnnotationHub-methods
