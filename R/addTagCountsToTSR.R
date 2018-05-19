@@ -98,7 +98,7 @@ setMethod("addTagCountsToTSR",
                  this.tssSet <- experimentName@tssCountData[[j]]
 #...  we are discarding counts below the tag count threshold tagCountThreshold:
                  this.tssSet <-
-                           this.tssSet[this.tssSet$nTSSs >= tagCountThreshold, ]
+                           this.tssSet[this.tssSet$nTAGs >= tagCountThreshold, ]
                  countv <- numeric(nrow(currentTSRset))
                  if (nrow(this.tssSet) > 0  && nrow(currentTSRset) > 0) {
   # ... the following only makes sense if this.tssSet is non-empty
@@ -130,7 +130,7 @@ setMethod("addTagCountsToTSR",
                             if (this.tsr$strand == this.tss$strand) {
                                if (as.numeric(as.character(this.tsr$start))  <= this.tss$TSS   &&
                                    this.tss$TSS <= as.numeric(as.character(this.tsr$end))) {
-                                  count <- count + this.tss$nTSSs
+                                  count <- count + this.tss$nTAGs
                                   if (l == nrow(that.tssSet)) {
                                       countv[k] <- count
                                   }
