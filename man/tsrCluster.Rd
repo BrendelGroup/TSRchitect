@@ -4,14 +4,14 @@
 \alias{tsrCluster}
 \title{tsrCluster}
 \usage{
-tsrCluster(x, minNbrTSSs = 3, minDist = 20)
+tsrCluster(x, minNbrTAGs = 3, minDist = 20)
 }
 \arguments{
 \item{x}{a data frame containing a single slot from either tssCountData or
 tssCountDataMerged, depending on its invocation by parent function
 determineTSR()}
 
-\item{minNbrTSSs}{the minimum number of tags at a given TSS position
+\item{minNbrTAGs}{the minimum number of tags at a given TSS position
 for a TSS to be included in clustering. (numeric)}
 
 \item{minDist}{the maximum distance of TSSs between two TSRs in base pairs.
