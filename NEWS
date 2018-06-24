@@ -1,8 +1,16 @@
-01-09-2017	Code has been tested and is stable. Preparing for submission to Bioconductor once vignette (and various other requirements) is complete.
-01-18-2017	Vignette completed testing
-01-20-2017	Package (version 0.99.0) submitted to Bioconductor for review
-02-24-2017	Revised package (version 0.99.2) submitted to Bioconductor for further review
-04-18-2017	Revised package (version 0.99.2) submitted to Bioconductor for review
-04-19-2017	Package accepted (version 1.0.0) at Bioconductor, included in version 3.5.
-09-26-2017	Support added for the analysis of ESTs/cDNAs; BED files can now be provided as input (version 1.2.0)
-10-17-2017	Minor changes in documentation to better reflect updates in v. 1.2 (version 1.2.1).
+0.1.0 (01-09-2017)
++ Code has been tested and is stable. Preparing for submission to Bioconductor once vignette (and various other requirements) is complete.
+0.2.0 (01-18-2017)
++ Vignette completed testing
+0.99.0 (01-20-2017)
++ Package (version 0.99.0) submitted to Bioconductor for review
+0.99.2 (02-24-2017)
++ Revised package (version 0.99.2) submitted to Bioconductor for further review
+0.99.2 (04-18-2017)
++ Revised package (version 0.99.2) submitted to Bioconductor for review
+1.0.0 (04-19-2017)
++ Package accepted (version 1.0.0) at Bioconductor, included in version 3.5.
+1.2.0 (09-26-2017) 
++ Support added for the analysis of ESTs/cDNAs; BED files can now be provided as input (version 1.2.0)
+1.2.1 (10-17-2017)
++ Minor changes in documentation to better reflect updates in v. 1.2 (version 1.2.1).
