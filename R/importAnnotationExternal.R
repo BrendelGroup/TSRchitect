@@ -25,13 +25,16 @@
 #' fileType="gff3", annotFile=annotation)
 #'
 #' @note \code{importAnnotationExternal} makes use of three functions from the
-#' \emph{rtracklayer} package: \code{\link[rtracklayer]{import.bed}},
-#' \code{\link[rtracklayer]{import.gff}}, and
-#' \code{\link[rtracklayer]{import.gff3}}
+#' \emph{rtracklayer} package:
+#'   \code{\link[rtracklayer:BEDFile-class]{import.bed}},
+#'   \code{\link[rtracklayer:GFFFile-class]{import.gff}}, and
+#'   \code{\link[rtracklayer:GFFFile-class]{import.gff3}}.
 #' @note An example similar to the one provided can be found in
-#' \emph{Example 2} from the vignette (/inst/doc/TSRchitect.Rmd)
+#' \emph{Example 2} from the vignette
+#' (run \code{TSRchitectUsersGuide()} to view the documentation).
 #' @note To import directly from the AnnotationHub client, please
-#' refer to \code{importAnnotationHub}
+#' refer to
+#' \code{\link[TSRchitect:importAnnotationHub-methods]{importAnnotationHub}}.
 #'
 #' @export
 #' @rdname importAnnotationExternal-methods

@@ -39,7 +39,7 @@ setMethod("inputToTSS",
               message("... inputToTSS ...")
               if (length(experimentName@bamData)>0) {
                   message("\nBeginning input to",
-                      " to TSS data conversion ...\n\n")
+                      " TSS data conversion ...\n\n")
                   bam.len <- length(experimentName@bamData)
                   bam.vec <- vector(mode="list", length=bam.len)
                   bam.df <- lapply(experimentName@bamData, as.data.frame)
@@ -78,7 +78,7 @@ setMethod("inputToTSS",
               }
            if (length(experimentName@bedData)>0) {
               message("\nBeginning input to",
-                     " to TSS data conversion ...\n\n")
+                     " TSS data conversion ...\n\n")
               if (class(experimentName@bedData[[1]])=="GRanges") { #i.e bed single-end
               bed.len <- length(experimentName@bedData)
               bed.vec <- vector(mode="list", length=bed.len)
