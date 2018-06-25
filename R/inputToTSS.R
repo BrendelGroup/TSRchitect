@@ -39,7 +39,7 @@ setMethod("inputToTSS",
               message("... inputToTSS ...")
               if (length(experimentName@bamData)>0) {
                   message("\nBeginning input to",
-                      " TSS data conversion ...\n\n")
+                      " to TSS data conversion ...\n\n")
                   bam.len <- length(experimentName@bamData)
                   bam.vec <- vector(mode="list", length=bam.len)
                   bam.df <- lapply(experimentName@bamData, as.data.frame)
