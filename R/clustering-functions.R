@@ -107,10 +107,9 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
 #' @title tsrCluster
 #' @description an internal function that partitions, then clusters TSS data by
 #' sequence to create a data frame containing the coordinates of identified TSRs
-#' and other associated metrics, including the site and tag counts (nTSSs, nTAGs),
-#' TSR width and (modified) Shape Index (SI, mSI). tsrCluster is an internal
-#' function that is invoked via detTSR(), which in turn is called by the
-#' user-level function determineTSR().
+#' and other associated metrics, including the count (nTSSs), TSR width and Shape
+#' Index (SI). tsrCluster is an internal function that is invoked via detTSR(),
+#' which in turn is called by the user-level function determineTSR().
 #' 
 #' @keywords internal
 #'
@@ -126,18 +125,13 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
 #'
 #' @return A data frame of TSRs with variables\cr
 #' \enumerate{
-#'         \item seq       = sequence identifier (seq)
-#'         \item start     = start of TSR (num)
-#'         \item end       = end of TSR (num)
-#'         \item strand    = + or - (factor)
-#'         \item nTSSs     = count of TSSs (num)
-#'         \item nTAGs     = count of tags (num)
-#'         \item tsrPeak   = maximum tag count fraction for all TSS positions
-#'                           in the TSR (num)
-#'         \item tsrWdth   = width of TSR (num)
-#'         \item tsrTrq    = TSR torque; measure of TSR balance (num)
-#'         \item tsrSI     = shape index value of TSR (num)
-#'         \item tsrMSI    = modified shape index value of TSR (num)
+#'         \item seq = sequence identifier (seq)
+#'         \item start = start of TSR (num)
+#'         \item end = end of TSR (num)
+#'         \item strand = + or - (factor)
+#'         \item nTSSs = count of TSSs (num)
+#'         \item tsrWidth = width of TSR (num)
+#'         \item shapeIndex = shape index value of TSR (num)
 #' }
 #' @export
 
@@ -146,9 +140,9 @@ tsrCluster <- function(x, minNbrTAGs=3, minDist=20) {
     uni.seq <- unique(tss.df[,1])
     n.seq <- length(uni.seq)
     tss.df.total <- data.frame(seq=NA, start=NA, end=NA, strand=NA,
-                               nTSSs=NA, nTAGs=NA, tsrPeak=NA, tsrWdth=NA, tsrTrq=NA, tsrSI=NA, tsrMSI=NA)
+                               nTSSs=NA, tsrWidth=NA, shapeIndex=NA)
     TSS.df <- data.frame(seq=NA, start=NA, end=NA, strand=NA,
-                               nTSSs=NA, nTAGs=NA, tsrPeak=NA, tsrWdth=NA, tsrTrq=NA, tsrSI=NA, tsrMSI=NA)
+                               nTSSs=NA, tsrWidth=NA, shapeIndex=NA)
 
     for (l in 1:n.seq) { #by sequence
         seq.name <- mixedsort(uni.seq[l], decreasing=FALSE)
@@ -160,7 +154,7 @@ tsrCluster <- function(x, minNbrTAGs=3, minDist=20) {
         sTSS.p <- as.matrix(sTSS.p)
         my.len <- nrow(sTSS.p)
         TSS.df.p <- data.frame(seq=NA, start=NA, end=NA, strand=NA,
-                               nTSSs=NA, nTAGs=NA, tsrPeak=NA, tsrWdth=NA, tsrTrq=NA, tsrSI=NA, tsrMSI=NA)
+                               nTSSs=NA, tsrWidth=NA, shapeIndex=NA)
         if (my.len == 0) {
         }
         else if (my.len == 1) {
@@ -213,8 +207,7 @@ tsrCluster <- function(x, minNbrTAGs=3, minDist=20) {
         sTSS.m <- as.matrix(sTSS.m)
         my.len <- nrow(sTSS.m)
         TSS.df.m <- data.frame(seq=NA, start=NA, end=NA, strand=NA,
-                               nTSSs=NA, nTAGs=NA, tsrPeak=NA, tsrWdth=NA,
-                               tsrTrq=NA, tsrSI=NA, tsrMSI=NA)
+                               nTSSs=NA, tsrWidth=NA, shapeIndex=NA)
         if (my.len == 0) {
         }
         else if (my.len == 1) {
@@ -273,7 +266,7 @@ tsrCluster <- function(x, minNbrTAGs=3, minDist=20) {
 
 
 #' @title tssArrayProperties
-#' @description An internal function that calculates various properties
+#' @description An internal function that caculates various properties
 #' for a TSR derived in tsrCluster()
 #'
 #' @keywords internal
@@ -285,31 +278,22 @@ tsrCluster <- function(x, minNbrTAGs=3, minDist=20) {
 #'
 #' @return A vector containing information about the TSR.
 #' The returned vector is as follows:
-#' seqName (character), TSR start (numeric), TSR end (numeric), strand (character),
-#' number of TSSs (numeric), number of tags (numeric), fraction of tags in highest
-#' peak (numeric), TSR width (numeric), TSR torque (numeric),
-#' Shape Index (numeric), Modified Shape Index (numeric)
+#' seqName (character), TSR start (numeric), TSR end (numeric),
+#' number of TSSs (numeric), TSR width (numeric) Shape Index (numeric)
 
 tssArrayProperties <- function(tssArray, seqName, strand) {
-    tsr.range    <- range(tssArray[,1])
-    tsr.midpoint <- (tsr.range[1] + tsr.range[2])/2
-    tsr.tsscount <- length(tssArray[,1])
-    tsr.tagcount <- sum(tssArray[,2])
-    tsr.peak     <- round(max(tssArray[,2])/tsr.tagcount, digits=2)
-    tsr.torque   <- round(sum((tssArray[,2]/tsr.tagcount) *
-			      (tssArray[,1]-tsr.midpoint) ), digits=2)
-    tsr.width    <- (tsr.range[2]-tsr.range[1])+1
-    tsr.SI       <- round(TSRshapeIndex(tssArray), digits=2)
-    tsr.mSI      <- round(TSRmshapeIndex(tssArray), digits=2)
-    return(list(seqName,tsr.range[1],tsr.range[2],strand,tsr.tsscount,
-                tsr.tagcount,tsr.peak,tsr.width,tsr.torque,tsr.SI,tsr.mSI))
+    my.range <- range(tssArray[,1])
+    my.counts <- sum(tssArray[,2])
+    my.width <- (my.range[2]-my.range[1])+1
+    my.SI <- round(TSRshapeIndex(tssArray), digits=2)
+    return(c(seqName,my.range[1],my.range[2],strand,my.counts,my.width,my.SI))
 }
 
 
 #' @title TSRshapeIndex
 #' @description An internal function that caculates the shape index (SI)
 #' of a given TSR from the output of tsrCluster.
-#' TSRshapeIndex is called by tssArrayProperties().
+#' TSRshapeIndex is invoked via tssArrayProperties().
 #'
 #' @keywords internal
 #'
@@ -328,34 +312,4 @@ TSRshapeIndex <- function(tssArray) {
               )
     SI <- 2 + sum(v)
     return(SI)
-}
-
-
-#' @title TSRmshapeIndex
-#' @description An internal function that caculates the modified shape index (mSI)
-#' of a given TSR from the output of tsrCluster.
-#' TSRmshapeIndex is called by tssArrayProperties().
-#'
-#' @keywords internal
-#'
-#' @param tssArray an object containing TSS coordinates and their
-#' abundances. (data.frame)
-#'
-#' @return Returns a  numeric vector of length 1 containing the Modified Shape Index (mSI)
-#' value for the selected TSR.
-
-TSRmshapeIndex <- function(tssArray) {
-    tagcount <- sum(tssArray[,2])
-    tsscount <- length(tssArray[,1])
-    v <- apply(tssArray, 1,
-               function(c) {p <- c[2]/tagcount;
-                    	    if (tsscount == 1) {
-                              return(0)
-	                    } else {
-                              return(p * log(p)/log(tsscount))
-	                    }
-                           }
-              )
-    mSI <- 1 + sum(v)
-    return(mSI)
 }
