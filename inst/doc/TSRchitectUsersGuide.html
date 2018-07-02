@@ -17,45 +17,7 @@ window.onload = function() {
 };
 </script>
 
-<!-- Styles for R syntax highlighter -->
-<style type="text/css">
-   pre .operator,
-   pre .paren {
-     color: rgb(104, 118, 135)
-   }
 
-   pre .literal {
-     color: #990073
-   }
-
-   pre .number {
-     color: #099;
-   }
-
-   pre .comment {
-     color: #998;
-     font-style: italic
-   }
-
-   pre .keyword {
-     color: #900;
-     font-weight: bold
-   }
-
-   pre .identifier {
-     color: rgb(0, 0, 0);
-   }
-
-   pre .string {
-     color: #d14;
-   }
-</style>
-
-<!-- R syntax highlighter -->
-<script type="text/javascript">
-var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
-hljs.initHighlightingOnLoad();
-</script>
 
 
 
@@ -209,7 +171,7 @@ hr {
 
 <h2>First edition 25 January 2017</h2>
 
-<h2>Updated 6 April 2017</h2>
+<h2>Updated 27 June 2018</h2>
 
 <p>TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 In recent years, large-scale TSS profiling data has characterized the landscape of transcription initiation at high resolution, identifying promoter architecture in a number of eukaryotic model systems, including human, mouse, fruit fly and worm.
@@ -223,10 +185,11 @@ TSRchitect can handle TSS profiling experiments that contain either single-end o
 <li>RAMPAGE (RNA Annotation and Mapping of Promoters for Analysis of Gene Expression) [Paired-end]</li>
 <li>CapSeq [Single-end]</li>
 <li>TSS-seq [Single-end]</li>
+<li>STRIPE-seq [Paired-end]</li>
 </ul>
 
-<p>TSRchitect provides the capability to efficiently identify putative promoters&mdash;which we call transcription start regions (TSRs)&mdash;from TSS profiling experiments.
-TSRchitect can accomodate multipel datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calcualtes a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width and the Shape Index (SI).
+<p>TSRchitect provides the capability to efficiently identify putative promoters---which we call transcription start regions (TSRs)---from TSS profiling experiments.
+TSRchitect can accomodate multiple datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calcualtes a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width, Shape Index (SI), modified Shape Index (mSI) and torque.
 Finally, TSRchitect&#39;s output is compatible with popular differential expression software such as <a href="https://bioconductor.org/packages/release/bioc/html/edgeR.html">edgeR</a>, assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another. In addition to this vignette, the TSRchitect Reference Manual is available as part of the package&#39;s online documentation.</p>
 
 <h2>Getting started</h2>
@@ -246,7 +209,7 @@ mkdir HsRAMPAGEbam
 
 <p>In this example we will process RAMPAGE data derived from two immortalized human cell lines with TSRchitect. The experiments selected for this vignette are part of the ENCODE project and are publically available online at the <a href="https://www.encodeproject.org/matrix/?type=Experiment">ENCODE Experiment matrix</a>. The two samples come from HT1080 cells, which is a well-characterized fibrosarcoma cell line, and NCI-H460 cells, which are derived from a large cell lung carcinoma in a male patient. </p>
 
-<p>To begin, we must first download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) to our local system. To accomplish this we will utilize the &ldquo;ENCODExplorer&rdquo; package, which is part of the Bioconductor suite. More information on ENCODExplorer package can be found at the following link: <a href="https://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html">https://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html</a>.</p>
+<p>To begin, we must first download the RAMPAGE datasets (which were aligned to GRCh38 and are in BAM format) to our local system. To accomplish this we will utilize the &quot;ENCODExplorer&quot; package, which is part of the Bioconductor suite. More information on ENCODExplorer package can be found at the following link: <a href="https://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html">https://www.bioconductor.org/packages/release/bioc/html/ENCODExplorer.html</a>.</p>
 
 <p>Now we can proceed (in the R console) with downloading the data:</p>
 
@@ -284,7 +247,7 @@ cd ..
 library(TSRchitect)
 </code></pre>
 
-<p>Next we&#39;ll initialize our dedicated S4 object&mdash;called the tssObject&mdash;on which TSRchitect&#39;s
+<p>Next we&#39;ll initialize our dedicated S4 object---called the tssObject---on which TSRchitect&#39;s
 functions are applied, using <code>loadTSSobj</code>. We also need to supply other information about the
 experiment as arguments. This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. </p>
 
@@ -311,11 +274,11 @@ getFileNames(experimentName=Hs_RAMPAGE)
 <pre><code class="r">Hs_RAMPAGE &lt;- processTSS(experimentName=Hs_RAMPAGE, n.cores=4, tssSet=&quot;all&quot;, writeTable=TRUE)
 </code></pre>
 
-<p>Since we specified &#39;writeTable=TRUE&#39;, files (entitled &ldquo;TSSset-1.txt&rdquo; to &ldquo;TSSset-4.txt&rdquo;) containing TSS abundance will be written into your working directory. 
+<p>Since we specified &#39;writeTable=TRUE&#39;, files (entitled &quot;TSSset-1.txt&quot; to &quot;TSSset-4.txt&quot;) containing TSS abundance will be written into your working directory. 
 Now that we have calculated the abundance for each TSS in the previous step we can calculate TSRs (promoters) on each of the 4 separate datasets using the function <code>determineTSR</code>.
 We select a <code>tagCount</code> threshold of 25 tags in order for a TSS to be considered.
 The option <code>clustDist</code> is critical for the identification of TSRs and refers to the minimum distance between distinct TSRs (in other words, adjacent TSSs seperated by more than <code>clustDist</code> nucleotides will be in different TSRs).
-As with the previous step, we select &#39;writeTable=TRUE&#39;, and therefore we will find the output files (&ldquo;TSRset-1&rdquo; to &ldquo;TSRset-4&rdquo;) written to the working directory. As for <code>processTSS</code>, we can run this function in parallel. We have specified 4 cores. </p>
+As with the previous step, we select &#39;writeTable=TRUE&#39;, and therefore we will find the output files (&quot;TSRset-1&quot; to &quot;TSRset-4&quot;) written to the working directory. As for <code>processTSS</code>, we can run this function in parallel. We have specified 4 cores. </p>
 
 <pre><code class="r">Hs_RAMPAGE &lt;- determineTSR(experimentName=Hs_RAMPAGE, n.cores=4, /
 tsrSetType=&quot;replicates&quot;, tssSet=&quot;all&quot;, tagCountThreshold=25, clustDist=20, /
@@ -328,7 +291,7 @@ writeTable=TRUE)
 </code></pre>
 
 <p>Having combined the TSS abundance of replicate data into samples, we next proceed with identifying TSRs for the two samples individually.
-We specify this with &#39;tsrSetType=&ldquo;merged&rdquo;&#39;.</p>
+We specify this with &#39;tsrSetType=&quot;merged&quot;&#39;.</p>
 
 <pre><code class="r">#Generating the TSRs for the merged datasets:
 Hs_RAMPAGE &lt;- determineTSR(experimentName=Hs_RAMPAGE, n.cores=4, tsrSetType=&quot;merged&quot; /
@@ -360,7 +323,7 @@ query(hub, c(&quot;gencode&quot;, &quot;gff&quot;, &quot;human&quot;))
 </code></pre>
 
 <p>This reveals nine gff3 annotations from Gencode that we can choose from.
-We will select the full annotation, which has the identifier &ldquo;AH49555&rdquo;.</p>
+We will select the full annotation, which has the identifier &quot;AH49555&quot;.</p>
 
 <pre><code>AnnotationHub with 9 records
 # snapshotDate(): 2017-01-05
@@ -404,7 +367,7 @@ tsrSet=2, upstreamDist=1000, downstreamDist=200, feature=&quot;transcript&quot;,
 featureColumnID=&quot;ID&quot;, writeTable=TRUE)
 </code></pre>
 
-<p>Finally, we will repeat the two commands above, instead associating the gene annotation to the &ldquo;combined&rdquo; set of TSRs, which is found in the 3rd position on the <code>tsrDataMerged</code> slot.</p>
+<p>Finally, we will repeat the two commands above, instead associating the gene annotation to the &quot;combined&quot; set of TSRs, which is found in the 3rd position on the <code>tsrDataMerged</code> slot.</p>
 
 <pre><code class="r">Hs_RAMPAGE &lt;- addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType=&quot;merged&quot;, /
 tsrSet=3, upstreamDist=1000, downstreamDist=200, feature=&quot;transcript&quot;, /
@@ -434,24 +397,24 @@ dim(combined.tsrs)
 
 <p>We see that there are 22750 TSRs identified in the combined set, and 15904 and 18040 TSRs in the H460 and HT1080 samples, respectively.
 We also notice that there are 5 additional columns in the combined set.
-This is due to us previouly having added tag counts to the combined set of TSRs using addTagCountsToTSR&#39;, something we did not do in this vignette for the two individual samples.</p>
+This is due to us previouly having added tag counts to the combined set of TSRs using `addTagCountsToTSR&#39;, something we did not do in this vignette for the two individual samples.</p>
 
 <p>You now have a complete set of TSS and TSR data attached to your <code>tssObject</code> S4 object, in addition the tables that were already written to your working directory.</p>
 
-<p>To better understand our data, let&#39;s explore some of the characteristics of the TSRs we have identified. TSRchitect calculates the Shape Index (SI) of each TSR; the SI provides a quantitative measure of TSR (and thus promoter) shape by representing the entropy of the distribution of TSSs associated with it. An SI of 2 (which is the maximum value possible) will have only a single unique TSS coordinate, whereas a TSR with a negative SI value will have an diversity of mapped 5&#39; ends at distinct TSS positions. We can use SI values to classify TSRs into &#39;peaked&#39; and &#39;broad&#39; classes, having high and low SI values, respectively.</p>
+<p>To better understand our data, let&#39;s explore some of the characteristics of the TSRs we have identified. TSRchitect calculates the Shape Index (SI) of each TSR; the SI provides a quantitative measure of TSR (and thus promoter) shape by representing the entropy of the distribution of TSSs associated with it. An SI of 2 (which is the maximum value possible) will have only a single unique TSS coordinate, whereas a TSR with a negative SI value will have an diversity of mapped 5&#39; ends at distinct TSS positions. We can use SI values to classify TSRs into &#39;peaked&#39; and &#39;broad&#39; classes, having high and low SI values, respectively. As of TSRchitect version 1.3.0, we have included the Modified Shape Index (mSI) as an additional metric defining TSR shape. The mSI is a metric of TSR shape scaled by TSS tag abundance that can return possible values from 0 to 1 inclusive, where 1 is the most peaked (i.e. a TSR with a single unique TSS position) and 0 is the most broad TSR.</p>
 
-<p>We can visualize the shape distribution of our identified TSRs quite easily using Hadley Wickham&#39;s <code>ggplot2</code> graphics package, as follows. For these plots we filter will out TSRs at lower abundances (100 tags/TSR) to show only the SI values from reasonably well-sampled TSRs.</p>
+<p>We can visualize the shape distribution of our identified TSRs quite easily using Hadley Wickham&#39;s <code>ggplot2</code> graphics package, as follows. For these plots we filter will out TSRs at lower abundances (100 tags/TSR) to show only the SI values from reasonably well-sampled TSRs. </p>
 
 <pre><code class="r">require(ggplot2)
-HT1080.tsrs.filtered &lt;- HT1080.tsrs[HT1080.tsrs$nTSSs &gt; 100,]
-t &lt;- ggplot(HT1080.tsrs.filtered, aes(shapeIndex))
+HT1080.tsrs.filtered &lt;- HT1080.tsrs[HT1080.tsrs$nTAGs &gt; 100,]
+t &lt;- ggplot(HT1080.tsrs.filtered, aes(tsrSI))
 t + geom_histogram(bidwith=0.1, fill=&quot;blue2&quot;) /
 + ylab(&quot;Number of Tags per TSR&quot;) + xlab(&quot;Shape Index (SI)&quot;)
 ggsave(file=&quot;HT1080_SI.png)
 </code></pre>
 
-<pre><code class="r">H460.tsrs.filtered &lt;- H460.tsrs[H460.tsrs$nTSSs &gt; 100,]
-p &lt;- ggplot(H460.tsrs.filtered, aes(shapeIndex))
+<pre><code class="r">H460.tsrs.filtered &lt;- H460.tsrs[H460.tsrs$nTAGs &gt; 100,]
+p &lt;- ggplot(H460.tsrs.filtered, aes(tsrSI))
 p + geom_histogram(bidwith=0.1, fill=&quot;darkgreen&quot;) /
 + ylab(&quot;Number of Tags per TSR&quot;) + xlab(&quot;Shape Index (SI)&quot;)
 ggsave(file=&quot;H460_SI.png&quot;)
@@ -459,7 +422,7 @@ ggsave(file=&quot;H460_SI.png&quot;)
 
 <p>From both histograms we can see that there appears to be a bimodal distribution of TSRs within our samples; the class of &#39;completely peaked&#39; TSRs with an SI value of 2, and another distribution of more broad TSRs with SI values centered just below 0. This is consistent with two major shape classes of TSRs known in metazoans, particularily human and mouse.</p>
 
-<p>Similarly, we could use the same code framework above to plot the distributions of TSR width and/or nTSSs; to do this we would select the appropriate column.</p>
+<p>Similarly, we could use the same code framework above to plot the distributions of TSR width (tsrWdth), number of unique TSSs per TSR (nTSSs), the mSI and torque (balance of the TSR according to tag counts; tsrTrq); to do this we would select the appropriate column in the data frame. For example: equivalent plots can generated for mSI simply by replacing the term &quot;tsrSI&quot; with &quot;tsrMSI&quot; in the two code snippets above.</p>
 
 <p>This concludes Example 1. Should we wish to save our tssObject and return to our work later, we simply type the following, which will write an R binary to your working directory.</p>
 
@@ -478,7 +441,7 @@ These data come from the Megraw Lab at Oregon State University as reported in Mo
 
 <p>The annotation file is available from the TAIR10 database: <a href="ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff">ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff</a>. Please move it into the downloads/ folder you have created.</p>
 
-<p>Once download of the file <code>peat.sorted.bam</code> is complete, please move it to subdirectory &ldquo;PEATbam/&rdquo;.
+<p>Once download of the file <code>peat.sorted.bam</code> is complete, please move it to subdirectory &quot;PEATbam/&quot;.
 Since there is only a single experiment, setting the sample IDs is simple:</p>
 
 <pre><code class="r">At_PEAT &lt;- loadTSSobj(expTitle =&quot;Arabidopsis PEAT dataset&quot;, inputDir=&quot;PEATbam&quot;, /
