@@ -106,7 +106,7 @@ Note that we must specify `isPairedBAM=FALSE` because this is single-end CAGE da
 
 ```{r eval=FALSE}
 Hs_RAMPAGE <- loadTSSobj(experimentTitle ="Human RAMPAGE", inputDir="HsRAMPAGEbam/", /
-isPairedEndBAM=TRUE, sampleNames=c("H460-rep1", /
+isPairedBAM=TRUE, sampleNames=c("H460-rep1", /
 "H460-rep2", "HT1080-rep1", "HT1080-rep2"), replicateIDs=c(1,1,2,2))
 ```
 
