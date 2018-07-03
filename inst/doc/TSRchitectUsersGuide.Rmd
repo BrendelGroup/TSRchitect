@@ -78,12 +78,18 @@ ln -s ../downloads/ENCFF348EKW.bam HT1080-rep2.bam
 cd ..
 ```
 
-We'll also need to download a human gene annotation, which will be important a little later.
+Please download and uncompress the human gene annoation file found at the following location:
 
-Please download and uncompress the annotation file and move it into the downloads/ folder.
+ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz.
 
-The file is found here:
-ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
+Please move the uncompressed file into the downloads/ directory, e.g. with
+
+```{bash eval=FALSE}
+cd downloads
+wget --content-disposition ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
+gunzip gencode.v19.annotation.gff3.gz
+cd ..
+```
 
 Now that we have our input and annotation files prepared, we can load TSRchitect into our R workspace:
 
@@ -95,6 +101,7 @@ library(TSRchitect)
 Next we'll initialize our dedicated S4 object---called the tssObject---on which TSRchitect's
 functions are applied, using `loadTSSobj`. We also need to supply other information about the
 experiment as arguments. This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. 
+Note that we must specify `isPairedBAM=FALSE` because this is single-end CAGE data.
 
 
 ```{r eval=FALSE}
@@ -304,12 +311,19 @@ Otherwise some or all of the files you generate in subsequent examples will be o
 For our second example will process TSS profiling data from Arabidopsis root tissue.
 These data come from the Megraw Lab at Oregon State University as reported in Morton et al., 2014. [Link to paper:](http://www.plantcell.org/content/26/7/2746)
 
-As with the previous example, we first must download the raw data. In this case we have only a single alignment file to retrieve, which is found here: https://drive.google.com/open?id=0B5WxM8Ere19uZmlHM1F3ZS1iWWc.
-
-The annotation file is available from the TAIR10 database: ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff. Please move it into the downloads/ folder you have created.
-
+As with the previous example, we first must download the raw data. In this case we have only a single alignment file to retrieve, which is found here: https://oregonstate.app.box.com/s/3lb3spmqbiuofhbubovc1z8bfthmxh6f
 Once download of the file `peat.sorted.bam` is complete, please move it to subdirectory "PEATbam/".
-Since there is only a single experiment, setting the sample IDs is simple:
+
+The annotation file is available from the TAIR10 database: ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff. Please move it into the downloads/ folder you have created, e.g.
+
+```{r eval=FALSE}
+mkdir downloads
+cd downloads
+wget --content-disposition ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff
+cd ..
+```
+
+Because there is only a single experiment, setting the sample IDs is simple in this example:
 
 ```{r eval=FALSE}
 At_PEAT <- loadTSSobj(experimentTitle ="Arabidopsis PEAT dataset", inputDir="PEATbam", /
@@ -319,7 +333,7 @@ isPairedBAM=TRUE, sampleNames=c("experiment1"), replicateIDs=c(1))
 Now we convert the alignment data (in this case, in .bam format) into TSS coordinates:
 
 ```{r eval=FALSE}
-At_PEAT <- bamToTSS(At_PEAT)
+At_PEAT <- inputToTSS(At_PEAT)
 ```
 
 As in the previous example, now we can calculate the tag abundance at each location using `processTSS` and the identify TSRs within the sample using `determineTSR`. Note that we do not need to use `mergeSampleData` because there is only a single sample. As there is only a single sample we set `n.cores=1`.
@@ -346,7 +360,7 @@ upstreamDist=500, downstreamDist=200, feature="gene", featureColumnID="ID", writ
 Now we have a complete set of TSRs on our tssObj object. Let's take a look at them using one of our accessor methods.
 
 ```{r eval=FALSE}
-At.tsrs <- getTSRdata(AtPEAT, setType="replicates", set=1)
+At.tsrs <- getTSRdata(At_PEAT, slotType="replicates", slot=1)
 dim(At.tsrs)
 head(At.tsrs)
 ```
