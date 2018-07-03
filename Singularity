@@ -114,7 +114,7 @@ From: ubuntu:18.04
     unzip fastqc_v0.11.7.zip
     chmod a+x FastQC/fastqc
 
-# TRIM_GABLORE:
+# TRIM_GALORE:
     echo 'Installing TRIM_GALORE from http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/ '
     #### Prerequisites
     pip install --upgrade cutadapt
