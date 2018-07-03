@@ -98,7 +98,7 @@ experiment as arguments. This will attach GenomicAlignments objects (representin
 
 
 ```{r eval=FALSE}
-Hs_RAMPAGE <- loadTSSobj(expTitle ="Human RAMPAGE", inputDir="HsRAMPAGEbam/", /
+Hs_RAMPAGE <- loadTSSobj(experimentTitle ="Human RAMPAGE", inputDir="HsRAMPAGEbam/", /
 isPairedEndBAM=TRUE, sampleNames=c("H460-rep1", /
 "H460-rep2", "HT1080-rep1", "HT1080-rep2"), replicateIDs=c(1,1,2,2))
 ```
@@ -245,7 +245,7 @@ dim(HT1080.tsrs)
 
 ```{r eval=FALSE}
 H460.tsrs <- getTSRdata(Hs_RAMPAGE, slotType="merged", slot=2)
-dim(H460)
+dim(H460.tsrs)
 ```
 
 ```{r eval=FALSE}
@@ -273,15 +273,15 @@ We can visualize the shape distribution of our identified TSRs quite easily usin
 require(ggplot2)
 HT1080.tsrs.filtered <- HT1080.tsrs[HT1080.tsrs$nTAGs > 100,]
 t <- ggplot(HT1080.tsrs.filtered, aes(tsrSI))
-t + geom_histogram(bidwith=0.1, fill="blue2") /
+t + geom_histogram(binwidth=0.1, fill="blue2") /
 + ylab("Number of Tags per TSR") + xlab("Shape Index (SI)")
-ggsave(file="HT1080_SI.png)
+ggsave(file="HT1080_SI.png")
 ```
 
 ```{r eval=FALSE}
 H460.tsrs.filtered <- H460.tsrs[H460.tsrs$nTAGs > 100,]
 p <- ggplot(H460.tsrs.filtered, aes(tsrSI))
-p + geom_histogram(bidwith=0.1, fill="darkgreen") /
+p + geom_histogram(binwidth=0.1, fill="darkgreen") /
 + ylab("Number of Tags per TSR") + xlab("Shape Index (SI)")
 ggsave(file="H460_SI.png")
 ```
@@ -312,7 +312,7 @@ Once download of the file `peat.sorted.bam` is complete, please move it to subdi
 Since there is only a single experiment, setting the sample IDs is simple:
 
 ```{r eval=FALSE}
-At_PEAT <- loadTSSobj(expTitle ="Arabidopsis PEAT dataset", inputDir="PEATbam", /
+At_PEAT <- loadTSSobj(experimentTitle ="Arabidopsis PEAT dataset", inputDir="PEATbam", /
 isPairedBAM=TRUE, sampleNames=c("experiment1"), replicateIDs=c(1))
 ```
 
@@ -386,17 +386,25 @@ ln -s ../downloads/ENCFF288VTZ.bam MCF7-rep2.bam
 cd ..
 ```
 
-As in Example 1, we also need to download a human gene annotation.
-Please download and uncompress the annoation file [Note: you may ignore this if you have already downloaded the file from Example 1].
+As in Example 1, we also need to provide human gene annotation.
+Please download and uncompress the annoation file found at the following location [Note: you may ignore this if you have already downloaded the file from Example 1]:
 
-The annotation file is found at the following location:
-ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz. Please move it into the downloads/ directory if it does not already exist there.
+ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz.
+
+Please move the uncompressed file into the downloads/ directory if it does not already exist there, e.g. with
+
+```{bash eval=FALSE}
+cd downloads
+wget --content-disposition ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
+gunzip gencode.v19.annotation.gff3.gz
+cd ..
+```
 
 Now we can set up the tssObject S4 object. Note that we must specify `isPairedBAM=FALSE` because this is single-end CAGE data.
 
 ```{r eval=FALSE}
 # initializing the tssObject, setting the sample IDs and importing the CAGE data
-CAGEhuman <- loadTSSobj(expTitle ="Human CAGE", inputDir="HsCAGEbam", /
+CAGEhuman <- loadTSSobj(experimentTitle ="Human CAGE", inputDir="HsCAGEbam", /
 isPairedBAM=TRUE, sampleNames=c("A549-rep1","A549-rep2", /
 "MCF7-rep1","MCF7-rep2"), replicateIDs=c(1,1,2,2)
 ```
