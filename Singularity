@@ -8,7 +8,7 @@ From: ubuntu:18.04
 %post
     apt -y update
     apt -y install build-essential
-    apt -y install bc git tcsh tzdata unzip zip wget
+    apt -y install bc curl git tcsh tzdata unzip zip wget
     apt -y install automake
     apt -y install cpanminus
     apt -y install openjdk-8-jdk
