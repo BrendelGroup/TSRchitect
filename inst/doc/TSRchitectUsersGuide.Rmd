@@ -28,7 +28,7 @@ Examples of TSS profiling data types that TSRchitect is capable of handling are:
 - RAMPAGE (RNA Annotation and Mapping of Promoters for Analysis of Gene Expression) [Paired-end]
 - CapSeq [Single-end]
 - TSS-seq [Single-end]
-- STRIPE-seq [Paired-end]
+- STRIPE-seq [Single-end or Paired-end]
 
 TSRchitect provides the capability to efficiently identify putative promoters---which we call transcription start regions (TSRs)---from TSS profiling experiments.
 TSRchitect can accomodate multiple datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calcualtes a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width, Shape Index (SI), modified Shape Index (mSI) and torque.
