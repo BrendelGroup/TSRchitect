@@ -15,7 +15,7 @@ vignette: >
 ## Department of Biology, Indiana University
 
 ## First edition 25 January 2017
-## Updated 27 June 2018
+## Updated 3 July 2018
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 In recent years, large-scale TSS profiling data has characterized the landscape of transcription initiation at high resolution, identifying promoter architecture in a number of eukaryotic model systems, including human, mouse, fruit fly and worm.
@@ -28,7 +28,7 @@ Examples of TSS profiling data types that TSRchitect is capable of handling are:
 - RAMPAGE (RNA Annotation and Mapping of Promoters for Analysis of Gene Expression) [Paired-end]
 - CapSeq [Single-end]
 - TSS-seq [Single-end]
-- STRIPE-seq [Paired-end]
+- STRIPE-seq [Single-end or Paired-end]
 
 TSRchitect provides the capability to efficiently identify putative promoters---which we call transcription start regions (TSRs)---from TSS profiling experiments.
 TSRchitect can accomodate multiple datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calcualtes a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width, Shape Index (SI), modified Shape Index (mSI) and torque.
@@ -106,7 +106,7 @@ Note that we must specify `isPairedBAM=FALSE` because this is single-end CAGE da
 
 ```{r eval=FALSE}
 Hs_RAMPAGE <- loadTSSobj(experimentTitle ="Human RAMPAGE", inputDir="HsRAMPAGEbam/", /
-isPairedEndBAM=TRUE, sampleNames=c("H460-rep1", /
+isPairedBAM=TRUE, sampleNames=c("H460-rep1", /
 "H460-rep2", "HT1080-rep1", "HT1080-rep2"), replicateIDs=c(1,1,2,2))
 ```
 
@@ -217,7 +217,7 @@ We accomplish this as follows:
 
 ```{r eval=FALSE}
 Hs_RAMPAGE <- importAnnotationHub(experimentName=Hs_RAMPAGE, provider="gencode", /
-annotType="gff3", species="human", ID="AH49555")
+annotType="gff3", species="human", annotID="AH49555")
 ```
 
 Next, we associate the gene annotation to the TSRs within our two merged samples.
@@ -419,8 +419,8 @@ Now we can set up the tssObject S4 object. Note that we must specify `isPairedBA
 ```{r eval=FALSE}
 # initializing the tssObject, setting the sample IDs and importing the CAGE data
 CAGEhuman <- loadTSSobj(experimentTitle ="Human CAGE", inputDir="HsCAGEbam", /
-isPairedBAM=TRUE, sampleNames=c("A549-rep1","A549-rep2", /
-"MCF7-rep1","MCF7-rep2"), replicateIDs=c(1,1,2,2)
+isPairedBAM=FALSE, sampleNames=c("A549-rep1","A549-rep2", /
+"MCF7-rep1","MCF7-rep2"), replicateIDs=c(1,1,2,2) )
 ```
 
 As before, it is vital to provide arguments to `sampleNames` and `replicateIDs` in the order of the files on the `fileNames` slot to they exactly correspond to the alignment files (in this case .bam) that we imported.
@@ -468,7 +468,7 @@ Now we need to import the annotation file and attach it to our tssObj S4 object.
 
 ```{r eval=FALSE}
 CAGEhuman <- importAnnotationHub(experimentName=CAGEhuman, provider="gencode", /
-annotType="gff3", species="human", ID="AH49555")
+annotType="gff3", species="human", annotID="AH49555")
 ```
 
 Next we associate the gene annotation to the TSRs within our two merged samples i) MCF7 cells and ii) A549 cells.
@@ -495,19 +495,19 @@ writeTable=TRUE)
 Using the accessor methods we applied in earlier examples, let's take a quick glance at our set of identified TSRs.
 
 ```{r eval=FALSE}
-getTSRdata(CAGEhuman, setType="merged", slot=1) -> MCF7.tsrs
+getTSRdata(CAGEhuman, slotType="merged", slot=1) -> MCF7.tsrs
 
 dim(MCF7.tsrs)
 ```
 
 ```{r eval=FALSE}
-getTSRdata(CAGEhuman, setType="merged", slot=2) -> A549.tsrs
+getTSRdata(CAGEhuman, slotType="merged", slot=2) -> A549.tsrs
 
 dim(A549.tsrs)
 ```
 
 ```{r eval=FALSE}
-getTSRdata(CAGEhuman, setType="merged", slot=3) -> CAGEhuman.tsrs
+getTSRdata(CAGEhuman, slotType="merged", slot=3) -> CAGEhuman.tsrs
 
 dim(CAGEhuman.tsrs)
 ```
