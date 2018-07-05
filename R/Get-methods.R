@@ -67,11 +67,11 @@ setMethod("getFileNames",
 signature(experimentName = "tssObject"),
 function (experimentName){
         my.files <- vector(mode="character")
-    if (length(experimentName@fileNamesBAM) > 0) {
+    if (!is.na(experimentName@fileNamesBAM[[1]])) {
         my.files1 <- experimentName@fileNamesBAM
         my.files <- c(my.files, my.files1)
     }
-    if (length(experimentName@fileNamesBED) > 0) {
+    if (!is.na(experimentName@fileNamesBED[[1]])) {
         my.files1 <- experimentName@fileNamesBED
         my.files <- c(my.files, my.files1)
     }
