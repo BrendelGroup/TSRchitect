@@ -31,7 +31,7 @@ Examples of TSS profiling data types that TSRchitect is capable of handling are:
 - STRIPE-seq [Single-end or Paired-end]
 
 TSRchitect provides the capability to efficiently identify putative promoters---which we call transcription start regions (TSRs)---from TSS profiling experiments.
-TSRchitect can accomodate multiple datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calcualtes a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width, Shape Index (SI), modified Shape Index (mSI) and torque.
+TSRchitect can accommodate multiple datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calculates a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width, Shape Index (SI), modified Shape Index (mSI) and torque.
 Finally, TSRchitect's output is compatible with popular differential expression software such as [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another. In addition to this vignette, the TSRchitect Reference Manual is available as part of the package's online documentation.
 
 ## Getting started
