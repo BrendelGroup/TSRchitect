@@ -1,0 +1,89 @@
+#!/bin/bash
+
+
+# Preparatory steps:
+#
+mkdir downloads
+
+echo 'library(ENCODExplorer)' > demo1a.Rscript
+echo 'data(encode_df, package="ENCODExplorer")' >> demo1a.Rscript
+echo 'datasets <- fuzzySearch(searchTerm=c("ENCFF214GWH", "ENCFF265SGZ", "ENCFF242UWH", "ENCFF348EKW"), database=encode_df, filterVector=c("file_accession"), multipleTerm=TRUE)' >> demo1a.Rscript
+echo 'downloadEncode(datasets, df=encode_df, format="bam")' >> demo1a.Rscript
+
+Rscript demo1a.Rscript
+
+mv *.bam downloads
+
+#cd downloads
+#wget --content-disposition ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
+#gunzip gencode.v19.annotation.gff3.gz
+#cd ..
+
+
+mkdir HsRAMPAGEbam
+cd HsRAMPAGEbam
+ln -s ../downloads/ENCFF214GWH.bam H460-rep1.bam
+ln -s ../downloads/ENCFF265SGZ.bam H460-rep2.bam
+ln -s ../downloads/ENCFF242UWH.bam HT1080-rep1.bam
+ln -s ../downloads/ENCFF348EKW.bam HT1080-rep2.bam
+cd ..
+
+
+# Running the TSRchitect workflow:
+#
+echo 'library(TSRchitect)'  > demo1b.Rscript
+
+echo 'Hs_RAMPAGE <- loadTSSobj(experimentTitle ="Human RAMPAGE", inputDir="HsRAMPAGEbam/", isPairedBAM=TRUE, sampleNames=c("H460-rep1", "H460-rep2", "HT1080-rep1", "HT1080-rep2"), replicateIDs=c(1,1,2,2))' >> demo1b.Rscript
+
+echo 'getFileNames(experimentName=Hs_RAMPAGE)' >> demo1b.Rscript
+
+echo 'Hs_RAMPAGE <- inputToTSS(experimentName=Hs_RAMPAGE)' >> demo1b.Rscript
+
+echo 'Hs_RAMPAGE <- processTSS(experimentName=Hs_RAMPAGE, n.cores=4, tssSet="all", writeTable=TRUE)' >> demo1b.Rscript
+
+echo 'Hs_RAMPAGE <- determineTSR(experimentName=Hs_RAMPAGE, n.cores=4, tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)' >> demo1b.Rscript
+
+echo 'Hs_RAMPAGE <- mergeSampleData(experimentName=Hs_RAMPAGE)' >> demo1b.Rscript
+
+echo 'Hs_RAMPAGE <- determineTSR(experimentName=Hs_RAMPAGE, n.cores=4, tsrSetType="merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)' >> demo1b.Rscript
+
+echo 'Hs_RAMPAGE <- addTagCountsToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", tsrSet=3, tagCountThreshold=40, writeTable=TRUE)' >> demo1b.Rscript
+
+echo 'library(AnnotationHub)' >> demo1b.Rscript
+echo 'hub <- AnnotationHub()' >> demo1b.Rscript
+echo 'query(hub, c("gencode", "gff", "human"))' >> demo1b.Rscript
+
+echo 'Hs_RAMPAGE <- importAnnotationHub(experimentName=Hs_RAMPAGE, provider="gencode", annotType="gff3", species="human", annotID="AH49555")' >> demo1b.Rscript
+
+echo 'Hs_RAMPAGE <- addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE)' >> demo1b.Rscript
+
+echo 'Hs_RAMPAGE <- addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", tsrSet=2, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE)' >> demo1b.Rscript
+
+echo 'Hs_RAMPAGE <- addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", tsrSet=3, upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", writeTable=TRUE)' >> demo1b.Rscript
+
+echo 'HT1080.tsrs <- getTSRdata(Hs_RAMPAGE, slotType="merged", slot=1)' >> demo1b.Rscript
+echo 'dim(HT1080.tsrs)' >> demo1b.Rscript
+
+echo 'H460.tsrs <- getTSRdata(Hs_RAMPAGE, slotType="merged", slot=2)' >> demo1b.Rscript
+echo 'dim(H460.tsrs)' >> demo1b.Rscript
+
+echo 'combined.tsrs <- getTSRdata(Hs_RAMPAGE, slotType="merged", slot=3)' >> demo1b.Rscript
+echo 'dim(combined.tsrs)' >> demo1b.Rscript
+echo 'head(combined.tsrs)' >> demo1b.Rscript
+
+echo 'require(ggplot2)' >> demo1b.Rscript
+
+echo 'HT1080.tsrs.filtered <- HT1080.tsrs[HT1080.tsrs$nTAGs > 100,]' >> demo1b.Rscript
+echo 't <- ggplot(HT1080.tsrs.filtered, aes(tsrSI))' >> demo1b.Rscript
+echo 't + geom_histogram(binwidth=0.1, fill="blue2") + ylab("Number of Tags per TSR") + xlab("Shape Index (SI)")' >> demo1b.Rscript
+echo 'ggsave(file="HT1080_SI.png")' >> demo1b.Rscript
+
+echo 'H460.tsrs.filtered <- H460.tsrs[H460.tsrs$nTAGs > 100,]' >> demo1b.Rscript
+echo 'p <- ggplot(H460.tsrs.filtered, aes(tsrSI))' >> demo1b.Rscript
+echo 'p + geom_histogram(binwidth=0.1, fill="darkgreen") + ylab("Number of Tags per TSR") + xlab("Shape Index (SI)")' >> demo1b.Rscript
+echo 'ggsave(file="H460_SI.png")' >> demo1b.Rscript
+
+echo 'save(Hs_RAMPAGE, file="Hs_RAMPAGE.RData")' >> demo1b.Rscript
+
+
+Rscript demo1b.Rscript

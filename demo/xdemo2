@@ -1,0 +1,39 @@
+#!/bin/bash
+
+
+# Preparatory steps:
+#
+
+mkdir downloads
+cd downloads
+wget --content-disposition ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff
+cd ..
+echo 'Note: The TSRchitect workflow will NOT work unless you have downloaded'
+echo '      the peat.sorted.bam file into a directory named PEATbam as'
+echo '      instructed.'
+
+
+# Running the TSRchitect workflow:
+#
+echo 'library(TSRchitect)'  > demo2.Rscript
+
+echo 'At_PEAT <- loadTSSobj(experimentTitle ="Arabidopsis PEAT dataset", inputDir="PEATbam", isPairedBAM=TRUE, sampleNames=c("experiment1"), replicateIDs=c(1))' >> demo2.Rscript
+
+echo 'At_PEAT <- inputToTSS(At_PEAT)' >> demo2.Rscript
+
+echo 'At_PEAT <- processTSS(experimentName=At_PEAT, n.cores=1, tssSet="all", writeTable=TRUE)' >> demo2.Rscript
+
+echo 'At_PEAT <- determineTSR(experimentName=At_PEAT, n.cores=1, tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)' >> demo2.Rscript
+
+echo 'At_PEAT <- importAnnotationExternal(experimentName=At_PEAT, fileType="gff3", annotFile="downloads/TAIR10_GFF3_genes.gff")' >> demo2.Rscript
+
+echo 'At_PEAT <- addAnnotationToTSR(experimentName=At_PEAT, tsrSetType="replicates", tsrSet=1, upstreamDist=500, downstreamDist=200, feature="gene", featureColumnID="ID", writeTable=TRUE)' >> demo2.Rscript
+
+echo 'At.tsrs <- getTSRdata(At_PEAT, slotType="replicates", slot=1)' >> demo2.Rscript
+echo 'dim(At.tsrs)' >> demo2.Rscript
+echo 'head(At.tsrs)' >> demo2.Rscript
+
+echo 'save(At_PEAT, file="At_PEAT_vignette.RData")' >> demo2.Rscript
+
+
+Rscript demo2.Rscript

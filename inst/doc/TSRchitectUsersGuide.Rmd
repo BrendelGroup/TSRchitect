@@ -311,7 +311,7 @@ Otherwise some or all of the files you generate in subsequent examples will be o
 For our second example will process TSS profiling data from Arabidopsis root tissue.
 These data come from the Megraw Lab at Oregon State University as reported in Morton et al., 2014. [Link to paper:](http://www.plantcell.org/content/26/7/2746)
 
-As with the previous example, we first must download the raw data. In this case we have only a single alignment file to retrieve, which is found here: https://oregonstate.app.box.com/s/3lb3spmqbiuofhbubovc1z8bfthmxh6f
+As with the previous example, first we must download the raw data. In this case we have only a single alignment file to retrieve, which is found here: https://oregonstate.app.box.com/s/3lb3spmqbiuofhbubovc1z8bfthmxh6f
 Once download of the file `peat.sorted.bam` is complete, please move it to subdirectory "PEATbam/".
 
 The annotation file is available from the TAIR10 database: ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff. Please move it into the downloads/ folder you have created, e.g.
