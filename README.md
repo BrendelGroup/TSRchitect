@@ -44,7 +44,7 @@ R version 3.5.1 (2018-07-02) -- "Feather Spray"
 
 Please find detailed installation instructions and options in the
 [INSTALL](./INSTALL.md) document.
-Once all preparatory steps are taken care of, see the [HOWTO](../demo/HOWTO.md)
+Once all preparatory steps are taken care of, see the [HOWTO](./demo/HOWTO.md)
 document for examples of how to load data into TSRchitect and predict and
 characterize promoters.
 
