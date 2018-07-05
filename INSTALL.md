@@ -1,7 +1,7 @@
 # __TSRchitect__ Installation and Setup
 
 ## Preliminary Steps
-__TSRchitect__ is package for the [R software environment for statistical
+__TSRchitect__ is a package for the [R software environment for statistical
 computing](https://www.r-project.org/).
 We assume that you have a current version of [R](https://www.r-project.org/)
  installed and are familiar with its use.
@@ -9,7 +9,7 @@ Several other packages are prerequisite for __TSRchitect__, and these packages
 are available through
 [CRAN](https://cran.r-project.org/) or
 [Bioconductor](http://bioconductor.org/).
-Typical preliminary steps to install or updated these packages are as follows
+Typical preliminary steps to install or update these packages are as follows
 (note: for system-wide installation, you would need to invoke
 [R](https://www.r-project.org/) as root):
 
@@ -24,8 +24,8 @@ biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel", "ENCODExplorer", "Ge
 
 ## Obtaining TSRchitect
 __TSRchitect__ is available as a
-[_Bioconductor_](http://bioconductor.org/) package and thus can be installed in
-the same way os the prerequisite packages:
+[Bioconductor](http://bioconductor.org/) package and thus can be installed in
+the same way as the prerequisite packages:
 
 ```{r eval=FALSE}
 source("http://bioconductor.org/biocLite.R")
@@ -57,7 +57,7 @@ suggest novel features.
 ## Installation as a singularity container
 
 Assuming a current version of _singularity_ is installed on your system (if not,
-it should, and it's easy to do so), you can get the TSRchitect container from
+it should be, and it's easy to do so), you can get the TSRchitect container from
 [Singularity Hub](https://www.singularity-hub.org/collections/1204) as follows:
 
 ```bash
@@ -70,8 +70,8 @@ For a gentle introduction to singularity, see our group
 
 ## Finally
 
-Proceed to the [TSRchitectUsersGuide](./inst/doc/TSRchitectUsersGuid.Rmd) for
+Proceed to the [TSRchitectUsersGuide](./inst/doc/TSRchitectUsersGuide.Rmd) for
 examples of how the use TSRchitect functions.
 If you are interested in developing and running entire workflows for
-transcription start site profiling, please see our paper and simple examples
-in the [HOWTO](./demo/HOWTO.Rmd) document.
+transcription start site profiling, please see our paper or simple worked
+examples in the [HOWTO](./demo/HOWTO.md) document.

@@ -19,7 +19,7 @@ Start Regions (TSR) as well as statistics summarizing the distribution and
 characteristics of identified TSSs and TSRs.
 
 All the TSRchitect dependencies are encapsulated in a
-[Singularity](http://singularity.lbl.gov) container available from
+[Singularity](https://www.sylabs.io/docs/) container available from
 [Singularity Hub](https://singularity-hub.org/).
 Thus, once you know what you are doing, execution could be as simple as
 
@@ -28,8 +28,8 @@ singularity pull --name tsr.simg shub://BrendelGroup/TSRchitect
 singularity exec tsr.simg R
 ```
 
-which will bring up an [R](https://www.r-project.org/) console with all the
-TSRchitect library and its prerequisites available.
+which will bring up an [R](https://www.r-project.org/) console with the
+TSRchitect library and all its prerequisites available.
 For example, in that console, you should see
 
 ```
@@ -44,7 +44,7 @@ R version 3.5.1 (2018-07-02) -- "Feather Spray"
 
 Please find detailed installation instructions and options in the
 [INSTALL](./INSTALL.md) document.
-Once all preparatory steps are taken care of, see the [HOWTO](./HOWTO.md)
+Once all preparatory steps are taken care of, see the [HOWTO](../demo/HOWTO.md)
 document for examples of how to load data into TSRchitect and predict and
 characterize promoters.
 
