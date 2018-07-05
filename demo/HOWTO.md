@@ -10,7 +10,7 @@ examples in the [TSRchitectUsersGuide](../inst/doc/TSRchitectUsersGuide.Rmd).
 
 
 ## Example 1
-This example only requires the _xdemo1_ you will find in this directory.
+This example only requires the _xdemo1_ script you will find in this directory.
 Take a look at the script: it's simply a compilation of the instructions from
 the relevant section in the
 [TSRchitectUsersGuide](../inst/doc/TSRchitectUsersGuide.Rmd), to be executed in
@@ -25,7 +25,7 @@ singularity exec -e -B /projects/vbrendel/TMP /DATA/GROUP/prj/SINGULARITY/tsr.si
 ```
 
 ## Example 2
-As with the previous example, we first must download the raw data. In this case we have only a single alignment file to retrieve, which is found here: https://oregonstate.app.box.com/s/3lb3spmqbiuofhbubovc1z8bfthmxh6f
+As with the previous example, first we must download the raw data. In this case we have only a single alignment file to retrieve, which is found here: https://oregonstate.app.box.com/s/3lb3spmqbiuofhbubovc1z8bfthmxh6f .
 Once download of the file `peat.sorted.bam` is complete, please move it to subdirectory "PEATbam/".
 Then execution of _xdemo2_ should work (see __Example 1__ for setup details):
 
