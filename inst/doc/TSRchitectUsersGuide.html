@@ -171,7 +171,7 @@ hr {
 
 <h2>First edition 25 January 2017</h2>
 
-<h2>Updated 27 June 2018</h2>
+<h2>Updated 3 July 2018</h2>
 
 <p>TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 In recent years, large-scale TSS profiling data has characterized the landscape of transcription initiation at high resolution, identifying promoter architecture in a number of eukaryotic model systems, including human, mouse, fruit fly and worm.
@@ -185,11 +185,11 @@ TSRchitect can handle TSS profiling experiments that contain either single-end o
 <li>RAMPAGE (RNA Annotation and Mapping of Promoters for Analysis of Gene Expression) [Paired-end]</li>
 <li>CapSeq [Single-end]</li>
 <li>TSS-seq [Single-end]</li>
-<li>STRIPE-seq [Paired-end]</li>
+<li>STRIPE-seq [Single-end or Paired-end]</li>
 </ul>
 
 <p>TSRchitect provides the capability to efficiently identify putative promoters---which we call transcription start regions (TSRs)---from TSS profiling experiments.
-TSRchitect can accomodate multiple datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calcualtes a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width, Shape Index (SI), modified Shape Index (mSI) and torque.
+TSRchitect can accommodate multiple datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calculates a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width, Shape Index (SI), modified Shape Index (mSI) and torque.
 Finally, TSRchitect&#39;s output is compatible with popular differential expression software such as <a href="https://bioconductor.org/packages/release/bioc/html/edgeR.html">edgeR</a>, assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another. In addition to this vignette, the TSRchitect Reference Manual is available as part of the package&#39;s online documentation.</p>
 
 <h2>Getting started</h2>
@@ -234,12 +234,17 @@ ln -s ../downloads/ENCFF348EKW.bam HT1080-rep2.bam
 cd ..
 </code></pre>
 
-<p>We&#39;ll also need to download a human gene annotation, which will be important a little later.</p>
+<p>Please download and uncompress the human gene annoation file found at the following location:</p>
 
-<p>Please download and uncompress the annotation file and move it into the downloads/ folder.</p>
+<p><a href="ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz">ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz</a>.</p>
 
-<p>The file is found here:
-<a href="ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz">ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz</a></p>
+<p>Please move the uncompressed file into the downloads/ directory, e.g. with</p>
+
+<pre><code class="bash">cd downloads
+wget --content-disposition ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
+gunzip gencode.v19.annotation.gff3.gz
+cd ..
+</code></pre>
 
 <p>Now that we have our input and annotation files prepared, we can load TSRchitect into our R workspace:</p>
 
@@ -249,10 +254,11 @@ library(TSRchitect)
 
 <p>Next we&#39;ll initialize our dedicated S4 object---called the tssObject---on which TSRchitect&#39;s
 functions are applied, using <code>loadTSSobj</code>. We also need to supply other information about the
-experiment as arguments. This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. </p>
+experiment as arguments. This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. 
+Note that we must specify <code>isPairedBAM=FALSE</code> because this is single-end CAGE data.</p>
 
-<pre><code class="r">Hs_RAMPAGE &lt;- loadTSSobj(expTitle =&quot;Human RAMPAGE&quot;, inputDir=&quot;HsRAMPAGEbam/&quot;, /
-isPairedEndBAM=TRUE, sampleNames=c(&quot;H460-rep1&quot;, /
+<pre><code class="r">Hs_RAMPAGE &lt;- loadTSSobj(experimentTitle =&quot;Human RAMPAGE&quot;, inputDir=&quot;HsRAMPAGEbam/&quot;, /
+isPairedBAM=TRUE, sampleNames=c(&quot;H460-rep1&quot;, /
 &quot;H460-rep2&quot;, &quot;HT1080-rep1&quot;, &quot;HT1080-rep2&quot;), replicateIDs=c(1,1,2,2))
 </code></pre>
 
@@ -352,7 +358,7 @@ We will select the full annotation, which has the identifier &quot;AH49555&quot;
 We accomplish this as follows:</p>
 
 <pre><code class="r">Hs_RAMPAGE &lt;- importAnnotationHub(experimentName=Hs_RAMPAGE, provider=&quot;gencode&quot;, /
-annotType=&quot;gff3&quot;, species=&quot;human&quot;, ID=&quot;AH49555&quot;)
+annotType=&quot;gff3&quot;, species=&quot;human&quot;, annotID=&quot;AH49555&quot;)
 </code></pre>
 
 <p>Next, we associate the gene annotation to the TSRs within our two merged samples.
@@ -383,7 +389,7 @@ dim(HT1080.tsrs)
 </code></pre>
 
 <pre><code class="r">H460.tsrs &lt;- getTSRdata(Hs_RAMPAGE, slotType=&quot;merged&quot;, slot=2)
-dim(H460)
+dim(H460.tsrs)
 </code></pre>
 
 <pre><code class="r">combined.tsrs &lt;- getTSRdata(Hs_RAMPAGE, slotType=&quot;merged&quot;, slot=3)
@@ -408,14 +414,14 @@ This is due to us previouly having added tag counts to the combined set of TSRs 
 <pre><code class="r">require(ggplot2)
 HT1080.tsrs.filtered &lt;- HT1080.tsrs[HT1080.tsrs$nTAGs &gt; 100,]
 t &lt;- ggplot(HT1080.tsrs.filtered, aes(tsrSI))
-t + geom_histogram(bidwith=0.1, fill=&quot;blue2&quot;) /
+t + geom_histogram(binwidth=0.1, fill=&quot;blue2&quot;) /
 + ylab(&quot;Number of Tags per TSR&quot;) + xlab(&quot;Shape Index (SI)&quot;)
-ggsave(file=&quot;HT1080_SI.png)
+ggsave(file=&quot;HT1080_SI.png&quot;)
 </code></pre>
 
 <pre><code class="r">H460.tsrs.filtered &lt;- H460.tsrs[H460.tsrs$nTAGs &gt; 100,]
 p &lt;- ggplot(H460.tsrs.filtered, aes(tsrSI))
-p + geom_histogram(bidwith=0.1, fill=&quot;darkgreen&quot;) /
+p + geom_histogram(binwidth=0.1, fill=&quot;darkgreen&quot;) /
 + ylab(&quot;Number of Tags per TSR&quot;) + xlab(&quot;Shape Index (SI)&quot;)
 ggsave(file=&quot;H460_SI.png&quot;)
 </code></pre>
@@ -437,20 +443,26 @@ Otherwise some or all of the files you generate in subsequent examples will be o
 <p>For our second example will process TSS profiling data from Arabidopsis root tissue.
 These data come from the Megraw Lab at Oregon State University as reported in Morton et al., 2014. <a href="http://www.plantcell.org/content/26/7/2746">Link to paper:</a></p>
 
-<p>As with the previous example, we first must download the raw data. In this case we have only a single alignment file to retrieve, which is found here: <a href="https://drive.google.com/open?id=0B5WxM8Ere19uZmlHM1F3ZS1iWWc">https://drive.google.com/open?id=0B5WxM8Ere19uZmlHM1F3ZS1iWWc</a>.</p>
+<p>As with the previous example, first we must download the raw data. In this case we have only a single alignment file to retrieve, which is found here: <a href="https://oregonstate.app.box.com/s/3lb3spmqbiuofhbubovc1z8bfthmxh6f">https://oregonstate.app.box.com/s/3lb3spmqbiuofhbubovc1z8bfthmxh6f</a>
+Once download of the file <code>peat.sorted.bam</code> is complete, please move it to subdirectory &quot;PEATbam/&quot;.</p>
 
-<p>The annotation file is available from the TAIR10 database: <a href="ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff">ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff</a>. Please move it into the downloads/ folder you have created.</p>
+<p>The annotation file is available from the TAIR10 database: <a href="ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff">ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff</a>. Please move it into the downloads/ folder you have created, e.g.</p>
 
-<p>Once download of the file <code>peat.sorted.bam</code> is complete, please move it to subdirectory &quot;PEATbam/&quot;.
-Since there is only a single experiment, setting the sample IDs is simple:</p>
+<pre><code class="r">mkdir downloads
+cd downloads
+wget --content-disposition ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff
+cd ..
+</code></pre>
 
-<pre><code class="r">At_PEAT &lt;- loadTSSobj(expTitle =&quot;Arabidopsis PEAT dataset&quot;, inputDir=&quot;PEATbam&quot;, /
+<p>Because there is only a single experiment, setting the sample IDs is simple in this example:</p>
+
+<pre><code class="r">At_PEAT &lt;- loadTSSobj(experimentTitle =&quot;Arabidopsis PEAT dataset&quot;, inputDir=&quot;PEATbam&quot;, /
 isPairedBAM=TRUE, sampleNames=c(&quot;experiment1&quot;), replicateIDs=c(1))
 </code></pre>
 
 <p>Now we convert the alignment data (in this case, in .bam format) into TSS coordinates:</p>
 
-<pre><code class="r">At_PEAT &lt;- bamToTSS(At_PEAT)
+<pre><code class="r">At_PEAT &lt;- inputToTSS(At_PEAT)
 </code></pre>
 
 <p>As in the previous example, now we can calculate the tag abundance at each location using <code>processTSS</code> and the identify TSRs within the sample using <code>determineTSR</code>. Note that we do not need to use <code>mergeSampleData</code> because there is only a single sample. As there is only a single sample we set <code>n.cores=1</code>.</p>
@@ -474,7 +486,7 @@ upstreamDist=500, downstreamDist=200, feature=&quot;gene&quot;, featureColumnID=
 
 <p>Now we have a complete set of TSRs on our tssObj object. Let&#39;s take a look at them using one of our accessor methods.</p>
 
-<pre><code class="r">At.tsrs &lt;- getTSRdata(AtPEAT, setType=&quot;replicates&quot;, set=1)
+<pre><code class="r">At.tsrs &lt;- getTSRdata(At_PEAT, slotType=&quot;replicates&quot;, slot=1)
 dim(At.tsrs)
 head(At.tsrs)
 </code></pre>
@@ -511,18 +523,25 @@ ln -s ../downloads/ENCFF288VTZ.bam MCF7-rep2.bam
 cd ..
 </code></pre>
 
-<p>As in Example 1, we also need to download a human gene annotation.
-Please download and uncompress the annoation file [Note: you may ignore this if you have already downloaded the file from Example 1].</p>
+<p>As in Example 1, we also need to provide human gene annotation.
+Please download and uncompress the annoation file found at the following location [Note: you may ignore this if you have already downloaded the file from Example 1]:</p>
 
-<p>The annotation file is found at the following location:
-<a href="ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz">ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz</a>. Please move it into the downloads/ directory if it does not already exist there.</p>
+<p><a href="ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz">ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz</a>.</p>
+
+<p>Please move the uncompressed file into the downloads/ directory if it does not already exist there, e.g. with</p>
+
+<pre><code class="bash">cd downloads
+wget --content-disposition ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
+gunzip gencode.v19.annotation.gff3.gz
+cd ..
+</code></pre>
 
 <p>Now we can set up the tssObject S4 object. Note that we must specify <code>isPairedBAM=FALSE</code> because this is single-end CAGE data.</p>
 
 <pre><code class="r"># initializing the tssObject, setting the sample IDs and importing the CAGE data
-CAGEhuman &lt;- loadTSSobj(expTitle =&quot;Human CAGE&quot;, inputDir=&quot;HsCAGEbam&quot;, /
-isPairedBAM=TRUE, sampleNames=c(&quot;A549-rep1&quot;,&quot;A549-rep2&quot;, /
-&quot;MCF7-rep1&quot;,&quot;MCF7-rep2&quot;), replicateIDs=c(1,1,2,2)
+CAGEhuman &lt;- loadTSSobj(experimentTitle =&quot;Human CAGE&quot;, inputDir=&quot;HsCAGEbam&quot;, /
+isPairedBAM=FALSE, sampleNames=c(&quot;A549-rep1&quot;,&quot;A549-rep2&quot;, /
+&quot;MCF7-rep1&quot;,&quot;MCF7-rep2&quot;), replicateIDs=c(1,1,2,2) )
 </code></pre>
 
 <p>As before, it is vital to provide arguments to <code>sampleNames</code> and <code>replicateIDs</code> in the order of the files on the <code>fileNames</code> slot to they exactly correspond to the alignment files (in this case .bam) that we imported.</p>
@@ -565,7 +584,7 @@ tsrSet=3, tagCountThreshold=40, writeTable=TRUE)
 <p>Now we need to import the annotation file and attach it to our tssObj S4 object. To do this, we will to use the same record (Gencode v. 23) that we referred to in Example 1.</p>
 
 <pre><code class="r">CAGEhuman &lt;- importAnnotationHub(experimentName=CAGEhuman, provider=&quot;gencode&quot;, /
-annotType=&quot;gff3&quot;, species=&quot;human&quot;, ID=&quot;AH49555&quot;)
+annotType=&quot;gff3&quot;, species=&quot;human&quot;, annotID=&quot;AH49555&quot;)
 </code></pre>
 
 <p>Next we associate the gene annotation to the TSRs within our two merged samples i) MCF7 cells and ii) A549 cells.
@@ -589,17 +608,17 @@ writeTable=TRUE)
 
 <p>Using the accessor methods we applied in earlier examples, let&#39;s take a quick glance at our set of identified TSRs.</p>
 
-<pre><code class="r">getTSRdata(CAGEhuman, setType=&quot;merged&quot;, slot=1) -&gt; MCF7.tsrs
+<pre><code class="r">getTSRdata(CAGEhuman, slotType=&quot;merged&quot;, slot=1) -&gt; MCF7.tsrs
 
 dim(MCF7.tsrs)
 </code></pre>
 
-<pre><code class="r">getTSRdata(CAGEhuman, setType=&quot;merged&quot;, slot=2) -&gt; A549.tsrs
+<pre><code class="r">getTSRdata(CAGEhuman, slotType=&quot;merged&quot;, slot=2) -&gt; A549.tsrs
 
 dim(A549.tsrs)
 </code></pre>
 
-<pre><code class="r">getTSRdata(CAGEhuman, setType=&quot;merged&quot;, slot=3) -&gt; CAGEhuman.tsrs
+<pre><code class="r">getTSRdata(CAGEhuman, slotType=&quot;merged&quot;, slot=3) -&gt; CAGEhuman.tsrs
 
 dim(CAGEhuman.tsrs)
 </code></pre>
