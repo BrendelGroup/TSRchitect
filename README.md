@@ -12,8 +12,8 @@ __easy__ to use.
 ## Quick Start [![https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg](https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg)](https://singularity-hub.org/collections/1204)
 
 Input to TSRchitect will be transcription profiling read alignment data in `bam`
-or `bed` format as well as the appropriate genome genome annotation (if
-available)).
+or `bed` format as well as the appropriate genome annotation (if
+available).
 Output consists of predicted Transcription Start Sites (TSS) and Transcription
 Start Regions (TSR) as well as statistics summarizing the distribution and
 characteristics of identified TSSs and TSRs.
