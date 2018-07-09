@@ -43,7 +43,7 @@ R CMD INSTALL TSRchitect
 
 Note that the `master` branch should be a stable version, possibly somewhat
 ahead of the Biocondcutor version in case of minor edits or addtions.
-You may also see a `devel` brach, which would contain recently developed
+You may also see a `devel` branch, which would contain recently developed
 addtions that are not yet fully tested.
 To clone and install just the 'devel' branch, please do the following:
 ```{bash eval=FALSE}
