@@ -14,5 +14,5 @@ Package accepted (version 1.0.0) at Bioconductor, included in version 3.5.
 Support added for the analysis of ESTs/cDNAs; BED files can now be provided as input (version 1.2.0)
 1.2.1 (10-17-2017)
 Minor changes in documentation to better reflect updates in v. 1.2 (version 1.2.1).
-1.3.0 (06-24-2018)
-Additional promoter (TSR) metrics added, including the modified shape index (mSI) and torque. Modifications to column IDs to reflect updated nomenclature (version 1.3.0).
+1.7.0 (07-10-2018)
+Additional promoter (TSR) metrics added, including the modified shape index (mSI) and torque. Modifications to column IDs to reflect updated nomenclature (version 1.7.0). Updates to User's Guide in addition to creation of Singularity recipe for reproucible analysis across platforms.

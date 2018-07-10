@@ -36,7 +36,7 @@ For example, in that console, you should see
 R version 3.5.1 (2018-07-02) -- "Feather Spray"
 ...
 > packageVersion("TSRchitect")
-[1] '1.3.0'
+[1] '1.7.0'
 >
 ```
 
