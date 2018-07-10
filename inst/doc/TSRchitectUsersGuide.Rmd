@@ -15,7 +15,7 @@ vignette: >
 ## Department of Biology, Indiana University
 
 ## First edition 25 January 2017
-## Updated 3 July 2018
+## Updated 10 July 2018
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 In recent years, large-scale TSS profiling data has characterized the landscape of transcription initiation at high resolution, identifying promoter architecture in a number of eukaryotic model systems, including human, mouse, fruit fly and worm.
@@ -32,7 +32,7 @@ Examples of TSS profiling data types that TSRchitect is capable of handling are:
 
 TSRchitect provides the capability to efficiently identify putative promoters---which we call transcription start regions (TSRs)---from TSS profiling experiments.
 TSRchitect can accommodate multiple datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calculates a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width, Shape Index (SI), modified Shape Index (mSI) and torque.
-Finally, TSRchitect's output is compatible with popular differential expression software such as [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another. In addition to this vignette, the TSRchitect Reference Manual is available as part of the package's online documentation.
+Finally, TSRchitect's output is compatible with popular differential expression software such as [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another. In addition to this vignette, the TSRchitect Reference Manual is available as part of the package's online documentation. Please note that this document will guide you through a few examples of analysis; if you're intrested in a detailed discussion of individual functions, please see the TSRchitect Reference Manual, which is found in `man/TSRchitect.pdf` and online [here](https://bioconductor.org/packages/release/bioc/manuals/TSRchitect/man/TSRchitect.pdf).
 
 ## Getting started
 

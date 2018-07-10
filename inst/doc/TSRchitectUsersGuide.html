@@ -171,7 +171,7 @@ hr {
 
 <h2>First edition 25 January 2017</h2>
 
-<h2>Updated 3 July 2018</h2>
+<h2>Updated 10 July 2018</h2>
 
 <p>TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 In recent years, large-scale TSS profiling data has characterized the landscape of transcription initiation at high resolution, identifying promoter architecture in a number of eukaryotic model systems, including human, mouse, fruit fly and worm.
@@ -185,12 +185,12 @@ TSRchitect can handle TSS profiling experiments that contain either single-end o
 <li>RAMPAGE (RNA Annotation and Mapping of Promoters for Analysis of Gene Expression) [Paired-end]</li>
 <li>CapSeq [Single-end]</li>
 <li>TSS-seq [Single-end]</li>
-<li>STRIPE-seq [Single-end or Paired-end]</li>
+<li>STRIPE-seq (Survey of Transcription Initiation at Promoters and Enhancers) [Single-end or Paired-end]</li>
 </ul>
 
 <p>TSRchitect provides the capability to efficiently identify putative promoters---which we call transcription start regions (TSRs)---from TSS profiling experiments.
 TSRchitect can accommodate multiple datasets, including biological replicates and multiple tissues/conditions, that were generated in a variety of model organisms and genome assemblies, requiring only aligned TSS profiling information (in BAM format) as the initial input. To aid the downstream analysis of identified promoters, TSRchitect calculates a variety of TSR properties that have been shown to be associated with promoter architecture, including TSR activity, width, Shape Index (SI), modified Shape Index (mSI) and torque.
-Finally, TSRchitect&#39;s output is compatible with popular differential expression software such as <a href="https://bioconductor.org/packages/release/bioc/html/edgeR.html">edgeR</a>, assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another. In addition to this vignette, the TSRchitect Reference Manual is available as part of the package&#39;s online documentation.</p>
+Finally, TSRchitect&#39;s output is compatible with popular differential expression software such as <a href="https://bioconductor.org/packages/release/bioc/html/edgeR.html">edgeR</a>, assisting in downstream analysis to identify TSRs that are differentially active in one sample versus another. In addition to this vignette, the TSRchitect Reference Manual is available as part of the package&#39;s online documentation. Please note that this document will guide you through a few examples of analysis; if you&#39;re intrested in a detailed discussion of individual functions, please see the TSRchitect Reference Manual, which is found in <code>man/TSRchitect.pdf</code> and online <a href="https://bioconductor.org/packages/release/bioc/manuals/TSRchitect/man/TSRchitect.pdf">here</a>.</p>
 
 <h2>Getting started</h2>
 
