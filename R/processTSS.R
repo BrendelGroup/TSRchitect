@@ -46,12 +46,11 @@ setMethod("processTSS",
               message("... processTSS ...")
               if (tssSet=="all") {
                   iend <- length(experimentName@tssTagData)
-                  multicoreParam <- MulticoreParam(workers=n.cores)
-                      FUN <- function(x) {
-                                prcTSS(experimentName, tssSet=x,
-                                       writeTable=writeTable)
-                             }
-                      experimentName@tssCountData <- bplapply(1:iend, FUN)
+                  funi <- function(i) {
+                             prcTSS(experimentName, n.cores, tssSet=i,
+                                    writeTable)
+                          }
+                  experimentName@tssCountData <- lapply(1:iend, funi)
               }
               else {
                   i <- as.numeric(tssSet)
@@ -59,10 +58,8 @@ setMethod("processTSS",
                       stop("The value selected for tssSet exceeds ",
                            "the number of slots in tssTagData.")
                   }
-                  experimentName@tssCountData[[i]] <- prcTSS(experimentName =
-                                                             experimentName,
-                                                             tssSet = i,
-                                                             writeTable=writeTable)
+                  experimentName@tssCountData[[i]] <-
+		     prcTSS(experimentName, n.cores=1, tssSet = i, writeTable)
               }
               message("-----------------------------------------------------\n")
               message(" Done.\n")

@@ -6,12 +6,14 @@
 #'
 #' @import BiocGenerics
 #' @import GenomicRanges
+#' @importFrom BiocParallel bplapply MulticoreParam register
 #' @importFrom utils write.table
 #'
 #' @param y a data frame containing the contents of a single slot of tssTagData.
+#' @param n.cores the number of cores to be used for this job.
 #' @param outfname the prefix of the file name of TSS information to be written.
 #' (character)
-#' @param writeDF if TRUE, the tag count information is written to a file in the
+#' @param writeTable if TRUE, the tag count information is written to a file in the
 #' workding directory (logical)
 #'
 #' @keywords internal
@@ -19,21 +21,22 @@
 #' their corresponding abundances (h) is returned.
 
 
-tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
+tagCountTSS <- function(y, n.cores=1, outfname="TSS.txt", writeTable=FALSE) {
     x <- S4Vectors::split(y,seqnames(y))
     n.seq <- length(x)
 
-    my.matrix <- NULL
-    for (i in 1:n.seq) {
-#VB Note: Print a progress note on every 20th sequence; 20 should be a parameter
-        if (i%%20 == 0) {
-            message("... tagCountTSS running with sequence ", i,
-                " of ", n.seq, " for TSS set ", outfname, "\n")
-        }
-        this.seq <- as.character(x[[i]]@seqnames@values[1])
+    combined.matrix <- NULL
+    BiocParallel::register(MulticoreParam(workers=n.cores), default=TRUE)
+
+    fctz <- function(z) {
+        my.matrix <- NULL
+        this.seq <- as.character(z@seqnames@values[1])
+        if (is.na(this.seq)) {		#z is empty (no tags for the sequence)
+            return(my.matrix)
+	}
 
         #starting with the plus strand:
-        tss.vec <- start(x[[i]][strand(x[[i]]) == "+"])
+        tss.vec <- start(z[strand(z) == "+"])
         if (length(tss.vec) > 3) {        #stop if there are nearly no tags
             my.TSSs <- unique(tss.vec)
             my.matrix.p <- matrix(NA, nrow=(length(my.TSSs)), ncol=4)
@@ -59,7 +62,7 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
         }
 
         #now for the minus strand:
-        tss.vec <- start(x[[i]][strand(x[[i]]) == "-"])
+        tss.vec <- start(z[strand(z) == "-"])
         if (length(tss.vec) > 3) {
 # ... no point continuing when there are almost no TSS tags
             my.TSSs <- unique(tss.vec)
@@ -84,15 +87,20 @@ tagCountTSS <- function(y, outfname="TSS.txt", writeDF=FALSE) {
 # ... adding the minus strand matrix of this.seq to the overall matrix:
             my.matrix <- rbind(my.matrix,my.matrix.m)
         }
+	return(my.matrix)
     }
-    colnames(my.matrix) <- c("seq","TSS","strand","nTAGs")
-    my.df <- as.data.frame(my.matrix)
+
+
+    lm <- bplapply(x,fctz)
+    combined.matrix <- do.call(rbind,lm)
+    colnames(combined.matrix) <- c("seq","TSS","strand","nTAGs")
+    my.df <- as.data.frame(combined.matrix)
     my.df$seq <- as.character(my.df$seq)
     my.df$TSS <- as.numeric(as.character(my.df$TSS))
     my.df$strand <- as.character(my.df$strand)
     my.df$nTAGs <- as.numeric(as.character(my.df$nTAGs))
 
-    if (writeDF==TRUE) {
+    if (writeTable==TRUE) {
         write.table(my.df, outfname, quote=FALSE, col.names=TRUE,
                     row.names=FALSE, sep="\t")
         message("\nThe TSS dataset has been written to file ", outfname,

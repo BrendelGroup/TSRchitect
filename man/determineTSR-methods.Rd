@@ -6,13 +6,14 @@
 \alias{determineTSR,tssObject,numeric,character,character,numeric,numeric,logical-method}
 \title{\strong{determineTSR}}
 \usage{
-determineTSR(experimentName, n.cores, tsrSetType, tssSet, tagCountThreshold,
-  clustDist, writeTable = FALSE)
+determineTSR(experimentName, n.cores, tsrSetType, tssSet,
+  tagCountThreshold, clustDist, writeTable = FALSE)
 
 
   \S4method{determineTSR}{tssObject,numeric,character,character,numeric,numeric,logical}(experimentName,
-  n.cores = 1, tsrSetType = c("replicates", "merged"), tssSet = "all",
-  tagCountThreshold = 1, clustDist = 20, writeTable = FALSE)
+  n.cores = 1, tsrSetType = c("replicates", "merged"),
+  tssSet = "all", tagCountThreshold = 1, clustDist = 20,
+  writeTable = FALSE)
 }
 \arguments{
 \item{experimentName}{an object of class \emph{tssObject}

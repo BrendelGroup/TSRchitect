@@ -6,9 +6,11 @@
 \alias{detTSR,tssObject,character,numeric,numeric,numeric-method}
 \title{detTSR}
 \usage{
-detTSR(experimentName, tsrSetType, tssSet = 1, tagCountThreshold, clustDist)
+detTSR(experimentName, tsrSetType, tssSet = 1, tagCountThreshold,
+  clustDist)
 
-\S4method{detTSR}{tssObject,character,numeric,numeric,numeric}(experimentName,
+
+  \S4method{detTSR}{tssObject,character,numeric,numeric,numeric}(experimentName,
   tsrSetType, tssSet = 1, tagCountThreshold = 1, clustDist)
 }
 \arguments{
