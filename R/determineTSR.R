@@ -17,7 +17,7 @@
 #' @param writeTable specifies whether the output should
 #' be written to a table. (logical)
 #'
-#' @importFrom BiocParallel bplapply MulticoreParam
+#' @importFrom BiocParallel bplapply MulticoreParam register
 #'
 #' @return creates a list of \linkS4class{GenomicRanges}-containing
 #' TSR positions in slot \emph{@@tsrData} of the returned \emph{tssObject}
@@ -55,21 +55,22 @@ setMethod("determineTSR",
               if (tsrSetType=="replicates") {
                   if (tssSet=="all") {
                       iend <- length(experimentName@tssCountData)
-                          multicoreParam <- MulticoreParam(workers=n.cores)
-                          FUN  <- function(x) {
-                                     detTSR(experimentName=experimentName,
-                                     tsrSetType="replicates",
-                                     tssSet=x,
-                                     tagCountThreshold,
-                                     clustDist)
+                          BiocParallel::register(MulticoreParam(workers=
+						 n.cores), default=TRUE)
+                          fcti <- function(i) {
+                                     detTSR(experimentName,
+                                            tsrSetType="replicates",
+                                            tssSet=i,
+                                            tagCountThreshold,
+                                            clustDist)
                                  }
-                          experimentName@tsrData <- bplapply(1:iend, FUN)
+                          experimentName@tsrData <- bplapply(1:iend, fcti)
                           if (writeTable==TRUE) {
                               for (i in 1:iend) {
-                                   writeTSR(experimentName = experimentName,
-                                   tsrSetType="replicates",
-                                   tsrSet=i,
-                                   fileType="tab")
+                                   writeTSR(experimentName,
+                                            tsrSetType="replicates",
+                                            tsrSet=i,
+                                            fileType="tab")
                                }
                            }
                   }
@@ -97,15 +98,16 @@ setMethod("determineTSR",
                   iend <- length(experimentName@tssCountDataMerged)
                   if (tssSet=="all") {
                       iend <- length(experimentName@tssCountDataMerged)
-                          multicoreParam <- MulticoreParam(workers=n.cores)
-                          FUN  <- function(x) {
+                          BiocParallel::register(MulticoreParam(workers=
+						 n.cores), default=TRUE)
+                          fcti <- function(i) {
                                      detTSR(experimentName=experimentName,
                                      tsrSetType="merged",
-                                     tssSet=x,
+                                     tssSet=i,
                                      tagCountThreshold,
                                      clustDist)
                                      }
-                          experimentName@tsrDataMerged <- bplapply(1:iend, FUN)
+                          experimentName@tsrDataMerged <- bplapply(1:iend, fcti)
                           if (writeTable==TRUE) {
                               for (i in 1:iend) {
                                   writeTSR(experimentName =

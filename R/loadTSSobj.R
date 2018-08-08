@@ -163,11 +163,6 @@ setMethod("loadTSSobj", #both BAM and BED files
               message("-----------------------------------------------------\n")
               }
               }
-#              if (length(sampleNames)!=(length(tssObj@fileNamesBAM) + length(tssObj@fileNamesBED))) { #accounting for BAM + BED
-#                  print(length(tssObj@fileNamesBED))
-#                  stop("\nNumber of sampleNames must be equal to",
-#                       " number of input files.")
-#              }
               if (length(sampleNames)!=(length(replicateIDs))) {
                   stop("\nsampleNames and replicateIDs must have",
                        " equal lengths.")
@@ -189,4 +184,3 @@ setMethod("loadTSSobj", #both BAM and BED files
               return(tssObj)
               }
           )
-
