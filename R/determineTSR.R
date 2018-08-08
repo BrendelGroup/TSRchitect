@@ -50,96 +50,106 @@ setMethod("determineTSR",
                    "merged"), tssSet="all", tagCountThreshold=1, clustDist=20,
                    writeTable=FALSE) {
 
-              message("... determineTSR ...")
-              fileType <- match.arg(tsrSetType, several.ok=FALSE)
-              if (tsrSetType=="replicates") {
-                  if (tssSet=="all") {
-                      iend <- length(experimentName@tssCountData)
-                          BiocParallel::register(MulticoreParam(workers=
-						 n.cores), default=TRUE)
-                          fcti <- function(i) {
-                                     detTSR(experimentName,
-                                            tsrSetType="replicates",
-                                            tssSet=i,
-                                            tagCountThreshold,
-                                            clustDist)
-                                 }
-                          experimentName@tsrData <- bplapply(1:iend, fcti)
-                          if (writeTable==TRUE) {
-                              for (i in 1:iend) {
-                                   writeTSR(experimentName,
-                                            tsrSetType="replicates",
-                                            tsrSet=i,
-                                            fileType="tab")
-                               }
-                           }
-                  }
-                  else {
-                      i <- as.numeric(tssSet)
-                      if (i>length(experimentName@tssCountData)) {
-                          stop("The value selected for tssSet",
-                               "exceeds the number of slots in tssCountData.")
-                      }
-                      experimentName@tsrData[[i]] <-
-                          detTSR(experimentName = experimentName,
-                                 tsrSetType="replicates",
-                                 tssSet=i,
-                                 tagCountThreshold,
-                                 clustDist)
-                      if (writeTable==TRUE) {
-                          writeTSR(experimentName = experimentName,
-                                   tsrSetType="replicates",
-                                   tsrSet=i,
-                                   fileType="tab")
-                      }
-                  }
-              }
-              else if (tsrSetType=="merged") {
-                  iend <- length(experimentName@tssCountDataMerged)
-                  if (tssSet=="all") {
-                      iend <- length(experimentName@tssCountDataMerged)
-                          BiocParallel::register(MulticoreParam(workers=
-						 n.cores), default=TRUE)
-                          fcti <- function(i) {
-                                     detTSR(experimentName=experimentName,
-                                     tsrSetType="merged",
-                                     tssSet=i,
-                                     tagCountThreshold,
-                                     clustDist)
-                                     }
-                          experimentName@tsrDataMerged <- bplapply(1:iend, fcti)
-                          if (writeTable==TRUE) {
-                              for (i in 1:iend) {
-                                  writeTSR(experimentName =
-                                  experimentName,
+             message("... determineTSR ...")
+             fileType <- match.arg(tsrSetType, several.ok=FALSE)
+             if (tsrSetType=="replicates") {
+                 if (tssSet=="all") {
+                     iend <- length(experimentName@tssCountData)
+                     fcti <- function(i) {
+                                detTSR(experimentName,
+                                       tsrSetType="replicates",
+                                       tssSet=i,
+                                       tagCountThreshold,
+                                       clustDist)
+                             }
+                     if (n.cores > 1) {
+                         BiocParallel::register(MulticoreParam(workers=n.cores),
+							       default=TRUE)
+                         experimentName@tsrData <- bplapply(1:iend, fcti)
+                     }
+                     else {
+                         experimentName@tsrData <- lapply(1:iend, fcti)
+                     }
+                     if (writeTable==TRUE) {
+                         for (i in 1:iend) {
+                              writeTSR(experimentName,
+                                       tsrSetType="replicates",
+                                       tsrSet=i,
+                                       fileType="tab")
+                         }
+                     }
+                 }
+                 else {
+                     i <- as.numeric(tssSet)
+                     if (i>length(experimentName@tssCountData)) {
+                         stop("The value selected for tssSet",
+                              "exceeds the number of slots in tssCountData.")
+                     }
+                     experimentName@tsrData[[i]] <-
+                         detTSR(experimentName = experimentName,
+                                tsrSetType="replicates",
+                                tssSet=i,
+                                tagCountThreshold,
+                                clustDist)
+                     if (writeTable==TRUE) {
+                         writeTSR(experimentName = experimentName,
+                                  tsrSetType="replicates",
+                                  tsrSet=i,
+                                  fileType="tab")
+                     }
+                 }
+             }
+             else if (tsrSetType=="merged") {
+                 iend <- length(experimentName@tssCountDataMerged)
+                 if (tssSet=="all") {
+                     iend <- length(experimentName@tssCountDataMerged)
+                     fcti <- function(i) {
+                                detTSR(experimentName=experimentName,
+                                       tsrSetType="merged",
+                                       tssSet=i,
+                                       tagCountThreshold,
+                                       clustDist)
+                             }
+                     if (n.cores > 1) {
+                         BiocParallel::register(MulticoreParam(workers=n.cores),
+							       default=TRUE)
+                         experimentName@tsrDataMerged <- bplapply(1:iend, fcti)
+                     }
+		     else {
+                         experimentName@tsrDataMerged <- lapply(1:iend, fcti)
+                     }
+                     if (writeTable==TRUE) {
+                         for (i in 1:iend) {
+                              writeTSR(experimentName =
+                                       experimentName,
+                                       tsrSetType="merged",
+                                       tsrSet=i,
+                                       fileType="tab")
+                         }
+                     }
+                 }
+                 else {
+                     i <- as.numeric(tssSet)
+                     if (i>length(experimentName@tssCountDataMerged)) {
+                         stop("The value selected for tssSet exceeds",
+                              "the number of slots in tssCountDataMerged.")
+                     }
+                     experimentName@tsrDataMerged[[i]] <-
+                         detTSR(experimentName = experimentName,
+                                tsrSetType="merged",
+                                tssSet=i,
+                                tagCountThreshold,
+                                clustDist)
+                     if (writeTable==TRUE) {
+                         writeTSR(experimentName = experimentName,
                                   tsrSetType="merged",
                                   tsrSet=i,
                                   fileType="tab")
-                              }
-                          }
-                  }
-                 else {
-                      i <- as.numeric(tssSet)
-                      if (i>length(experimentName@tssCountDataMerged)) {
-                          stop("The value selected for tssSet exceeds",
-                               "the number of slots in tssCountDataMerged.")
-                      }
-                      experimentName@tsrDataMerged[[i]] <-
-                          detTSR(experimentName = experimentName,
-                                 tsrSetType="merged",
-                                 tssSet=i,
-                                 tagCountThreshold,
-                                 clustDist)
-                      if (writeTable==TRUE) {
-                          writeTSR(experimentName = experimentName,
-                                   tsrSetType="merged",
-                                   tsrSet=i,
-                                   fileType="tab")
-                      }
-                  }
-              }
-              message("-----------------------------------------------------\n")
-              message(" Done.\n")
-              return(experimentName)
+                     }
+                 }
+             }
+             message("-----------------------------------------------------\n")
+             message(" Done.\n")
+             return(experimentName)
           }
           )

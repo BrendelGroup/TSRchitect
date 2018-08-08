@@ -43,22 +43,29 @@ setMethod("processTSS",
 
           function(experimentName, n.cores=1, tssSet="all", writeTable=FALSE) {
 
-              message("... processTSS ...")
-              if (tssSet=="all") {
-                  iend <- length(experimentName@tssTagData)
-                  funi <- function(i) {
-                             prcTSS(experimentName, n.cores, tssSet=i,
-                                    writeTable)
-                          }
-                  experimentName@tssCountData <- lapply(1:iend, funi)
-              }
-              else {
-                  i <- as.numeric(tssSet)
-                  if (i > length(experimentName@tssTagData)) {
-                      stop("The value selected for tssSet exceeds ",
-                           "the number of slots in tssTagData.")
-                  }
-                  experimentName@tssCountData[[i]] <-
+             message("... processTSS ...")
+             if (tssSet=="all") {
+                 iend <- length(experimentName@tssTagData)
+                 funi <- function(i) {
+                            prcTSS(experimentName, n.cores, tssSet=i,
+                                   writeTable)
+                         }
+                 if (n.cores > 1) {
+		     BiocParallel::register(MulticoreParam(workers=n.cores),
+							   default=TRUE)
+                     experimentName@tssCountData <- bplapply(1:iend, funi)
+                 }
+		 else {
+                     experimentName@tssCountData <- lapply(1:iend, funi)
+                 }
+             }
+             else {
+                 i <- as.numeric(tssSet)
+                 if (i > length(experimentName@tssTagData)) {
+                     stop("The value selected for tssSet exceeds ",
+                          "the number of slots in tssTagData.")
+                 }
+                 experimentName@tssCountData[[i]] <-
 		     prcTSS(experimentName, n.cores=1, tssSet = i, writeTable)
               }
               message("-----------------------------------------------------\n")
