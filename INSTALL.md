@@ -19,8 +19,9 @@ install.packages(c("gtools","knitr"))
 ```
 
 ```{r eval=FALSE}
-source("http://bioconductor.org/biocLite.R")
-biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel", "ENCODExplorer", "GenomicAlignments", "GenomeInfoDb", "GenomicRanges", "IRanges", "methods", "Rsamtools", "rtracklayer", "S4Vectors", "SummarizedExperiment"))
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install(c("AnnotationHub", "BiocGenerics", "BiocParallel", "ENCODExplorer", "GenomicAlignments", "GenomeInfoDb", "GenomicRanges", "IRanges", "methods", "Rsamtools", "rtracklayer", "S4Vectors", "SummarizedExperiment"))
 ```
 
 ## Obtaining TSRchitect
@@ -30,8 +31,9 @@ __TSRchitect__ is available as a
 Once the prerequisites have been installed, _TSRchitect_ can be installed directly from [_Bioconductor_] as follows:
 
 ```{r eval=FALSE}
-source("http://bioconductor.org/biocLite.R")
-biocLite("TSRchitect")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("TSRchitect")
 ```
 
 Optionally (and in general, for the latest development version), you can install
