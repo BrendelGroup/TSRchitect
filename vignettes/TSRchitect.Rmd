@@ -101,10 +101,9 @@ We see that 3 distinct TSRs were identified from this small example dataset.
 Finally, we import an annotation file (containing Gencode annotated transcripts) and then assocate this annotation with our small set of identified TSRs.
 
 ```{r eval=TRUE}
-setwd(extdata.dir) #setting our working directory
-
 tssObjectExample <- importAnnotationExternal(experimentName=tssObjectExample,
-fileType="gff3", annotFile="gencode.v19.chr22.transcript.gff3")
+fileType="gff3",
+annotFile=paste(extdata.dir,"gencode.v19.chr22.transcript.gff3",sep=/")
 
 tssObjectExample <- addAnnotationToTSR(experimentName=tssObjectExample,
 tsrSetType="merged", tsrSet=1, upstreamDist=2000, downstreamDist=500,
