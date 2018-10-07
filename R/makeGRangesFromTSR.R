@@ -69,9 +69,9 @@ setMethod("makeGRangesFromTSR",
               tsr.df$ID <- paste(tsr.df$seq, tsr.df$start, tsr.df$end,
                                      tsr.df$strand, sep=".")
               bed.df <- tsr.df[, c("seq", "start", "end", "ID",
-                             "shapeIndex", "strand")]
+                                   "tsrSI", "strand")]
               colnames(bed.df) <- c("chrom", "start", "end",
-                                      "name", "score", "strand")
+                                    "name", "score", "strand")
               bed.df$start <- as.numeric(as.character(bed.df$start))
               bed.df$end  <- as.numeric(as.character(bed.df$end))
               bed.df$score <- my.score <- as.numeric(as.character(bed.df$score))
