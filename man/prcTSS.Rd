@@ -4,11 +4,13 @@
 \alias{prcTSS}
 \title{\emph{prcTSS()}}
 \usage{
-prcTSS(experimentName, tssSet, writeTable)
+prcTSS(experimentName, n.cores, tssSet, writeTable)
 }
 \arguments{
 \item{experimentName}{- a S4 object of class tssObject containing
 information in slot tssTagData}
+
+\item{n.cores}{the number of cores to be used for this job.}
 
 \item{tssSet}{- number of the dataset to be analyzed}
 
