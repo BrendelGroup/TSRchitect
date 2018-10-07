@@ -103,7 +103,7 @@ Finally, we import an annotation file (containing Gencode annotated transcripts)
 ```{r eval=TRUE}
 tssObjectExample <- importAnnotationExternal(experimentName=tssObjectExample,
 fileType="gff3",
-annotFile=paste(extdata.dir,"gencode.v19.chr22.transcript.gff3",sep=/"))
+annotFile=paste(extdata.dir,"gencode.v19.chr22.transcript.gff3",sep="/"))
 
 tssObjectExample <- addAnnotationToTSR(experimentName=tssObjectExample,
 tsrSetType="merged", tsrSet=1, upstreamDist=2000, downstreamDist=500,
