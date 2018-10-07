@@ -8,7 +8,8 @@
 \usage{
 cDNAtoBED(gsqFile, fileName = "gsqOut.bed")
 
-\S4method{cDNAtoBED}{character,character}(gsqFile, fileName = "gsqOut.bed")
+\S4method{cDNAtoBED}{character,character}(gsqFile,
+  fileName = "gsqOut.bed")
 }
 \arguments{
 \item{gsqFile}{a path to the gsq (GeneSeqer) output file (class character)}

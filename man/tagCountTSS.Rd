@@ -4,15 +4,17 @@
 \alias{tagCountTSS}
 \title{tagCountTSS}
 \usage{
-tagCountTSS(y, outfname = "TSS.txt", writeDF = FALSE)
+tagCountTSS(y, n.cores = 1, outfname = "TSS.txt", writeTable = FALSE)
 }
 \arguments{
 \item{y}{a data frame containing the contents of a single slot of tssTagData.}
 
+\item{n.cores}{the number of cores to be used for this job.}
+
 \item{outfname}{the prefix of the file name of TSS information to be written.
 (character)}
 
-\item{writeDF}{if TRUE, the tag count information is written to a file in the
+\item{writeTable}{if TRUE, the tag count information is written to a file in the
 workding directory (logical)}
 }
 \value{

@@ -6,6 +6,7 @@
 #'
 #' @param experimentName - a S4 object of class tssObject containing
 #' information in slot tssTagData
+#' @param n.cores the number of cores to be used for this job.
 #' @param tssSet - number of the dataset to be analyzed
 #' @param writeTable - if set to TRUE, writes a data frame containing
 #' the TSSs positions and their abundance to your workspace
@@ -21,14 +22,15 @@
 #' respectively.
 
 setGeneric("prcTSS",
-    function(experimentName, tssSet, writeTable)
+    function(experimentName, n.cores, tssSet, writeTable)
     standardGeneric("prcTSS")
 )
 
 setMethod("prcTSS",
-          signature(experimentName="tssObject", "numeric", "logical"),
+          signature(experimentName="tssObject", "numeric", "numeric",
+		                   "logical"),
 
-          function(experimentName, tssSet, writeTable) {
+          function(experimentName, n.cores, tssSet, writeTable) {
               object.name <- deparse(substitute(experimentName))
 
               if (tssSet>length(experimentName@replicateIDs)) {
@@ -39,7 +41,7 @@ setMethod("prcTSS",
               outfname <- paste(outfname, "txt", sep=".")
 
               tss.df <- tagCountTSS(experimentName@tssTagData[[tssSet]],
-                                    outfname = outfname, writeDF=writeTable)
+                                    n.cores, outfname, writeTable)
 
               message("\n... the TSS expression matrix for dataset ", tssSet,
                   " has been successfully\nadded to the tssObject.\n")
