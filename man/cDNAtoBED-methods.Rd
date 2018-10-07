@@ -27,6 +27,7 @@ user's working directory.
 to BED format, extracting the 5'-most base.
 }
 \examples{
-tssObjectExample <- cDNAtoBED(gsqFile="gsq.At_GenomicSeq.fasta", fileName="testOut.bed")
-
+extdata.dir <- system.file("extdata", package="TSRchitect")
+tssObjectExample <- cDNAtoBED(gsqFile=paste(extdata.dir,"AtEST.gsq",sep="/"),
+                              fileName="testOut.bed")
 }
