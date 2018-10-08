@@ -13,7 +13,9 @@
 #' @import BiocGenerics
 #'
 #' @examples
-#' tssObjectExample <- cDNAtoBED(gsqFile="gsq.At_GenomicSeq.fasta", fileName="testOut.bed")
+#' extdata.dir <- system.file("extdata", package="TSRchitect")
+#' tssObjectExample <- cDNAtoBED(gsqFile=paste(extdata.dir,"AtEST.gsq",sep="/"),
+#'                               fileName="testOut.bed")
 #'
 #' @export
 #' @rdname cDNAtoBED-methods
