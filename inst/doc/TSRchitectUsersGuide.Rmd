@@ -172,8 +172,9 @@ Now that identifying TSRs are complete, an obvious and biologically useful step 
 Please install `AnnotationHub` if you haven't already done so.
 
 ```{r eval=FALSE}
-source("https://bioconductor.org/biocLite.R") 
-biocLite("AnnotationHub")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("AnnotationHub")
 ```
 
 In our case we need to download the [Gencode](https://www.gencodegenes.org/) annotation.
