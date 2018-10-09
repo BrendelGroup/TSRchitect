@@ -17,9 +17,14 @@ Typical preliminary steps to install or update these packages are as follows
 #installing CRAN packages
 install.packages(c("gtools","knitr"))
 
+```{r eval=FALSE}                              
+if (!requireNamespace("BiocManager", quietly=TRUE))
+   install.packages("BiocManager")
 #installing Bioconductor packages
-source("http://bioconductor.org/biocLite.R")
-biocLite(c("AnnotationHub", "BiocGenerics", "BiocParallel", "ENCODExplorer", "GenomicAlignments", "GenomeInfoDb", "GenomicRanges", "IRanges", "methods", "Rsamtools", "rtracklayer", "S4Vectors", "SummarizedExperiment"))
+BiocManager::install(c("AnnotationHub", "BiocGenerics", "BiocParallel",
+"ENCODExplorer", "GenomicAlignments", "GenomeInfoDb",
+"GenomicRanges", "IRanges", "Rsamtools", "rtracklayer",
+"S4Vectors", "SummarizedExperiment"))
 ```
 
 ## Obtaining TSRchitect
@@ -28,8 +33,9 @@ __TSRchitect__ is available as a
 the same way as the prerequisite packages:
 
 ```{r eval=FALSE}
-source("http://bioconductor.org/biocLite.R")
-biocLite("TSRchitect")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("TSRchitect")
 ```
 
 Optionally, you can install __TSRchitect__ directly from our group's GitHub

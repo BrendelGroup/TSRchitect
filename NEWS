@@ -18,3 +18,6 @@
 + Additional promoter (TSR) metrics added to output, including the modified shape index (mSI) and torque.
 + Modifications to column IDs to reflect updated nomenclature.
 + Updates to User's Guide in addition to creation of Singularity recipe for reproucible analysis across platforms.
+1.8.9 (10-08-2018)
++ Updates that correct a speed issue encountered when analyzing data aligned to assemblies with many scaffolds.
++ Simplified part of one vignette.
