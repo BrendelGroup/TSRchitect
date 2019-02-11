@@ -32,6 +32,8 @@ From: ubuntu:18.04
     apt -y install python-pip
     apt -y install python3-minimal
     apt -y install python3-pip
+    apt -y install openmpi-bin openmpi-common openssh-client openssh-server
+    apt -y install libopenmpi-dev
 
     cd /opt
     mkdir bin
@@ -104,9 +106,11 @@ From: ubuntu:18.04
     wget ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.9.1-1/sratoolkit.2.9.1-1-ubuntu64.tar.gz
     tar -xzf sratoolkit.2.9.1-1-ubuntu64.tar.gz
 
+
 ###
 # Evaluation and trimming of reads:
 #
+
 # FASTQC:
 #
     echo 'Installing FASTQC from https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ '
@@ -186,7 +190,24 @@ From: ubuntu:18.04
 
 
 ###
-# Motif identification
+# Spliced alignment tools:
+#
+    echo 'Installing GeneSeqer spliced aligner '
+    git clone https://github.com/BrendelGroup/GeneSeqer.git
+    cd GeneSeqer/src
+    make linux
+    make clean
+    cp makefile.lnxMPI makefile.lnxMPIorig
+    sed -e "s/^#MPICC/MPICC/" makefile.lnxMPI | sed -e "0,/^MPICC/s/^MPICC/#MPICC/" > makefile.lnxMPIu
+    make -f makefile.lnxMPIu
+    make clean
+    make install
+    cd ../..
+
+
+###
+# Motif identification:
+#
 
 # GHOSTSCRIPT:
 #
@@ -249,6 +270,7 @@ From: ubuntu:18.04
 
     echo 'Installing CRAN packages'
     ######
+    apt -y install r-cran-biocmanager
     apt -y install r-cran-dplyr
     apt -y install r-cran-gplots
     apt -y install r-cran-gridextra
@@ -261,14 +283,15 @@ From: ubuntu:18.04
 
     echo 'Installing Bioconductor packages'
     ######
-    echo 'source("https://bioconductor.org/biocLite.R")'                                          > R2install
-    echo 'biocLite(c("BiocGenerics", "GenomicRanges", "genomation","TSRchitect"), ask=FALSE)'    >> R2install
-    echo 'biocLite(c("bumphunter","seqLogo","ENCODExplorer"), ask=FALSE)'                        >> R2install
+    echo 'BiocManager::install(c("BiocGenerics", "GenomicRanges", "genomation","TSRchitect"), ask=FALSE)'     > R2install
+    echo 'BiocManager::install(c("bumphunter","seqLogo","ENCODExplorer"),                     ask=FALSE)'    >> R2install
 
     Rscript R2install
     
-    git clone https://github.com/BrendelGroup/TSRchitect.git
-    R CMD INSTALL TSRchitect
+# Use the git repository only for installation of a TSRchitect version not yet in Bioconductor:
+#
+#   git clone https://github.com/BrendelGroup/TSRchitect.git
+#   R CMD INSTALL TSRchitect
 
 
 %environment
@@ -279,7 +302,7 @@ From: ubuntu:18.04
     export PATH=$PATH:/opt/meme/bin
     export PATH=$PATH:/opt/sratoolkit.2.9.1-1-ubuntu64/bin
 
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/:/usr/lib64/openmpi/lib
 
 %labels
     Maintainer vpbrendel
