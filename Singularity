@@ -290,8 +290,8 @@ From: ubuntu:18.04
     
 # Use the git repository only for installation of a TSRchitect version not yet in Bioconductor:
 #
-#   git clone https://github.com/BrendelGroup/TSRchitect.git
-#   R CMD INSTALL TSRchitect
+    git clone https://github.com/BrendelGroup/TSRchitect.git
+    R CMD INSTALL TSRchitect
 
 
 %environment
