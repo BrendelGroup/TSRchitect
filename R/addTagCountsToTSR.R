@@ -69,13 +69,13 @@ setMethod("addTagCountsToTSR",
                       outfname <- paste("TSRsetMerged-", tsrSet, sep="")
                       outfname <- paste(outfname, "txt", sep=".")
                       message("\nThe merged TSR set for TSS dataset ", tsrSet,
-                              " has been written to file ", outfname,
+                              " will be written to file ", outfname,
                               "\nin your working directory.")
                   }
                   else { # "combined" case
                       outfname <- "TSRsetCombined.txt"
                       message("\nThe combined TSR set derived from all samples",
-                              " has been written to file ", outfname,
+                              " will be written to file ", outfname,
                               "\nin your working directory.")
                   }
                   tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
@@ -162,9 +162,9 @@ setMethod("addTagCountsToTSR",
               } # end for (j ...
               if (writeTable=="TRUE") {
                   write.table(currentTSRset, file=outfname, col.names=TRUE,
-  row.names=FALSE, sep="\t", quote=FALSE)
+                              row.names=FALSE, sep="\t", quote=FALSE)
                   message("\nThe updated TSR data have been written to file ",
-  outfname, "\nin your working directory.")
+                          outfname, "\nin your working directory.")
               }
               #Update the record:
               if (tsrSetType=="replicates") {

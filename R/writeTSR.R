@@ -64,18 +64,18 @@ setMethod("writeTSR",
                            " Please check.")
                   }
                   message("\nThe TSR set for TSS dataset ", tsrSet,
-                          " has been written to file ",
-                         outfname, "\nin your working directory.")
+                          " will be written to file ",
+                          outfname, "\nin your working directory.")
                   tsr.df <- experimentName@tsrData[[tsrSet]]
               }
               else if (tsrSetType=="merged") {
                   if (length(experimentName@tsrDataMerged)<1) {
                       stop("The @tsrDataMerged slot is currently empty.",
-                            " Please complete the merger before continuing.")
+                           " Please complete the merger before continuing.")
                   }
                   if (tsrSet>length(experimentName@tsrDataMerged)) {
                       stop("The value selected for tsrSet exceeds the",
-                            " number of slots in tsrDataMerged.")
+                           " number of slots in tsrDataMerged.")
                   }
                   if (tsrSet<length(experimentName@tssCountDataMerged)) {
                       outfname <- paste("TSRsetMerged-", tsrSet, sep="")
@@ -90,7 +90,7 @@ setMethod("writeTSR",
                                " Please check.")
                       }
                       message("\nThe merged TSR set for TSS dataset ", tsrSet,
-                      " has been written to file ", outfname,
+                      " will be written to file ", outfname,
                       "\nin your working directory.")
                   }
                   else { # "combined" case
@@ -105,7 +105,7 @@ setMethod("writeTSR",
                                " Please check.")
                       }
                       message("\nThe combined TSR set derived from all samples",
-                              " has been written to file ", outfname,
+                              " will be written to file ", outfname,
                               "\nin your working directory.")
                   }
                   tsr.df <- experimentName@tsrDataMerged[[tsrSet]]

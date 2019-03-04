@@ -42,7 +42,7 @@ setMethod("gsq2bed",
               system(cmd)
 
               message("The file ", outfile,
-                      " has been written to your working directory."
+                      " has been generated in your working directory."
                       )
 
           }

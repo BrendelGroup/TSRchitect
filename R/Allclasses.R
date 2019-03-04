@@ -14,10 +14,8 @@ setClass(Class="tssObject",
              tssTagData = "GRangesList",
              tssCountData = "list",
              tssCountDataMerged = "list",
-             countsData = "data.frame",
              tsrData = "list",
-             tsrDataMerged = "list",
-             tsrCounts = "data.frame"
+             tsrDataMerged = "list"
              ),
          prototype(
              title = NA_character_,
@@ -34,10 +32,8 @@ setClass(Class="tssObject",
              tssTagData = GRangesList(),
              tssCountData = list(),
              tssCountDataMerged = list(),
-             countsData = data.frame(),
              tsrData = list(),
-             tsrDataMerged = list(),
-             tsrCounts = data.frame()
+             tsrDataMerged = list()
              ),
          )
 
