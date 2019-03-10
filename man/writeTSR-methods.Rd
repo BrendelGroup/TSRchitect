@@ -3,13 +3,15 @@
 \docType{methods}
 \name{writeTSR}
 \alias{writeTSR}
-\alias{writeTSR,tssObject,character,numeric,character-method}
+\alias{writeTSR,tssObject,character,numeric,character,character-method}
 \title{\strong{writeTSR}}
 \usage{
-writeTSR(experimentName, tsrSetType, tsrSet = 1, fileType = "tab")
+writeTSR(experimentName, tsrSetType, tsrSet = 1, tsrLabel = "TSR_",
+  fileType = "tab")
 
-\S4method{writeTSR}{tssObject,character,numeric,character}(experimentName,
-  tsrSetType, tsrSet = 1, fileType = "tab")
+
+  \S4method{writeTSR}{tssObject,character,numeric,character,character}(experimentName,
+  tsrSetType, tsrSet = 1, tsrLabel = "TSR_", fileType = "tab")
 }
 \arguments{
 \item{experimentName}{an S4 object of class \emph{tssObject} containing
@@ -20,9 +22,12 @@ Options are "replicates" or "merged". (character)}
 
 \item{tsrSet}{number of the dataset to be processed (numeric).}
 
+\item{tsrLabel}{specifies the label to be used in the name column of
+BED format output}
+
 \item{fileType}{the format of the file to be written.
-Possible choices are "tab" for tab-delimited output and
-"bed" for BED format (character).}
+Possible choices are "tab" for tab-delimited outpu, "bed" for BED format,
+and "gff" for for GFF3 format (character).}
 }
 \value{
 A table containing the specified TSR data set that
@@ -43,6 +48,6 @@ https://genome.ucsc.edu/FAQ/FAQformat#format1
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 writeTSR(experimentName=tssObjectExample, tsrSetType="replicates",
-         tsrSet=1, fileType="tab")
+         tsrSet=1, tsrLabel="TSRsample1_",fileType="tab")
 
 }
