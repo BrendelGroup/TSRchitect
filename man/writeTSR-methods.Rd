@@ -26,7 +26,7 @@ Options are "replicates" or "merged". (character)}
 BED format output}
 
 \item{fileType}{the format of the file to be written.
-Possible choices are "tab" for tab-delimited outpu, "bed" for BED format,
+Possible choices are "tab" for tab-delimited output, "bed" for BED format,
 and "gff" for for GFF3 format (character).}
 }
 \value{

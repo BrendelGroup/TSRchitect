@@ -11,7 +11,7 @@
 #' @param tsrLabel specifies the label to be used in the name column of
 #' BED format output
 #' @param fileType the format of the file to be written.
-#' Possible choices are "tab" for tab-delimited outpu, "bed" for BED format,
+#' Possible choices are "tab" for tab-delimited output, "bed" for BED format,
 #' and "gff" for for GFF3 format (character).
 #'
 #' @return A table containing the specified TSR data set that
