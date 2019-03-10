@@ -8,9 +8,11 @@
 #' @param tsrSetType specifies the set to be written to file.
 #' Options are "replicates" or "merged". (character)
 #' @param tsrSet number of the dataset to be processed (numeric).
+#' @param tsrLabel specifies the label to be used in the name column of
+#' BED format output
 #' @param fileType the format of the file to be written.
-#' Possible choices are "tab" for tab-delimited output and
-#' "bed" for BED format (character).
+#' Possible choices are "tab" for tab-delimited output, "bed" for BED format,
+#' and "gff" for for GFF3 format (character).
 #'
 #' @return A table containing the specified TSR data set that
 #' is to be written to your working directory.
@@ -21,7 +23,7 @@
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' writeTSR(experimentName=tssObjectExample, tsrSetType="replicates",
-#'          tsrSet=1, fileType="tab")
+#'          tsrSet=1, tsrLabel="TSRsample1_",fileType="tab")
 #'
 #' @note The .bed file written adheres to the standard six-column BED format,
 #' while "tab" format is identical to that of the data.frames containing TSR
@@ -34,7 +36,8 @@
 
 
 setGeneric("writeTSR",
-    function(experimentName, tsrSetType, tsrSet=1, fileType="tab")
+    function(experimentName, tsrSetType, tsrSet=1, tsrLabel="TSR_",
+             fileType="tab")
     standardGeneric("writeTSR")
 )
 
@@ -42,9 +45,9 @@ setGeneric("writeTSR",
 
 setMethod("writeTSR",
           signature(experimentName="tssObject", "character", "numeric",
-		    "character"),
+		    "character", "character"),
 
-          function(experimentName, tsrSetType, tsrSet, fileType) {
+          function(experimentName, tsrSetType, tsrSet, tsrLabel, fileType) {
 
               message("... writeTSR ...")
               if (tsrSetType=="replicates") {
@@ -58,6 +61,9 @@ setMethod("writeTSR",
                   }
                   else if (fileType == "bed") {
                       outfname <- paste(outfname, "bed", sep=".")
+                  }
+                  else if (fileType == "gff") {
+                      outfname <- paste(outfname, "gff", sep=".")
                   }
                   else {
                       stop("Unknown fileType selected for writeTSR.",
@@ -117,19 +123,30 @@ setMethod("writeTSR",
 
               if (fileType == "tab") {
                   write.table(tsr.df, file=outfname, col.names=FALSE,
-                  row.names=FALSE, sep="\t", quote=FALSE)
+                              row.names=FALSE, sep="\t", quote=FALSE)
               }
-              else {
-                  tsr.df$ID <- paste(tsr.df$seq,
-                                    as.numeric(as.character(tsr.df$start)),
-                                    as.numeric(as.character(tsr.df$end)),
-                                    tsr.df$strand, sep=".")
-                  bed.df <- tsr.df[, c("seq", "start", "end", "ID",
-                                       "shapeIndex", "strand")]
-                  bed.df$shapeIndex <- as.numeric(as.character(bed.df$shapeIndex))
-                  colnames(bed.df) <- c("chrom", "start", "end",
-                                      "name", "score", "strand")
-                  export.bed(bed.df,con=outfname)
+              else if (fileType == "bed") {
+                  tsr.df$ID <- paste(tsrLabel,which(tsr.df$seq != ""),sep="_")
+                  m <- median(tsr.df$nTAGs)
+                  tsr.df$score <- round(100*pmin(tsr.df$nTAGs/m,10),0)
+                  out.df <- tsr.df[, c("seq", "start", "end", "ID",
+                                       "score", "strand")]
+                  colnames(out.df) <- c("chrom", "start", "end","name",
+                                        "score", "strand")
+                  export.bed(out.df,con=outfname)
+              }
+              else { # fileType == "gff") 
+                  tsr.df$source <- rep("TSRchitect",nrow(tsr.df))
+                  tsr.df$type <- rep("TSR",nrow(tsr.df))
+                  m <- median(tsr.df$nTAGs)
+                  tsr.df$score <- round(100*pmin(tsr.df$nTAGs/m,10),0)
+                  tsr.df$phase <- rep(".",nrow(tsr.df))
+                  tsr.df$ID <- paste("ID=",tsrLabel,"_",
+                                     which(tsr.df$seq != ""),";",sep="")
+                  out.df <- tsr.df[, c("seq", "source", "type", "start", "end",
+                                       "score", "strand", "phase", "ID")]
+                  write.table(out.df, file=outfname, col.names=FALSE,
+                              row.names=FALSE, sep="\t", quote=FALSE)
               }
 
               message("---------------------------------------------------------\n")
