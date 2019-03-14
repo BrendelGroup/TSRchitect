@@ -22,8 +22,8 @@ a dataframe reporting the locations of unique TSSs and the
 corresponding tag counts
 }
 \description{
-an internal function that returns a matrix [a, h] where a = the
-number of unique TSSs and h = the # of tags observed at that position.
+an internal function that returns a dataframe reporting the
+locations of unique TSSs and the corresponding tag counts.
 tagCountTSS is invoked via prcTSS.
 }
 \keyword{internal}
