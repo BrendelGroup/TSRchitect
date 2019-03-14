@@ -130,7 +130,7 @@ setMethod("writeTSS",
                   tss.df$ID <- paste(tssLabel,which(tss.df$seq != ""),sep="_")
                   out.df <- tss.df[, c("seq", "TSS", "TSS", "ID",
                                        "nTAGs", "strand")]
-                  colnames(out.df) <- c("chrom", "start", "end","name",
+                  colnames(out.df) <- c("chrom", "start", "end", "name",
                                         "score", "strand")
                   export.bed(out.df,con=outfname)
               }
@@ -156,9 +156,9 @@ setMethod("writeTSS",
 
                   out.df <- tss.df[with(tss.df,order(tss.df$seq,tss.df$beg)),
                                    c("seq", "beg", "TSS", "score")]
-                  write.table(format(out.df,scientific=FALSE), file=outfname,
-                              col.names=FALSE, row.names=FALSE, sep="\t",
-                              quote=FALSE)
+                  write.table(format(out.df,scientific=FALSE,trim=TRUE),
+                              file=outfname, col.names=FALSE, row.names=FALSE,
+                              sep="\t", quote=FALSE)
               }
 
               message("---------------------------------------------------------\n")

@@ -147,9 +147,9 @@ setMethod("writeTSR",
                   out.df <- tsr.df[with(tsr.df,order(tsr.df$seq,tsr.df$start)),
                                    c("seq", "source", "type", "start", "end",
                                      "score", "strand", "phase", "ID")]
-                  write.table(format(out.df,scientific=FALSE), file=outfname,
-                              col.names=FALSE, row.names=FALSE, sep="\t",
-                              quote=FALSE)
+                  write.table(format(out.df,scientific=FALSE,trim=TRUE),
+                              file=outfname, col.names=FALSE, row.names=FALSE,
+                              sep="\t", quote=FALSE)
               }
 
               message("---------------------------------------------------------\n")
