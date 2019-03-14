@@ -144,8 +144,9 @@ setMethod("writeTSR",
                   tsr.df$phase <- rep(".",nrow(tsr.df))
                   tsr.df$ID <- paste("ID=",tsrLabel,"_",
                                      which(tsr.df$seq != ""),";",sep="")
-                  out.df <- tsr.df[, c("seq", "source", "type", "start", "end",
-                                       "score", "strand", "phase", "ID")]
+                  out.df <- tsr.df[with(tsr.df,order(tsr.df$seq,tsr.df$start)),
+                                   c("seq", "source", "type", "start", "end",
+                                     "score", "strand", "phase", "ID")]
                   write.table(format(out.df,scientific=FALSE), file=outfname,
                               col.names=FALSE, row.names=FALSE, sep="\t",
                               quote=FALSE)

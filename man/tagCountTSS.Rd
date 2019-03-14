@@ -14,12 +14,12 @@ tagCountTSS(y, n.cores = 1, outfname = "TSS.txt", writeTable = FALSE)
 \item{outfname}{the prefix of the file name of TSS information to be written.
 (character)}
 
-\item{writeTable}{if TRUE, the tag count information is written to a file in the
-workding directory (logical)}
+\item{writeTable}{if TRUE, the tag count information is written to a file in
+the workding directory (logical)}
 }
 \value{
-a matrix [a, h] containing the number of unique TSSs (a) and
-their corresponding abundances (h) is returned.
+a dataframe reporting the locations of unique TSSs and the
+corresponding tag counts
 }
 \description{
 an internal function that returns a matrix [a, h] where a = the
