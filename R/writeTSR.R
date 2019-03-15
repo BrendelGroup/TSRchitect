@@ -122,8 +122,9 @@ setMethod("writeTSR",
               }
 
               if (fileType == "tab") {
-                  write.table(tsr.df, file=outfname, col.names=FALSE,
-                              row.names=FALSE, sep="\t", quote=FALSE)
+                  write.table(format(tsr.df,scientific=FALSE), file=outfname,
+                              col.names=FALSE, row.names=FALSE, sep="\t",
+                              quote=FALSE)
               }
               else if (fileType == "bed") {
                   tsr.df$ID <- paste(tsrLabel,which(tsr.df$seq != ""),sep="_")
@@ -143,10 +144,12 @@ setMethod("writeTSR",
                   tsr.df$phase <- rep(".",nrow(tsr.df))
                   tsr.df$ID <- paste("ID=",tsrLabel,"_",
                                      which(tsr.df$seq != ""),";",sep="")
-                  out.df <- tsr.df[, c("seq", "source", "type", "start", "end",
-                                       "score", "strand", "phase", "ID")]
-                  write.table(out.df, file=outfname, col.names=FALSE,
-                              row.names=FALSE, sep="\t", quote=FALSE)
+                  out.df <- tsr.df[with(tsr.df,order(tsr.df$seq,tsr.df$start)),
+                                   c("seq", "source", "type", "start", "end",
+                                     "score", "strand", "phase", "ID")]
+                  write.table(format(out.df,scientific=FALSE,trim=TRUE),
+                              file=outfname, col.names=FALSE, row.names=FALSE,
+                              sep="\t", quote=FALSE)
               }
 
               message("---------------------------------------------------------\n")

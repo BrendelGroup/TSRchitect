@@ -50,7 +50,7 @@ setMethod("addTagCountsToTSR",
               if (tsrSetType=="replicates") {
                   if (tsrSet>length(experimentName@tsrData)) {
                       stop("The value selected for tsrSet exceeds the ",
-                            "number of slots in tsrData.")
+                           "number of slots in tsrData.")
                   }
                   outfname <- paste("TSRset-", tsrSet, sep="")
                   outfname <- paste(outfname, "txt", sep=".")
@@ -161,8 +161,9 @@ setMethod("addTagCountsToTSR",
 
               } # end for (j ...
               if (writeTable=="TRUE") {
-                  write.table(currentTSRset, file=outfname, col.names=TRUE,
-                              row.names=FALSE, sep="\t", quote=FALSE)
+                  write.table(format(currentTSRset,scientific=FALSE),
+                              file=outfname, col.names=TRUE, row.names=FALSE,
+                              sep="\t", quote=FALSE)
                   message("\nThe updated TSR data have been written to file ",
                           outfname, "\nin your working directory.")
               }

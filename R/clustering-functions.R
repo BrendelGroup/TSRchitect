@@ -1,7 +1,7 @@
 ################################################################################
 #' tagCountTSS
-#' @description an internal function that returns a matrix [a, h] where a = the
-#' number of unique TSSs and h = the # of tags observed at that position.
+#' @description an internal function that returns a dataframe reporting the
+#' locations of unique TSSs and the corresponding tag counts.
 #' tagCountTSS is invoked via prcTSS.
 #'
 #' @import BiocGenerics
@@ -12,12 +12,12 @@
 #' @param n.cores the number of cores to be used for this job.
 #' @param outfname the prefix of the file name of TSS information to be written.
 #' (character)
-#' @param writeTable if TRUE, the tag count information is written to a file in the
-#' workding directory (logical)
+#' @param writeTable if TRUE, the tag count information is written to a file in
+#' the workding directory (logical)
 #'
 #' @keywords internal
-#' @return a matrix [a, h] containing the number of unique TSSs (a) and
-#' their corresponding abundances (h) is returned.
+#' @return a dataframe reporting the locations of unique TSSs and the
+#' corresponding tag counts
 
 
 tagCountTSS <- function(y, n.cores=1, outfname="TSS.txt", writeTable=FALSE) {
@@ -96,8 +96,8 @@ tagCountTSS <- function(y, n.cores=1, outfname="TSS.txt", writeTable=FALSE) {
     my.df$nTAGs <- as.numeric(as.character(my.df$nTAGs))
 
     if (writeTable==TRUE) {
-        write.table(my.df, outfname, quote=FALSE, col.names=TRUE,
-                    row.names=FALSE, sep="\t")
+        write.table(format(my.df,scientific=FALSE), outfname, quote=FALSE,
+                    col.names=TRUE, row.names=FALSE, sep="\t")
         message("\nThe TSS dataset has been written to file ", outfname,
                 "\nin your working directory.")
     }

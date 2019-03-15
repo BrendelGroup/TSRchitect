@@ -171,8 +171,9 @@ setMethod("addAnnotationToTSR",
                                         tsr.df$strand, sep=".")
 #writing the table to a file if writeTable=TRUE 
               if (writeTable==TRUE) {
-                  write.table(tsr.df, file=outfname, col.names=TRUE,
-                              row.names=FALSE, sep="\t", quote=FALSE)
+                  write.table(format(tsr.df,scientific=FALSE), file=outfname,
+                              col.names=TRUE, row.names=FALSE, sep="\t",
+                              quote=FALSE)
                   message("\nThe updated TSR data have been written to ",
                           "file ", outfname, " in your working directory.")
               }
