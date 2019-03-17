@@ -18,6 +18,7 @@
 #' is to be written to your working directory.
 #'
 #' @import     BiocGenerics
+#' @importFrom stats median
 #' @importFrom rtracklayer export.bed
 #'
 #' @examples

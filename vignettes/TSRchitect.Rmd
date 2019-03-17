@@ -48,13 +48,26 @@ sampleNames=c("sample1-rep1", "sample1-rep2","sample2-rep1",
 "sample2-rep2"), replicateIDs=c(1,1,2,2)) #datasets 1-2 and 3-4 are replicates
 ```
 
+Note: TSRchitect allows input also from bed-formatted files.
+You could replace the above lines with following equivalents:
+
+```
+extdata.dir <- system.file("extdata/bedFiles", package="TSRchitect") 
+
+tssObjectExample <- loadTSSobj(experimentTitle="Vignette Example",
+inputDir=extdata.dir, isPairedBED=TRUE,
+sampleNames=c("sample1-rep1", "sample1-rep2","sample2-rep1",
+"sample2-rep2"), replicateIDs=c(1,1,2,2)) #datasets 1-2 and 3-4 are replicates
+```
+
 If we wish to see our new tssObject, we simply type its name on the console and hit return, as follows:
 
 ```{r eval=FALSE}
 tssObjectExample
 ```
 
-Now that the .bam files have been imported, we need to retrieve TSSs from the BAM records, and calculate the abundance of each tag at a given TSS. We opt to not run these in parallel, and specify this by setting `n.cores = 1`.
+Now that the .bam files have been imported, we need to retrieve TSSs from the BAM records, and calculate the abundance of each tag at a given TSS.
+We opt to not run these in parallel, and specify this by setting `n.cores = 1`.
 
 ```{r eval=TRUE}
 tssObjectExample <- inputToTSS(experimentName=tssObjectExample)
@@ -73,7 +86,8 @@ tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20,
 writeTable=FALSE)
 ```
 
-Next we merge our replicate data (according to the information we provided in `loadTSSobj`) and identify TSRs on these merged samples. We then use `addTagCountsToTSR` to quantify the number of tags found in each of our 4 datasets.
+Next we merge our replicate data (according to the information we provided in `loadTSSobj`) and identify TSRs on these merged samples.
+We then use `addTagCountsToTSR` to quantify the number of tags found in each of our 4 datasets.
 
 ```{r eval=TRUE}
 tssObjectExample <- mergeSampleData(experimentName=tssObjectExample)
