@@ -15,6 +15,9 @@
 #'  (if FALSE). Set to FALSE by default. (logical)
 #' Note: if TRUE, the input data must be in bedpe format, as described here:
 #' http://bedtools.readthedocs.io/en/latest/content/general-usage.html
+#' @param sampleSheet file providing TSS sample information; if provided,
+#'  sampleNames and replicateIDs are ignored; input format is tab-delimited
+#'  3-column rows with sample name, replicate ID, and sample data file name
 #' @param sampleNames unique labels of class character for each TSS sample
 #' within the experiment (character).
 #' @param replicateIDs identifiers indicating which samples are biological
@@ -32,9 +35,12 @@
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
 #' @importFrom methods new
 #' @importFrom rtracklayer import import.bed
+#' @importFrom tools file_ext
+#' @importFrom utils read.table
+#' @importFrom XLConnect readWorksheetFromFile
 #'
 #' @examples
-#' extdata.dir <- system.file("extdata", package="TSRchitect")
+#' extdata.dir <- system.file("extdata/bamFiles", package="TSRchitect")
 #' test.Obj <- loadTSSobj(experimentTitle="Code example", inputDir=extdata.dir,
 #' isPairedBAM=TRUE, sampleNames=c("sample1-rep1", "sample1-rep2",
 #' "sample2-rep1","sample2-rep2"), replicateIDs=c(1,1,2,2))
@@ -53,8 +59,7 @@
 setGeneric("loadTSSobj",
            function(experimentTitle, inputDir, 
                     isPairedBAM=FALSE, isPairedBED=FALSE, 
-                    sampleNames,
-                    replicateIDs)
+                    sampleSheet="", sampleNames, replicateIDs)
     standardGeneric("loadTSSobj")
 )
 
@@ -63,17 +68,58 @@ setGeneric("loadTSSobj",
 setMethod("loadTSSobj", #both BAM and BED files
           signature(experimentTitle="character", inputDir="character",
                     isPairedBAM="ANY", isPairedBED="ANY",
-                    sampleNames="character",
-                    replicateIDs="numeric"),
-          function(experimentTitle, inputDir, isPairedBAM=FALSE,
-                   isPairedBED=FALSE,
-                   sampleNames,
-                   replicateIDs) {
+                    sampleSheet="ANY",
+                    sampleNames="character", replicateIDs="numeric"),
+          function(experimentTitle, inputDir,
+		   isPairedBAM=FALSE, isPairedBED=FALSE,
+                   sampleSheet, sampleNames, replicateIDs) {
               
               message("... loadTSSobj ...")
               tssObj <- new("tssObject")
 
               tssObj@title <- experimentTitle
+
+tss_filesBAM <- vector(mode="character",length=0)
+tss_filesBED <- vector(mode="character",length=0)
+
+
+  if(!missing(sampleSheet) & is.character(sampleSheet)) {
+	  message("I found a sample sheet")
+    if(!missing(inputDir)) {
+      sampleSheet <- file.path(inputDir,sampleSheet)
+	  message("I found a sample sheet in the inputDir")
+    }
+
+    ext <- file_ext(sampleSheet)
+    cat("extension is\n")
+    cat(ext)
+    if (ext %in% c("xls","xlsx")) {
+      samples <- readWorksheetFromFile(sampleSheet,sheet=1)
+    } else {
+      samples <- read.table(sampleSheet,sep='	',stringsAsFactors=F,header=T, 
+                            comment.char="")
+    }
+    cat("\nstr samples:\n")
+    cat(str(samples))
+    cat("\nthe end for now\n\n")
+    sampleNames <- samples$SAMPLE
+    replicateIDs <- samples$ReplicateID
+ for (file in samples$FILE) {
+    ext <- file_ext(file)
+    cat("Extension is\n")
+    cat(ext,"\t")
+    if (ext %in% c("bam","Bam")) {
+            message("bam file");
+	    tss_filesBAM <- c(tss_filesBAM,file)
+    } else if (ext %in% c("bed","Bed")) {
+	    message("bed file")
+	    tss_filesBED <- c(tss_filesBED,file)
+    } else {
+      message("problem");
+    }
+  }
+  }
+
 
               if (isPairedBAM==TRUE) {
                   tssObj@dataTypeBAM <- c("pairedEnd")
@@ -88,8 +134,14 @@ setMethod("loadTSSobj", #both BAM and BED files
               if (isPairedBED==FALSE) {
                   tssObj@dataTypeBED <- c("singleEnd")
               }
-             tss_filesBAM <- list.files(inputDir, pattern="\\.bam$",
+
+cat(str(tss_filesBAM))
+	      if (length(tss_filesBAM) == 0) {
+message("tss_filesBAM is of length 0");
+tss_filesBAM <- list.files(inputDir, pattern="\\.bam$",
                                         all.files=FALSE, full.names=TRUE)
+	      }
+cat(str(tss_filesBAM))
              tssObj@fileNamesBAM <- tss_filesBAM
              if (length(tss_filesBAM) > 0) {
                   if (is.character(tssObj@dataTypeBAM)==FALSE) {
@@ -129,9 +181,14 @@ setMethod("loadTSSobj", #both BAM and BED files
                           " bam files have been attached to the tssObject.\n")
                   message("-----------------------------------------------------\n")
               }
-                  #now for BED files (if present)
-              tss_filesBED <- list.files(inputDir, pattern="\\.bed$",
+#now for BED files (if present)
+cat(str(tss_filesBED))
+	      if (length(tss_filesBED) == 0) {
+message("tss_filesBED is of length 0");
+tss_filesBED <- list.files(inputDir, pattern="\\.bed$",
                                          all.files=FALSE, full.names=TRUE)
+	      }
+cat(str(tss_filesBED))
               if (length(tss_filesBED) > 0) {
                   if (isPairedBED == TRUE) {
                   message("\nImporting paired-end reads ...\n")
