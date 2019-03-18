@@ -41,7 +41,9 @@ Imports:
     rtracklayer,
     S4Vectors,
     SummarizedExperiment,
-    utils
+    tools,
+    utils,
+    XLConnect
 License: GPL-3
 URL: https://github.com/brendelgroup/tsrchitect
 BugReports: https://github.com/brendelgroup/tsrchitect/issues
