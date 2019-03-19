@@ -12,7 +12,7 @@ vignette: >
 ## R. Taylor Raborn and Volker P. Brendel
 ## Department of Biology, Indiana University
 
-### July 10, 2018; updated March 17, 2019
+### July 10, 2018; updated March 18, 2019
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 TSRchitect can handle TSS profiling experiments that contain either single-end or paired-end sequence reads, such as CAGE, RAMPAGE, PEAT, STRIPE-seq and others. TSRchitect is an open-source bioinformatics package that is intended to support large-scale, reproducible analysis of TSS profiling data in a broad array of eukaryotic model systems.
@@ -40,7 +40,7 @@ In doing this, we provide sample names and identify our replicate names using th
 We do this in the following manner:
 
 ```{r eval=TRUE}
-extdata.dir <- system.file("extdata", package="TSRchitect") 
+extdata.dir <- system.file("extdata/bamFiles", package="TSRchitect") 
 
 tssObjectExample <- loadTSSobj(experimentTitle="Vignette Example",
 inputDir=extdata.dir, isPairedBAM=TRUE,
@@ -48,7 +48,7 @@ sampleNames=c("sample1-rep1", "sample1-rep2","sample2-rep1",
 "sample2-rep2"), replicateIDs=c(1,1,2,2)) #datasets 1-2 and 3-4 are replicates
 ```
 
-Note: TSRchitect allows input also from bed-formatted files.
+Please note that TSRchitect allows input also from bed-formatted files.
 You could replace the above lines with following equivalents:
 
 ```
@@ -60,14 +60,18 @@ sampleNames=c("sample1-rep1", "sample1-rep2","sample2-rep1",
 "sample2-rep2"), replicateIDs=c(1,1,2,2)) #datasets 1-2 and 3-4 are replicates
 ```
 
+For convenience, loadTSSobj() may also be called with argument sampleSheet="ssfile", where `ssfile` is either a tab-delimited text file or an EXCEL spreadsheet (with extension .xls or .xlsx).
+In either case, the first row must have the header `SAMPLE	ReplicateID	FILE` and the same information described above in the respective columns.
+If necessary, you can provide input to `loadTSSobj()` consisting of both .bam and .bed files, but be aware that loading of the data into the tssObject will always add the .bam files before the .bed files and the internal numbering of the TSS sets will be accordingly.
+
 If we wish to see our new tssObject, we simply type its name on the console and hit return, as follows:
 
 ```{r eval=FALSE}
 tssObjectExample
 ```
 
-Now that the .bam files have been imported, we need to retrieve TSSs from the BAM records, and calculate the abundance of each tag at a given TSS.
-We opt to not run these in parallel, and specify this by setting `n.cores = 1`.
+Now that the .bam files have been imported, we need to retrieve TSSs from the BAM records and calculate the abundance of each tag at a given TSS.
+We opt to not run these in parallel and specify this by setting `n.cores = 1`.
 
 ```{r eval=TRUE}
 tssObjectExample <- inputToTSS(experimentName=tssObjectExample)
@@ -115,9 +119,10 @@ We see that two distinct TSRs were identified from this small example dataset.
 Finally, we import an annotation file (containing Gencode annotated transcripts) and then assocate this annotation with our small set of identified TSRs.
 
 ```{r eval=TRUE}
+gff3data.dir <- system.file("extdata", package="TSRchitect") 
 tssObjectExample <- importAnnotationExternal(experimentName=tssObjectExample,
 fileType="gff3",
-annotFile=paste(extdata.dir,"gencode.v19.chr22.transcript.gff3",sep="/"))
+annotFile=paste(gff3data.dir,"gencode.v19.chr22.transcript.gff3",sep="/"))
 
 tssObjectExample <- addAnnotationToTSR(experimentName=tssObjectExample,
 tsrSetType="merged", tsrSet=1, upstreamDist=2000, downstreamDist=500,

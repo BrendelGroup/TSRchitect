@@ -3,16 +3,16 @@
 \docType{methods}
 \name{loadTSSobj}
 \alias{loadTSSobj}
-\alias{loadTSSobj,character,character,ANY,ANY,character,numeric-method}
+\alias{loadTSSobj,character,character,ANY,ANY,ANY,character,numeric-method}
 \title{\strong{loadTSSobj}}
 \usage{
 loadTSSobj(experimentTitle, inputDir, isPairedBAM = FALSE,
-  isPairedBED = FALSE, sampleNames, replicateIDs)
+  isPairedBED = FALSE, sampleSheet = "", sampleNames, replicateIDs)
 
 
-  \S4method{loadTSSobj}{character,character,ANY,ANY,character,numeric}(experimentTitle,
-  inputDir, isPairedBAM = FALSE, isPairedBED = FALSE, sampleNames,
-  replicateIDs)
+  \S4method{loadTSSobj}{character,character,ANY,ANY,ANY,character,numeric}(experimentTitle,
+  inputDir, isPairedBAM = FALSE, isPairedBED = FALSE,
+  sampleSheet = "", sampleNames, replicateIDs)
 }
 \arguments{
 \item{experimentTitle}{a descriptive title for the experiment (character).}
@@ -31,6 +31,10 @@ TSS profiling experiment is paired-end (if TRUE) or single-end
  (if FALSE). Set to FALSE by default. (logical)
 Note: if TRUE, the input data must be in bedpe format, as described here:
 http://bedtools.readthedocs.io/en/latest/content/general-usage.html}
+
+\item{sampleSheet}{file providing TSS sample information; if provided,
+sampleNames and replicateIDs are ignored; input format is tab-delimited
+3-column rows with sample name, replicate ID, and sample data file name}
 
 \item{sampleNames}{unique labels of class character for each TSS sample
 within the experiment (character).}
@@ -60,7 +64,7 @@ retrieved and written in ascending alphanumeric order to the
 the \emph{tssObject} that is created.
 }
 \examples{
-extdata.dir <- system.file("extdata", package="TSRchitect")
+extdata.dir <- system.file("extdata/bamFiles", package="TSRchitect")
 test.Obj <- loadTSSobj(experimentTitle="Code example", inputDir=extdata.dir,
 isPairedBAM=TRUE, sampleNames=c("sample1-rep1", "sample1-rep2",
 "sample2-rep1","sample2-rep2"), replicateIDs=c(1,1,2,2))
