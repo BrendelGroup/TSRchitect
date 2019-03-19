@@ -17,7 +17,10 @@
 #' http://bedtools.readthedocs.io/en/latest/content/general-usage.html
 #' @param sampleSheet file providing TSS sample information; if provided,
 #'  sampleNames and replicateIDs are ignored; input format is tab-delimited
-#'  3-column rows with sample name, replicate ID, and sample data file name
+#'  3-column rows with sample name, replicate ID, and sample data file name;
+#'  the file has to include column headers "SAMPLE	ReplicateID	FILE"
+#'  and can be either tab-delimited or an Excel spreadsheet (file extension
+#'  ".xls" or "xlsx" (character)
 #' @param sampleNames unique labels of class character for each TSS sample
 #' within the experiment (character).
 #' @param replicateIDs identifiers indicating which samples are biological
@@ -78,48 +81,34 @@ setMethod("loadTSSobj", #both BAM and BED files
               tssObj <- new("tssObject")
 
               tssObj@title <- experimentTitle
+              tss_filesBAM <- vector(mode="character",length=0)
+              tss_filesBED <- vector(mode="character",length=0)
 
-tss_filesBAM <- vector(mode="character",length=0)
-tss_filesBED <- vector(mode="character",length=0)
-
-
-  if(!missing(sampleSheet) & is.character(sampleSheet)) {
-	  message("I found a sample sheet")
-    if(!missing(inputDir)) {
-      sampleSheet <- file.path(inputDir,sampleSheet)
-	  message("I found a sample sheet in the inputDir")
-    }
-
-    ext <- file_ext(sampleSheet)
-    cat("extension is\n")
-    cat(ext)
-    if (ext %in% c("xls","xlsx")) {
-      samples <- readWorksheetFromFile(sampleSheet,sheet=1)
-    } else {
-      samples <- read.table(sampleSheet,sep='	',stringsAsFactors=F,header=T, 
-                            comment.char="")
-    }
-    cat("\nstr samples:\n")
-    cat(str(samples))
-    cat("\nthe end for now\n\n")
-    sampleNames <- samples$SAMPLE
-    replicateIDs <- samples$ReplicateID
- for (file in samples$FILE) {
-    ext <- file_ext(file)
-    cat("Extension is\n")
-    cat(ext,"\t")
-    if (ext %in% c("bam","Bam")) {
-            message("bam file");
-	    tss_filesBAM <- c(tss_filesBAM,file)
-    } else if (ext %in% c("bed","Bed")) {
-	    message("bed file")
-	    tss_filesBED <- c(tss_filesBED,file)
-    } else {
-      message("problem");
-    }
-  }
-  }
-
+              if(!missing(sampleSheet) & is.character(sampleSheet)) {
+                if(!missing(inputDir)) {
+                  sampleSheet <- file.path(inputDir,sampleSheet)
+                }
+                ext <- file_ext(sampleSheet)
+                if (ext %in% c("xls","xlsx")) {
+                  samples <- readWorksheetFromFile(sampleSheet,sheet=1)
+                } else {
+                  samples <- read.table(sampleSheet,sep='	',
+					stringsAsFactors=F,header=T, 
+                                        comment.char="")
+                }
+                sampleNames <- samples$SAMPLE
+                replicateIDs <- samples$ReplicateID
+                for (file in samples$FILE) {
+                  ext <- file_ext(file)
+                  if (ext %in% c("bam","Bam")) {
+	            tss_filesBAM <- c(tss_filesBAM,file)
+                  } else if (ext %in% c("bed","Bed")) {
+	            tss_filesBED <- c(tss_filesBED,file)
+                  } else {
+                    message("problem");
+                  }
+                }
+              }
 
               if (isPairedBAM==TRUE) {
                   tssObj@dataTypeBAM <- c("pairedEnd")
@@ -135,62 +124,55 @@ tss_filesBED <- vector(mode="character",length=0)
                   tssObj@dataTypeBED <- c("singleEnd")
               }
 
-cat(str(tss_filesBAM))
 	      if (length(tss_filesBAM) == 0) {
-message("tss_filesBAM is of length 0");
-tss_filesBAM <- list.files(inputDir, pattern="\\.bam$",
-                                        all.files=FALSE, full.names=TRUE)
+                tss_filesBAM <- list.files(inputDir, pattern="\\.bam$",
+                                           all.files=FALSE, full.names=TRUE)
 	      }
-cat(str(tss_filesBAM))
-             tssObj@fileNamesBAM <- tss_filesBAM
-             if (length(tss_filesBAM) > 0) {
-                  if (is.character(tssObj@dataTypeBAM)==FALSE) {
-                      stop("The argument 'isPairedBAM' is empty. Please fix.")
-                  }
-                  if (tssObj@dataTypeBAM=="pairedEnd") {
-                      message("\nImporting paired-end reads ...\n")
-                      bamFlags <- scanBamFlag(isPaired=TRUE, isProperPair=TRUE,
-                                              isFirstMateRead=TRUE, hasUnmappedMate=FALSE,
-                                              isUnmappedQuery=FALSE,
-                                              isSecondaryAlignment=FALSE)
+              tssObj@fileNamesBAM <- tss_filesBAM
+              if (length(tss_filesBAM) > 0) {
+                if (is.character(tssObj@dataTypeBAM)==FALSE) {
+                  stop("The argument 'isPairedBAM' is empty. Please fix.")
+                }
+                if (tssObj@dataTypeBAM=="pairedEnd") {
+                  message("\nImporting paired-end reads ...\n")
+                  bamFlags <- scanBamFlag(isPaired=TRUE, isProperPair=TRUE,
+                                          isFirstMateRead=TRUE, hasUnmappedMate=FALSE,
+                                          isUnmappedQuery=FALSE,
+                                          isSecondaryAlignment=FALSE)
                   message("\nTSS data were specified to be paired-end",
-                      " read alignments.")
+                          " read alignments.")
                   myFields <- c("rname","flag","pos","qwidth","mapq",
-                    "cigar","isize")
-                  }
-                  if (tssObj@dataTypeBAM=="singleEnd") {
-                      message("\nImporting single-end reads ...\n")
-                      bamFlags <- scanBamFlag(isPaired=FALSE,
-                                              isUnmappedQuery=FALSE,
-                                              isSecondaryAlignment=FALSE)
-                      message("\nTSS data were specified to be",
-                              " single-end read alignments.\n")
-                      myFields <- c("rname","flag","pos",
-                                    "qwidth","mapq","cigar")
-                  }
-                  my.param <- ScanBamParam(flag=bamFlags, what=myFields)
-                  bam.paths <- tssObj@fileNamesBAM
-                  bv_obj <- BamViews(bam.paths)
-                  bv_files <- dimnames(bv_obj)[[2]]
-                  n.bams <- length(bv_files)
-                  message("\nBeginning import of ", n.bams, " bam files ...\n")
-                  bams.GA <- bplapply(bam.paths, readGAlignments,
-                                      BPPARAM = MulticoreParam(), param=my.param)
-                  tssObj@bamData <- bams.GA
-                  message("Done. Alignment data from ", n.bams,
-                          " bam files have been attached to the tssObject.\n")
-                  message("-----------------------------------------------------\n")
+                                "cigar","isize")
+                }
+                if (tssObj@dataTypeBAM=="singleEnd") {
+                  message("\nImporting single-end reads ...\n")
+                  bamFlags <- scanBamFlag(isPaired=FALSE,
+                                          isUnmappedQuery=FALSE,
+                                          isSecondaryAlignment=FALSE)
+                  message("\nTSS data were specified to be",
+                          " single-end read alignments.\n")
+                  myFields <- c("rname","flag","pos", "qwidth","mapq","cigar")
+                }
+                my.param <- ScanBamParam(flag=bamFlags, what=myFields)
+                bam.paths <- tssObj@fileNamesBAM
+                bv_obj <- BamViews(bam.paths)
+                bv_files <- dimnames(bv_obj)[[2]]
+                n.bams <- length(bv_files)
+                message("\nBeginning import of ", n.bams, " bam files ...\n")
+                bams.GA <- bplapply(bam.paths, readGAlignments,
+                                    BPPARAM = MulticoreParam(), param=my.param)
+                tssObj@bamData <- bams.GA
+                message("Done. Alignment data from ", n.bams,
+                        " bam files have been attached to the tssObject.\n")
+                message("-----------------------------------------------------\n")
               }
-#now for BED files (if present)
-cat(str(tss_filesBED))
+
 	      if (length(tss_filesBED) == 0) {
-message("tss_filesBED is of length 0");
-tss_filesBED <- list.files(inputDir, pattern="\\.bed$",
-                                         all.files=FALSE, full.names=TRUE)
+                tss_filesBED <- list.files(inputDir, pattern="\\.bed$",
+                                           all.files=FALSE, full.names=TRUE)
 	      }
-cat(str(tss_filesBED))
               if (length(tss_filesBED) > 0) {
-                  if (isPairedBED == TRUE) {
+                if (isPairedBED == TRUE) {
                   message("\nImporting paired-end reads ...\n")
                   tssObj@fileNamesBED <- tss_filesBED
                   bed.paths <- tssObj@fileNamesBED
@@ -199,34 +181,34 @@ cat(str(tss_filesBED))
                   beds.GR <- bplapply(tss_filesBED, import,
                                       format="bedpe",
                                       BPPARAM = MulticoreParam()
-                                      )
+                                     )
                   tssObj@bedData <- beds.GR
                   message("Done. Alignment data from ", n.beds,
                           " bed files have been attached to the tssObject.\n")
                   message("-----------------------------------------------------\n")
-              }
-              if (isPairedBED==FALSE) {
-              message("\nImporting single-end reads ...\n")
-              tssObj@fileNamesBED <- tss_filesBED
-              bed.paths <- tssObj@fileNamesBED
-              n.beds <- length(tss_filesBED)
-              message("\nBeginning import of ", n.beds, " bed files ...\n")
-              beds.GR <- bplapply(bed.paths, import.bed, 
-                                  BPPARAM = MulticoreParam()
-                                  )
-              tssObj@bedData <- beds.GR
-              message("Done. Alignment data from ", n.beds,
-                  " bed files have been attached to the tssObject.\n")
-              message("-----------------------------------------------------\n")
-              }
+                }
+                if (isPairedBED==FALSE) {
+                  message("\nImporting single-end reads ...\n")
+		  tssObj@fileNamesBED <- tss_filesBED
+                  bed.paths <- tssObj@fileNamesBED
+                  n.beds <- length(tss_filesBED)
+                  message("\nBeginning import of ", n.beds, " bed files ...\n")
+                  beds.GR <- bplapply(bed.paths, import.bed, 
+                                      BPPARAM = MulticoreParam()
+                                     )
+                  tssObj@bedData <- beds.GR
+                  message("Done. Alignment data from ", n.beds,
+                          " bed files have been attached to the tssObject.\n")
+                  message("-----------------------------------------------------\n")
+                }
               }
               if (length(sampleNames)!=(length(replicateIDs))) {
-                  stop("\nsampleNames and replicateIDs must have",
-                       " equal lengths.")
+                stop("\nsampleNames and replicateIDs must have",
+                     " equal lengths.")
               }
               s.uni <- unique(sampleNames)
               if (length(s.uni)<length(sampleNames)) {
-                  stop("\nEach sample name must be unique.")
+                stop("\nEach sample name must be unique.")
               }
               tssObj@sampleNames <- sampleNames
               tssObj@replicateIDs <- replicateIDs
@@ -235,9 +217,9 @@ cat(str(tss_filesBED))
               tssObj@tsrData <- rep.list
 
               message("\nNames and replicate IDs were successfully added",
-                  " to the tssObject.\n\n")
+                      " to the tssObject.\n\n")
               message("-----------------------------------------------------\n")
               message(" Done.\n")
               return(tssObj)
-              }
-          )
+          }
+         )
