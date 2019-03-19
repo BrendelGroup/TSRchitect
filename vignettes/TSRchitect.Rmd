@@ -60,7 +60,7 @@ sampleNames=c("sample1-rep1", "sample1-rep2","sample2-rep1",
 "sample2-rep2"), replicateIDs=c(1,1,2,2)) #datasets 1-2 and 3-4 are replicates
 ```
 
-For convenience, loadTSSobj() may also be called with argument samplesheet="ssfile", where `ssfile` is either a tab-delimited text file or a EXCEL spreadsheet (with extension .xls or .xlsx).
+For convenience, loadTSSobj() may also be called with argument sampleSheet="ssfile", where `ssfile` is either a tab-delimited text file or a EXCEL spreadsheet (with extension .xls or .xlsx).
 In either case, the first row must have the header `SAMPLE	ReplicateID	FILE` and the same information described above in the respective columns.
 If necessary, you can provide input to `loadTSSobj()` consisting of both .bam and .bed files, but be aware that loading of the data into the tssObject will always add the .bam files before the .bed files and the internal numbering of the TSS sets will be accordingly.
 
