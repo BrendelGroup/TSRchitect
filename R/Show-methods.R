@@ -13,7 +13,7 @@ setMethod("show",
               else {
                   cat("No experiment title has been added.\n\n")
               }
-              if (length(is.na(object@fileNamesBAM))>0) {
+              if (sum(!is.na(object@fileNamesBAM))>0) {
                   cat("There are ", length(object@fileNamesBAM))
                   cat(" .bam datasets loaded, as follows:\n")
                   for (i in 1:length(object@fileNamesBAM)) {
@@ -24,7 +24,7 @@ setMethod("show",
               else {
                   cat("\nNo *.bam datasets have been added. \n")
               }
-              if (length(is.na(object@fileNamesBED))>0) {
+              if (sum(!is.na(object@fileNamesBED))>0) {
                   cat("There are ", length(object@fileNamesBED))
                   cat(" .bed datasets loaded, as follows:\n")
                   for (i in 1:length(object@fileNamesBED)) {
@@ -35,7 +35,7 @@ setMethod("show",
               else {
                   cat("\nNo *.bed datasets have been added. \n")
               }
-              if (length(is.na(object@sampleNames))>0) {
+              if (sum(!is.na(object@sampleNames))>0) {
                   cat("\nThe names of the datasets are:\n")
                   for (i in 1:length(object@sampleNames)) {
                       cat(paste(object@sampleNames[i]), sep="\n")
