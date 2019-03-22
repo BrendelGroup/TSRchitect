@@ -15,7 +15,7 @@ setMethod("show",
               }
               if (length(is.na(object@fileNamesBAM))>0) {
                   cat("There are ", length(object@fileNamesBAM))
-                  cat(".bam datasets loaded, as follows:\n")
+                  cat(" .bam datasets loaded, as follows:\n")
                   for (i in 1:length(object@fileNamesBAM)) {
                       cat(paste(object@fileNamesBAM[i]), sep="\n")
                   }
@@ -26,7 +26,7 @@ setMethod("show",
               }
               if (length(is.na(object@fileNamesBED))>0) {
                   cat("There are ", length(object@fileNamesBED))
-                  cat(".bed datasets loaded, as follows:\n")
+                  cat(" .bed datasets loaded, as follows:\n")
                   for (i in 1:length(object@fileNamesBED)) {
                       cat(paste(object@fileNamesBED[i]), sep="\n")
                   }

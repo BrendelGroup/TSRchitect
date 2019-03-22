@@ -34,7 +34,10 @@ http://bedtools.readthedocs.io/en/latest/content/general-usage.html}
 
 \item{sampleSheet}{file providing TSS sample information; if provided,
 sampleNames and replicateIDs are ignored; input format is tab-delimited
-3-column rows with sample name, replicate ID, and sample data file name}
+3-column rows with sample name, replicate ID, and sample data file name;
+the file has to include column headers "SAMPLE    ReplicateID    FILE"
+and can be either tab-delimited or an Excel spreadsheet (file extension
+".xls" or "xlsx" (character)}
 
 \item{sampleNames}{unique labels of class character for each TSS sample
 within the experiment (character).}

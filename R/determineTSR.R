@@ -6,7 +6,7 @@
 #' containing information in slot \emph{@@tssTagData}
 #' @param n.cores the number of cores to be used for this job.
 #' ncores=1 means serial execution of function calls (numeric)
-#' @param tsrSetType specifies the set to be clustered.
+#' @param tssSetType specifies the set to be clustered.
 #' Options are "replicates" or "merged". (character)
 #' @param tssSet default is "all"; if a single TSS dataset is desired,
 #' specify tssSet number (character)
@@ -26,7 +26,7 @@
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' tssObjectExample <- determineTSR(experimentName=tssObjectExample, n.cores=1,
-#' tsrSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20,
+#' tssSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20,
 #' writeTable=FALSE)
 #'
 #' @note An example similar to this one can be found in the vignette
@@ -35,7 +35,7 @@
 #' @rdname determineTSR-methods
 
 setGeneric("determineTSR",
-    function(experimentName, n.cores, tsrSetType, tssSet, tagCountThreshold,
+    function(experimentName, n.cores, tssSetType, tssSet, tagCountThreshold,
              clustDist, writeTable=FALSE)
     standardGeneric("determineTSR")
 )
@@ -46,18 +46,18 @@ setMethod("determineTSR",
           signature(experimentName="tssObject", "numeric", "character",
                     "character", "numeric", "numeric", "logical"),
 
-          function(experimentName, n.cores=1, tsrSetType=c("replicates",
+          function(experimentName, n.cores=1, tssSetType=c("replicates",
                    "merged"), tssSet="all", tagCountThreshold=1, clustDist=20,
                    writeTable=FALSE) {
 
              message("... determineTSR ...")
-             fileType <- match.arg(tsrSetType, several.ok=FALSE)
-             if (tsrSetType=="replicates") {
+             fileType <- match.arg(tssSetType, several.ok=FALSE)
+             if (tssSetType=="replicates") {
                  if (tssSet=="all") {
                      iend <- length(experimentName@tssCountData)
                      fcti <- function(i) {
                                 detTSR(experimentName,
-                                       tsrSetType="replicates",
+                                       tssSetType="replicates",
                                        tssSet=i,
                                        tagCountThreshold,
                                        clustDist)
@@ -75,6 +75,7 @@ setMethod("determineTSR",
                               writeTSR(experimentName,
                                        tsrSetType="replicates",
                                        tsrSet=i,
+                                       tsrLabel=paste("TSR",i,sep=""),
                                        fileType="tab")
                          }
                      }
@@ -87,25 +88,26 @@ setMethod("determineTSR",
                      }
                      experimentName@tsrData[[i]] <-
                          detTSR(experimentName = experimentName,
-                                tsrSetType="replicates",
+                                tssSetType="replicates",
                                 tssSet=i,
                                 tagCountThreshold,
                                 clustDist)
                      if (writeTable==TRUE) {
-                         writeTSR(experimentName = experimentName,
+                         writeTSR(experimentName,
                                   tsrSetType="replicates",
                                   tsrSet=i,
+                                  tsrLabel=paste("TSR",i,sep=""),
                                   fileType="tab")
                      }
                  }
              }
-             else if (tsrSetType=="merged") {
+             else if (tssSetType=="merged") {
                  iend <- length(experimentName@tssCountDataMerged)
                  if (tssSet=="all") {
                      iend <- length(experimentName@tssCountDataMerged)
                      fcti <- function(i) {
                                 detTSR(experimentName=experimentName,
-                                       tsrSetType="merged",
+                                       tssSetType="merged",
                                        tssSet=i,
                                        tagCountThreshold,
                                        clustDist)
@@ -120,10 +122,10 @@ setMethod("determineTSR",
                      }
                      if (writeTable==TRUE) {
                          for (i in 1:iend) {
-                              writeTSR(experimentName =
-                                       experimentName,
+                              writeTSR(experimentName,
                                        tsrSetType="merged",
                                        tsrSet=i,
+                                       tsrLabel=paste("mTSR",i,sep=""),
                                        fileType="tab")
                          }
                      }
@@ -136,14 +138,15 @@ setMethod("determineTSR",
                      }
                      experimentName@tsrDataMerged[[i]] <-
                          detTSR(experimentName = experimentName,
-                                tsrSetType="merged",
+                                tssSetType="merged",
                                 tssSet=i,
                                 tagCountThreshold,
                                 clustDist)
                      if (writeTable==TRUE) {
-                         writeTSR(experimentName = experimentName,
+                         writeTSR(experimentName,
                                   tsrSetType="merged",
                                   tsrSet=i,
+                                  tsrLabel=paste("mTSR",i,sep=""),
                                   fileType="tab")
                      }
                  }

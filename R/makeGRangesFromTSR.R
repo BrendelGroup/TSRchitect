@@ -60,8 +60,8 @@ setMethod("makeGRangesFromTSR",
                       tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
                   }
               else {
-                  stop("Error: argument tsrSetType to writeTSR() should be",
-                       "either \"replicates\" or \"merged\".")
+                  stop("Error: argument tsrSetType to nakeGRangesFromTSR() ",
+                       "should be either \"replicates\" or \"merged\".")
               }
               }
 
