@@ -8,15 +8,17 @@
 #' Options are "replicates" or "merged". (character)
 #' @param tsrSet number of the dataset to be processed, where 1 corresponds
 #' to the first slot, and so on. (numeric)
-#' @param tagCountThreshold number of TSSs required at a given position
-#' (numeric)
+#' @param tagCountThreshold number of tags required at a given TSS position in
+#' order to be included in the overall count for a TSR (numeric)
 #' @param writeTable specifies whether the output should be written to
 #' a table. (logical)
 #'
-#' @return a matrix of tag counts (where the number of columns will equal
-#' the number of replicates in the sample) is appended to the data frame
-#' of the selected set of identified TSRs in the returned \emph{tssObject}
+#' @return a matrix of tag counts and median-normalized tag counts is appended
+#' to the data frame of the selected set of identified TSRs in the returned
+#' \emph{tssObject}; note that the number of new columns is twice the number
+#' of replicates in the sample
 #'
+#' @importFrom stats median
 #' @importFrom utils write.table
 #'
 #' @examples
@@ -156,8 +158,11 @@ setMethod("addTagCountsToTSR",
                      } # end for (k ...
                  }
                  currentTSRset$cname <- countv
-                 colnames(currentTSRset)[which(names(currentTSRset) ==
-                 "cname")] <- experimentName@sampleNames[j]
+                 colnames(currentTSRset)[which(names(currentTSRset) == "cname")] <- experimentName@sampleNames[j]
+                 m <- pmax(median(countv[countv>0]),1)
+                 ncount <- round(100*pmin(countv/m,10),0)
+                 currentTSRset$cname <- ncount
+                 colnames(currentTSRset)[which(names(currentTSRset) == "cname")] <- paste("ncnt",experimentName@sampleNames[j],sep="")
 
               } # end for (j ...
               if (writeTable=="TRUE") {

@@ -6,18 +6,18 @@
 \alias{detTSR,tssObject,character,numeric,numeric,numeric-method}
 \title{detTSR}
 \usage{
-detTSR(experimentName, tsrSetType, tssSet = 1, tagCountThreshold,
+detTSR(experimentName, tssSetType, tssSet = 1, tagCountThreshold,
   clustDist)
 
 
   \S4method{detTSR}{tssObject,character,numeric,numeric,numeric}(experimentName,
-  tsrSetType, tssSet = 1, tagCountThreshold = 1, clustDist)
+  tssSetType, tssSet = 1, tagCountThreshold = 1, clustDist)
 }
 \arguments{
 \item{experimentName}{- a S4 object of class tssObject containing
 information in slot tssTagData}
 
-\item{tsrSetType}{- specifies the set to be clustered. Options are
+\item{tssSetType}{- specifies the set to be clustered. Options are
 "replicates" or "merged"}
 
 \item{tssSet}{- number of the dataset to be analyzed}

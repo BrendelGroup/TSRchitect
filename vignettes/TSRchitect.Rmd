@@ -86,7 +86,7 @@ tssSet="all".
 
 ```{r eval=TRUE}
 tssObjectExample <- determineTSR(experimentName=tssObjectExample, n.cores=1,
-tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20,
+tssSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20,
 writeTable=FALSE)
 ```
 
@@ -97,7 +97,7 @@ We then use `addTagCountsToTSR` to quantify the number of tags found in each of 
 tssObjectExample <- mergeSampleData(experimentName=tssObjectExample)
 
 tssObjectExample <- determineTSR(experimentName=tssObjectExample, n.cores=1,
-tsrSetType="merged", tssSet="all", tagCountThreshold=25, clustDist=20,
+tssSetType="merged", tssSet="all", tagCountThreshold=25, clustDist=20,
 writeTable=FALSE)
 
 tssObjectExample <- addTagCountsToTSR(experimentName=tssObjectExample,

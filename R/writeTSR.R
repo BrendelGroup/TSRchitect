@@ -129,7 +129,7 @@ setMethod("writeTSR",
               }
               else if (fileType == "bed") {
                   tsr.df$ID <- paste(tsrLabel,which(tsr.df$seq != ""),sep="_")
-                  m <- median(tsr.df$nTAGs)
+                  m <- pmax(median(tsr.df$nTAGs),1)
                   tsr.df$score <- round(100*pmin(tsr.df$nTAGs/m,10),0)
                   out.df <- tsr.df[, c("seq", "start", "end", "ID",
                                        "score", "strand")]
@@ -140,7 +140,7 @@ setMethod("writeTSR",
               else { # fileType == "gff") 
                   tsr.df$source <- rep("TSRchitect",nrow(tsr.df))
                   tsr.df$type <- rep("TSR",nrow(tsr.df))
-                  m <- median(tsr.df$nTAGs)
+                  m <- pmax(median(tsr.df$nTAGs),1)
                   tsr.df$score <- round(100*pmin(tsr.df$nTAGs/m,10),0)
                   tsr.df$phase <- rep(".",nrow(tsr.df))
                   tsr.df$ID <- paste("ID=",tsrLabel,"_",

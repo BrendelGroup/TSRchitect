@@ -6,12 +6,12 @@
 \alias{determineTSR,tssObject,numeric,character,character,numeric,numeric,logical-method}
 \title{\strong{determineTSR}}
 \usage{
-determineTSR(experimentName, n.cores, tsrSetType, tssSet,
+determineTSR(experimentName, n.cores, tssSetType, tssSet,
   tagCountThreshold, clustDist, writeTable = FALSE)
 
 
   \S4method{determineTSR}{tssObject,numeric,character,character,numeric,numeric,logical}(experimentName,
-  n.cores = 1, tsrSetType = c("replicates", "merged"),
+  n.cores = 1, tssSetType = c("replicates", "merged"),
   tssSet = "all", tagCountThreshold = 1, clustDist = 20,
   writeTable = FALSE)
 }
@@ -22,7 +22,7 @@ containing information in slot \emph{@tssTagData}}
 \item{n.cores}{the number of cores to be used for this job.
 ncores=1 means serial execution of function calls (numeric)}
 
-\item{tsrSetType}{specifies the set to be clustered.
+\item{tssSetType}{specifies the set to be clustered.
 Options are "replicates" or "merged". (character)}
 
 \item{tssSet}{default is "all"; if a single TSS dataset is desired,
@@ -53,7 +53,7 @@ An example similar to this one can be found in the vignette
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 tssObjectExample <- determineTSR(experimentName=tssObjectExample, n.cores=1,
-tsrSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20,
+tssSetType="replicates", tssSet="1", tagCountThreshold=25, clustDist=20,
 writeTable=FALSE)
 
 }

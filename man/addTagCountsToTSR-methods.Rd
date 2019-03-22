@@ -23,16 +23,17 @@ Options are "replicates" or "merged". (character)}
 \item{tsrSet}{number of the dataset to be processed, where 1 corresponds
 to the first slot, and so on. (numeric)}
 
-\item{tagCountThreshold}{number of TSSs required at a given position
-(numeric)}
+\item{tagCountThreshold}{number of tags required at a given TSS position in
+order to be included in the overall count for a TSR (numeric)}
 
 \item{writeTable}{specifies whether the output should be written to
 a table. (logical)}
 }
 \value{
-a matrix of tag counts (where the number of columns will equal
-the number of replicates in the sample) is appended to the data frame
-of the selected set of identified TSRs in the returned \emph{tssObject}
+a matrix of tag counts and median-normalized tag counts is appended
+to the data frame of the selected set of identified TSRs in the returned
+\emph{tssObject}; note that the number of new columns is twice the number
+of replicates in the sample
 }
 \description{
 \code{addTagCountsToTSR} adds a matrix of tag counts to a set
