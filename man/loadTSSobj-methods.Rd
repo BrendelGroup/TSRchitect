@@ -3,16 +3,14 @@
 \docType{methods}
 \name{loadTSSobj}
 \alias{loadTSSobj}
-\alias{loadTSSobj,character,character,ANY,ANY,ANY,character,numeric-method}
+\alias{loadTSSobj,character,character-method}
 \title{\strong{loadTSSobj}}
 \usage{
-loadTSSobj(experimentTitle, inputDir, isPairedBAM = FALSE,
-  isPairedBED = FALSE, sampleSheet = "", sampleNames, replicateIDs)
+loadTSSobj(experimentTitle, inputDir, ...)
 
-
-  \S4method{loadTSSobj}{character,character,ANY,ANY,ANY,character,numeric}(experimentTitle,
-  inputDir, isPairedBAM = FALSE, isPairedBED = FALSE,
-  sampleSheet = "", sampleNames, replicateIDs)
+\S4method{loadTSSobj}{character,character}(experimentTitle, inputDir,
+  n.cores = 1, isPairedBAM = TRUE, isPairedBED = TRUE,
+  sampleSheet = NA, sampleNames = NA, replicateIDs = NA)
 }
 \arguments{
 \item{experimentTitle}{a descriptive title for the experiment (character).}
@@ -22,13 +20,15 @@ either .bam or .bed formats) (character).
 Note that all the paths to all files in \emph{inputDir} with the extension
 .bam or .bed will be imported with this function.}
 
+\item{n.cores}{the number of cores to be used for this job. (numeric)}
+
 \item{isPairedBAM}{if the input is in BAM format, specifies whether the
 TSS profiling experiment is paired-end (if TRUE) or single-end
-(if FALSE) (logical)}
+(if FALSE). Set to TRUE by default. (logical)}
 
 \item{isPairedBED}{if the input is in BED format, specifies whether the
  TSS profiling experiment is paired-end (if TRUE) or single-end
- (if FALSE). Set to FALSE by default. (logical)
+ (if FALSE). Set to TRUE by default. (logical)
 Note: if TRUE, the input data must be in bedpe format, as described here:
 http://bedtools.readthedocs.io/en/latest/content/general-usage.html}
 
@@ -43,10 +43,9 @@ and can be either tab-delimited or an Excel spreadsheet (file extension
 within the experiment (character).}
 
 \item{replicateIDs}{identifiers indicating which samples are biological
-replicates. Note that \code{loadTSSobj} imports
-alignment data in ascending alphanumeric order, so the arguments to
-replicateIDs must be arranged in this order also so that they directly
-correspond to the intended file (numeric).}
+replicates. Note that \code{loadTSSobj} imports alignment data in ascending
+alphanumeric order, so the arguments to replicateIDs must be arranged in this
+order also so that they directly correspond to the intended file (numeric).}
 }
 \value{
 \emph{loadTSSobj} fills the slot \emph{bamData} and/or \emph{bedData}
@@ -69,7 +68,7 @@ the \emph{tssObject} that is created.
 \examples{
 extdata.dir <- system.file("extdata/bamFiles", package="TSRchitect")
 test.Obj <- loadTSSobj(experimentTitle="Code example", inputDir=extdata.dir,
-isPairedBAM=TRUE, sampleNames=c("sample1-rep1", "sample1-rep2",
+n.cores=2, isPairedBAM=TRUE, sampleNames=c("sample1-rep1", "sample1-rep2",
 "sample2-rep1","sample2-rep2"), replicateIDs=c(1,1,2,2))
 
 }

@@ -7,12 +7,13 @@
 #' either .bam or .bed formats) (character). 
 #' Note that all the paths to all files in \emph{inputDir} with the extension
 #' .bam or .bed will be imported with this function.
+#' @param n.cores the number of cores to be used for this job. (numeric)
 #' @param isPairedBAM if the input is in BAM format, specifies whether the
 #'  TSS profiling experiment is paired-end (if TRUE) or single-end
-#'  (if FALSE) (logical)
+#'  (if FALSE). Set to TRUE by default. (logical)
 #' @param isPairedBED if the input is in BED format, specifies whether the
 #'  TSS profiling experiment is paired-end (if TRUE) or single-end
-#'  (if FALSE). Set to FALSE by default. (logical)
+#'  (if FALSE). Set to TRUE by default. (logical)
 #' Note: if TRUE, the input data must be in bedpe format, as described here:
 #' http://bedtools.readthedocs.io/en/latest/content/general-usage.html
 #' @param sampleSheet file providing TSS sample information; if provided,
@@ -24,10 +25,9 @@
 #' @param sampleNames unique labels of class character for each TSS sample
 #' within the experiment (character).
 #' @param replicateIDs identifiers indicating which samples are biological
-#' replicates. Note that \code{loadTSSobj} imports
-#' alignment data in ascending alphanumeric order, so the arguments to
-#' replicateIDs must be arranged in this order also so that they directly
-#' correspond to the intended file (numeric).
+#' replicates. Note that \code{loadTSSobj} imports alignment data in ascending
+#' alphanumeric order, so the arguments to replicateIDs must be arranged in this
+#' order also so that they directly correspond to the intended file (numeric).
 #'
 #' @return \emph{loadTSSobj} fills the slot \emph{bamData} and/or \emph{bedData}
 #' on the returned \emph{tssObject} with \linkS4class{GAlignments} objects
@@ -37,15 +37,15 @@
 #' @importFrom GenomicAlignments readGAlignments
 #' @importFrom Rsamtools scanBamFlag ScanBamParam BamViews
 #' @importFrom methods new
+#' @importFrom readxl read_excel
 #' @importFrom rtracklayer import import.bed
 #' @importFrom tools file_ext
 #' @importFrom utils read.table
-#' @importFrom XLConnect readWorksheetFromFile
 #'
 #' @examples
 #' extdata.dir <- system.file("extdata/bamFiles", package="TSRchitect")
 #' test.Obj <- loadTSSobj(experimentTitle="Code example", inputDir=extdata.dir,
-#' isPairedBAM=TRUE, sampleNames=c("sample1-rep1", "sample1-rep2",
+#' n.cores=2, isPairedBAM=TRUE, sampleNames=c("sample1-rep1", "sample1-rep2",
 #' "sample2-rep1","sample2-rep2"), replicateIDs=c(1,1,2,2))
 #'
 #' @note An example similar to the one provided can be found in
@@ -60,22 +60,17 @@
 
 
 setGeneric("loadTSSobj",
-           function(experimentTitle, inputDir, 
-                    isPairedBAM=FALSE, isPairedBED=FALSE, 
-                    sampleSheet="", sampleNames, replicateIDs)
-    standardGeneric("loadTSSobj")
+           function(experimentTitle, inputDir, ...)
+           standardGeneric("loadTSSobj")
 )
 
 #' @rdname loadTSSobj-methods
 
-setMethod("loadTSSobj", #both BAM and BED files
-          signature(experimentTitle="character", inputDir="character",
-                    isPairedBAM="ANY", isPairedBED="ANY",
-                    sampleSheet="ANY",
-                    sampleNames="character", replicateIDs="numeric"),
-          function(experimentTitle, inputDir,
-		   isPairedBAM=FALSE, isPairedBED=FALSE,
-                   sampleSheet, sampleNames, replicateIDs) {
+setMethod("loadTSSobj",
+          signature(experimentTitle="character", inputDir="character"),
+          function(experimentTitle, inputDir, n.cores=1,
+                   isPairedBAM=TRUE, isPairedBED=TRUE,
+                   sampleSheet=NA, sampleNames=NA, replicateIDs=NA) {
               
               message("... loadTSSobj ...")
               tssObj <- new("tssObject")
@@ -85,15 +80,13 @@ setMethod("loadTSSobj", #both BAM and BED files
               tss_filesBED <- vector(mode="character",length=0)
 
               if(!missing(sampleSheet) & is.character(sampleSheet)) {
-                if(!missing(inputDir)) {
-                  sampleSheet <- file.path(inputDir,sampleSheet)
-                }
+                sampleSheet <- file.path(inputDir,sampleSheet)
                 ext <- file_ext(sampleSheet)
                 if (ext %in% c("xls","xlsx")) {
-                  samples <- readWorksheetFromFile(sampleSheet,sheet=1)
+                  samples <- read_excel(sampleSheet)
                 } else {
                   samples <- read.table(sampleSheet,sep='	',
-					stringsAsFactors=F,header=T, 
+                                        stringsAsFactors=F,header=T, 
                                         comment.char="")
                 }
                 sampleNames <- samples$SAMPLE
@@ -101,15 +94,25 @@ setMethod("loadTSSobj", #both BAM and BED files
                 for (file in samples$FILE) {
                   ext <- file_ext(file)
                   if (ext %in% c("bam","Bam")) {
-	            tss_filesBAM <- c(tss_filesBAM,file)
+                   tss_filesBAM <- c(tss_filesBAM,file)
                   } else if (ext %in% c("bed","Bed")) {
-	            tss_filesBED <- c(tss_filesBED,file)
+                   tss_filesBED <- c(tss_filesBED,file)
                   } else {
-                    message("problem");
+                    message("No .bam nor .bed files specified in ",sampleSheet);
+                    message("Please check your input file.")
                   }
                 }
               }
 
+              if (is.na(sampleNames)  || !is.character(sampleNames) ||
+                  is.na(replicateIDs) || !is.numeric(replicateIDs)    ) {
+                stop("You must specify both sample names (as \"character\")",
+                     " and replicate IDs (as \"numeric\").  Please check.")
+              }
+              if (!missing(n.cores) & n.cores > 1) {
+                  BiocParallel::register(MulticoreParam(workers=n.cores),
+                                                        default=TRUE)
+              }
               if (isPairedBAM==TRUE) {
                   tssObj@dataTypeBAM <- c("pairedEnd")
               }
@@ -124,10 +127,10 @@ setMethod("loadTSSobj", #both BAM and BED files
                   tssObj@dataTypeBED <- c("singleEnd")
               }
 
-	      if (length(tss_filesBAM) == 0) {
-                tss_filesBAM <- list.files(inputDir, pattern="\\.bam$",
-                                           all.files=FALSE, full.names=TRUE)
-	      }
+              if (length(tss_filesBAM) == 0) {
+                  tss_filesBAM <- list.files(inputDir, pattern="\\.bam$",
+                                             all.files=FALSE, full.names=TRUE)
+              }
               tssObj@fileNamesBAM <- tss_filesBAM
               if (length(tss_filesBAM) > 0) {
                 if (is.character(tssObj@dataTypeBAM)==FALSE) {
@@ -159,29 +162,36 @@ setMethod("loadTSSobj", #both BAM and BED files
                 bv_files <- dimnames(bv_obj)[[2]]
                 n.bams <- length(bv_files)
                 message("\nBeginning import of ", n.bams, " bam files ...\n")
-                bams.GA <- bplapply(bam.paths, readGAlignments,
-                                    BPPARAM = MulticoreParam(), param=my.param)
+                if (!missing(n.cores) & n.cores > 1) {
+                    bams.GA <- bplapply(bam.paths, readGAlignments,
+                                        BPPARAM = MulticoreParam(), param=my.param)
+                }
+                else {
+                    bams.GA <- lapply(bam.paths, readGAlignments, param=my.param)
+                }
                 tssObj@bamData <- bams.GA
                 message("Done. Alignment data from ", n.bams,
                         " bam files have been attached to the tssObject.\n")
                 message("-----------------------------------------------------\n")
               }
 
-	      if (length(tss_filesBED) == 0) {
-                tss_filesBED <- list.files(inputDir, pattern="\\.bed$",
-                                           all.files=FALSE, full.names=TRUE)
-	      }
+              if (length(tss_filesBED) == 0) {
+                  tss_filesBED <- list.files(inputDir, pattern="\\.bed$",
+                                             all.files=FALSE, full.names=TRUE)
+              }
               if (length(tss_filesBED) > 0) {
                 if (isPairedBED == TRUE) {
                   message("\nImporting paired-end reads ...\n")
                   tssObj@fileNamesBED <- tss_filesBED
-                  bed.paths <- tssObj@fileNamesBED
                   n.beds <- length(tss_filesBED)
                   message("\nBeginning import of ", n.beds, " bed files ...\n")
-                  beds.GR <- bplapply(tss_filesBED, import,
-                                      format="bedpe",
-                                      BPPARAM = MulticoreParam()
-                                     )
+                  if (missing(n.cores) | n.cores > 1) {
+                      beds.GR <- bplapply(tss_filesBED, import, format="bedpe",
+                                          BPPARAM = MulticoreParam() )
+                  }
+                  else {
+                      beds.GR <- lapply(tss_filesBED, import, format="bedpe")
+                  }
                   tssObj@bedData <- beds.GR
                   message("Done. Alignment data from ", n.beds,
                           " bed files have been attached to the tssObject.\n")
@@ -189,22 +199,30 @@ setMethod("loadTSSobj", #both BAM and BED files
                 }
                 if (isPairedBED==FALSE) {
                   message("\nImporting single-end reads ...\n")
-		  tssObj@fileNamesBED <- tss_filesBED
-                  bed.paths <- tssObj@fileNamesBED
+                  tssObj@fileNamesBED <- tss_filesBED
                   n.beds <- length(tss_filesBED)
                   message("\nBeginning import of ", n.beds, " bed files ...\n")
-                  beds.GR <- bplapply(bed.paths, import.bed, 
-                                      BPPARAM = MulticoreParam()
-                                     )
+                  if (!missing(n.cores) & n.cores > 1) {
+                      beds.GR <- bplapply(tss_filesBED, import.bed, 
+                                          BPPARAM = MulticoreParam() )
+                  }
+                  else {
+                      beds.GR <- lapply(tss_filesBED, import.bed)
+                  }
                   tssObj@bedData <- beds.GR
                   message("Done. Alignment data from ", n.beds,
                           " bed files have been attached to the tssObject.\n")
                   message("-----------------------------------------------------\n")
                 }
               }
+               if (length(sampleNames)!=(length(tss_filesBAM) +
+                                         length(tss_filesBED)  )) {
+                  stop("\nNumber of sampleNames must be equal to",
+                        " number of input files.\nPlease check.")
+              }
               if (length(sampleNames)!=(length(replicateIDs))) {
-                stop("\nsampleNames and replicateIDs must have",
-                     " equal lengths.")
+                stop("\nsampleNames and replicateIDs must have equal lengths.",
+                     "  Please check.")
               }
               s.uni <- unique(sampleNames)
               if (length(s.uni)<length(sampleNames)) {
