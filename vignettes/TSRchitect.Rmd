@@ -12,7 +12,7 @@ vignette: >
 ## R. Taylor Raborn and Volker P. Brendel
 ## Department of Biology, Indiana University
 
-### July 10, 2018; updated March 18, 2019
+### July 10, 2018; updated March 26, 2019
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 TSRchitect can handle TSS profiling experiments that contain either single-end or paired-end sequence reads, such as CAGE, RAMPAGE, PEAT, STRIPE-seq and others. TSRchitect is an open-source bioinformatics package that is intended to support large-scale, reproducible analysis of TSS profiling data in a broad array of eukaryotic model systems.
@@ -43,7 +43,7 @@ We do this in the following manner:
 extdata.dir <- system.file("extdata/bamFiles", package="TSRchitect") 
 
 tssObjectExample <- loadTSSobj(experimentTitle="Vignette Example",
-inputDir=extdata.dir, isPairedBAM=TRUE,
+inputDir=extdata.dir, n.cores=1, isPairedBAM=TRUE,
 sampleNames=c("sample1-rep1", "sample1-rep2","sample2-rep1",
 "sample2-rep2"), replicateIDs=c(1,1,2,2)) #datasets 1-2 and 3-4 are replicates
 ```
@@ -55,7 +55,7 @@ You could replace the above lines with following equivalents:
 extdata.dir <- system.file("extdata/bedFiles", package="TSRchitect") 
 
 tssObjectExample <- loadTSSobj(experimentTitle="Vignette Example",
-inputDir=extdata.dir, isPairedBED=TRUE,
+inputDir=extdata.dir, n.cores=1, isPairedBED=TRUE,
 sampleNames=c("sample1-rep1", "sample1-rep2","sample2-rep1",
 "sample2-rep2"), replicateIDs=c(1,1,2,2)) #datasets 1-2 and 3-4 are replicates
 ```
