@@ -275,16 +275,15 @@ From: ubuntu:18.04
     apt -y install r-cran-gplots
     apt -y install r-cran-gridextra
     apt -y install r-cran-pastecs
-    apt -y install r-cran-rjava
     apt -y install r-cran-sqldf
     apt -y install r-cran-venneuler
     apt -y install r-cran-rcurl
+    apt -y install r-cran-readxl
     apt -y install r-cran-xml2
 
     echo 'Installing other CRAN and Bioconductor packages'
     ######
-    echo 'install.packages("XLConnect", repos="http://ftp.ussg.iu.edu/CRAN", dependencies=TRUE)'              > R2install
-    echo 'BiocManager::install(c("BiocGenerics", "GenomicRanges", "genomation","TSRchitect"), ask=FALSE)'    >> R2install
+    echo 'BiocManager::install(c("BiocGenerics", "GenomicRanges", "genomation","TSRchitect"), ask=FALSE)'     > R2install
     echo 'BiocManager::install(c("bumphunter","seqLogo","ENCODExplorer"),                     ask=FALSE)'    >> R2install
 
     Rscript R2install
