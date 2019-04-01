@@ -33,10 +33,10 @@ TSRchitect library and all its prerequisites available.
 For example, in that console, you should see
 
 ```
-R version 3.5.1 (2018-07-02) -- "Feather Spray"
+R version 3.5.3 (2019-03-11) -- "Great Truth"
 ...
 > packageVersion("TSRchitect")
-[1] '1.8.0'
+[1] '1.8.9'
 >
 ```
 
@@ -49,10 +49,19 @@ document for examples of how to load data into TSRchitect and predict and
 characterize promoters.
 
 
-## Reference
+## FAQ and References
 
-R. Taylor Raborn and Volker P. Brendel
-(2018) _Promoter identification in plants from analysis of large-scale transcription start site (TSS) data._ To be submitted.  
+Please see
+[V. Brendel's TSRchitect FAQ](https://github.com/vpbrendel/TSRchitect/wiki/FAQ)
+for usage examples and suggestions.
+
+If you find _TSRchitect_ useful, you may cite:
+
+Raborn RT, Sridharan K, Brendel VP (2017)
+_TSRchitect: Promoter identification from large-scale TSS profiling data._
+doi: 10.18129/B9.bioc.TSRchitect, https://doi.org/doi:10.18129/B9.bioc.TSRchitect. 
+
+Our own publications will be linked here in due course.
 
 ## Contact
 
