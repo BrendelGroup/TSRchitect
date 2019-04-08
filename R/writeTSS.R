@@ -58,14 +58,11 @@ setMethod("writeTSS",
                   outfname <- paste("TSSset-", tssSet, sep="")
                   if (fileType == "tab") {
                       outfname <- paste(outfname, "tab", sep=".")
-                  }
-                  else if (fileType == "bed") {
+                  } else if (fileType == "bed") {
                       outfname <- paste(outfname, "bed", sep=".")
-                  }
-                  else if (fileType == "bedGraph") {
+                  } else if (fileType == "bedGraph") {
                       outfname <- paste(outfname, "bedGraph", sep=".")
-                  }
-                  else {
+                  } else {
                       stop("Unknown fileType selected for writeTSS.",
                            " Please check.")
                   }
@@ -73,8 +70,7 @@ setMethod("writeTSS",
                           " will be written to file ",
                           outfname, "\nin your working directory.")
                   tss.df <- experimentName@tssCountData[[tssSet]]
-              }
-              else if (tssSetType=="merged") {
+              } else if (tssSetType=="merged") {
                   if (length(experimentName@tssCountDataMerged)<1) {
                       stop("The @tssCountDataMerged slot is currently empty.",
                            " Please complete the merger before continuing.")
@@ -87,26 +83,21 @@ setMethod("writeTSS",
                       outfname <- paste("TSSsetMerged-", tssSet, sep="")
                       if (fileType == "tab") {
                           outfname <- paste(outfname, "tab", sep=".")
-                      }
-                      else if (fileType == "bed") {
+                      } else if (fileType == "bed") {
                           outfname <- paste(outfname, "bed", sep=".")
-                      }
-                      else {
+                      } else {
                           stop("Unknown fileType selected for writeTSS.",
                                " Please check.")
                       }
                       message("\nThe merged TSS set for TSS dataset ", tssSet,
                       " will be written to file ", outfname,
                       "\nin your working directory.")
-                  }
-                  else { # "combined" case
+                  } else { # "combined" case
                       if (fileType == "tab") {
                           outfname <- "TSSsetCombined.tab"
-                      }
-                      else if (fileType == "bed") {
+                      } else if (fileType == "bed") {
                           outfname <- "TSSsetCombined.bed"
-                      }
-                      else {
+                      } else {
                           stop("Unknown fileType selected for writeTSS.",
                                " Please check.")
                       }
@@ -115,8 +106,7 @@ setMethod("writeTSS",
                               "\nin your working directory.")
                   }
                   tss.df <- experimentName@tssCountDataMerged[[tssSet]]
-              }
-              else {
+              } else {
                   stop("Error: argument tssSetType to writeTSS() should be",
                        " either \"replicates\" or \"merged\".")
               }
@@ -125,16 +115,14 @@ setMethod("writeTSS",
                   write.table(format(tss.df,scientific=FALSE), file=outfname,
                               col.names=FALSE, row.names=FALSE, sep="\t",
                               quote=FALSE)
-              }
-              else if (fileType == "bed") {
+              } else if (fileType == "bed") {
                   tss.df$ID <- paste(tssLabel,which(tss.df$seq != ""),sep="_")
                   out.df <- tss.df[, c("seq", "TSS", "TSS", "ID",
                                        "nTAGs", "strand")]
                   colnames(out.df) <- c("chrom", "start", "end", "name",
                                         "score", "strand")
                   export.bed(out.df,con=outfname)
-              }
-              else { # fileType == "bedGraph") 
+              } else { # fileType == "bedGraph") 
                   tss.df$beg <- tss.df$TSS -1;
                   tss.df$score[tss.df$strand=="+"] <-
                                                 tss.df$nTAGs[tss.df$strand=="+"]

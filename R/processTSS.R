@@ -54,12 +54,10 @@ setMethod("processTSS",
 		     BiocParallel::register(MulticoreParam(workers=n.cores),
 							   default=TRUE)
                      experimentName@tssCountData <- bplapply(1:iend, funi)
-                 }
-		 else {
+                 } else {
                      experimentName@tssCountData <- lapply(1:iend, funi)
                  }
-             }
-             else {
+             } else {
                  i <- as.numeric(tssSet)
                  if (i > length(experimentName@tssTagData)) {
                      stop("The value selected for tssSet exceeds ",

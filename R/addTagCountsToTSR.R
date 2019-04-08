@@ -57,8 +57,7 @@ setMethod("addTagCountsToTSR",
                   outfname <- paste("TSRset-", tsrSet, sep="")
                   outfname <- paste(outfname, "txt", sep=".")
                   tsr.df <- experimentName@tsrData[[tsrSet]]
-              }
-              else if (tsrSetType=="merged") {
+              } else if (tsrSetType=="merged") {
                   if (length(experimentName@tsrDataMerged)<1) {
                       stop("The @tsrDataMerged slot is currently empty.",
                            "Please complete the merger before continuing.")
@@ -73,16 +72,14 @@ setMethod("addTagCountsToTSR",
                       message("\nThe merged TSR set for TSS dataset ", tsrSet,
                               " will be written to file ", outfname,
                               "\nin your working directory.")
-                  }
-                  else { # "combined" case
+                  } else { # "combined" case
                       outfname <- "TSRsetCombined.txt"
                       message("\nThe combined TSR set derived from all samples",
                               " will be written to file ", outfname,
                               "\nin your working directory.")
                   }
                   tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
-              }
-              else {
+              } else {
                   stop("Error: argument tsrSetType to addTagCountsToTSR() ",
                        "should be either \"replicates\" or \"merged\".")
               }
@@ -136,16 +133,14 @@ setMethod("addTagCountsToTSR",
                                   if (l == nrow(that.tssSet)) {
                                       countv[k] <- count
                                   }
-                               }
-                               else if (this.tss$TSS  > as.numeric(as.character(this.tsr$start))) {
+                               } else if (this.tss$TSS  > as.numeric(as.character(this.tsr$start))) {
                                   countv[k] <- count
                                   lbeg <- l
                                   count <- 0
                                   break
                                }
-                            }
-                            else { # ... strand mismatch:
-#  go on to next comparison
+                            } else { # ... strand mismatch:
+#  ... go on to next comparison
                                 if (this.tsr$strand == "+") {
 #  ... need to go to next TSR
                                     countv[k] <- count
@@ -175,8 +170,7 @@ setMethod("addTagCountsToTSR",
               #Update the record:
               if (tsrSetType=="replicates") {
                   experimentName@tsrData[[tsrSet]] <- currentTSRset
-              }
-              else {
+              } else {
                   experimentName@tsrDataMerged[[tsrSet]] <- currentTSRset
               }
 

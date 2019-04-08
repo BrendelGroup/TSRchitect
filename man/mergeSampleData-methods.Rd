@@ -3,16 +3,26 @@
 \docType{methods}
 \name{mergeSampleData}
 \alias{mergeSampleData}
-\alias{mergeSampleData,tssObject-method}
+\alias{mergeSampleData,tssObject,numeric,numeric-method}
 \title{\strong{mergeSampleData}}
 \usage{
-mergeSampleData(experimentName)
+mergeSampleData(experimentName, n.cores, tagCountThreshold)
 
-\S4method{mergeSampleData}{tssObject}(experimentName)
+\S4method{mergeSampleData}{tssObject,numeric,numeric}(experimentName,
+  n.cores = 1, tagCountThreshold = 1)
 }
 \arguments{
 \item{experimentName}{an S4 object of class \emph{tssObject} that contains
 information about the experiment.}
+
+\item{n.cores}{the number of cores to be used for this job.
+ncores=1 means serial execution of function calls (numeric)}
+
+\item{tagCountThreshold}{the number of TSSs required at a given position
+for it to be considered in sample data merging. (numeric)
+Note: Merged data sets can become very large when the tagCountThreshold is
+      set low (leading to inclusion of a lot of "noise" and resulting in
+      long execution times in the necessary TSS position ordering step).}
 }
 \value{
 tssCountData datasets are merged (according to the
@@ -30,6 +40,7 @@ the vignette (/inst/doc/TSRchitect.Rmd).
 \examples{
 load(system.file("extdata", "tssObjectExample.RData",
 package="TSRchitect"))
-tssObjectExample <- mergeSampleData(experimentName=tssObjectExample)
+tssObjectExample <- mergeSampleData(experimentName=tssObjectExample,
+                                    n.cores=1, tagCountThreshold=1)
 
 }

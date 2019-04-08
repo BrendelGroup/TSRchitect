@@ -66,8 +66,7 @@ setMethod("determineTSR",
                          BiocParallel::register(MulticoreParam(workers=n.cores),
 							       default=TRUE)
                          experimentName@tsrData <- bplapply(1:iend, fcti)
-                     }
-                     else {
+                     } else {
                          experimentName@tsrData <- lapply(1:iend, fcti)
                      }
                      if (writeTable==TRUE) {
@@ -79,8 +78,7 @@ setMethod("determineTSR",
                                        fileType="tab")
                          }
                      }
-                 }
-                 else {
+                 } else {
                      i <- as.numeric(tssSet)
                      if (i>length(experimentName@tssCountData)) {
                          stop("The value selected for tssSet",
@@ -100,8 +98,7 @@ setMethod("determineTSR",
                                   fileType="tab")
                      }
                  }
-             }
-             else if (tssSetType=="merged") {
+             } else if (tssSetType=="merged") {
                  iend <- length(experimentName@tssCountDataMerged)
                  if (tssSet=="all") {
                      iend <- length(experimentName@tssCountDataMerged)
@@ -116,8 +113,7 @@ setMethod("determineTSR",
                          BiocParallel::register(MulticoreParam(workers=n.cores),
 							       default=TRUE)
                          experimentName@tsrDataMerged <- bplapply(1:iend, fcti)
-                     }
-		     else {
+                     } else {
                          experimentName@tsrDataMerged <- lapply(1:iend, fcti)
                      }
                      if (writeTable==TRUE) {
@@ -129,8 +125,7 @@ setMethod("determineTSR",
                                        fileType="tab")
                          }
                      }
-                 }
-                 else {
+                 } else {
                      i <- as.numeric(tssSet)
                      if (i>length(experimentName@tssCountDataMerged)) {
                          stop("The value selected for tssSet exceeds",

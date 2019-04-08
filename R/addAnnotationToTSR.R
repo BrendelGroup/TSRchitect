@@ -81,8 +81,7 @@ setMethod("addAnnotationToTSR",
                   tsr.df <- experimentName@tsrData[[tsrSet]]
                   tsr.df$start <- as.numeric(as.character(tsr.df$start))
                   tsr.df$end <- as.numeric(as.character(tsr.df$end))
-              }
-              else if (tsrSetType=="merged") {
+              } else if (tsrSetType=="merged") {
                   if (length(experimentName@tsrDataMerged)<1) {
                       stop("The @tsrDataMerged slot is currently empty.\n",
                           "Please complete the merger before continuing.")
@@ -97,8 +96,7 @@ setMethod("addAnnotationToTSR",
                       message("\nThe merged TSR set for TSS dataset ",
                               tsrSet, " will be written to file ", outfname,
                               "\nin your working directory.")
-                  }
-                  else { # "combined" case
+                  } else { # "combined" case
                       outfname <- "TSRsetCombined.txt"
                       message("\nThe combined TSR set derived from all samples",
                               " will be written to file ", outfname,
@@ -107,8 +105,7 @@ setMethod("addAnnotationToTSR",
                   tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
                   tsr.df$start <- as.numeric(as.character(tsr.df$start))
                   tsr.df$end <- as.numeric(as.character(tsr.df$end))
-              }
-              else {
+              } else {
                   stop("Error: argument tsrSetType to addAnnotationToTSR()",
                        "should be either \"replicates\" or \"merged\".")
               }
@@ -125,8 +122,7 @@ setMethod("addAnnotationToTSR",
               if ( feature == "all"  || is.na(match("type",
                        names(allAnnotation@elementMetadata@listData))) ) {
                   annot.gr <- allAnnotation
-              }
-              else {
+              } else {
                   annot.gr <- allAnnotation[allAnnotation$type==feature, ]
               }
 
@@ -180,8 +176,7 @@ setMethod("addAnnotationToTSR",
               #Update the record:
               if (tsrSetType=="replicates") {
                   experimentName@tsrData[[tsrSet]] <- tsr.df
-              }
-              else {
+              } else {
                   experimentName@tsrDataMerged[[tsrSet]] <- tsr.df
               }
 
