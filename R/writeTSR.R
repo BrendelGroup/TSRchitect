@@ -59,14 +59,11 @@ setMethod("writeTSR",
                   outfname <- paste("TSRset-", tsrSet, sep="")
                   if (fileType == "tab") {
                       outfname <- paste(outfname, "tab", sep=".")
-                  }
-                  else if (fileType == "bed") {
+                  } else if (fileType == "bed") {
                       outfname <- paste(outfname, "bed", sep=".")
-                  }
-                  else if (fileType == "gff") {
+                  } else if (fileType == "gff") {
                       outfname <- paste(outfname, "gff", sep=".")
-                  }
-                  else {
+                  } else {
                       stop("Unknown fileType selected for writeTSR.",
                            " Please check.")
                   }
@@ -74,8 +71,7 @@ setMethod("writeTSR",
                           " will be written to file ",
                           outfname, "\nin your working directory.")
                   tsr.df <- experimentName@tsrData[[tsrSet]]
-              }
-              else if (tsrSetType=="merged") {
+              } else if (tsrSetType=="merged") {
                   if (length(experimentName@tsrDataMerged)<1) {
                       stop("The @tsrDataMerged slot is currently empty.",
                            " Please complete the merger before continuing.")
@@ -88,26 +84,25 @@ setMethod("writeTSR",
                       outfname <- paste("TSRsetMerged-", tsrSet, sep="")
                       if (fileType == "tab") {
                           outfname <- paste(outfname, "tab", sep=".")
-                      }
-                      else if (fileType == "bed") {
+                      } else if (fileType == "bed") {
                           outfname <- paste(outfname, "bed", sep=".")
-                      }
-                      else {
+                      } else if (fileType == "gff") {
+                          outfname <- paste(outfname, "gff", sep=".")
+                      } else {
                           stop("Unknown fileType selected for writeTSR.",
                                " Please check.")
                       }
                       message("\nThe merged TSR set for TSS dataset ", tsrSet,
                       " will be written to file ", outfname,
                       "\nin your working directory.")
-                  }
-                  else { # "combined" case
+                  } else { # "combined" case
                       if (fileType == "tab") {
                           outfname <- "TSRsetCombined.tab"
-                      }
-                      else if (fileType == "bed") {
+                      } else if (fileType == "bed") {
                           outfname <- "TSRsetCombined.bed"
-                      }
-                      else {
+                      } else if (fileType == "gff") {
+                          outfname <- "TSRsetCombined.gff"
+                      } else {
                           stop("Unknown fileType selected for writeTSR.",
                                " Please check.")
                       }
@@ -116,8 +111,7 @@ setMethod("writeTSR",
                               "\nin your working directory.")
                   }
                   tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
-              }
-              else {
+              } else {
                   stop("Error: argument tsrSetType to writeTSR() should be",
                        " either \"replicates\" or \"merged\".")
               }
@@ -126,8 +120,7 @@ setMethod("writeTSR",
                   write.table(format(tsr.df,scientific=FALSE), file=outfname,
                               col.names=FALSE, row.names=FALSE, sep="\t",
                               quote=FALSE)
-              }
-              else if (fileType == "bed") {
+              } else if (fileType == "bed") {
                   tsr.df$ID <- paste(tsrLabel,which(tsr.df$seq != ""),sep="_")
                   m <- pmax(median(tsr.df$nTAGs),1)
                   tsr.df$score <- round(100*pmin(tsr.df$nTAGs/m,10),0)
@@ -136,8 +129,7 @@ setMethod("writeTSR",
                   colnames(out.df) <- c("chrom", "start", "end","name",
                                         "score", "strand")
                   export.bed(out.df,con=outfname)
-              }
-              else { # fileType == "gff") 
+              } else { # fileType == "gff") 
                   tsr.df$source <- rep("TSRchitect",nrow(tsr.df))
                   tsr.df$type <- rep("TSR",nrow(tsr.df))
                   m <- pmax(median(tsr.df$nTAGs),1)

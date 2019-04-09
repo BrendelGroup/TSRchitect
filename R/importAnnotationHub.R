@@ -50,8 +50,7 @@ setMethod("importAnnotationHub",
               if (class(annot.object) != "GRanges") {
                   stop("\nThe selected annotation record is not",
                        " a GRanges object. Please select another.")
-              }
-              else {
+              } else {
                   experimentName@annotation <- annot.object
               }
               message("Done. Annotation data have been attached to",

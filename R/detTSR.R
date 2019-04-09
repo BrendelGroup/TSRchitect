@@ -43,8 +43,7 @@ setMethod("detTSR",
                            "the number of slots in tssCountData.")
                   }
                   tss.df <- experimentName@tssCountData[[tssSet]]
-              }
-              else if (tssSetType=="merged") {
+              } else if (tssSetType=="merged") {
                   if (length(experimentName@tssCountDataMerged)<1) {
                       stop("The @tssCountDataMerged slot is currently empty.",
                            "\nPlease complete the merger before continuing.")
@@ -54,8 +53,7 @@ setMethod("detTSR",
                            "of slots in tssCountDataMerged.")
                   }
                   tss.df <- experimentName@tssCountDataMerged[[tssSet]]
-              }
-              else {
+              } else {
                   stop("Error: argument tssSetType to detTSR() should be ",
                        "either \"replicates\" or \"merged\".")
               }

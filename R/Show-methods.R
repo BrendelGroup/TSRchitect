@@ -9,8 +9,7 @@ setMethod("show",
               cat("############################################\n\n")
               if (is.na(object@title)==FALSE) {
                   cat("Title of experiment:", object@title,"\n\n")
-              }
-              else {
+              } else {
                   cat("No experiment title has been added.\n\n")
               }
               if (sum(!is.na(object@fileNamesBAM))>0) {
@@ -20,8 +19,7 @@ setMethod("show",
                       cat(paste(object@fileNamesBAM[i]), sep="\n")
                   }
                   cat("\n")
-              }
-              else {
+              } else {
                   cat("\nNo *.bam datasets have been added. \n")
               }
               if (sum(!is.na(object@fileNamesBED))>0) {
@@ -31,8 +29,7 @@ setMethod("show",
                       cat(paste(object@fileNamesBED[i]), sep="\n")
                   }
                   cat("\n")
-              }
-              else {
+              } else {
                   cat("\nNo *.bed datasets have been added. \n")
               }
               if (sum(!is.na(object@sampleNames))>0) {
@@ -40,8 +37,7 @@ setMethod("show",
                   for (i in 1:length(object@sampleNames)) {
                       cat(paste(object@sampleNames[i]), sep="\n")
                   }
-              }
-              else {
+              } else {
                   cat("\nDataset names have not been provided.\n")
               }
               if (length(object@tssTagData) > 0) {
@@ -51,8 +47,7 @@ setMethod("show",
                   cat(" replicate TSS datasets were loaded into the",
                       "tssObject")
                   cat(".\n")
-              }
-              else {
+              } else {
                   cat("\nNo TSS data have been loaded.\n")
               }
               if (length(object@tssCountDataMerged) > 0) {
@@ -61,16 +56,14 @@ setMethod("show",
                   cat("Replicate datasets have been merged on the",
                       "tssObject")
                   cat(".\n")
-              }
-              else {
+              } else {
                   cat("\nTSS replicate datasets have not been merged.\n")
               }
              if (length(object@tsrData) > 0) {
                  object.name <- as.character(deparse(substitute(object)))
                  cat("\nTSRs have been identified from",
                      length(object@tsrData), "replicate datasets. \n")
-              }
-             else {
+             } else {
                  cat("\nTSRs have not been identified from replicate",
                     "datasets. \n")
              }
@@ -78,8 +71,7 @@ setMethod("show",
                  object.name <- as.character(deparse(substitute(object)))
                  cat("\nTSRs have been identified from",
                      length(object@tsrDataMerged), "merged datasets. \n")
-              }
-             else {
+             } else {
                  cat("\nTSRs have not been identified from",
                      "merged datasets.\n")
              }

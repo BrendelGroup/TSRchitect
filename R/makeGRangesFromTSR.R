@@ -46,8 +46,7 @@ setMethod("makeGRangesFromTSR",
                            " number of slots in tsrData.")
                   }
                   tsr.df <- experimentName@tsrData[[tsrSet]]
-              }
-              else if (tsrSetType=="merged") {
+              } else if (tsrSetType=="merged") {
                   if (length(experimentName@tsrDataMerged)<1) {
                       stop("The @tsrDataMerged slot is currently empty.",
                             " Please complete the merger before continuing.")
@@ -59,10 +58,9 @@ setMethod("makeGRangesFromTSR",
                   if (tsrSet<length(experimentName@tssCountDataMerged)) {
                       tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
                   }
-              else {
-                  stop("Error: argument tsrSetType to nakeGRangesFromTSR() ",
+	      } else {
+                  stop("Error: argument tsrSetType to makeGRangesFromTSR() ",
                        "should be either \"replicates\" or \"merged\".")
-              }
               }
 
               my.gr <- makeGRangesFromDataFrame

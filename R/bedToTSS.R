@@ -35,8 +35,7 @@ setMethod("bedToTSS",
               if (length(experimentName@bedData) == 0) {
                   stop("@bedData is empty.\n\n",
                        "Please load alignment files to your tssObject.")
-              }
-              else {
+              } else {
                   message("\nBeginning .bed file",
                       " to TSS data conversion ...\n\n")
               }

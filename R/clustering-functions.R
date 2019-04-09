@@ -43,8 +43,7 @@ tagCountTSS <- function(y, n.cores=1, outfname="TSS.txt", writeTable=FALSE) {
             for (j in 2:length(tss.vec)) {
                 if (tss.vec[j] == this.TSS) {
                     n.TAGs <- n.TAGs + 1
-                }
-                else {
+                } else {
                     k <- k + 1
                     my.matrix.p[k,] <- c(this.seq, this.TSS, "+", n.TAGs)
                     this.TSS <- tss.vec[j]
@@ -70,8 +69,7 @@ tagCountTSS <- function(y, n.cores=1, outfname="TSS.txt", writeTable=FALSE) {
             for (j in 2:length(tss.vec)) {
                 if (tss.vec[j] == this.TSS) {
                     n.TAGs <- n.TAGs + 1
-                }
-                else {
+                } else {
                     k <- k + 1
                     my.matrix.m[k,] <- c(this.seq, this.TSS, "-", n.TAGs)
                     this.TSS <- tss.vec[j]
@@ -169,15 +167,13 @@ tsrCluster <- function(x, minNbrTAGs=3, minDist=20) {
 			       tsrPeak=NA, tsrWdth=NA, tsrTrq=NA,
 			       tsrSI=NA, tsrMSI=NA)
         if (my.len == 0) {	# ... nothing to do
-        }
-        else if (my.len == 1) {
+        } else if (my.len == 1) {
             my.tss <- as.numeric(sTSS.p[1,2])
             my.count <- as.numeric(sTSS.p[1,4])
             clustered.tss <- cbind(my.tss, my.count)
             my.tsr <- tssArrayProperties(clustered.tss, seqname, "+")
             TSR.df.p <- rbind(TSR.df.p, my.tsr)
-        }
-        else {
+        } else {
             my.tss <- as.numeric(sTSS.p[1,2])
             my.count <- as.numeric(sTSS.p[1,4])
             my.nbrtss <- 1
@@ -190,8 +186,7 @@ tsrCluster <- function(x, minNbrTAGs=3, minDist=20) {
                 if (tss.dist < minDist) {
                     if (tss.dist == 0) {
                         my.count[my.nbrtss] <- my.count[my.nbrtss] + tss.2.count
-                    }
-                    else {
+                    } else {
                         my.tss <- rbind(my.tss,tss.2)
                         my.count <- rbind(my.count, tss.2.count)
                         my.nbrtss <- my.nbrtss + 1
@@ -202,8 +197,7 @@ tsrCluster <- function(x, minNbrTAGs=3, minDist=20) {
                         TSR.df.p <- rbind(TSR.df.p, my.tsr)
                     }
                     next
-                }
-                else {
+                } else {
                     clustered.tss <- cbind(my.tss, my.count)
                     my.tsr <- tssArrayProperties(clustered.tss, seqname, "+")
                     TSR.df.p <- rbind(TSR.df.p, my.tsr)
@@ -223,15 +217,13 @@ tsrCluster <- function(x, minNbrTAGs=3, minDist=20) {
                                nTSSs=NA, nTAGs=NA, tsrPeak=NA, tsrWdth=NA,
                                tsrTrq=NA, tsrSI=NA, tsrMSI=NA)
         if (my.len == 0) {
-        }
-        else if (my.len == 1) {
+        } else if (my.len == 1) {
             my.tss <- as.numeric(sTSS.m[1,2])
             my.count <- as.numeric(sTSS.m[1,4])
             clustered.tss <- cbind(my.tss, my.count)
             my.tsr <- tssArrayProperties(clustered.tss, seqname,"-")
             TSR.df.m <- rbind(TSR.df.m, my.tsr)
-        }
-        else {
+        } else {
             my.tss <- as.numeric(sTSS.m[1,2])
             my.count <- as.numeric(sTSS.m[1,4])
             my.nbrtss <- 1
@@ -244,8 +236,7 @@ tsrCluster <- function(x, minNbrTAGs=3, minDist=20) {
                 if (tss.dist < minDist) {
                     if (tss.dist == 0) {
                         my.count[my.nbrtss] <- my.count[my.nbrtss] + tss.2.count
-                    }
-                    else {
+                    } else {
                         my.tss <- rbind(my.tss,tss.2)
                         my.count <- rbind(my.count, tss.2.count)
                         my.nbrtss <- my.nbrtss + 1
@@ -256,8 +247,7 @@ tsrCluster <- function(x, minNbrTAGs=3, minDist=20) {
                         TSR.df.m <- rbind(TSR.df.m, my.tsr)
                     }
                     next
-                }
-                else {
+                } else {
                     clustered.tss <- cbind(my.tss, my.count)
                     my.tsr <- tssArrayProperties(clustered.tss, seqname, "-")
                     TSR.df.m <- rbind(TSR.df.m, my.tsr)

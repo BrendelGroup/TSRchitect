@@ -12,7 +12,7 @@ vignette: >
 ## R. Taylor Raborn and Volker P. Brendel
 ## Department of Biology, Indiana University
 
-### July 10, 2018; updated March 26, 2019
+### July 10, 2018; updated April 7, 2019
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 TSRchitect can handle TSS profiling experiments that contain either single-end or paired-end sequence reads, such as CAGE, RAMPAGE, PEAT, STRIPE-seq and others. TSRchitect is an open-source bioinformatics package that is intended to support large-scale, reproducible analysis of TSS profiling data in a broad array of eukaryotic model systems.
@@ -94,7 +94,8 @@ Next we merge our replicate data (according to the information we provided in `l
 We then use `addTagCountsToTSR` to quantify the number of tags found in each of our 4 datasets.
 
 ```{r eval=TRUE}
-tssObjectExample <- mergeSampleData(experimentName=tssObjectExample)
+tssObjectExample <- mergeSampleData(experimentName=tssObjectExample, n.cores=1,
+tagCountThreshold=1)
 
 tssObjectExample <- determineTSR(experimentName=tssObjectExample, n.cores=1,
 tssSetType="merged", tssSet="all", tagCountThreshold=25, clustDist=20,

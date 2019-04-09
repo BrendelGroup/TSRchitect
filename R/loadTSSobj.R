@@ -165,8 +165,7 @@ setMethod("loadTSSobj",
                 if (!missing(n.cores) & n.cores > 1) {
                     bams.GA <- bplapply(bam.paths, readGAlignments,
                                         BPPARAM = MulticoreParam(), param=my.param)
-                }
-                else {
+                } else {
                     bams.GA <- lapply(bam.paths, readGAlignments, param=my.param)
                 }
                 tssObj@bamData <- bams.GA
@@ -188,8 +187,7 @@ setMethod("loadTSSobj",
                   if (missing(n.cores) | n.cores > 1) {
                       beds.GR <- bplapply(tss_filesBED, import, format="bedpe",
                                           BPPARAM = MulticoreParam() )
-                  }
-                  else {
+                  } else {
                       beds.GR <- lapply(tss_filesBED, import, format="bedpe")
                   }
                   tssObj@bedData <- beds.GR
@@ -205,8 +203,7 @@ setMethod("loadTSSobj",
                   if (!missing(n.cores) & n.cores > 1) {
                       beds.GR <- bplapply(tss_filesBED, import.bed, 
                                           BPPARAM = MulticoreParam() )
-                  }
-                  else {
+                  } else {
                       beds.GR <- lapply(tss_filesBED, import.bed)
                   }
                   tssObj@bedData <- beds.GR

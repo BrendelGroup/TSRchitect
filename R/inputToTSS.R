@@ -117,8 +117,7 @@ setMethod("inputToTSS",
                   GR.list <- GRangesList(combined.vec)
                   experimentName@tssTagData <- GR.list
                   experimentName@tssCountData <- vector(mode="list", length=combined.len)
-                }
-                else {
+                } else {
                   GR.list <- GRangesList(bed.vec)
                   experimentName@tssTagData <- GR.list
                   experimentName@tssCountData <- vector(mode="list", length=bed.len)
@@ -169,8 +168,7 @@ setMethod("inputToTSS",
                   GR.list <- GRangesList(combined.vec)
                   experimentName@tssTagData <- GR.list
                   experimentName@tssCountData <- vector(mode="list", length=combined.len)
-                }
-                else {
+                } else {
                   GR.list <- GRangesList(bedpe.vec)
                   experimentName@tssTagData <- GR.list
                   experimentName@tssCountData <- vector(mode="list", length=bedpe.len)
