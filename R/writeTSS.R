@@ -85,6 +85,8 @@ setMethod("writeTSS",
                           outfname <- paste(outfname, "tab", sep=".")
                       } else if (fileType == "bed") {
                           outfname <- paste(outfname, "bed", sep=".")
+                      } else if (fileType == "bedGraph") {
+                          outfname <- paste(outfname, "bedGraph", sep=".")
                       } else {
                           stop("Unknown fileType selected for writeTSS.",
                                " Please check.")
@@ -97,6 +99,8 @@ setMethod("writeTSS",
                           outfname <- "TSSsetCombined.tab"
                       } else if (fileType == "bed") {
                           outfname <- "TSSsetCombined.bed"
+                      } else if (fileType == "bedGraph") {
+                          outfname <- "TSSsetCombined.bedGraph"
                       } else {
                           stop("Unknown fileType selected for writeTSS.",
                                " Please check.")

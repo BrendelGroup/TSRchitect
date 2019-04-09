@@ -86,6 +86,8 @@ setMethod("writeTSR",
                           outfname <- paste(outfname, "tab", sep=".")
                       } else if (fileType == "bed") {
                           outfname <- paste(outfname, "bed", sep=".")
+                      } else if (fileType == "gff") {
+                          outfname <- paste(outfname, "gff", sep=".")
                       } else {
                           stop("Unknown fileType selected for writeTSR.",
                                " Please check.")
@@ -98,6 +100,8 @@ setMethod("writeTSR",
                           outfname <- "TSRsetCombined.tab"
                       } else if (fileType == "bed") {
                           outfname <- "TSRsetCombined.bed"
+                      } else if (fileType == "gff") {
+                          outfname <- "TSRsetCombined.gff"
                       } else {
                           stop("Unknown fileType selected for writeTSR.",
                                " Please check.")
