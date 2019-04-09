@@ -1,4 +1,4 @@
-# TSRchitect: Promoter identifcation from diverse types of large-scale TSS profiling data
+# TSRchitect: Promoter identification from diverse types of large-scale TSS profiling data
 
 The TSRchitect repository encompasses an [R](https://www.r-project.org/)
 package developed in the [Brendel Group](http://brendelgroup.org/) for analyses
