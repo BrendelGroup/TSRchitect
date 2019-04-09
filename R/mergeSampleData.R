@@ -132,13 +132,17 @@ setMethod("mergeSampleData",
 
 # The following few lines merge the merged tssCountData into the last
 # experimentName@tssCountDataMerged slot, representing the entire
-# collection of TSS tag counts in the experiment:
+# collection of TSS tag counts in the experiment. Of course, this only
+# makes sense if there are more than one merged sets from the previous step:
 #
-              n.slots <- length(uni.ids) + 1
-              my.df <- do.call(rbind, exp.list)
-              my.df <- my.df[order(my.df$seq, my.df$TSS),]
-              my.df <- my.df[mixedorder(my.df$seq),]
-              exp.list[[n.slots]] <- mergeTSSdf(my.df)
+              if (length(uni.ids) > 1) {
+                n.slots <- length(uni.ids) + 1
+                my.df <- do.call(rbind, exp.list)
+                my.df <- my.df[order(my.df$seq, my.df$TSS),]
+                my.df <- my.df[mixedorder(my.df$seq),]
+                exp.list[[n.slots]] <- mergeTSSdf(my.df)
+              }
+
               experimentName@tssCountDataMerged <- exp.list
 
               message("\n... the TSS expression data have been merged",
