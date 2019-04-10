@@ -119,13 +119,13 @@ setMethod("mergeSampleData",
               if (n.cores > 1) {
                 exp.list <- bplapply(seq_along(df.ind), function(i) { 
                   this.df <- do.call(rbind, exp.data[df.ind[[i]]])
-                  this.df <- this.df[order(this.df$seq, this.df$TSS),]
+                  this.df <- this.df[order(this.df$seq, this.df$TSS, this.df$strand),]
                   this.df <- this.df[mixedorder(this.df$seq),]
                   mergeTSSdf(this.df)                                  })
               } else {
                 exp.list <- lapply(seq_along(df.ind), function(i) { 
                   this.df <- do.call(rbind, exp.data[df.ind[[i]]])
-                  this.df <- this.df[order(this.df$seq, this.df$TSS),]
+                  this.df <- this.df[order(this.df$seq, this.df$TSS, this.df$strand),]
                   this.df <- this.df[mixedorder(this.df$seq),]
                   mergeTSSdf(this.df)                                  })
               }
@@ -138,7 +138,7 @@ setMethod("mergeSampleData",
               if (length(uni.ids) > 1) {
                 n.slots <- length(uni.ids) + 1
                 my.df <- do.call(rbind, exp.list)
-                my.df <- my.df[order(my.df$seq, my.df$TSS),]
+                my.df <- my.df[order(my.df$seq, my.df$TSS, my.df$strand),]
                 my.df <- my.df[mixedorder(my.df$seq),]
                 exp.list[[n.slots]] <- mergeTSSdf(my.df)
               }
