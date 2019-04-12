@@ -3,15 +3,16 @@
 \docType{methods}
 \name{writeTSR}
 \alias{writeTSR}
-\alias{writeTSR,tssObject,character,numeric,character,character-method}
+\alias{writeTSR,tssObject,character,numeric,character,logical,character-method}
 \title{\strong{writeTSR}}
 \usage{
 writeTSR(experimentName, tsrSetType, tsrSet = 1, tsrLabel = "TSR_",
+  mixedorder = FALSE, fileType = "tab")
+
+
+  \S4method{writeTSR}{tssObject,character,numeric,character,logical,character}(experimentName,
+  tsrSetType, tsrSet = 1, tsrLabel = "TSR_", mixedorder = FALSE,
   fileType = "tab")
-
-
-  \S4method{writeTSR}{tssObject,character,numeric,character,character}(experimentName,
-  tsrSetType, tsrSet = 1, tsrLabel = "TSR_", fileType = "tab")
 }
 \arguments{
 \item{experimentName}{an S4 object of class \emph{tssObject} containing
@@ -24,6 +25,9 @@ Options are "replicates" or "merged". (character)}
 
 \item{tsrLabel}{specifies the label to be used in the name column of
 BED format output}
+
+\item{mixedorder}{a logical specifying whether the sequence names should
+be ordered alphanumerically ("10" following "9" rather than "1"). (logical)}
 
 \item{fileType}{the format of the file to be written.
 Possible choices are "tab" for tab-delimited output, "bed" for BED format,
@@ -48,6 +52,6 @@ https://genome.ucsc.edu/FAQ/FAQformat#format1
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 writeTSR(experimentName=tssObjectExample, tsrSetType="replicates",
-         tsrSet=1, tsrLabel="TSRsample1_",fileType="tab")
+         tsrSet=1, tsrLabel="TSRsample1_", mixedorder=FALSE, fileType="tab")
 
 }

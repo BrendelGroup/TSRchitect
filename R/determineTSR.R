@@ -16,8 +16,12 @@
 #' TSRs in base pairs. (numeric)
 #' @param writeTable specifies whether the output should
 #' be written to a table. (logical)
+#' @param mixedorder a logical specifying whether the sequence names should
+#' be ordered alphanumerically in the output table ("10" following "9" rather
+#' than "1"). (logical)
 #'
 #' @importFrom BiocParallel bplapply MulticoreParam register
+#' @importFrom gtools mixedorder
 #'
 #' @return creates a list of \linkS4class{GenomicRanges}-containing
 #' TSR positions in slot \emph{@@tsrData} of the returned \emph{tssObject}
@@ -36,7 +40,7 @@
 
 setGeneric("determineTSR",
     function(experimentName, n.cores, tssSetType, tssSet, tagCountThreshold,
-             clustDist, writeTable=FALSE)
+             clustDist, ...)
     standardGeneric("determineTSR")
 )
 
@@ -44,13 +48,15 @@ setGeneric("determineTSR",
 
 setMethod("determineTSR",
           signature(experimentName="tssObject", "numeric", "character",
-                    "character", "numeric", "numeric", "logical"),
+                    "character", "numeric", "numeric"),
 
           function(experimentName, n.cores=1, tssSetType=c("replicates",
                    "merged"), tssSet="all", tagCountThreshold=1, clustDist=20,
-                   writeTable=FALSE) {
+                   writeTable=FALSE, mixedorder=FALSE) {
 
              message("... determineTSR ...")
+             if (missing(writeTable)) {writeTable = FALSE}
+             if (missing(mixedorder)) {mixedorder = FALSE}
              fileType <- match.arg(tssSetType, several.ok=FALSE)
              if (tssSetType=="replicates") {
                  if (tssSet=="all") {
@@ -75,6 +81,7 @@ setMethod("determineTSR",
                                        tsrSetType="replicates",
                                        tsrSet=i,
                                        tsrLabel=paste("TSR",i,sep=""),
+                                       mixedorder,
                                        fileType="tab")
                          }
                      }
@@ -95,6 +102,7 @@ setMethod("determineTSR",
                                   tsrSetType="replicates",
                                   tsrSet=i,
                                   tsrLabel=paste("TSR",i,sep=""),
+                                  mixedorder,
                                   fileType="tab")
                      }
                  }
@@ -122,6 +130,7 @@ setMethod("determineTSR",
                                        tsrSetType="merged",
                                        tsrSet=i,
                                        tsrLabel=paste("mTSR",i,sep=""),
+                                       mixedorder,
                                        fileType="tab")
                          }
                      }
@@ -142,6 +151,7 @@ setMethod("determineTSR",
                                   tsrSetType="merged",
                                   tsrSet=i,
                                   tsrLabel=paste("mTSR",i,sep=""),
+                                  mixedorder,
                                   fileType="tab")
                      }
                  }

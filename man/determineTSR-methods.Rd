@@ -3,17 +3,17 @@
 \docType{methods}
 \name{determineTSR}
 \alias{determineTSR}
-\alias{determineTSR,tssObject,numeric,character,character,numeric,numeric,logical-method}
+\alias{determineTSR,tssObject,numeric,character,character,numeric,numeric-method}
 \title{\strong{determineTSR}}
 \usage{
 determineTSR(experimentName, n.cores, tssSetType, tssSet,
-  tagCountThreshold, clustDist, writeTable = FALSE)
+  tagCountThreshold, clustDist, ...)
 
 
-  \S4method{determineTSR}{tssObject,numeric,character,character,numeric,numeric,logical}(experimentName,
+  \S4method{determineTSR}{tssObject,numeric,character,character,numeric,numeric}(experimentName,
   n.cores = 1, tssSetType = c("replicates", "merged"),
   tssSet = "all", tagCountThreshold = 1, clustDist = 20,
-  writeTable = FALSE)
+  writeTable = FALSE, mixedorder = FALSE)
 }
 \arguments{
 \item{experimentName}{an object of class \emph{tssObject}
@@ -36,6 +36,10 @@ TSRs in base pairs. (numeric)}
 
 \item{writeTable}{specifies whether the output should
 be written to a table. (logical)}
+
+\item{mixedorder}{a logical specifying whether the sequence names should
+be ordered alphanumerically in the output table ("10" following "9" rather
+than "1"). (logical)}
 }
 \value{
 creates a list of \linkS4class{GenomicRanges}-containing

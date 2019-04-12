@@ -16,9 +16,8 @@
 #' \emph{sampleIDs}) and put in the tssCountDataMerged slot in the returned
 #' \emph{tssObject}.
 #'
+#' @importFrom dplyr  arrange group_by summarize %>%
 #' @importFrom GenomicRanges as.data.frame
-#' @importFrom gtools mixedorder
-#' @importFrom utils flush.console
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
@@ -67,35 +66,13 @@ setMethod("mergeSampleData",
 # being merged) to a single entry with cumulated tag counts:
 #
               mergeTSSdf <- function(cTSSdf) {
-                mTSSdf <- data.frame(seq=character(nrow(cTSSdf)),
-                                     TSS=numeric(nrow(cTSSdf)),
-                                     strand=character(nrow(cTSSdf)),
-                                     nTAGs=integer(nrow(cTSSdf)),
-                                     stringsAsFactors=FALSE         )
-                if (nrow(cTSSdf) <= 1) {
-                  return(cTSSdf)
-                }
-                j = 1
-                crow <- cTSSdf[1,]
-                for (k in 2:nrow(cTSSdf)) {
-                   nrow <- cTSSdf[k,]
-                   if (nrow$TSS == crow$TSS  &  nrow$seq == crow$seq  &
-                       nrow$strand == crow$strand) {
-                     crow$nTAGs <- crow$nTAGs + nrow$nTAGs
-                   } else {
-                     mTSSdf[j,] <- crow
-                     crow <- nrow
-                     j <- j + 1
-                   }
-                   if ( k %% 25000 == 0) {
-                     message("... done merging ", k, " of ",nrow(cTSSdf),
-			     " TSS positions at\t", date())
-		     flush.console()
-		   }
-                }
-                mTSSdf[j,] <- crow
-                return(mTSSdf[1:j,])
+                mTSSdf <- group_by(cTSSdf,seq,TSS,strand) %>%
+                          summarize(nTAGs=sum(nTAGs)) %>%
+                          arrange(seq,TSS,strand) %>%
+                          as.data.frame()
+                return(mTSSdf);
               }
+
 
               if (n.cores > 1) {
                 BiocParallel::register(MulticoreParam(workers=n.cores),
@@ -119,14 +96,10 @@ setMethod("mergeSampleData",
               if (n.cores > 1) {
                 exp.list <- bplapply(seq_along(df.ind), function(i) { 
                   this.df <- do.call(rbind, exp.data[df.ind[[i]]])
-                  this.df <- this.df[order(this.df$seq, this.df$TSS, this.df$strand),]
-                  this.df <- this.df[mixedorder(this.df$seq),]
                   mergeTSSdf(this.df)                                  })
               } else {
                 exp.list <- lapply(seq_along(df.ind), function(i) { 
                   this.df <- do.call(rbind, exp.data[df.ind[[i]]])
-                  this.df <- this.df[order(this.df$seq, this.df$TSS, this.df$strand),]
-                  this.df <- this.df[mixedorder(this.df$seq),]
                   mergeTSSdf(this.df)                                  })
               }
 
@@ -138,8 +111,6 @@ setMethod("mergeSampleData",
               if (length(uni.ids) > 1) {
                 n.slots <- length(uni.ids) + 1
                 my.df <- do.call(rbind, exp.list)
-                my.df <- my.df[order(my.df$seq, my.df$TSS, my.df$strand),]
-                my.df <- my.df[mixedorder(my.df$seq),]
                 exp.list[[n.slots]] <- mergeTSSdf(my.df)
               }
 

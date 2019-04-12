@@ -10,6 +10,8 @@
 #' @param tsrSet number of the dataset to be processed (numeric).
 #' @param tsrLabel specifies the label to be used in the name column of
 #' BED format output
+#' @param mixedorder a logical specifying whether the sequence names should
+#' be ordered alphanumerically ("10" following "9" rather than "1"). (logical)
 #' @param fileType the format of the file to be written.
 #' Possible choices are "tab" for tab-delimited output, "bed" for BED format,
 #' and "gff" for for GFF3 format (character).
@@ -18,13 +20,14 @@
 #' is to be written to your working directory.
 #'
 #' @import     BiocGenerics
+#' @importFrom gtools mixedorder
 #' @importFrom stats median
 #' @importFrom rtracklayer export.bed
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' writeTSR(experimentName=tssObjectExample, tsrSetType="replicates",
-#'          tsrSet=1, tsrLabel="TSRsample1_",fileType="tab")
+#'          tsrSet=1, tsrLabel="TSRsample1_", mixedorder=FALSE, fileType="tab")
 #'
 #' @note The .bed file written adheres to the standard six-column BED format,
 #' while "tab" format is identical to that of the data.frames containing TSR
@@ -38,7 +41,7 @@
 
 setGeneric("writeTSR",
     function(experimentName, tsrSetType, tsrSet=1, tsrLabel="TSR_",
-             fileType="tab")
+             mixedorder=FALSE,fileType="tab")
     standardGeneric("writeTSR")
 )
 
@@ -46,9 +49,10 @@ setGeneric("writeTSR",
 
 setMethod("writeTSR",
           signature(experimentName="tssObject", "character", "numeric",
-		    "character", "character"),
+                    "character", "logical", "character"),
 
-          function(experimentName, tsrSetType, tsrSet, tsrLabel, fileType) {
+          function(experimentName, tsrSetType, tsrSet,
+                   tsrLabel, mixedorder, fileType) {
 
               message("... writeTSR ...")
               if (tsrSetType=="replicates") {
@@ -70,7 +74,12 @@ setMethod("writeTSR",
                   message("\nThe TSR set for TSS dataset ", tsrSet,
                           " will be written to file ",
                           outfname, "\nin your working directory.")
-                  tsr.df <- experimentName@tsrData[[tsrSet]]
+                  if (!missing(mixedorder) & mixedorder == TRUE) {
+                    tsr.df <- experimentName@tsrData[[tsrSet]][mixedorder(
+                                   experimentName@tsrData[[tsrSet]]$seq),]
+                  } else {
+                    tsr.df <- experimentName@tsrData[[tsrSet]]
+                  }
               } else if (tsrSetType=="merged") {
                   if (length(experimentName@tsrDataMerged)<1) {
                       stop("The @tsrDataMerged slot is currently empty.",
@@ -110,7 +119,12 @@ setMethod("writeTSR",
                               " will be written to file ", outfname,
                               "\nin your working directory.")
                   }
-                  tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
+                  if (!missing(mixedorder) & mixedorder == TRUE) {
+                    tsr.df <- experimentName@tsrDataMerged[[tsrSet]][mixedorder(
+                                   experimentName@tsrDataMerged[[tsrSet]]$seq),]
+                  } else {
+                    tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
+                  }
               } else {
                   stop("Error: argument tsrSetType to writeTSR() should be",
                        " either \"replicates\" or \"merged\".")
