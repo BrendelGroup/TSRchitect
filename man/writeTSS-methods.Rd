@@ -3,15 +3,16 @@
 \docType{methods}
 \name{writeTSS}
 \alias{writeTSS}
-\alias{writeTSS,tssObject,character,numeric,character,character-method}
+\alias{writeTSS,tssObject,character,numeric,character,logical,character-method}
 \title{\strong{writeTSS}}
 \usage{
 writeTSS(experimentName, tssSetType, tssSet = 1, tssLabel = "TSS_",
+  mixedorder = FALSE, fileType = "tab")
+
+
+  \S4method{writeTSS}{tssObject,character,numeric,character,logical,character}(experimentName,
+  tssSetType, tssSet = 1, tssLabel = "TSS_", mixedorder = FALSE,
   fileType = "tab")
-
-
-  \S4method{writeTSS}{tssObject,character,numeric,character,character}(experimentName,
-  tssSetType, tssSet = 1, tssLabel = "TSS_", fileType = "tab")
 }
 \arguments{
 \item{experimentName}{an S4 object of class \emph{tssObject} containing
@@ -24,6 +25,9 @@ Options are "replicates" or "merged". (character)}
 
 \item{tssLabel}{specifies the label to be used in the name column of
 BED format output}
+
+\item{mixedorder}{a logical specifying whether the sequence names should
+be ordered alphanumerically ("10" following "9" rather than "1"). (logical)}
 
 \item{fileType}{the format of the file to be written.
 Possible choices are "tab" for tab-delimited output, "bed" for BED format,
@@ -48,6 +52,6 @@ https://genome.ucsc.edu/FAQ/FAQformat#format1
 \examples{
 load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 writeTSS(experimentName=tssObjectExample, tssSetType="replicates",
-         tssSet=1, tssLabel="TSSsample1_",fileType="tab")
+         tssSet=1, tssLabel="TSSsample1_", mixedorder=FALSE, fileType="tab")
 
 }

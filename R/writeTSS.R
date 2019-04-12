@@ -10,6 +10,8 @@
 #' @param tssSet number of the dataset to be processed (numeric).
 #' @param tssLabel specifies the label to be used in the name column of
 #' BED format output
+#' @param mixedorder a logical specifying whether the sequence names should
+#' be ordered alphanumerically ("10" following "9" rather than "1"). (logical)
 #' @param fileType the format of the file to be written.
 #' Possible choices are "tab" for tab-delimited output, "bed" for BED format,
 #' and "bedGraph" for for GFF3 format (character).
@@ -18,12 +20,13 @@
 #' is to be written to your working directory.
 #'
 #' @import     BiocGenerics
+#' @importFrom gtools mixedorder
 #' @importFrom rtracklayer export.bed
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData", package="TSRchitect"))
 #' writeTSS(experimentName=tssObjectExample, tssSetType="replicates",
-#'          tssSet=1, tssLabel="TSSsample1_",fileType="tab")
+#'          tssSet=1, tssLabel="TSSsample1_", mixedorder=FALSE, fileType="tab")
 #'
 #' @note The .bed file written adheres to the standard six-column BED format,
 #' while "tab" format is identical to that of the data.frames containing TSS
@@ -37,7 +40,7 @@
 
 setGeneric("writeTSS",
     function(experimentName, tssSetType, tssSet=1, tssLabel="TSS_",
-             fileType="tab")
+             mixedorder=FALSE, fileType="tab")
     standardGeneric("writeTSS")
 )
 
@@ -45,9 +48,10 @@ setGeneric("writeTSS",
 
 setMethod("writeTSS",
           signature(experimentName="tssObject", "character", "numeric",
-		    "character", "character"),
+		    "character", "logical", "character"),
 
-          function(experimentName, tssSetType, tssSet, tssLabel, fileType) {
+          function(experimentName, tssSetType, tssSet,
+                   tssLabel, mixedorder, fileType) {
 
               message("... writeTSS ...")
               if (tssSetType=="replicates") {
@@ -69,7 +73,15 @@ setMethod("writeTSS",
                   message("\nThe TSS set for TSS dataset ", tssSet,
                           " will be written to file ",
                           outfname, "\nin your working directory.")
-                  tss.df <- experimentName@tssCountData[[tssSet]]
+
+                  if (!missing(mixedorder) & mixedorder == TRUE) {
+                    tss.df <- experimentName@tssCountData[[tssSet]][mixedorder(
+                                   experimentName@tssCountData[[tssSet]]$seq),]
+
+		  } else {
+                    tss.df <- experimentName@tssCountData[[tssSet]]
+		  }
+
               } else if (tssSetType=="merged") {
                   if (length(experimentName@tssCountDataMerged)<1) {
                       stop("The @tssCountDataMerged slot is currently empty.",
@@ -109,7 +121,12 @@ setMethod("writeTSS",
                               " will be written to file ", outfname,
                               "\nin your working directory.")
                   }
-                  tss.df <- experimentName@tssCountDataMerged[[tssSet]]
+                  if (!missing(mixedorder) & mixedorder == TRUE) {
+                    tss.df <- experimentName@tssCountDataMerged[[tssSet]][mixedorder(
+                                   experimentName@tssCountDataMerged[[tssSet]]$seq),]
+		  } else {
+                    tss.df <- experimentName@tssCountDataMerged[[tssSet]]
+		  }
               } else {
                   stop("Error: argument tssSetType to writeTSS() should be",
                        " either \"replicates\" or \"merged\".")
