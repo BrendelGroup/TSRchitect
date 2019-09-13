@@ -141,7 +141,8 @@ setMethod("loadTSSobj",
                   bamFlags <- scanBamFlag(isPaired=FALSE,
                                           isUnmappedQuery=FALSE,
                                           isSecondaryAlignment=FALSE)
-                  myFields <- c("rname","flag","pos", "qwidth","mapq","cigar")
+                  myFields <- c("rname","flag","pos", "qwidth","mapq",
+                                "cigar","qname")
                 }
 
                 if (tssObj@dataTypeBAM=="pairedEnd") {
@@ -151,7 +152,7 @@ setMethod("loadTSSobj",
                                           isUnmappedQuery=FALSE,
                                           isSecondaryAlignment=FALSE)
                   myFields <- c("rname","flag","pos","qwidth","mapq",
-                                "cigar","isize")
+                                "cigar","isize","qname")
                 }
                 my.param <- ScanBamParam(flag=bamFlags, what=myFields)
                 bam.paths <- tssObj@fileNamesBAM
