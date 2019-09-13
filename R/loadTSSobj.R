@@ -29,7 +29,7 @@
 #' alphanumeric order, so the arguments to replicateIDs must be arranged in this
 #' order also so that they directly correspond to the intended file (numeric).
 #'
-#' @return \emph{loadTSSobj} fills the slot \emph{bamData} and/or \emph{bedData}
+#' @return \emph{loadTSSobj} fills the slot \emph{bamDataFirstRead} and/or \emph{bedData}
 #' on the returned \emph{tssObject} with \linkS4class{GAlignments} objects
 #' (for .bam files), or \linkS4class{GRanges} objects (for .bed files).
 #'
@@ -136,25 +136,22 @@ setMethod("loadTSSobj",
                 if (is.character(tssObj@dataTypeBAM)==FALSE) {
                   stop("The argument 'isPairedBAM' is empty. Please fix.")
                 }
-                if (tssObj@dataTypeBAM=="pairedEnd") {
-                  message("\nImporting paired-end reads ...\n")
-                  bamFlags <- scanBamFlag(isPaired=TRUE, isProperPair=TRUE,
-                                          isFirstMateRead=TRUE, hasUnmappedMate=FALSE,
-                                          isUnmappedQuery=FALSE,
-                                          isSecondaryAlignment=FALSE)
-                  message("\nTSS data were specified to be paired-end",
-                          " read alignments.")
-                  myFields <- c("rname","flag","pos","qwidth","mapq",
-                                "cigar","isize")
-                }
                 if (tssObj@dataTypeBAM=="singleEnd") {
                   message("\nImporting single-end reads ...\n")
                   bamFlags <- scanBamFlag(isPaired=FALSE,
                                           isUnmappedQuery=FALSE,
                                           isSecondaryAlignment=FALSE)
-                  message("\nTSS data were specified to be",
-                          " single-end read alignments.\n")
                   myFields <- c("rname","flag","pos", "qwidth","mapq","cigar")
+                }
+
+                if (tssObj@dataTypeBAM=="pairedEnd") {
+                  message("\nImporting paired-end reads (first reads) ...\n")
+                  bamFlags <- scanBamFlag(isPaired=TRUE, isProperPair=TRUE,
+                                          isFirstMateRead=TRUE, hasUnmappedMate=FALSE,
+                                          isUnmappedQuery=FALSE,
+                                          isSecondaryAlignment=FALSE)
+                  myFields <- c("rname","flag","pos","qwidth","mapq",
+                                "cigar","isize")
                 }
                 my.param <- ScanBamParam(flag=bamFlags, what=myFields)
                 bam.paths <- tssObj@fileNamesBAM
@@ -168,7 +165,24 @@ setMethod("loadTSSobj",
                 } else {
                     bams.GA <- lapply(bam.paths, readGAlignments, param=my.param)
                 }
-                tssObj@bamData <- bams.GA
+                tssObj@bamDataFirstRead <- bams.GA
+
+                if (tssObj@dataTypeBAM=="pairedEnd") {
+                  message("\nImporting paired-end reads (last reads) ...\n")
+                  bamFlags <- scanBamFlag(isPaired=TRUE, isProperPair=TRUE,
+                                          isFirstMateRead=FALSE, hasUnmappedMate=FALSE,
+                                          isUnmappedQuery=FALSE,
+                                          isSecondaryAlignment=FALSE)
+                  my.param <- ScanBamParam(flag=bamFlags, what=myFields)
+                  if (!missing(n.cores) & n.cores > 1) {
+                      bams.GA <- bplapply(bam.paths, readGAlignments,
+                                           BPPARAM = MulticoreParam(), param=my.param)
+                  } else {
+                      bams.GA <- lapply(bam.paths, readGAlignments, param=my.param)
+                  }
+                  tssObj@bamDataLastRead <- bams.GA
+                }
+
                 message("Done. Alignment data from ", n.bams,
                         " bam files have been attached to the tssObject.\n")
                 message("-----------------------------------------------------\n")

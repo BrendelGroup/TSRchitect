@@ -48,7 +48,7 @@ alphanumeric order, so the arguments to replicateIDs must be arranged in this
 order also so that they directly correspond to the intended file (numeric).}
 }
 \value{
-\emph{loadTSSobj} fills the slot \emph{bamData} and/or \emph{bedData}
+\emph{loadTSSobj} fills the slot \emph{bamDataFirstRead} and/or \emph{bedData}
 on the returned \emph{tssObject} with \linkS4class{GAlignments} objects
 (for .bam files), or \linkS4class{GRanges} objects (for .bed files).
 }

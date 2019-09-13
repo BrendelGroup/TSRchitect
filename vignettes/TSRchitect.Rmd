@@ -12,7 +12,7 @@ vignette: >
 ## R. Taylor Raborn and Volker P. Brendel
 ## Department of Biology, Indiana University
 
-### July 10, 2018; updated April 7, 2019
+### July 10, 2018; updated April 7, 2019; Sept. 12, 2019.
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 TSRchitect can handle TSS profiling experiments that contain either single-end or paired-end sequence reads, such as CAGE, RAMPAGE, PEAT, STRIPE-seq and others. TSRchitect is an open-source bioinformatics package that is intended to support large-scale, reproducible analysis of TSS profiling data in a broad array of eukaryotic model systems.
@@ -20,7 +20,7 @@ TSRchitect can handle TSS profiling experiments that contain either single-end o
 Before we can begin, we must first load TSRchitect in our working environment.
 
 ```{r eval=TRUE}
-library(TSRchitect)
+library("TSRchitect")
 ```
 
 The TSRchitect User's Guide is available; it goes through several well-documented examples of TSRchitect using different datasets.
@@ -130,10 +130,10 @@ tsrSetType="merged", tsrSet=1, upstreamDist=2000, downstreamDist=500,
 feature="transcript", featureColumnID="ID", writeTable=FALSE)
 ```
 
-Before we end, we can choose to save an binary of our tssObject to return to at a later time.
+Before we end, we choose to save our tssObject in an .RData file to return to at a later time:
 
 ```{r eval=FALSE}
-save(tssObjectExample, file="tssObjectExample_vignette.RData")
+save(tssObjectExample, file="tssObjectExample.RData")
 ```
 
 This ends our vignette. Please see the TSRchitect User's Guide for more extensively documented examples.

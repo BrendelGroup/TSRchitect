@@ -37,13 +37,12 @@ setMethod("inputToTSS",
           signature(experimentName="tssObject"),
           function(experimentName) {
             message("... inputToTSS ...")
-            if (length(experimentName@bamData)>0) {
+            if (length(experimentName@bamDataFirstRead)>0) {
               message("\nBeginning input to",
                       " TSS data conversion ...\n\n")
-              bam.len <- length(experimentName@bamData)
+              bam.len <- length(experimentName@bamDataFirstRead)
               bam.vec <- vector(mode="list", length=bam.len)
-              bam.df <- lapply(experimentName@bamData, as.data.frame)
-              bam.gr <- lapply(bam.df, makeGRangesFromDataFrame, keep.extra.columns=FALSE)
+              bam.gr <- lapply(experimentName@bamDataFirstRead, granges, use.names=TRUE, use.mcols=TRUE)
               for (i in 1:bam.len) {
                 message("Retrieving data from bam file #", i, "...\n\n")
                 this.gr <- bam.gr[[i]]

@@ -70,7 +70,8 @@ setMethod("mergeSampleData",
                           summarize(nTAGs=sum(nTAGs)) %>%
                           arrange(seq,TSS,strand) %>%
                           as.data.frame()
-                return(mTSSdf);
+                mTSSdf$isreal = TRUE
+                return(mTSSdf)
               }
 
 

@@ -21,3 +21,5 @@
 1.8.9 (10-08-2018)
 + Updates that correct a speed issue encountered when analyzing data aligned to assemblies with many scaffolds.
 + Simplified part of one vignette.
+1.9.0 (09-12-2019)
++ Updates to include 3'-read capturing from bam input files and data structures to allow ignoring spurious TSSs.

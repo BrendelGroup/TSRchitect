@@ -13,8 +13,8 @@ setMethod("show",
                   cat("No experiment title has been added.\n\n")
               }
               if (sum(!is.na(object@fileNamesBAM))>0) {
-                  cat("There are ", length(object@fileNamesBAM))
-                  cat(" .bam datasets loaded, as follows:\n")
+                  cat("There are", length(object@fileNamesBAM))
+                  cat(" .bam datasets that have been loaded, as follows:\n")
                   for (i in 1:length(object@fileNamesBAM)) {
                       cat(paste(object@fileNamesBAM[i]), sep="\n")
                   }
@@ -23,8 +23,8 @@ setMethod("show",
                   cat("\nNo *.bam datasets have been added. \n")
               }
               if (sum(!is.na(object@fileNamesBED))>0) {
-                  cat("There are ", length(object@fileNamesBED))
-                  cat(" .bed datasets loaded, as follows:\n")
+                  cat("There are", length(object@fileNamesBED))
+                  cat(" .bed datasets that have been loaded, as follows:\n")
                   for (i in 1:length(object@fileNamesBED)) {
                       cat(paste(object@fileNamesBED[i]), sep="\n")
                   }
@@ -44,28 +44,26 @@ setMethod("show",
                   object.name <- as.character(deparse(substitute(object)))
                   cat("\n")
                   cat(length(object@tssTagData))
-                  cat(" replicate TSS datasets were loaded into the",
-                      "tssObject")
-                  cat(".\n")
+                  cat("replicate TSS datasets have been processed and are",
+                      "accessible in slot tssTagData in the tssObject.\n")
               } else {
-                  cat("\nNo TSS data have been loaded.\n")
+                  cat("\nNo TSS datasets have been processed.\n")
               }
               if (length(object@tssCountDataMerged) > 0) {
                   object.name <- as.character(deparse(substitute(object)))
                   cat("\n")
-                  cat("Replicate datasets have been merged on the",
-                      "tssObject")
-                  cat(".\n")
+                  cat("Replicate datasets have been merged and are",
+                      "accessible in slot tssCountDataMerged in the tssObject.\n")
               } else {
                   cat("\nTSS replicate datasets have not been merged.\n")
               }
              if (length(object@tsrData) > 0) {
                  object.name <- as.character(deparse(substitute(object)))
                  cat("\nTSRs have been identified from",
-                     length(object@tsrData), "replicate datasets. \n")
+                     length(object@tsrData), "replicate datasets.\n")
              } else {
                  cat("\nTSRs have not been identified from replicate",
-                    "datasets. \n")
+                    "datasets.\n")
              }
              if (length(object@tsrDataMerged) > 0) {
                  object.name <- as.character(deparse(substitute(object)))

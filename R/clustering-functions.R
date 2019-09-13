@@ -17,7 +17,10 @@
 #'
 #' @keywords internal
 #' @return a dataframe reporting the locations of unique TSSs and the
-#' corresponding tag counts
+#' corresponding tag counts. The last column of the dataframe is the logical
+#' isreal, set to TRUE by default. The intent is to provide for user-provided
+#' functions that discard specific sites (by setting isreal=FALSE), e.g. sites
+#' associated with transposons not of an interest in a study.
 
 
 tagCountTSS <- function(y, n.cores=1, outfname="TSS.txt", writeTable=FALSE) {
@@ -92,6 +95,7 @@ tagCountTSS <- function(y, n.cores=1, outfname="TSS.txt", writeTable=FALSE) {
     my.df$TSS <- as.numeric(as.character(my.df$TSS))
     my.df$strand <- as.character(my.df$strand)
     my.df$nTAGs <- as.numeric(as.character(my.df$nTAGs))
+    my.df$isreal <- TRUE
 
     if (writeTable==TRUE) {
         write.table(format(my.df,scientific=FALSE), outfname, quote=FALSE,
@@ -156,7 +160,7 @@ tsrCluster <- function(x, minNbrTAGs=3, minDist=20) {
 
     fctn <- function(seqname) {
         this.tss <- subset(tss.df, seq==seqname)
-        sTSS <- subset(this.tss, this.tss$nTAGs>=minNbrTAGs)
+        sTSS <- subset(this.tss, this.tss$nTAGs>=minNbrTAGs & this.tss$isreal==TRUE)
 
         #... clustering TSS on the plus strand:
         sTSS.p <- subset(sTSS, strand=="+")

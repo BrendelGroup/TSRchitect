@@ -79,44 +79,87 @@ function (experimentName){
 }
 )
 
-#' @title \strong{getBamData}
+#' @title \strong{getBamDataFirstRead}
 #' @description an accessor function that retrieves the contents of
-#' a specified slot "bamData" from a given \emph{tssObject}
+#' a specified slot "bamDataFirstRead" from a given \emph{tssObject}
 #'
 #' @param experimentName an S4 object of class \emph{tssObject}
 #' @param slot 'numeric' a number corresponding to the slot in
-#' "bamData" to be retrieved.
+#' "bamDataFirstRead" to be retrieved.
 #'
-#' @return the contents of the specified slot "bamData" are returned
+#' @return the contents of the specified slot "bamDataFirstRead" are returned
 #'
 #' @keywords methods
 #'
 #' @examples
 #' load(system.file("extdata", "tssObjectExample.RData",
 #' package="TSRchitect"))
-#' example.bamData <- getBamData(experimentName=tssObjectExample, slot = 1)
-#' example.bamData
+#' example.bamDataFirstRead <-
+#' getBamDataFirstRead(experimentName=tssObjectExample, slot = 1)
+#' example.bamDataFirstRead
 #'
 #' @export
-#' @rdname getBamData-methods
+#' @rdname getBamDataFirstRead-methods
 
 setGeneric(
-name="getBamData",
+name="getBamDataFirstRead",
 def=function(experimentName, slot){
-	standardGeneric("getBamData")
+	standardGeneric("getBamDataFirstRead")
 }
 )
 
-#' @rdname getBamData-methods
+#' @rdname getBamDataFirstRead-methods
 
-setMethod("getBamData",
+setMethod("getBamDataFirstRead",
 signature(experimentName = "tssObject", slot = "numeric"),
 function (experimentName, slot){
-    n.bams <- length(experimentName@bamData)
+    n.bams <- length(experimentName@bamDataFirstRead)
     if (slot > n.bams) {
-        stop("The @bamData slot you selected does not exist.\n")
+        stop("The @bamDataFirstRead slot you selected does not exist.\n")
     }
-    bam.data <- experimentName@bamData[[slot]]
+    bam.data <- experimentName@bamDataFirstRead[[slot]]
+    return(bam.data)
+}
+)
+
+#' @title \strong{getBamDataLastRead}
+#' @description an accessor function that retrieves the contents of
+#' a specified slot "bamDataLastRead" from a given \emph{tssObject}
+#'
+#' @param experimentName an S4 object of class \emph{tssObject}
+#' @param slot 'numeric' a number corresponding to the slot in
+#' "bamDataLastRead" to be retrieved.
+#'
+#' @return the contents of the specified slot "bamDataLastRead" are returned
+#'
+#' @keywords methods
+#'
+## @examples
+## load(system.file("extdata", "tssObjectExample.RData",
+## package="TSRchitect"))
+## example.bamDataLastRead <-
+## getBamDataLastRead(experimentName=tssObjectExample, slot = 1)
+## example.bamDataLastRead
+#'
+#' @export
+#' @rdname getBamDataLastRead-methods
+setGeneric(
+name="getBamDataLastRead",
+def=function(experimentName, slot){
+	standardGeneric("getBamDataLastRead")
+}
+)
+
+#' @rdname getBamDataLastRead-methods
+
+setMethod("getBamDataLastRead",
+signature(experimentName = "tssObject", slot = "numeric"),
+function (experimentName, slot){
+    n.bams <- length(experimentName@bamDataLastRead)
+    if (slot > n.bams) {
+        stop("The @bamDataLastRead slot you selected does not exist.\n")
+    }
+    bam.data <- experimentName@bamDataLastRead[[slot]]
     return(bam.data)
 }
 )
