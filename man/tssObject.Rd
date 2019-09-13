@@ -4,14 +4,19 @@
 \alias{tssObject}
 \title{\strong{tssObject}}
 \usage{
-tssObject(title = NA, bamData = NA, bedData = NA)
+tssObject(title = NA, bamDataFirstRead = NA, bamDataLastRead = NA,
+  bedData = NA)
 }
 \arguments{
 \item{title}{'character' A short descriptive title for the
 experiment. Is set to NA by default.}
 
-\item{bamData}{'list' the name of a list of \linkS4class{GAlignments}
+\item{bamDataFirstRead}{'list' the name of a list of \linkS4class{GAlignments}
 objects (originating from .bam files) in the workspace. 
+Set to NA by default.}
+
+\item{bamDataLastRead}{'list' the name of a list of \linkS4class{GAlignments}
+objects (originating from paired-read .bam files) in the workspace. 
 Set to NA by default.}
 
 \item{bedData}{'list' the name of a list of \linkS4class{GRanges} or

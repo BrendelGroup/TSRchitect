@@ -9,7 +9,8 @@ setClass(Class="tssObject",
              sampleNames = "character",
              replicateIDs = "numeric",
              annotation = "GRanges",
-             bamData = "list",
+             bamDataFirstRead = "list",
+             bamDataLastRead = "list",
              bedData = "list",
              tssTagData = "GRangesList",
              tssCountData = "list",
@@ -27,7 +28,8 @@ setClass(Class="tssObject",
              sampleNames = NA_character_,
              replicateIDs = vector("integer"),
              annotation = GRanges(),
-             bamData = list(),
+             bamDataFirstRead = list(),
+             bamDataLastRead = list(),
              bedData = list(),
              tssTagData = GRangesList(),
              tssCountData = list(),
@@ -42,8 +44,11 @@ setClass(Class="tssObject",
 #'
 #' @param title 'character' A short descriptive title for the
 #' experiment. Is set to NA by default.
-#' @param bamData 'list' the name of a list of \linkS4class{GAlignments}
+#' @param bamDataFirstRead 'list' the name of a list of \linkS4class{GAlignments}
 #' objects (originating from .bam files) in the workspace. 
+#' Set to NA by default.
+#' @param bamDataLastRead 'list' the name of a list of \linkS4class{GAlignments}
+#' objects (originating from paired-read .bam files) in the workspace. 
 #' Set to NA by default.
 #' @param bedData 'list' the name of a list of \linkS4class{GRanges} or
 #' \linkS4class{Pairs} objects (originating from .bed files) in the
@@ -58,7 +63,8 @@ setClass(Class="tssObject",
 #'
 #' @export
 
-tssObject <- function(title=NA, bamData=NA, bedData=NA) {
+tssObject <- function(title=NA, bamDataFirstRead=NA, bamDataLastRead=NA,
+		      bedData=NA) {
 
     new.tssObj <- new("tssObject")
 
@@ -66,8 +72,12 @@ tssObject <- function(title=NA, bamData=NA, bedData=NA) {
         new.tssObj@title <- title
     }
 
-    if (!(is.na(bamData))) {
-        new.tssObj@bamData <- bamData
+    if (!(is.na(bamDataFirstRead))) {
+        new.tssObj@bamDataFirstRead <- bamDataFirstRead
+    }
+
+    if (!(is.na(bamDataLastRead))) {
+        new.tssObj@bamDataLastRead <- bamDataLastRead
     }
 
     if (!(is.na(bedData))) {

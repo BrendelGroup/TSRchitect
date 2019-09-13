@@ -19,7 +19,10 @@ the workding directory (logical)}
 }
 \value{
 a dataframe reporting the locations of unique TSSs and the
-corresponding tag counts
+corresponding tag counts. The last column of the dataframe is the logical
+isreal, set to TRUE by default. The intent is to provide for user-provided
+functions that discard specific sites (by setting isreal=FALSE), e.g. sites
+associated with transposons not of an interest in a study.
 }
 \description{
 an internal function that returns a dataframe reporting the
