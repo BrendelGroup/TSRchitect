@@ -133,7 +133,7 @@ setMethod("addAnnotationToTSR",
                                                  seqnames.field="seq",
                                                  start.field="start",
                                                  end.field="end",
-                                                 strand.field="strand",
+                                                 strand.field="strand"
                                                  )
 
 #  ... defining the regions of interest for annotation.
