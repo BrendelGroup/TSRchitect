@@ -48,7 +48,7 @@ setMethod("detTSR",
                       stop("The @tssCountDataMerged slot is currently empty.",
                            "\nPlease complete the merger before continuing.")
                   }
-                  if (tssSet>length(experimentName@tssCountData)) {
+                  if (tssSet>length(experimentName@tssCountDataMerged)) {
                       stop("The value selected for tssSet exceeds the number ",
                            "of slots in tssCountDataMerged.")
                   }
