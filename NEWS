@@ -32,3 +32,5 @@
 + Necessary updates to the Singularity recipe to reflect the above changes.
 1.12.1 (10-31-2019)
 + Version bump due to release of Bioconductor v. 3.10.
+1.12.2 (11-01-2019)
++ Corrected minor bug in non-user-level function detTSR()
