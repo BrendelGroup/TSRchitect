@@ -21,7 +21,7 @@
 1.8.9 (10-08-2018)
 + Updates that correct a speed issue encountered when analyzing data aligned to assemblies with many scaffolds.
 + Simplified part of one vignette.
-1.11.11 (09-17-2019)
+1.10.12 (09-17-2019)
 + Updates to include 3'-read capturing from bam input files and data structures to allow ignoring spurious TSSs.
 + Added capabilities for sorting by strand (and seq/TSS) for TSS merging.
 + Made a change leading to a substantial speed-up of mergeSampleData().
@@ -30,3 +30,7 @@
 + Rewrite to mergeSampleData).
 + Improvements to loadTSSobj().
 + Necessary updates to the Singularity recipe to reflect the above changes.
+1.12.1 (10-31-2019)
++ Version bump due to release of Bioconductor v. 3.10.
+1.12.2 (11-01-2019)
++ Corrected minor bug in non-user-level function detTSR()
