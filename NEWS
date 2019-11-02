@@ -30,3 +30,5 @@
 + Rewrite to mergeSampleData).
 + Improvements to loadTSSobj().
 + Necessary updates to the Singularity recipe to reflect the above changes.
+1.13.1 (10-31-2019)
++ Version bump after move to BioC release 3.10
