@@ -44,7 +44,7 @@ setMethod("show",
                   object.name <- as.character(deparse(substitute(object)))
                   cat("\n")
                   cat(length(object@tssTagData))
-                  cat("replicate TSS datasets have been processed and are",
+                  cat(" replicate TSS datasets have been processed and are",
                       "accessible in slot tssTagData in the tssObject.\n")
               } else {
                   cat("\nNo TSS datasets have been processed.\n")
