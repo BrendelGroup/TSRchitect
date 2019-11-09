@@ -88,7 +88,7 @@ setMethod("determineTSR",
                  } else {
                      i <- as.numeric(tssSet)
                      if (i>length(experimentName@tssCountData)) {
-                         stop("The value selected for tssSet",
+                         stop("The value selected for tssSet ",
                               "exceeds the number of slots in tssCountData.")
                      }
                      experimentName@tsrData[[i]] <-
@@ -137,7 +137,7 @@ setMethod("determineTSR",
                  } else {
                      i <- as.numeric(tssSet)
                      if (i>length(experimentName@tssCountDataMerged)) {
-                         stop("The value selected for tssSet exceeds",
+                         stop("The value selected for tssSet exceeds ",
                               "the number of slots in tssCountDataMerged.")
                      }
                      experimentName@tsrDataMerged[[i]] <-
