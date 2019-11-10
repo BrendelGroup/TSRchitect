@@ -14,7 +14,7 @@
 #' be ordered alphanumerically ("10" following "9" rather than "1"). (logical)
 #' @param fileType the format of the file to be written.
 #' Possible choices are "tab" for tab-delimited output, "bed" for BED format,
-#' and "bedGraph" for for GFF3 format (character).
+#' and "bedGraph" for BedGraph format (character).
 #'
 #' @return A table containing the specified TSS data set that
 #' is to be written to your working directory.
