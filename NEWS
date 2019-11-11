@@ -33,4 +33,6 @@
 1.13.1 (10-31-2019)
 + Version bump due to release of Bioconductor v. 3.10.
 1.13.2 (11-01-2019)
-+ Corrected minor bug in non-user-level function detTSR()
++ Corrected minor bugs in non-user-level functions detTSR() and detTSS()
++ Various updates to Show-methods.R
+
