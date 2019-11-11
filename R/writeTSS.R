@@ -150,9 +150,11 @@ setMethod("writeTSS",
                   tss.df$score[tss.df$strand=="-"] <-
                                                -tss.df$nTAGs[tss.df$strand=="-"]
 
-		  # ... bedGraph does not tolerate overlapping regions, thus
-		  #     we record only the maximal tag count in a position that
-		  #     is recorded both on the plus and the minus strand:
+		  # ... bigWig (a common way to display bedGraph files) does not
+		  # tolerate overlapping regions, thus we record only the
+		  # maximal tag count in a position that is recorded both on the
+		  # plus and the minus strand (presumably a rare event ...):
+
 		  tmptssdf <- tss.df[,c("seq","beg")]
                   i1 <- row.names(tmptssdf[duplicated(tmptssdf),])
                   i2 <- row.names(tmptssdf[duplicated(tmptssdf,fromLast=TRUE),])
