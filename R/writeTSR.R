@@ -1,7 +1,7 @@
 #' @title \strong{writeTSR}
 #'
-#' @description \code{writeTSR} writes identified TSRs
-#' from a specified data set to a file in either tab or BED formats
+#' @description \code{writeTSR} writes identified TSRs from a specified
+#' data set to a file in selected format
 #'
 #' @param experimentName an S4 object of class \emph{tssObject} containing
 #' information in slot \emph{@@tssTagData}
@@ -14,7 +14,7 @@
 #' be ordered alphanumerically ("10" following "9" rather than "1"). (logical)
 #' @param fileType the format of the file to be written.
 #' Possible choices are "tab" for tab-delimited output, "bed" for BED format,
-#' and "gff" for for GFF3 format (character).
+#' "bedGraph" for BedGraph format, and "gff" for for GFF3 format (character).
 #'
 #' @return A table containing the specified TSR data set that
 #' is to be written to your working directory.
@@ -65,6 +65,8 @@ setMethod("writeTSR",
                       outfname <- paste(outfname, "tab", sep=".")
                   } else if (fileType == "bed") {
                       outfname <- paste(outfname, "bed", sep=".")
+                  } else if (fileType == "bedGraph") {
+                      outfname <- paste(outfname, "bedGraph", sep=".")
                   } else if (fileType == "gff") {
                       outfname <- paste(outfname, "gff", sep=".")
                   } else {
@@ -95,6 +97,8 @@ setMethod("writeTSR",
                           outfname <- paste(outfname, "tab", sep=".")
                       } else if (fileType == "bed") {
                           outfname <- paste(outfname, "bed", sep=".")
+                      } else if (fileType == "bedGraph") {
+                          outfname <- paste(outfname, "bedGraph", sep=".")
                       } else if (fileType == "gff") {
                           outfname <- paste(outfname, "gff", sep=".")
                       } else {
@@ -109,6 +113,8 @@ setMethod("writeTSR",
                           outfname <- "TSRsetCombined.tab"
                       } else if (fileType == "bed") {
                           outfname <- "TSRsetCombined.bed"
+                      } else if (fileType == "bedGraph") {
+                          outfname <- "TSRsetCombined.bedGraph"
                       } else if (fileType == "gff") {
                           outfname <- "TSRsetCombined.gff"
                       } else {
@@ -143,6 +149,17 @@ setMethod("writeTSR",
                   colnames(out.df) <- c("chrom", "start", "end","name",
                                         "score", "strand")
                   export.bed(out.df,con=outfname)
+              } else if (fileType == "bedGraph") {
+                  tsr.df$ID <- paste(tsrLabel,which(tsr.df$seq != ""),sep="_")
+                  m <- pmax(median(tsr.df$nTAGs),1)
+                  tsr.df$score <- round(100*pmin(tsr.df$nTAGs/m,10),0)
+                  tsr.df$score[tsr.df$strand == "-"] <-
+                         -tsr.df$score[tsr.df$strand == "-"]
+                  out.df <- tsr.df[with(tsr.df,order(tsr.df$seq,tsr.df$start)),
+                                   c("seq", "start", "end", "score")]
+                  write.table(format(out.df,scientific=FALSE,trim=TRUE),
+                              file=outfname, col.names=FALSE, row.names=FALSE,
+                              sep="\t", quote=FALSE)
               } else { # fileType == "gff") 
                   tsr.df$source <- rep("TSRchitect",nrow(tsr.df))
                   tsr.df$type <- rep("TSR",nrow(tsr.df))
