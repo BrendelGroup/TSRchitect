@@ -36,7 +36,7 @@ For example, in that console, you should see
 R version 3.5.3 (2019-03-11) -- "Great Truth"
 ...
 > packageVersion("TSRchitect")
-[1] '1.12.2'
+[1] '1.12.3'
 >
 ```
 
