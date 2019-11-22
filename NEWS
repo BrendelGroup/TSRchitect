@@ -35,4 +35,6 @@
 1.13.2 (11-01-2019)
 + Corrected minor bugs in non-user-level functions detTSR() and detTSS()
 + Various updates to Show-methods.R
+1.13.3 (11-21-2019)
++ Updated documentation for loadTSSobj() for the sake of clarity.
 
