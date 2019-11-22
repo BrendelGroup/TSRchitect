@@ -34,3 +34,6 @@
 + Version bump due to release of Bioconductor v. 3.10.
 1.12.2 (11-01-2019)
 + Corrected minor bug in non-user-level function detTSR()
+1.12.3 (11-21-2019)
++ added support for BedGraph format in both writeTSS() and writeTSR()
++ updated documentation for loadTSSobj() for the sake of clarity.

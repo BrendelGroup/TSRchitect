@@ -26,9 +26,10 @@
 #' within the experiment (character).
 #' @param replicateIDs identifiers indicating which samples are biological
 #' replicates. Note that \code{loadTSSobj} imports alignment data in ascending
-#' alphanumeric order, so the arguments to replicateIDs must be arranged in this
-#' order also so that they directly correspond to the intended file (numeric).
-#'
+#'  alphanumeric order, so the arguments to replicateIDs must be arranged in this
+#'  order also so that they directly correspond to the intended file. 
+#' Thus replicateIDs must be ordinal values in consecutive order without gaps
+#' (e.g. 1, 2, 3, ...) (numeric).
 #' @return \emph{loadTSSobj} fills the slot \emph{bamDataFirstRead} and/or \emph{bedData}
 #' on the returned \emph{tssObject} with \linkS4class{GAlignments} objects
 #' (for .bam files), or \linkS4class{GRanges} objects (for .bed files).
