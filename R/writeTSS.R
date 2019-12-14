@@ -14,7 +14,13 @@
 #' be ordered alphanumerically ("10" following "9" rather than "1"). (logical)
 #' @param fileType the format of the file to be written.
 #' Possible choices are "tab" for tab-delimited output, "bed" for BED format,
-#' and "bedGraph" for BedGraph format (character).
+#' and "bedGraph" for BedGraph format (character). In case "bedGraph," three
+#' output files are produced: *_PLUS.bedGraph and *_MINUS.bedGraph, which
+#' record the number of TSS tags per position on plus and minus strand
+#' separately; and a combined *.bedGraph file which lists plus strand tag
+#' counts as positive numbers, minus strand tag counts as negative numbers,
+#' and positions with both plus and minus strand tag counts display the
+#' tag count corresponding to the highest absolute value.
 #'
 #' @return A table containing the specified TSS data set that
 #' is to be written to your working directory.
@@ -145,6 +151,20 @@ setMethod("writeTSS",
                   export.bed(out.df,con=outfname)
               } else { # fileType == "bedGraph") 
                   tss.df$beg <- tss.df$TSS -1;
+                  tssP.df <- tss.df[tss.df$strand=="+",
+				    c("seq", "beg", "TSS", "nTAGs")]
+                  write.table(format(tssP.df,scientific=FALSE,trim=TRUE),
+                              file=sub(".bedGraph","_PLUS.bedGraph",outfname),
+			      col.names=FALSE, row.names=FALSE,
+                              sep="\t", quote=FALSE)
+                  tssM.df <- tss.df[tss.df$strand=="-",
+				    c("seq", "beg", "TSS", "nTAGs")]
+                  write.table(format(tssM.df,scientific=FALSE,trim=TRUE),
+                              file=sub(".bedGraph","_MINUS.bedGraph",outfname),
+			      col.names=FALSE, row.names=FALSE,
+                              sep="\t", quote=FALSE)
+
+
                   tss.df$score[tss.df$strand=="+"] <-
                                                 tss.df$nTAGs[tss.df$strand=="+"]
                   tss.df$score[tss.df$strand=="-"] <-

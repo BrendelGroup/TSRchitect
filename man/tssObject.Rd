@@ -4,8 +4,12 @@
 \alias{tssObject}
 \title{\strong{tssObject}}
 \usage{
-tssObject(title = NA, bamDataFirstRead = NA, bamDataLastRead = NA,
-  bedData = NA)
+tssObject(
+  title = NA,
+  bamDataFirstRead = NA,
+  bamDataLastRead = NA,
+  bedData = NA
+)
 }
 \arguments{
 \item{title}{'character' A short descriptive title for the
