@@ -37,4 +37,6 @@
 + Various updates to Show-methods.R
 1.13.3 (11-21-2019)
 + Updated documentation for loadTSSobj() for the sake of clarity.
+1.13.4 (12-16-2019)
++ Added feature to writeTSS() that generates two separate bedgraph files (plus and minus) instead of one.
 
