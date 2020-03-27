@@ -105,8 +105,19 @@ setMethod("loadTSSobj",
                 }
               }
 
-              if (is.na(sampleNames)  || !is.character(sampleNames) ||
-                  is.na(replicateIDs) || !is.numeric(replicateIDs)    ) {
+              if (is.na(sampleNames))  {
+                stop("You must specify both sample names (as \"character\")",
+                     " and replicate IDs (as \"numeric\").  Please check.")
+              }
+              if (!is.character(sampleNames)) {
+                stop("You must specify both sample names (as \"character\")",
+                     " and replicate IDs (as \"numeric\").  Please check.")
+              }
+              if (!is.numeric(replicateIDs)) {
+                stop("You must specify both sample names (as \"character\")",
+                     " and replicate IDs (as \"numeric\").  Please check.")
+              }
+              if (!is.numeric(replicateIDs)) {
                 stop("You must specify both sample names (as \"character\")",
                      " and replicate IDs (as \"numeric\").  Please check.")
               }
