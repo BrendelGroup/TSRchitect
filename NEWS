@@ -39,4 +39,5 @@
 + Updated documentation for loadTSSobj() for the sake of clarity.
 1.13.4 (12-16-2019)
 + Added feature to writeTSS() that generates two separate bedgraph files (plus and minus) instead of one.
-
+1.13.5 (3-30-2020)
++ Corrected line in loadTSSobj() that caused a build error in the Bioc devel branch (3.11).
