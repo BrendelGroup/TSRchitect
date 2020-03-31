@@ -8,9 +8,10 @@ From: ubuntu:18.04
 %post
     apt -y update
     apt -y install build-essential
-    apt -y install bc curl git tcsh tzdata unzip zip wget
+    apt -y install bc curl git tcsh unzip zip wget
     apt -y install automake
     apt -y install cpanminus
+    apt -y install cython cython3
     apt -y install openjdk-8-jdk
     apt -y install software-properties-common
     apt -y install zlib1g-dev libbz2-dev liblzma-dev
@@ -95,6 +96,7 @@ From: ubuntu:18.04
     echo 'Installing NGSutils from http://www.ncbi.nlm.nih.gov/books/NBK158900/ '
     git clone git://github.com/ngsutils/ngsutils.git
     cd ngsutils/
+    sed -i -e "s/#pip install cython==0.16/pip install cython==0.26/;" init.sh
     make
     cd bin
     \cp * /opt/bin
