@@ -111,7 +111,6 @@ setMethod("loadTSSobj",
                         " and replicate IDs (as \"numeric\").  Please check.")
               }
 
-              }
               if (!missing(n.cores) & n.cores > 1) {
                   BiocParallel::register(MulticoreParam(workers=n.cores),
                                                         default=TRUE)
