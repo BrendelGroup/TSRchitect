@@ -29,6 +29,7 @@ From: ubuntu:18.04
     apt -y install libxml2-dev
     apt -y install libbz2-dev
     apt -y install m4
+    apt -y install parallel
     apt -y install python-minimal
     apt -y install python-pip
     apt -y install python3-minimal
@@ -116,8 +117,8 @@ From: ubuntu:18.04
 # FASTQC:
 #
     echo 'Installing FASTQC from https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ '
-    wget http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.7.zip
-    unzip fastqc_v0.11.7.zip
+    wget http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
+    unzip fastqc_v0.11.9.zip
     chmod a+x FastQC/fastqc
 
 # TRIM_GALORE:
@@ -125,9 +126,9 @@ From: ubuntu:18.04
     #### Prerequisites
     pip install --upgrade cutadapt
     ### Install
-    wget --content-disposition https://github.com/FelixKrueger/TrimGalore/archive/0.5.0.zip
-    unzip TrimGalore-0.5.0.zip
-    cp TrimGalore-0.5.0/trim_galore /opt/bin
+    wget --content-disposition https://github.com/FelixKrueger/TrimGalore/archive/0.6.6.zip
+    unzip TrimGalore-0.6.6.zip
+    cp TrimGalore-0.6.6/trim_galore /opt/bin
 
 
 # TagDust:
@@ -146,9 +147,9 @@ From: ubuntu:18.04
 
 # TRIMMOMATIC:
 #
-     wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.36.zip
-     unzip Trimmomatic-0.36.zip
-#    Use:	java -jar /opt/Trimmomatic-0.36/trimmomatic-0.36.jar
+     wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
+     unzip Trimmomatic-0.39.zip
+#    Use:	java -jar /opt/Trimmomatic-0.39/trimmomatic-0.39.jar
 
 
 ###
@@ -213,21 +214,21 @@ From: ubuntu:18.04
 
 # GHOSTSCRIPT:
 #
-    echo 'Installing ghostscript from https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs921/ghostscript-9.21-linux-x86_64.tgz '
-    wget https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs921/ghostscript-9.21-linux-x86_64.tgz
-    tar -xzf ghostscript-9.21-linux-x86_64.tgz
-    chown -R root:root ghostscript-9.21-linux-x86_64
-    cd ghostscript-9.21-linux-x86_64
-    chmod a+x gs-921-linux-x86_64
-    cp gs-921-linux-x86_64 /opt/bin/gs
+    echo 'Installing ghostscript from https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9533/ghostscript-9.53.3-linux-x86_64.tgz '
+    wget https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9533/ghostscript-9.53.3-linux-x86_64.tgz
+    tar -xzf ghostscript-9.53.3-linux-x86_64.tgz
+    chown -R root:root ghostscript-9.53.3-linux-x86_64
+    cd ghostscript-9.53.3-linux-x86_64
+    chmod a+x gs-9533-linux-x86_64
+    cp gs-9533-linux-x86_64 /opt/bin/gs
     cd ../
 
 # MEME:
 #
-    echo 'Installing meme from http://meme-suite.org/meme-software/4.12.0/meme_4.12.0.tar.gz '
-    wget http://meme-suite.org/meme-software/4.12.0/meme_4.12.0.tar.gz
-    tar -xzf meme_4.12.0.tar.gz
-    cd meme_4.12.0
+    echo 'Installing meme from http://meme-suite.org/meme-software/5.2.0/meme_5.2.0.tar.gz '
+    wget http://meme-suite.org/meme-software/5.2.0/meme-5.2.0.tar.gz
+    tar -xzf meme-5.2.0.tar.gz
+    cd meme-5.2.0
     ./configure --prefix=/opt/meme \
 	--enable-build-libxml2 --enable-build-libxslt --with-url="http://meme-suite.org"
     make
@@ -287,6 +288,7 @@ From: ubuntu:18.04
     ######
     echo 'BiocManager::install(c("BiocGenerics", "GenomicRanges", "genomation","TSRchitect"), ask=FALSE)'     > R2install
     echo 'BiocManager::install(c("bumphunter","seqLogo","ENCODExplorer"),                     ask=FALSE)'    >> R2install
+    echo 'BiocManager::install(c("edgeR","R2HTML"),                                           ask=FALSE)'    >> R2install
 
     Rscript R2install
     
