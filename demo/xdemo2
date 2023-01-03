@@ -15,7 +15,8 @@ echo '      instructed.'
 
 # Running the TSRchitect workflow:
 #
-echo 'library(TSRchitect)'  > demo2.Rscript
+echo "Sys.setenv("R_USER_CACHE_DIR"=\"${PWD}/tmpRcache\")" > demo2.Rscript
+echo 'library(TSRchitect)'  >> demo2.Rscript
 
 echo 'At_PEAT <- loadTSSobj(experimentTitle ="Arabidopsis PEAT dataset", inputDir="PEATbam", isPairedBAM=TRUE, sampleNames=c("experiment1"), replicateIDs=c(1))' >> demo2.Rscript
 
@@ -23,7 +24,7 @@ echo 'At_PEAT <- inputToTSS(At_PEAT)' >> demo2.Rscript
 
 echo 'At_PEAT <- processTSS(experimentName=At_PEAT, n.cores=1, tssSet="all", writeTable=TRUE)' >> demo2.Rscript
 
-echo 'At_PEAT <- determineTSR(experimentName=At_PEAT, n.cores=1, tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)' >> demo2.Rscript
+echo 'At_PEAT <- determineTSR(experimentName=At_PEAT, n.cores=1, tssSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)' >> demo2.Rscript
 
 echo 'At_PEAT <- importAnnotationExternal(experimentName=At_PEAT, fileType="gff3", annotFile="downloads/TAIR10_GFF3_genes.gff")' >> demo2.Rscript
 

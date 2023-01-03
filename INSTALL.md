@@ -47,7 +47,7 @@ git clone https://github.com/BrendelGroup/TSRchitect
 R CMD INSTALL TSRchitect
 ```
 
-Note that the `master` branch should be a stable version, possibly somewhat
+Note that the `main` branch should be a stable version, possibly somewhat
 ahead of the Biocondcutor version in case of minor edits or addtions.
 You may also see a `devel` branch, which would contain recently developed
 addtions that are not yet fully tested.
@@ -64,10 +64,10 @@ suggest novel features.
 
 Assuming a current version of _singularity_ is installed on your system (if not,
 it should be, and it's easy to do so), you can get the TSRchitect container from
-[Singularity Hub](https://www.singularity-hub.org/collections/1204) as follows:
+our [Brendel Group SingularityHub](https://BrendelGroup.org/SingularityHub/) as follows:
 
 ```bash
-singularity pull --name tsr.simg shub://BrendelGroup/TSRchitect
+wget https://BrendelGroup.org/SingularityHub/tsr.sif
 ```
 
 For a gentle introduction to singularity, see our group
@@ -79,5 +79,5 @@ For a gentle introduction to singularity, see our group
 Proceed to the [TSRchitectUsersGuide](./inst/doc/TSRchitectUsersGuide.Rmd) for
 examples of how the use TSRchitect functions.
 If you are interested in developing and running entire workflows for
-transcription start site profiling, please see our paper or simple worked
-examples in the [HOWTO](./demo/HOWTO.md) document.
+transcription start site profiling, please see our simple worked examples in the
+[HOWTO](./demo/HOWTO.md) document.

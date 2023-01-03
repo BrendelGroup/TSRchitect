@@ -5,8 +5,9 @@
 #
 mkdir downloads
 
-echo 'library(ENCODExplorer)' > demo3a.Rscript
-echo 'data(encode_df, package="ENCODExplorer")' >> demo3a.Rscript
+echo "Sys.setenv("R_USER_CACHE_DIR"=\"${PWD}/tmpRcache\")" > demo1a.Rscript
+echo 'library(ENCODExplorer)' >> demo1a.Rscript
+echo 'encode_df <- get_encode_df()' >> demo1a.Rscript
 echo 'cage_data <- fuzzySearch(searchTerm=c("ENCFF552BXH","ENCFF288VTZ","ENCFF265RSX", "ENCFF944PCJ"), database=encode_df,filterVector=c("file_accession"), multipleTerm=TRUE)' >> demo3a.Rscript
 echo 'downloadEncode(cage_data, df=encode_df, format="bam")' >> demo3a.Rscript
 
@@ -34,11 +35,11 @@ echo 'CAGEhuman <- inputToTSS(experimentName=CAGEhuman)' >> demo3b.Rscript
 
 echo 'CAGEhuman <- processTSS(experimentName=CAGEhuman, n.cores=4, tssSet="all", writeTable=TRUE)' >> demo3b.Rscript
 
-echo 'CAGEhuman <- determineTSR(experimentName=CAGEhuman, n.cores=4, tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)' >> demo3b.Rscript
+echo 'CAGEhuman <- determineTSR(experimentName=CAGEhuman, n.cores=4, tssSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)' >> demo3b.Rscript
 
-echo 'CAGEhuman <- mergeSampleData(experimentName=CAGEhuman) ' >> demo3b.Rscript
+echo 'CAGEhuman <- mergeSampleData(experimentName=CAGEhuman, n.cores=4, tagCountThreshold=25) ' >> demo3b.Rscript
 
-echo 'CAGEhuman <- determineTSR(experimentName=CAGEhuman, n.cores=4, tsrSetType="merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)' >> demo3b.Rscript
+echo 'CAGEhuman <- determineTSR(experimentName=CAGEhuman, n.cores=4, tssSetType="merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)' >> demo3b.Rscript
 
 echo 'CAGEhuman <- addTagCountsToTSR(experimentName=CAGEhuman, tsrSetType="merged", tsrSet=3, tagCountThreshold=40, writeTable=TRUE)' >> demo3b.Rscript
 
