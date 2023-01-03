@@ -3,6 +3,7 @@ title: "TSRchitect User's Guide"
 author: "R. Taylor Raborn"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+#output: rmarkdown::pdf_document
 vignette: >
   %\VignetteIndexEntry{TSRchitect User's Guide}
   %\VignetteEngine{knitr::rmarkdown}
@@ -15,7 +16,7 @@ vignette: >
 ## Department of Biology, Indiana University
 
 ## First edition 25 January 2017
-## Updated 10 July 2018
+## Last updated 2 January 2023
 
 TSRchitect is an R package for analyzing diverse types of high-throughput transcription start site (TSS) profiling datasets.
 In recent years, large-scale TSS profiling data has characterized the landscape of transcription initiation at high resolution, identifying promoter architecture in a number of eukaryotic model systems, including human, mouse, fruit fly and worm.
@@ -57,9 +58,12 @@ Now we can proceed (in the R console) with downloading the data:
 
 ```{r eval=FALSE}
 #Downloading the files:
+Sys.setenv(R_USER_CACHE_DIR="./tmpRcache")
 library(ENCODExplorer)
-data(encode_df, package="ENCODExplorer")
-datasets <- fuzzySearch(searchTerm=c("ENCFF214GWH", "ENCFF265SGZ", "ENCFF242UWH", "ENCFF348EKW"), database=encode_df, filterVector=c("file_accession"), multipleTerm=TRUE)
+encode_df <- get_encode_df()
+datasets <- fuzzySearch(searchTerm=c("ENCFF214GWH", "ENCFF265SGZ", "ENCFF242UWH", /
+	"ENCFF348EKW"), database=encode_df, filterVector=c("file_accession"), /
+	multipleTerm=TRUE)
 downloadEncode(datasets, df=encode_df, format="bam")
 ```
 
@@ -78,36 +82,21 @@ ln -s ../downloads/ENCFF348EKW.bam HT1080-rep2.bam
 cd ..
 ```
 
-Please download and uncompress the human gene annoation file found at the following location:
-
-ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz.
-
-Please move the uncompressed file into the downloads/ directory, e.g. with
-
-```{bash eval=FALSE}
-cd downloads
-wget --content-disposition ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
-gunzip gencode.v19.annotation.gff3.gz
-cd ..
-```
-
-Now that we have our input and annotation files prepared, we can load TSRchitect into our R workspace:
+Now that we have our input files prepared, we can load TSRchitect into our R workspace:
 
 ```{r eval=FALSE}
 #loading TSRchitect
 library(TSRchitect)
 ```
 
-Next we'll initialize our dedicated S4 object---called the tssObject---on which TSRchitect's
-functions are applied, using `loadTSSobj`. We also need to supply other information about the
-experiment as arguments. This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. 
+Next we'll initialize our dedicated S4 object---called the tssObject---on which TSRchitect's functions are applied, using `loadTSSobj`. We also need to supply other information about the experiment as arguments. This will attach GenomicAlignments objects (representing the four bam files in this example) to your tssObject. 
 Note that we must specify `isPairedBAM=FALSE` because this is single-end CAGE data.
 
 
 ```{r eval=FALSE}
 Hs_RAMPAGE <- loadTSSobj(experimentTitle ="Human RAMPAGE", inputDir="HsRAMPAGEbam/", /
-isPairedBAM=TRUE, sampleNames=c("H460-rep1", /
-"H460-rep2", "HT1080-rep1", "HT1080-rep2"), replicateIDs=c(1,1,2,2))
+	isPairedBAM=TRUE, sampleNames=c("H460-rep1", /
+	"H460-rep2", "HT1080-rep1", "HT1080-rep2"), replicateIDs=c(1,1,2,2))
 ```
 
 Next we need to provide the sample names and specify which samples are biological replicates.
@@ -128,7 +117,8 @@ Hs_RAMPAGE <- inputToTSS(experimentName=Hs_RAMPAGE)
 Next we will calculate the abundance of each tag in our TSS datasets. TSRchitect provides the option to run this function in parallel, so for this example we chose to run this on 4 cores. Please adjust this as your compute resource permits.
 
 ```{r eval=FALSE}
-Hs_RAMPAGE <- processTSS(experimentName=Hs_RAMPAGE, n.cores=4, tssSet="all", writeTable=TRUE)
+Hs_RAMPAGE <- processTSS(experimentName=Hs_RAMPAGE, n.cores=4, tssSet="all", /
+	writeTable=TRUE)
 ```
 
 Since we specified 'writeTable=TRUE', files (entitled "TSSset-1.txt" to "TSSset-4.txt") containing TSS abundance will be written into your working directory. 
@@ -139,14 +129,14 @@ As with the previous step, we select 'writeTable=TRUE', and therefore we will fi
 
 ```{r eval=FALSE}
 Hs_RAMPAGE <- determineTSR(experimentName=Hs_RAMPAGE, n.cores=4, /
-tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, /
-writeTable=TRUE)
+	tssSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, /
+	writeTable=TRUE)
 ```
 
 To calculate TSRs from each sample (as opposed to each replicate) we need to combine our replicate data. This will be done using the identifiers we specified on our tssObject S4 object using `loadTSSobj`.
 
 ```{r eval=FALSE}
-Hs_RAMPAGE <- mergeSampleData(experimentName=Hs_RAMPAGE)
+Hs_RAMPAGE <- mergeSampleData(experimentName=Hs_RAMPAGE, n.cores=4, tagCountThreshold=25)
 ```
 
 Having combined the TSS abundance of replicate data into samples, we next proceed with identifying TSRs for the two samples individually.
@@ -154,15 +144,15 @@ We specify this with 'tsrSetType="merged"'.
 
 ```{r eval=FALSE}
 #Generating the TSRs for the merged datasets:
-Hs_RAMPAGE <- determineTSR(experimentName=Hs_RAMPAGE, n.cores=4, tsrSetType="merged" /
-tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)
+Hs_RAMPAGE <- determineTSR(experimentName=Hs_RAMPAGE, n.cores=4, tssSetType="merged" /
+	tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)
 ```
 
 Now calculating the number of tags from each experiment within the combined set of TSRs:
 
 ```{r eval=FALSE}
 Hs_RAMPAGE <- addTagCountsToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", /
-tsrSet=3, tagCountThreshold=40, writeTable=TRUE)
+	tsrSet=3, tagCountThreshold=40, writeTable=TRUE)
 ```
 
 ### Associating identified TSRs with gene annotations
@@ -218,7 +208,7 @@ We accomplish this as follows:
 
 ```{r eval=FALSE}
 Hs_RAMPAGE <- importAnnotationHub(experimentName=Hs_RAMPAGE, provider="gencode", /
-annotType="gff3", species="human", annotID="AH49555")
+	annotType="gff3", species="human", annotID="AH49555")
 ```
 
 Next, we associate the gene annotation to the TSRs within our two merged samples.
@@ -226,20 +216,20 @@ We selected the feature 'transcript' from the Gencode annotation.
 
 ```{r eval=FALSE}
 Hs_RAMPAGE <- addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", /
-tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", /
-featureColumnID="ID", writeTable=TRUE)
+	tsrSet=1, upstreamDist=1000, downstreamDist=200, feature="transcript", /
+	featureColumnID="ID", writeTable=TRUE)
 
 Hs_RAMPAGE <- addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", /
-tsrSet=2, upstreamDist=1000, downstreamDist=200, feature="transcript", /
-featureColumnID="ID", writeTable=TRUE)
+	tsrSet=2, upstreamDist=1000, downstreamDist=200, feature="transcript", /
+	featureColumnID="ID", writeTable=TRUE)
 ```
 
 Finally, we will repeat the two commands above, instead associating the gene annotation to the "combined" set of TSRs, which is found in the 3rd position on the `tsrDataMerged` slot.
 
 ```{r eval=FALSE}
 Hs_RAMPAGE <- addAnnotationToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", /
-tsrSet=3, upstreamDist=1000, downstreamDist=200, feature="transcript", /
-featureColumnID="ID", writeTable=TRUE)
+	tsrSet=3, upstreamDist=1000, downstreamDist=200, feature="transcript", /
+	featureColumnID="ID", writeTable=TRUE)
 ```
 
 Let's briefly look at the sets of TSRchitect-identified TSRs.
@@ -282,7 +272,7 @@ require(ggplot2)
 HT1080.tsrs.filtered <- HT1080.tsrs[HT1080.tsrs$nTAGs > 100,]
 t <- ggplot(HT1080.tsrs.filtered, aes(tsrSI))
 t + geom_histogram(binwidth=0.1, fill="blue2") /
-+ ylab("Number of Tags per TSR") + xlab("Shape Index (SI)")
+	+ ylab("Number of Tags per TSR") + xlab("Shape Index (SI)")
 ggsave(file="HT1080_SI.png")
 ```
 
@@ -290,7 +280,7 @@ ggsave(file="HT1080_SI.png")
 H460.tsrs.filtered <- H460.tsrs[H460.tsrs$nTAGs > 100,]
 p <- ggplot(H460.tsrs.filtered, aes(tsrSI))
 p + geom_histogram(binwidth=0.1, fill="darkgreen") /
-+ ylab("Number of Tags per TSR") + xlab("Shape Index (SI)")
+	+ ylab("Number of Tags per TSR") + xlab("Shape Index (SI)")
 ggsave(file="H460_SI.png")
 ```
 
@@ -320,7 +310,8 @@ The annotation file is available from the TAIR10 database: ftp://ftp.arabidopsis
 ```{r eval=FALSE}
 mkdir downloads
 cd downloads
-wget --content-disposition ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff
+wget --content-disposition /
+	ftp://ftp.arabidopsis.org/home/tair/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff
 cd ..
 ```
 
@@ -342,8 +333,8 @@ As in the previous example, now we can calculate the tag abundance at each locat
 ```{r eval=FALSE}
 At_PEAT <- processTSS(experimentName=At_PEAT, n.cores=1, tssSet="all", writeTable=TRUE)
 
-At_PEAT <- determineTSR(experimentName=At_PEAT, n.cores=1, tsrSetType="replicates", /
-tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
+At_PEAT <- determineTSR(experimentName=At_PEAT, n.cores=1, tssSetType="replicates", /
+	tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)
 ```
 
 ### Associating identified TSRs with gene annotations
@@ -352,10 +343,11 @@ We continue by associating our newly-identified TSRs with genes from the TAIR10 
 
 ```{r eval=FALSE}
 At_PEAT <- importAnnotationExternal(experimentName=At_PEAT, fileType="gff3", /
-annotFile="downloads/TAIR10_GFF3_genes.gff")
+	annotFile="downloads/TAIR10_GFF3_genes.gff")
 
 At_PEAT <- addAnnotationToTSR(experimentName=At_PEAT, tsrSetType="replicates", tsrSet=1, /
-upstreamDist=500, downstreamDist=200, feature="gene", featureColumnID="ID", writeTable=TRUE)
+	upstreamDist=500, downstreamDist=200, feature="gene", featureColumnID="ID", /
+	writeTable=TRUE)
 ```
 
 Now we have a complete set of TSRs on our tssObj object. Let's take a look at them using one of our accessor methods.
@@ -379,11 +371,12 @@ We will analyze CAGE data generated in two well-characterized immortalized cell 
 
 ```{r eval=FALSE}
 #Downloading the files:
+Sys.setenv(R_USER_CACHE_DIR="./tmpRcache")
 library(ENCODExplorer)
-data(encode_df, package="ENCODExplorer")
+encode_df <- get_encode_df()
 cage_data <- fuzzySearch(searchTerm=c("ENCFF552BXH","ENCFF288VTZ","ENCFF265RSX", /
-"ENCFF944PCJ"), database=encode_df, /
-filterVector=c("file_accession"), multipleTerm=TRUE)
+	"ENCFF944PCJ"), database=encode_df, /
+	filterVector=c("file_accession"), multipleTerm=TRUE)
 downloadEncode(cage_data, df=encode_df, format="bam")
 ```
 
@@ -420,8 +413,8 @@ Now we can set up the tssObject S4 object. Note that we must specify `isPairedBA
 ```{r eval=FALSE}
 # initializing the tssObject, setting the sample IDs and importing the CAGE data
 CAGEhuman <- loadTSSobj(experimentTitle ="Human CAGE", inputDir="HsCAGEbam", /
-isPairedBAM=FALSE, sampleNames=c("A549-rep1","A549-rep2", /
-"MCF7-rep1","MCF7-rep2"), replicateIDs=c(1,1,2,2) )
+	isPairedBAM=FALSE, sampleNames=c("A549-rep1","A549-rep2", /
+	"MCF7-rep1","MCF7-rep2"), replicateIDs=c(1,1,2,2) )
 ```
 
 As before, it is vital to provide arguments to `sampleNames` and `replicateIDs` in the order of the files on the `fileNames` slot to they exactly correspond to the alignment files (in this case .bam) that we imported.
@@ -438,59 +431,59 @@ Next we must calculate the CAGE tag abundance at each TSS position, followed by 
 ```{r eval=FALSE}
 #Constructing the tag count per TSS data matrix:
 CAGEhuman <- processTSS(experimentName=CAGEhuman, n.cores=4, tssSet="all", /
-writeTable=TRUE)
+	writeTable=TRUE)
 ```
 ```{r eval=FALSE}
 #Finding TSRs for the replicate datasets:
 CAGEhuman <- determineTSR(experimentName=CAGEhuman, n.cores=4, /
-tsrSetType="replicates", tssSet="all", tagCountThreshold=25, /
-clustDist=20, writeTable=TRUE)
+	tssSetType="replicates", tssSet="all", tagCountThreshold=25, /
+	clustDist=20, writeTable=TRUE)
 ```
 
 Now we merge data from replicates into their two corresponding samples.
 
 ```{r eval=FALSE}
 #Merging TSS data from the replicates:
-CAGEhuman <- mergeSampleData(experimentName=CAGEhuman) 
+CAGEhuman <- mergeSampleData(experimentName=CAGEhuman, n.cores=4, tagCountThreshold=25) 
 ```
 
 Once this is complete, we can complete TSR identification on the merged samples.
 
 ```{r eval=FALSE}
 #Finding TSRs for the merged samples and adding tag counts:
-CAGEhuman <- determineTSR(experimentName=CAGEhuman, n.cores=4, tsrSetType="merged", /
-tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)
+CAGEhuman <- determineTSR(experimentName=CAGEhuman, n.cores=4, tssSetType="merged", /
+	tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)
 
 CAGEhuman <- addTagCountsToTSR(experimentName=CAGEhuman, tsrSetType="merged", /
-tsrSet=3, tagCountThreshold=40, writeTable=TRUE)
+	tsrSet=3, tagCountThreshold=40, writeTable=TRUE)
 ```
 
 Now we need to import the annotation file and attach it to our tssObj S4 object. To do this, we will to use the same record (Gencode v. 23) that we referred to in Example 1.
 
 ```{r eval=FALSE}
 CAGEhuman <- importAnnotationHub(experimentName=CAGEhuman, provider="gencode", /
-annotType="gff3", species="human", annotID="AH49555")
+	annotType="gff3", species="human", annotID="AH49555")
 ```
 
 Next we associate the gene annotation to the TSRs within our two merged samples i) MCF7 cells and ii) A549 cells.
 As we did in Example 1, we select the feature 'transcript' from the Gencode annotation.
 
 ```{r eval=FALSE}
-CAGEhuman <- addAnnotationToTSR(experimentName=CAGEhuman, tsrSetType="merged", tsrSet=1,/
-upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", /
-writeTable=TRUE) #A549 cells
+CAGEhuman <- addAnnotationToTSR(experimentName=CAGEhuman, tsrSetType="merged", tsrSet=1, /
+	upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", /
+	writeTable=TRUE) #A549 cells
 
 CAGEhuman <- addAnnotationToTSR(experimentName=CAGEhuman, tsrSetType="merged", tsrSet=2, /
 upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", /
-writeTable=TRUE) #MCF7 cells
+	writeTable=TRUE) #MCF7 cells
 ```
 
 Associating the selected annotation features with the TSRs on the 'combined' slot:
 
 ```{r eval=FALSE}
-CAGEhuman <- addAnnotationToTSR(experimentName=CAGEhuman, tsrSetType="merged", tsrSet=3,/
-upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID",/
-writeTable=TRUE)
+CAGEhuman <- addAnnotationToTSR(experimentName=CAGEhuman, tsrSetType="merged", tsrSet=3, /
+	upstreamDist=1000, downstreamDist=200, feature="transcript", featureColumnID="ID", /
+	writeTable=TRUE)
 ```
 
 Using the accessor methods we applied in earlier examples, let's take a quick glance at our set of identified TSRs.

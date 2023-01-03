@@ -75,9 +75,6 @@ setMethod("addAnnotationToTSR",
                   }
                   outfname <- paste("TSRset-", tsrSet, sep="")
                   outfname <- paste(outfname, "txt", sep=".")
-                  message("\nThe TSR set for TSS dataset ", tsrSet,
-                          " will be written to file ", outfname,
-                          "\nin your working directory.")
                   tsr.df <- experimentName@tsrData[[tsrSet]]
                   tsr.df$start <- as.numeric(as.character(tsr.df$start))
                   tsr.df$end <- as.numeric(as.character(tsr.df$end))
@@ -93,14 +90,8 @@ setMethod("addAnnotationToTSR",
                   if (tsrSet<length(experimentName@tssCountDataMerged)) {
                       outfname <- paste("TSRsetMerged-", tsrSet, sep="")
                       outfname <- paste(outfname, "txt", sep=".")
-                      message("\nThe merged TSR set for TSS dataset ",
-                              tsrSet, " will be written to file ", outfname,
-                              "\nin your working directory.")
                   } else { # "combined" case
                       outfname <- "TSRsetCombined.txt"
-                      message("\nThe combined TSR set derived from all samples",
-                              " will be written to file ", outfname,
-                              "\nin your working directory.")
                   }
                   tsr.df <- experimentName@tsrDataMerged[[tsrSet]]
                   tsr.df$start <- as.numeric(as.character(tsr.df$start))

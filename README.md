@@ -9,34 +9,47 @@ results; it is __open__ (source) and designed to be __scalable__ and
 __easy__ to use.
 
 
-## Quick Start [![https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg](https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg)](https://singularity-hub.org/collections/1204)
+## Quick Start
 
 Input to TSRchitect will be transcription profiling read alignment data in `bam`
-or `bed` format as well as the appropriate genome annotation (if
-available).
+or `bed` format as well as the appropriate genome annotation (if available).
 Output consists of predicted Transcription Start Sites (TSS) and Transcription
 Start Regions (TSR) as well as statistics summarizing the distribution and
 characteristics of identified TSSs and TSRs.
 
-All the TSRchitect dependencies are encapsulated in a
-[Singularity](https://www.sylabs.io/docs/) container available from
-[Singularity Hub](https://singularity-hub.org/).
-Thus, once you know what you are doing, execution could be as simple as
+The simplest way to get going is to use the TSRchitect
+[Singularity](https://apptainer.org/) container, e.g. as follows:
 
-```
-singularity pull --name tsr.simg shub://BrendelGroup/TSRchitect
-singularity exec tsr.simg R
+```bash
+git clone https://github.com/BrendelGroup/TSRchitect
+cd TSRchitect/demo
+wget https://BrendelGroup.org/SingularityHub/tsr.sif
+alias rws="singularity exec -e -B{PWD}/..  tsr.sif"
+rws R
 ```
 
-which will bring up an [R](https://www.r-project.org/) console with the
-TSRchitect library and all its prerequisites available.
+In the above example, you clone this repository into your current directory,
+go into the TSRchitect/demo directory that has been created, download the TSRchitect
+apptainer, define the bash alias _rws_ ("run with singularity"), and check that
+everything works by launching an [R](https://www.r-project.org/) console from within
+the container.
+
+Of course this assumes that you have [Apptainer/Singularity](https://apptainer.org/) installed on your system.
+Check whether there is package built for your system.
+Otherwise, follow the instructions to [install Singularity from source code](https://apptainer.org/user-docs/master/quick_start.html#quick-installation-steps).
+
+The advantage of this approach is that the TSRchitect library and all its prerequisites
+are available within the container, so that there is no further installation necessary
+on your part to follow our examples and run your own analyses.
 For example, in that console, you should see
 
 ```
-R version 3.5.3 (2019-03-11) -- "Great Truth"
+R version 4.2.2 Patched (2022-11-10 r83330) -- "Innocent and Trusting"
 ...
 > packageVersion("TSRchitect")
 [1] '1.17.3'
+> packageVersion("GenomicRanges")
+[1] '1.50.2'
 >
 ```
 
@@ -61,7 +74,6 @@ Raborn RT, Sridharan K, Brendel VP (2017)
 _TSRchitect: Promoter identification from large-scale TSS profiling data._
 doi: 10.18129/B9.bioc.TSRchitect, https://doi.org/doi:10.18129/B9.bioc.TSRchitect. 
 
-Our own publications will be linked here in due course.
 
 ## Contact
 

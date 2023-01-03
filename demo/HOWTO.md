@@ -4,7 +4,7 @@
 
 At this stage, you should have completed the TSRchitect installation steps
 documented in the [INSTALL](../INSTALL.md) document; we'll assume that you have
-downloaded the `tsr.simg` singularity container.
+downloaded the `tsr.sif` singularity container.
 We explain how you can use _bash_ and _Rscript_ scripts to exectute the
 examples in the [TSRchitectUsersGuide](../inst/doc/TSRchitectUsersGuide.Rmd).
 
@@ -15,13 +15,12 @@ Take a look at the script: it's simply a compilation of the instructions from
 the relevant section in the
 [TSRchitectUsersGuide](../inst/doc/TSRchitectUsersGuide.Rmd), to be executed in
 your shell.
-The following command needs to be adjusted to your needs.
-Here we assume that the working directory is somewhere under the bound directory
-_/projects/vbrendel/TMP_ and that the _tsr.simg_ container is located in
-_/DATA/GROUP/prj/SINGULARITY_.
+The following command may need to be adjusted to your needs.
+Here we assume that the the _tsr.sif_ container is located in the parent of your
+current working directory.
 
 ```
-singularity exec -e -B /projects/vbrendel/TMP /DATA/GROUP/prj/SINGULARITY/tsr.simg  ./xdemo1
+singularity exec -e -B${PWD}/.. ../tsr.sif  ./xdemo1
 ```
 
 ## Example 2

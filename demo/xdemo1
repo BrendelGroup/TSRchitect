@@ -5,20 +5,15 @@
 #
 mkdir downloads
 
-echo 'library(ENCODExplorer)' > demo1a.Rscript
-echo 'data(encode_df, package="ENCODExplorer")' >> demo1a.Rscript
+echo "Sys.setenv("R_USER_CACHE_DIR"=\"${PWD}/tmpRcache\")" > demo1a.Rscript
+echo 'library(ENCODExplorer)' >> demo1a.Rscript
+echo 'encode_df <- get_encode_df()' >> demo1a.Rscript
 echo 'datasets <- fuzzySearch(searchTerm=c("ENCFF214GWH", "ENCFF265SGZ", "ENCFF242UWH", "ENCFF348EKW"), database=encode_df, filterVector=c("file_accession"), multipleTerm=TRUE)' >> demo1a.Rscript
 echo 'downloadEncode(datasets, df=encode_df, format="bam")' >> demo1a.Rscript
 
 Rscript demo1a.Rscript
 
 mv *.bam downloads
-
-#cd downloads
-#wget --content-disposition ftp://ftp.sanger.ac.uk/pub/gencode/Gencode_human/release_19/gencode.v19.annotation.gff3.gz
-#gunzip gencode.v19.annotation.gff3.gz
-#cd ..
-
 
 mkdir HsRAMPAGEbam
 cd HsRAMPAGEbam
@@ -41,11 +36,11 @@ echo 'Hs_RAMPAGE <- inputToTSS(experimentName=Hs_RAMPAGE)' >> demo1b.Rscript
 
 echo 'Hs_RAMPAGE <- processTSS(experimentName=Hs_RAMPAGE, n.cores=4, tssSet="all", writeTable=TRUE)' >> demo1b.Rscript
 
-echo 'Hs_RAMPAGE <- determineTSR(experimentName=Hs_RAMPAGE, n.cores=4, tsrSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)' >> demo1b.Rscript
+echo 'Hs_RAMPAGE <- determineTSR(experimentName=Hs_RAMPAGE, n.cores=4, tssSetType="replicates", tssSet="all", tagCountThreshold=25, clustDist=20, writeTable=TRUE)' >> demo1b.Rscript
 
-echo 'Hs_RAMPAGE <- mergeSampleData(experimentName=Hs_RAMPAGE)' >> demo1b.Rscript
+echo 'Hs_RAMPAGE <- mergeSampleData(experimentName=Hs_RAMPAGE, n.cores=4, tagCountThreshold=25)' >> demo1b.Rscript
 
-echo 'Hs_RAMPAGE <- determineTSR(experimentName=Hs_RAMPAGE, n.cores=4, tsrSetType="merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)' >> demo1b.Rscript
+echo 'Hs_RAMPAGE <- determineTSR(experimentName=Hs_RAMPAGE, n.cores=4, tssSetType="merged", tssSet="all", tagCountThreshold=40, clustDist=20, writeTable=TRUE)' >> demo1b.Rscript
 
 echo 'Hs_RAMPAGE <- addTagCountsToTSR(experimentName=Hs_RAMPAGE, tsrSetType="merged", tsrSet=3, tagCountThreshold=40, writeTable=TRUE)' >> demo1b.Rscript
 

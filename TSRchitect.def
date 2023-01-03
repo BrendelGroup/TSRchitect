@@ -1,37 +1,40 @@
 bootstrap: docker
-From: ubuntu:18.04
+From: ubuntu:22.04
 
 %help
     This container provides portable & reproducible components for TSRchitect,
     including upstream components for read quality control and mapping.
 
 %post
+    export DEBIAN_FRONTEND=noninteractive
     apt -y update
     apt -y install build-essential
     apt -y install bc curl git tcsh unzip zip wget
-    apt -y install automake
+    apt -y install automake cmake
     apt -y install cpanminus
-    apt -y install cython cython3
-    apt -y install openjdk-8-jdk
+    apt -y install cython3
+    apt -y install openjdk-11-jdk ant
     apt -y install software-properties-common
     apt -y install zlib1g-dev libbz2-dev liblzma-dev
     apt -y install libcairo2-dev libpango1.0-dev
     apt -y install libcurl4-openssl-dev
     apt -y install libcurl4-gnutls-dev
     apt -y install libgd-dev
+    apt -y install libgdal-dev
     apt -y install libgtextutils-dev
-    apt -y install libmariadb-client-lgpl-dev
     apt -y install libncurses-dev
     apt -y install libpq-dev
+    apt -y install libproj-dev
+    apt -y install libsodium-dev
     apt -y install libssl-dev
     apt -y install libtool
     apt -y install libtbb-dev
+    apt -y install libudunits2-dev
     apt -y install libxml2-dev
     apt -y install libbz2-dev
     apt -y install m4
     apt -y install parallel
-    apt -y install python-minimal
-    apt -y install python-pip
+    apt -y install python2-minimal python-is-python3
     apt -y install python3-minimal
     apt -y install python3-pip
     apt -y install openmpi-bin openmpi-common openssh-client openssh-server
@@ -43,7 +46,6 @@ From: ubuntu:18.04
 ###
 # Utilities
 #
-    apt -y install python-numpy python-scipy
     apt -y install python3-numpy python3-scipy
     pip3 install --upgrade dinopy HTSeq
 
@@ -51,9 +53,9 @@ From: ubuntu:18.04
 #
     echo 'Installing GENOMETOOLS from from http://genometools.org/ '
     cd /opt
-    wget http://genometools.org/pub/genometools-1.5.10.tar.gz
-    tar -xzf genometools-1.5.10.tar.gz
-    cd genometools-1.5.10/
+    wget http://genometools.org/pub/genometools-1.6.2.tar.gz
+    tar -xzf genometools-1.6.2.tar.gz
+    cd genometools-1.6.2/
     make && make install
     cd ..
 
@@ -81,33 +83,31 @@ From: ubuntu:18.04
 # SAMTOOLS:
 #
     echo 'Installing htslib from http://www.htslib.org/ '
-    git clone git://github.com/samtools/htslib.git
+    git clone https://github.com/samtools/htslib.git
     cd htslib
     make && make install
     cd ..
 
     echo 'Installing samtools from http://www.htslib.org/ '
-    git clone git://github.com/samtools/samtools.git
+    git clone https://github.com/samtools/samtools.git
     cd samtools
     make && make install
     cd ..
 
 # NGSUtils:
 #
-    echo 'Installing NGSutils from http://www.ncbi.nlm.nih.gov/books/NBK158900/ '
-    git clone git://github.com/ngsutils/ngsutils.git
-    cd ngsutils/
-    sed -i -e "s/#pip install cython==0.16/pip install cython==0.26/;" init.sh
-    make
-    cd bin
-    \cp * /opt/bin
+    echo 'Installing ngsutilsj from https://github.com/compgen-io/ngsutilsj.git '
+    git clone https://github.com/compgen-io/ngsutilsj
+    cd ngsutilsj
+    ant jar
+    ln -s /opt/ngsutilsj/dist/ngsutilsj /usr/local/bin/ngsutilsj
     cd ../..
 
 # SRATOOLKIT:
 #
     echo 'Installing SRATOOLKIT from https://www.ncbi.nlm.nih.gov/books/NBK158900/ '
-    wget ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.9.1-1/sratoolkit.2.9.1-1-ubuntu64.tar.gz
-    tar -xzf sratoolkit.2.9.1-1-ubuntu64.tar.gz
+    wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/3.0.1/sratoolkit.3.0.1-ubuntu64.tar.gz
+    tar -xzf sratoolkit.3.0.1-ubuntu64.tar.gz
 
 
 ###
@@ -137,9 +137,10 @@ From: ubuntu:18.04
     mkdir TagDust
     cd TagDust 
     wget --content-disposition https://sourceforge.net/projects/tagdust/files/tagdust-2.33.tar.gz/download
-    tar -xzf tagdust-2.33.tar.gz 
+    tar -xzf tagdust-2.33.tar.gz*
+    \rm tagdust-2.33.tar.gz*
     cd tagdust-2.33/
-    ./configure
+    ./configure CFLAGS=-fcommon
     make
     make install
     cd ../..
@@ -167,23 +168,21 @@ From: ubuntu:18.04
     wget --content-disposition https://sourceforge.net/projects/bio-bwa/files/bwa-0.7.17.tar.bz2/download
     tar -xjf bwa-0.7.17.tar.bz2
     cd bwa-0.7.17/
+    sed -i -e "s/CFLAGS=		-g -Wall -Wno-unused-function -O2/CFLAGS=	-g -Wall -Wno-unused-function -O2 -fcommon/" Makefile
     make
     cp bwa /opt/bin/
     cd ../
 
 # HISAT2:
-    echo 'Installing hisat2 from https://github.com/infphilo/hisat2/archive/0f01dc6397a.tar.gz '
-    wget https://github.com/infphilo/hisat2/archive/0f01dc6397a.tar.gz
-    tar -xzf 0f01dc6397a.tar.gz
-    mv hisat2-0f01dc6397a hisat2-2.1.0
-    cd hisat2-2.1.0
+    echo 'Installing hisat2 from https://github.com/DaehwanKimLab/hisat2 '
+    wget https://github.com/DaehwanKimLab/hisat2/archive/refs/tags/v2.2.1.tar.gz
+    tar -xzf v2.2.1.tar.gz
+    cd hisat2-2.2.1
     make
-    ls -lt
-    cp hisat2 /opt/bin
     cd ../
 
 # STAR:
-    echo 'Installing STAR from https://github.com/alexdobin/STAR.git '
+    echo 'Installing STAR from https://github.com/alexdobin/STAR '
     git clone https://github.com/alexdobin/STAR.git
     cd STAR
     cd source
@@ -195,7 +194,7 @@ From: ubuntu:18.04
 ###
 # Spliced alignment tools:
 #
-    echo 'Installing GeneSeqer spliced aligner '
+    echo 'Installing GeneSeqer spliced aligner from https://github.com/BrendelGroup/GeneSeqer '
     git clone https://github.com/BrendelGroup/GeneSeqer.git
     cd GeneSeqer/src
     make linux
@@ -214,21 +213,20 @@ From: ubuntu:18.04
 
 # GHOSTSCRIPT:
 #
-    echo 'Installing ghostscript from https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9533/ghostscript-9.53.3-linux-x86_64.tgz '
-    wget https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9533/ghostscript-9.53.3-linux-x86_64.tgz
-    tar -xzf ghostscript-9.53.3-linux-x86_64.tgz
-    chown -R root:root ghostscript-9.53.3-linux-x86_64
-    cd ghostscript-9.53.3-linux-x86_64
-    chmod a+x gs-9533-linux-x86_64
-    cp gs-9533-linux-x86_64 /opt/bin/gs
+    echo 'Installing ghostscript from https://ghostscript.readthedocs.io/en/gs10.0.0/ '
+    wget https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs1000/ghostpcl-10.0.0-linux-x86_64.tgz
+    tar -xzf ghostpcl-10.0.0-linux-x86_64.tgz
+    cd ghostpcl-10.0.0-linux-x86_64
+    chmod a+x gpcl6-1000-linux-x86_64
+    cp gpcl6-1000-linux-x86_64 /opt/bin/gs
     cd ../
 
 # MEME:
 #
-    echo 'Installing meme from http://meme-suite.org/meme-software/5.2.0/meme_5.2.0.tar.gz '
-    wget http://meme-suite.org/meme-software/5.2.0/meme-5.2.0.tar.gz
-    tar -xzf meme-5.2.0.tar.gz
-    cd meme-5.2.0
+    echo 'Installing meme from https://meme-suite.org/meme/ '
+    wget https://meme-suite.org/meme/meme-software/5.5.0/meme-5.5.0.tar.gz
+    tar -xzf meme-5.5.0.tar.gz
+    cd meme-5.5.0
     ./configure --prefix=/opt/meme \
 	--enable-build-libxml2 --enable-build-libxslt --with-url="http://meme-suite.org"
     make
@@ -238,12 +236,12 @@ From: ubuntu:18.04
     
 # WEBLOGO:
 #
-    echo 'Installing weblogo from http://weblogo.berkeley.edu/release/weblogo.2.8.2.tar.gz '
-    wget http://weblogo.berkeley.edu/release/weblogo.2.8.2.tar.gz
+    echo 'Installing weblogo from https://weblogo.berkeley.edu/ '
+    wget https://weblogo.berkeley.edu/release/weblogo.2.8.2.tar.gz
     tar -xzf weblogo.2.8.2.tar.gz 
 
 # HOMER:
-    echo 'Installing home from http://homer.salk.edu/homer/configureHomer.pl '
+    echo 'Installing home from http://homer.salk.edu/homer/ '
     mkdir HOMER; cd HOMER
     wget http://homer.salk.edu/homer/configureHomer.pl
     cpanm HTML::Template
@@ -263,23 +261,24 @@ From: ubuntu:18.04
 ###
 # R and R packages, including TSRchitect
 #
-    echo 'Installing R 3.5'
-    export DEBIAN_FRONTEND=noninteractive
-    add-apt-repository -y ppa:marutter/rrutter3.5
-    add-apt-repository -y ppa:marutter/c2d4u3.5
-    apt -y update
-    apt -y install r-base-core r-base-dev
+    apt -y update -qq
+    apt install --no-install-recommends software-properties-common dirmngr
+    wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+    add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+    apt -y install --no-install-recommends  r-base-core r-base-dev
     R CMD javareconf
 
     echo 'Installing CRAN packages'
     ######
     apt -y install r-cran-biocmanager
+    apt -y install r-bioc-annotationhub
+    apt -y install r-bioc-biocgenerics
+    apt -y install r-bioc-genomicranges
+    apt -y install r-bioc-biocversion
     apt -y install r-cran-dplyr
     apt -y install r-cran-gplots
     apt -y install r-cran-gridextra
-    apt -y install r-cran-pastecs
     apt -y install r-cran-sqldf
-    apt -y install r-cran-venneuler
     apt -y install r-cran-rcurl
     apt -y install r-cran-readxl
     apt -y install r-cran-statmod
@@ -287,15 +286,24 @@ From: ubuntu:18.04
 
     echo 'Installing other CRAN and Bioconductor packages'
     ######
-    echo 'BiocManager::install(c("BiocGenerics", "GenomicRanges", "genomation","TSRchitect"), ask=FALSE)'     > R2install
-    echo 'BiocManager::install(c("bumphunter","seqLogo","ENCODExplorer"),                     ask=FALSE)'    >> R2install
-    echo 'BiocManager::install(c("edgeR","R2HTML"),                                           ask=FALSE)'    >> R2install
+    echo 'install.packages(c("pastecs", "venneuler"), repos="http://ftp.ussg.iu.edu/CRAN", dependencies=TRUE)' > R2install
+    echo 'BiocManager::install(version = "3.16", ask=FALSE)'                                                  >> R2install
+    echo 'BiocManager::install(c("genomation","TSRchitect"), ask=FALSE)'                                      >> R2install
+    echo 'BiocManager::install(c("bumphunter","seqLogo","ENCODExplorerData"), ask=FALSE)'                     >> R2install
+    echo 'BiocManager::install(c("edgeR","R2HTML"), ask=FALSE)'                                               >> R2install
 
     Rscript R2install
     
-# Use the git repository only for installation of a TSRchitect version not yet in Bioconductor:
+    
+# Install the last working version of ENCODExplorer (no 3.16 version is currently available):
 #
-    git clone https://github.com/BrendelGroup/TSRchitect.git
+    wget https://bioconductor.org/packages/3.12/bioc/src/contrib/ENCODExplorer_2.16.0.tar.gz
+    tar -xzf ENCODExplorer_2.16.0.tar.gz
+    R CMD INSTALL ENCODExplorer
+
+# Use the git repository for installation of a TSRchitect version not yet in Bioconductor:
+#
+    git clone https://github.com/vpbrendel/TSRchitect.git
     R CMD INSTALL TSRchitect
 
 
@@ -303,12 +311,13 @@ From: ubuntu:18.04
     export LC_ALL=C
     export PATH=$PATH:/opt/bin
     export PATH=$PATH:/opt/FastQC
+    export PATH=$PATH:/opt/hisat2-2.2.1
     export PATH=$PATH:/opt/HOMER/bin
     export PATH=$PATH:/opt/meme/bin
-    export PATH=$PATH:/opt/sratoolkit.2.9.1-1-ubuntu64/bin
+    export PATH=$PATH:/opt/sratoolkit.3.0.1-ubuntu64/bin
 
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/:/usr/lib64/openmpi/lib
 
 %labels
     Maintainer vpbrendel
-    Version v1.0
+    Version v1.1
