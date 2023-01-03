@@ -289,11 +289,18 @@ From: ubuntu:22.04
     echo 'install.packages(c("pastecs", "venneuler"), repos="http://ftp.ussg.iu.edu/CRAN", dependencies=TRUE)' > R2install
     echo 'BiocManager::install(version = "3.16", ask=FALSE)'                                                  >> R2install
     echo 'BiocManager::install(c("genomation","TSRchitect"), ask=FALSE)'                                      >> R2install
-    echo 'BiocManager::install(c("bumphunter","seqLogo","ENCODExplorer"), ask=FALSE)'                         >> R2install
+    echo 'BiocManager::install(c("bumphunter","seqLogo","ENCODExplorerData"), ask=FALSE)'                     >> R2install
     echo 'BiocManager::install(c("edgeR","R2HTML"), ask=FALSE)'                                               >> R2install
 
     Rscript R2install
     
+    
+# Install the last working version of ENCODExplorer (no 3.16 version is currently available):
+#
+    wget https://bioconductor.org/packages/3.12/bioc/src/contrib/ENCODExplorer_2.16.0.tar.gz
+    tar -xzf ENCODExplorer_2.16.0.tar.gz
+    R CMD INSTALL ENCODExplorer
+
 # Use the git repository for installation of a TSRchitect version not yet in Bioconductor:
 #
     git clone https://github.com/vpbrendel/TSRchitect.git
